@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
 import FormInput from '../../src/components/FormInput';
 import FormButton from '../../src/components/FormButton';
-import socialButton from '../../src/components/SocialButton';
 import SocialButton from '../../src/components/SocialButton';
 
 

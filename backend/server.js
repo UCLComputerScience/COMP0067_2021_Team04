@@ -1,10 +1,45 @@
 const express = require('express')
 const app = express()
- 
-// receives HTTP request -> specifc function
-// base directory, e.g. Google.com ~ anything after the base directory gets sent to the app.get
-// app.post looks for post requests 
-// post creates an object in the database, and get collects the http request
-app.get('/HelloWorld', require('./requests/helloWorld'))
- 
-app.listen(3000, () => console.log("Listening on port 3000"))
+
+// body parser parses post data properly and exposes it on req.body
+const bodyParser = require('body-parser');
+
+// log in http requests coming from the front-end such as get, post, delete
+const morgan = require('morgan');
+
+// use specific constants from .env file
+require('dotenv/config');
+const api = process.env.API_URL;
+
+// connect our application to cloud database using mongoose
+const mongoose = require('mongoose');
+
+// import user routers
+const usersRouter = require('./routes/users');
+
+// connect to database with connection_string, options
+mongoose.connect(process.env.CONNECTION_STRING, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    dbName: 'numberfit-database'
+})
+// check for successful connection
+.then(() => {
+    console.log('Database Connection is ready...')
+})
+.catch((err) => {
+    console.log(err);
+})
+
+// middleware - software that handles communication between components and input/output
+app.use(bodyParser.json());
+app.use(morgan('tiny'));
+
+
+// Routers
+app.use(`${api}/users`, usersRouter)
+
+// start a server with express on port 3000 
+app.listen(3000, () => {
+    console.log("server is running http://localhost:3000");
+})

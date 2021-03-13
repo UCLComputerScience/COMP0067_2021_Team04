@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
-import FormInput from '../../components/FormInput';
-import FormButton from '../../components/FormButton';
-import SocialButton from '../../components/SocialButton';
+import FormInput from '../src/components/FormInput'
+import FormButton from '../src/components/FormButton';
+import SocialButton from '../src/components/SocialButton';
 
 
 const LoginScreen = ({navigation}) => {
@@ -12,7 +12,7 @@ const LoginScreen = ({navigation}) => {
         <View style={styles.container}>
             <Image 
               style = {styles.logo} 
-              source={require('../../assets/logo.png')}
+              source={require('../img/logo.png')}
             />
             <FormInput
               labelValue={email}
@@ -32,7 +32,7 @@ const LoginScreen = ({navigation}) => {
             />
             <FormButton
               buttonTitle="SIGN IN"
-              onPress={() => alert('Sign In Clicked!')}
+              onPress={() => navigation.navigate('Home')}
             />
 
             <TouchableOpacity style={styles.forgotButton} onPress={() => {}}>

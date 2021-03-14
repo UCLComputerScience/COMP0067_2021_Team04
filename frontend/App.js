@@ -18,30 +18,28 @@ import BotBar from './src/components/BottomBar';
 import LoginScreen from './screens/LoginScreen';
 
 
-<Stack.Screen
-  name="App"
-  component={App}
-  />
 
-const Stack = createStackNavigator();
-
-function AppNavigator() {
-  return (
-    <Stack.Navigator
-      initialRouteName="Login"
-      >
-        <Stack.Screen
-          name="Login"
-          component={LoginScreen}
-          />
-        <Stack.Screen
-          name="Home"
-          component={Hub}
-          />
-      </Stack.Navigator>
-  );
+class App extends React.Component {
+  render() {
+    return <AppContainer />
+  }
 }
 
-export default function App() {
-  return <NavigationContainer> {AppNavigator}</NavigationContainer>
-};
+const AppNavigator = createStackNavigator({
+  Login: {
+    screen: LoginScreen
+  },
+  Home: {
+    screen: Hub
+  },
+  PlayScreen: {
+    screen: PlayScreen
+},
+  Game: {
+    screen: TargetSumGame
+  },
+});
+
+const AppContainer = NavigationContainer(AppNavigator);
+
+export default App;

@@ -62,7 +62,7 @@ const PlayStack = createStackNavigator();
 function PlayStackScreen() {
   return (
     <PlayStack.Navigator>
-      <PlayStack.Screen name="Loading" component={Loading} />
+      {/* <PlayStack.Screen name="Loading" component={Loading} /> */}
       <PlayStack.Screen name="Login" component={LoginScreen} />
       <PlayStack.Screen name="Landing" component={IconNav} />
       <PlayStack.Screen name="Game" component={MultiChoiceGame} />

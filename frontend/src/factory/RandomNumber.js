@@ -4,7 +4,7 @@ import { Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { TextInput } from 'react-native';
 
 
-class IconDecorator extends React.Component {
+class RandomNumber extends React.Component {
     static propTypes = {
         id: PropTypes.number.isRequired,
         number: PropTypes.number.isRequired,
@@ -29,9 +29,9 @@ class IconDecorator extends React.Component {
 const styles = StyleSheet.create({
     random: {
     backgroundColor: '#999',
-    width: 300,
+    width: 130,
     marginHorizontal: 15,
-    marginVertical: 25,
+    marginVertical: 20,
     fontSize: 35,
     textAlign: 'center',
 },
@@ -40,4 +40,4 @@ disabled: {
 }
 });
 
-export default IconDecorator;
+export default RandomNumber;

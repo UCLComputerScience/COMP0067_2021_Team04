@@ -1,21 +1,17 @@
 import React, { useState }  from 'react';
-import NavBar from '../src/components/NavBar';
 import { Alert, Button, Platform, SafeAreaView, StatusBar, StyleSheet, Text, View, ScrollView } from 'react-native';
-import Progress from '../src/components/ProgressBar';
-import * as Progresser from 'react-native-progress';
-import Table from '../src/components/Datatable';
-import AppBar from '../src/components/AppBar';
-import LineGraph from '../src/components/LineGraph';
-import ProgressRing from '../src/components/ProgressRing';
-import Pie from '../src/components/PieChart';
-import BotBar from '../src/components/BottomBar';
+import Progress from '../components/ProgressBar';
+// import * as Progresser from 'react-native-progress';
+import Table from '../components/Datatable';
+import LineGraph from '../components/LineGraph';
+import ProgressRing from '../components/ProgressRing';
+// import Pie from '../src/components/PieChart';
 
 class Stats extends React.Component {
     render() {
     return (
         <View style={styles.container}>
             <ScrollView>
-            <Text style={styles.title}>Progress</Text>
           <Text style={styles.statisticTitle}>2x timestable</Text>
           <Text>Progress Bar</Text>
           <Progress />

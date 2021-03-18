@@ -1,24 +1,9 @@
-<script src="http://localhost:8097"></script>
-
-
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, Image, StyleSheet, Animated, ScrollView} from 'react-native';
-import RandomNumber from './RandomNumber';
+import { View, Text, Image, StyleSheet, Animated, ScrollView, ImageBackground} from 'react-native';
+import RandomNumber from '../factory/RandomNumber';
 import { Dimensions, TouchableHighlight } from 'react-native';
-import { Icon } from '@expo/vector-icons';
-import { createIconSetFromFontello } from 'react-native-vector-icons';
-// import NavBar from '../components/NavBar';
-import NavBar from './NavBar';
-import BottomBar from './BottomBar';
-import AppBar from './AppBar';
-import LandingHeader from './LandingHeader';
-import Game from './Game';
-import FormButton from './FormButton';
-// import Nav from '../components/Navi';
-import { withNavigation} from '@react-navigation/native';
-
-
+import LandingHeader from '../components/LandingHeader';
 
 
 class LandingPage extends React.Component {
@@ -37,8 +22,9 @@ class LandingPage extends React.Component {
             selectedIds: [...prevState.selectedIds, numberIndex],
         }));
     };
-    
-    render() {
+}
+
+const IconNav = ({navigation}) => {
         var dos = 2;
         return(
             <View style={styles.container}>
@@ -50,7 +36,7 @@ class LandingPage extends React.Component {
       onPress = { () => alert('Help!') }
     >
       <Image style={styles.qmark}
-          source={require('../../img/qmark2.png')}
+          source={require('../imgs/qmark2.png')}
       />
     </TouchableHighlight>
     </View>
@@ -58,91 +44,78 @@ class LandingPage extends React.Component {
                 <View style={styles.randomContainer}>
     <TouchableHighlight 
       underlayColor = '#ccc'
-      onPress = { () => alert('Help!') }
-      // onPress={() => navigation.navigate('Hub')}
+      onPress={() => navigation.navigate('Game')}
 
-
-      // onPress={() => this.props.navigaton.navigate('PlayScreen')}
     >
       <Text style = {styles.text}>{dos + "x"}</Text> 
     </TouchableHighlight>
     <TouchableHighlight 
       underlayColor = '#ccc'
-      onPress = { () => alert('Help!') }
+      onPress={() => navigation.navigate('Game')}
 
-      // onPress={() => this.props.navigation.navigate('Game')}
     >
       <Text style = {styles.text}>3x</Text> 
     </TouchableHighlight>
     <TouchableHighlight 
       underlayColor = '#ccc'
-      onPress = { () => alert('Help!') }
+      onPress={() => navigation.navigate('Game')}
 
-      // onPress={() => this.props.navigation.navigate('Game')}
     >
       <Text style = {styles.text}>4x</Text> 
     </TouchableHighlight>
     <TouchableHighlight
       underlayColor = '#ccc'
-      onPress = { () => alert('Help!') }
+      onPress={() => navigation.navigate('Game')}
 
-      // onPress={() => this.props.navigation.navigate('Game')}
     >
       <Text style = {styles.text}>5x</Text> 
     </TouchableHighlight>
     <TouchableHighlight 
       underlayColor = '#ccc'
-      onPress = { () => alert('Help!') }
+      onPress={() => navigation.navigate('Game')}
 
-      // onPress={() => this.props.navigation.navigate('Game')}
     >
       <Text style = {styles.text}>6x</Text> 
     </TouchableHighlight>
     <TouchableHighlight
       underlayColor = '#ccc'
-      onPress = { () => alert('Help!') }
+      onPress={() => navigation.navigate('Game')}
 
-      // onPress={() => this.props.navigation.navigate('Game')}
     >
       <Text style = {styles.text}>7x</Text> 
     </TouchableHighlight>
     <TouchableHighlight 
       underlayColor = '#ccc'
-      onPress = { () => alert('Help!') }
+      onPress={() => navigation.navigate('Game')}
 
-      // onPress={() => this.props.navigation.navigate('Game')}
     >
       <Text style = {styles.text}>8x</Text> 
     </TouchableHighlight>
     <TouchableHighlight
       underlayColor = '#ccc'
-      onPress = { () => alert('Help!') }
+      onPress={() => navigation.navigate('Game')}
 
-      // onPress={() => this.props.navigation.navigate('Game')}
     >
       <Text style = {styles.text}>9x</Text> 
     </TouchableHighlight>
     <TouchableHighlight
       underlayColor = '#ccc'
-      onPress = { () => alert('Help!') }
+      onPress={() => navigation.navigate('Game')}
 
-      // onPress={() => this.props.navigation.navigate('Game')}
     >
       <Text style = {styles.text}>10x</Text> 
     </TouchableHighlight>
     <TouchableHighlight
       underlayColor = '#ccc'
-      onPress = { () => alert('Help!') }
+      onPress={() => navigation.navigate('Game')}
 
-      // onPress={() => this.props.navigation.navigate('Game')}
     >
       <Text style = {styles.text}>11x</Text> 
     </TouchableHighlight>
     <TouchableHighlight 
       underlayColor = '#ccc'
-      onPress = { () => alert('Help!') }
+      onPress={() => navigation.navigate('Game')}
 
-      // onPress={() => this.props.navigation.navigate('Game')}
     >
       <Text style = {styles.text}>12x</Text> 
     </TouchableHighlight>
@@ -153,7 +126,7 @@ class LandingPage extends React.Component {
       onPress = { () => alert('Shuffle Mode!') }
     >
       <Image style={styles.tinyLogo}
-          source={require('../../img/vector-shuffle-glyph-black-icon.jpg')}
+          source={require('../imgs/vector-shuffle-glyph-black-icon.jpg')}
           
       />
     </TouchableHighlight>
@@ -162,19 +135,23 @@ class LandingPage extends React.Component {
       onPress = { () => alert('Challenge Mode!') }
     >
       <Image style={styles.tinyLogo}
-          source={require('../../img/multiplayer-icon-mode-isolated-contour-vector-28398206.jpg')}
+          source={require('../imgs/multiplayer-icon-mode-isolated-contour-vector-28398206.jpg')}
       />
     </TouchableHighlight>
      </View>
      {/* <AppBar></AppBar> */}
      
           </View> 
-          
         )
     }
-}
+
 
 const styles = StyleSheet.create({
+    background: {
+        flex: 1,
+        justifyContent: "flex-end",
+        alignItems: "center"
+    },
     container: {
         color: 'white',
         flex: 1,
@@ -227,21 +204,20 @@ const styles = StyleSheet.create({
       },
       text: {
         borderRadius: Math.round(Dimensions.get('window').width + Dimensions.get('window').height) / 2,
-        width: Dimensions.get('window').width * 0.20,
-        height: Dimensions.get('window').width * 0.20,
+        width: Dimensions.get('window').width * 0.18,
+        height: Dimensions.get('window').width * 0.18,
         backgroundColor:'white',
         borderColor: 'black',
         borderWidth: 4,
         alignItems: 'center',
         textAlignVertical: 'center',
         textAlign: 'center',
-        width: 80,
+        width: 70,
         marginHorizontal: 40,
-        marginVertical: 2.5,
+        marginVertical: 5,
         fontSize: 30,
       },
   });
 
   
-export default LandingPage;
-
+export default IconNav;

@@ -2,13 +2,12 @@ import React, { useState }  from 'react';
 import { Alert, Button, Platform, SafeAreaView, StatusBar, StyleSheet, Text, View, ScrollView, Image } from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import CheckBox from 'react-native-check-box';
-import Cal from '../src/components/Calendar';
+import Cal from '../components/Calendar';
 
 class SetHomework extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-            <Text style={styles.title}>Set Assignments</Text>
                 <View style={styles.formLayout}>
                 <ModalDropdown dropdownTextStyle={{fontWeight:'bold', textAlign: 'center', fontSize: 15}}
                     textStyle={{fontWeight:'bold', textAlign: 'right',  fontSize: 20}} 
@@ -19,7 +18,7 @@ class SetHomework extends React.Component {
                     defaultValue = {'Select timestables...'} 
                     options={['2x','3x','4x','5x','6x','7x','8x','9x','10x','11x','12x']}/>
                 <Image style={styles.square}
-          source={require('../img/noun_Dropdown_1270432.png')} />
+          source={require('../imgs/noun_Dropdown_1270432.png')} />
              </View>
              <View style={styles.formLayout2}>
                 <ModalDropdown dropdownTextStyle={{fontWeight:'bold', textAlign: 'center', fontSize: 15}}
@@ -31,21 +30,21 @@ class SetHomework extends React.Component {
                     defaultValue = {'Select difficulty...'} 
                     options={['Beginner','Intermediate','Advanced']}/>
                 <Image style={styles.square}
-          source={require('../img/noun_Dropdown_1270432.png')} />
+          source={require('../imgs/noun_Dropdown_1270432.png')} />
              </View>
              <View style={styles.formLayout3}>
                  <View style={styles.container2}>
                      <Text>Select Class</Text>
                      <Text>5A</Text>
-<CheckBox onClick={() => alert('Set hw')}/>
-<Text>4B</Text>
-<CheckBox onClick={() => alert('Set hw')}/>
-<Text>5B</Text>
-<CheckBox onClick={() => alert('Set hw')}/>
+                    <CheckBox onClick={() => alert('Set hw')}/>
+                    <Text>4B</Text>
+                    <CheckBox onClick={() => alert('Set hw')}/>
+                    <Text>5B</Text>
+                    <CheckBox onClick={() => alert('Set hw')}/>
 
-</View>
-<View style={styles.container3}></View> 
-          <Cal />
+                    </View>
+                    <View style={styles.container3}></View> 
+                            <Cal />
 
 
              </View>
@@ -66,7 +65,6 @@ const styles = StyleSheet.create ({
     },
     container2: {
         flex: 1,
-        // backgroundColor: 'red',
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-around',
@@ -127,7 +125,5 @@ const styles = StyleSheet.create ({
             marginVertical: 10
         },
 });
-
-
 
 export default SetHomework;

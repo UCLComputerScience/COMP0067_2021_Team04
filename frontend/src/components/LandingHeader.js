@@ -5,9 +5,9 @@ import { StyleSheet, Image, View, Text } from 'react-native';
 const LandingHeader = () => (
     
  <Appbar style={styles.top}>
-    <Appbar.Action size={37} icon={require('../../img/noun_Medal_1225632.png')} onPress={() => alert('Start')} />
+    <Appbar.Action size={37} icon={require('../imgs/noun_Medal_1225632.png')} onPress={() => alert('Start')} />
     <Text style={styles.text}>LVL 26</Text>
-    <Appbar.Action size={37} icon={require('../../img/noun_Fire_131591.png')} onPress={() => alert('Status')} />
+    <Appbar.Action size={37} icon={require('../imgs/noun_Fire_131591.png')} onPress={() => alert('Status')} />
     <Text style={styles.text}>5 DAY STREAK</Text>
   </Appbar>
  );

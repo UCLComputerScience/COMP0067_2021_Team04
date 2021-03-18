@@ -1,17 +1,40 @@
-<script src="http://localhost:8097"></script>
-
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, Button, StyleSheet, Animated } from 'react-native';
-import RandomNumber from '../src/components/RandomNumber';
+import { View, Text, Button, StyleSheet, Animated, ImageBackground } from 'react-native';
+import RandomNumber from './RandomNumber';
 import { shuffle } from "lodash";
+// import {dos} from './LandingPage';
+import Timer from '../components/Timer';
+// import AppBar from './AppBar';
+import GameHeader from '../components/GameHeader';
 
-// import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  
+  return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
+}
 
+function multiplesOf(numbers, number) { // add second argument
+    var multiples = []; // change to array (so that we can store multiple numbers - not just one multiple)
+    for (var i = 0; i < numbers.length; i++) {
+      if (numbers[i] % number === 0) { // divide by the number
+        multiples.push(numbers[i]); // add the current multiple found to the multiples array
+      }
+    }
+    return multiples;
+  }
 
+  function genNo() { 
+  var arr = [];
+  while(arr.length < 5) {
+  var r = Math.floor(Math.random() * 100) + 1;
+  if(arr.indexOf(r) === -1) arr.push(r);
+}
+}
 
-class Beginner extends React.Component {
+class Game extends React.Component {
     static propTypes = {
         randomNumberCount: PropTypes.number.isRequired,
         initialSeconds: PropTypes.number.isRequired,
@@ -22,13 +45,13 @@ class Beginner extends React.Component {
         remainingSeconds: this.props.initialSeconds,
     };
     gameStatus = 'PLAYING';
+    target = 2 * Math.floor(getRandomIntInclusive(1,12))
+    goal = [this.target]
     randomNumbers = Array
         .from({ length: this.props.randomNumberCount })
-        .map(() => 1 + Math.floor(10 * Math.random()),
-        );
-    target = this.randomNumbers
-        .slice(0, this.props.randomNumberCount - 2)
-        .reduce((acc, curr) => acc + curr, 0);
+        .map(() => 4 + Math.floor(20 * Math.random())) 
+        .concat(this.goal);
+
     shuffledRandomNumbers = shuffle(this.randomNumbers)
 
     componentDidMount() {
@@ -90,12 +113,13 @@ class Beginner extends React.Component {
         const gameStatus = this.gameStatus;
         return (
             <View style={styles.container}>
-                <Text style = {styles.titleText}>  </Text>
+                  <GameHeader></GameHeader>
+                  
+                {/* {/* <Text style = {styles.titleText}>  </Text> */}
                 <Text style = {styles.titleText}>  </Text>
 
                 <Text style = {styles.titleText}>Select the correct answer for this multiplication:</Text>
-                <Text style={[styles.target, styles['STATUS_' + gameStatus]]}>
-                    {this.target}
+                <Text style={[styles.target, styles['STATUS_' + gameStatus]]}> 2 x {this.target / 2}
                 </Text>
                 <View style={styles.randomContainer}>
                     {this.shuffledRandomNumbers.map((randomNumber, index) => (
@@ -110,17 +134,30 @@ class Beginner extends React.Component {
             </View>
             {this.gameStatus !== 'PLAYING' && (
             <Button title="Play Again" onPress={this.props.onPlayAgain} />)}
-            
-            <Text>{this.state.remainingSeconds}</Text>
+            {this.gameStatus == 'PLAYING' && (
+            <Timer isPlaying ={true} />)}
         </View>
         );
     }
 }
 
     const styles = StyleSheet.create({
+        background: {
+            flex: 1,
+            justifyContent: "flex-end",
+            alignItems: "center"
+        },
         container: {
             color: 'white',
             flex: 1,
+        },
+        timercontainer: {
+            color: 'white',
+            flex: 1,
+            alignItems: 'flex-start',
+            justifyContent: 'flex-end',
+            marginVertical: 20,
+            marginHorizontal: 30,
         },
         titleText: {
             fontSize: 20,
@@ -151,23 +188,4 @@ class Beginner extends React.Component {
 
     });
 
-export default Beginner;
-
-// import React from 'react';
-// import { TextInput } from 'react-native';
-
-// const UselessTextInput = () => {
-//   const [value, onChangeText] = React.useState(' ');
-
-//   return (
-//     <TextInput  keyboardType = 'number-pad'
-//                 keyboardAppearance = 'dark' 
-//                 maxLength={2}
-//       style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-//       onChangeText={text => onChangeText(text)}
-//       value={value}
-//     />
-//   );
-// }
-
-// export default UselessTextInput;
+export default Game;

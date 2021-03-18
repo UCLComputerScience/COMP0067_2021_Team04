@@ -1,17 +1,26 @@
-// Aboutscreen.js
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import MultiIcons from './MultiIcons';
-import Header from '../../shared/header';
+import Game from './Game';
 import { StyleSheet } from 'react-native';
 
 
-export default class Icons extends Component {
+export default class MultiChoiceGame extends Component {
+    state = {
+        gameId: 1,
+    };
+    resetGame = () => {
+        this.setState((prevState) => {
+            return { gameId: prevState.gameId + 1};
+        });
+    };
     render() {
         return (
             <View style={styles.container}>
-                <MultiIcons
-                iconCount={11} 
+                <Game
+                key={this.state.gameId}
+                onPlayAgain={this.resetGame} 
+                randomNumberCount={5} 
+                initialSeconds={10} 
                 />
             </View>
         );
@@ -20,8 +29,9 @@ export default class Icons extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        color: 'white',
-        flex: 1,
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
     },
     headerContainer: {
       marginTop: 50,

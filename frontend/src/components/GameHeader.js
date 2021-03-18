@@ -1,23 +1,24 @@
+  
 import * as React from 'react';
 import { Appbar } from 'react-native-paper';
 import { StyleSheet, Image, View } from 'react-native';
 
-const Header = () => (
+const GameHeader = () => (
     
  <Appbar style={styles.top}>
-    <Appbar.Action size={37} icon={require('../../img/noun_User_3764936.png')} onPress={() => alert('Start')} />
+    <Appbar.Action size={37} icon={require('../imgs/noun_User_3764936.png')} onPress={() => alert('Start')} />
     <View style={styles.spread}>
     <View style={styles.square}></View>
     <View style={styles.square}></View>
     <View style={styles.square}></View>
     </View>
-    <Appbar.Action size={37} icon={require('../../img/noun_Location_3764952.png')} onPress={() => alert('Status')} />
+    <Appbar.Action size={37} icon={require('../imgs/noun_Location_3764952.png')} onPress={() => alert('Status')} />
     <View style={styles.spread}>
     <View style={styles.square}></View>
     <View style={styles.square}></View>
     <View style={styles.square}></View>
     </View>
-    <Appbar.Action size={37} icon={require('../../img/noun_Flag_758383.png')} onPress={() => alert('Flag')} />
+    <Appbar.Action size={37} icon={require('../imgs/noun_Flag_758383.png')} onPress={() => alert('Flag')} />
   </Appbar>
  );
 
@@ -47,4 +48,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Header;
+export default GameHeader;

@@ -44,77 +44,77 @@ const IconNav = ({navigation}) => {
                 <View style={styles.randomContainer}>
     <TouchableHighlight 
       underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Game')}
+      onPress={() => navigation.navigate('Load')}
 
     >
       <Text style = {styles.text}>{dos + "x"}</Text> 
     </TouchableHighlight>
     <TouchableHighlight 
       underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Game')}
+      onPress={() => navigation.navigate('Load')}
 
     >
       <Text style = {styles.text}>3x</Text> 
     </TouchableHighlight>
     <TouchableHighlight 
       underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Game')}
+      onPress={() => navigation.navigate('Load')}
 
     >
       <Text style = {styles.text}>4x</Text> 
     </TouchableHighlight>
     <TouchableHighlight
       underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Game')}
+      onPress={() => navigation.navigate('Load')}
 
     >
       <Text style = {styles.text}>5x</Text> 
     </TouchableHighlight>
     <TouchableHighlight 
       underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Game')}
+      onPress={() => navigation.navigate('Load')}
 
     >
       <Text style = {styles.text}>6x</Text> 
     </TouchableHighlight>
     <TouchableHighlight
       underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Game')}
+      onPress={() => navigation.navigate('Load')}
 
     >
       <Text style = {styles.text}>7x</Text> 
     </TouchableHighlight>
     <TouchableHighlight 
       underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Game')}
+      onPress={() => navigation.navigate('Load')}
 
     >
       <Text style = {styles.text}>8x</Text> 
     </TouchableHighlight>
     <TouchableHighlight
       underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Game')}
+      onPress={() => navigation.navigate('Load')}
 
     >
       <Text style = {styles.text}>9x</Text> 
     </TouchableHighlight>
     <TouchableHighlight
       underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Game')}
+      onPress={() => navigation.navigate('Load')}
 
     >
       <Text style = {styles.text}>10x</Text> 
     </TouchableHighlight>
     <TouchableHighlight
       underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Game')}
+      onPress={() => navigation.navigate('Load')}
 
     >
       <Text style = {styles.text}>11x</Text> 
     </TouchableHighlight>
     <TouchableHighlight 
       underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Game')}
+      onPress={() => navigation.navigate('Load')}
 
     >
       <Text style = {styles.text}>12x</Text> 

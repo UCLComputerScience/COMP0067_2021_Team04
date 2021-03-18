@@ -13,27 +13,21 @@ class Stats extends React.Component {
         <View style={styles.container}>
             <ScrollView>
           <Text style={styles.statisticTitle}>2x timestable</Text>
-          <Text>Progress Bar</Text>
           <Progress />
           <LineGraph />
           <Table />
           <Text style={styles.statisticTitle}>3x timestable</Text>
-          <Text>Progress Bar</Text>
           <Progress />
           <Text style={styles.statisticTitle}>4x timestable</Text>
-          <Text>Progress Bar</Text>
           <Progress />
           <ProgressRing />
           <Text style={styles.statisticTitle}>5x timestable</Text>
-          <Text>Progress Bar</Text>
           <Progress />
           <Text style={styles.statisticTitle}>6x timestable</Text>
           <Table />
-          <Text>Progress Bar</Text>
           <Progress />
           {/* <Pie /> */}
           <Text style={styles.statisticTitle}>7x timestable</Text>
-          <Text>Progress Bar</Text>
           <Progress />
           <Text> </Text>
           <Text> </Text>

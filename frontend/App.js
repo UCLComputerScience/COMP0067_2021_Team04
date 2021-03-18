@@ -11,6 +11,7 @@ import Stats from './src/screens/StatsScreen';
 import SetHomework from './src/screens/SetAssignment';
 import Loading from './src/screens/LoadingScreen';
 import Tasks from './src/screens/MyTasks';
+import Loader from './src/screens/GameLoadingScreen';
 
 
 function ProfileScreen() {
@@ -62,9 +63,10 @@ const PlayStack = createStackNavigator();
 function PlayStackScreen() {
   return (
     <PlayStack.Navigator>
-      {/* <PlayStack.Screen name="Loading" component={Loading} /> */}
+      <PlayStack.Screen name="Loading" component={Loading} />
       <PlayStack.Screen name="Login" component={LoginScreen} />
       <PlayStack.Screen name="Landing" component={IconNav} />
+      <PlayStack.Screen name="Load" component={Loader} />
       <PlayStack.Screen name="Game" component={MultiChoiceGame} />
     </PlayStack.Navigator>
   );

@@ -1,11 +1,17 @@
 import React, { useState }  from 'react';
+import { Dimensions } from "react-native";
 import { Alert, Button, Platform, SafeAreaView, StatusBar, StyleSheet, Text, View, ScrollView } from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Progress from '../components/ProgressBar';
 // import * as Progresser from 'react-native-progress';
 import Table from '../components/Datatable';
 import LineGraph from '../components/LineGraph';
 import ProgressRing from '../components/ProgressRing';
 // import Pie from '../src/components/PieChart';
+import TaskModal from '../components/TasksModal';
+
+
+const screenWidth = Dimensions.get("window").width;
 
 
 const Tasks = ({navigation}) => {
@@ -15,13 +21,23 @@ const Tasks = ({navigation}) => {
       <Text style={styles.statisticTitle}>Your teacher has set you the following tasks:</Text>
       <Text style={styles.ttTitle}>Complete 8 levels of indermediate 6x tables</Text>
       <Progress />
+      <View style={styles.stretch}>
+      <MaterialCommunityIcons name="timer-sand-full" color={'gray'} size={30} style={styles.tinyLogo} />
+      <Text style={styles.timeRemainingText}>(5d 2h left)</Text>
+      < TaskModal />
+      </View>
       <Text style={styles.ttTitle}>Complete 5 levels of advanced 5x tables</Text>
-      <Progress />
+      <Progress /><View style={styles.stretch}>
+      <MaterialCommunityIcons name="timer-sand-full" color={'gray'} size={30} style={styles.tinyLogo} />
+      <Text style={styles.timeRemainingText}>(2d 18h left)</Text>
+      < TaskModal />
+      </View>
       <Text style={styles.ttTitle}>Score 100% on one level of beginner 4x tables</Text>
-      <Progress />
-      <Text> </Text>
-      <Text> </Text>
-      <Text> </Text>
+      <Progress /><View style={styles.stretch}>
+      <MaterialCommunityIcons name="timer-sand-full" color={'gray'} size={30} style={styles.tinyLogo} />
+      <Text style={styles.timeRemainingText}>(6h left)</Text>
+      < TaskModal />
+      </View>
       </ScrollView>
         </View> 
 );
@@ -36,6 +52,20 @@ const styles = StyleSheet.create ({
         flexWrap: 'wrap',
         justifyContent: 'space-evenly',
     },
+    timeRemainingText: {
+        flex: 1,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        alignContent: 'flex-end',
+        justifyContent: 'flex-end',
+        fontSize: 22,
+    },
+    tinyLogo: {
+        width: 25,
+        height: 25,
+        marginHorizontal: 8,
+        marginVertical: 2,
+      },
     statistic: {
         alignItems: 'center',
         textAlignVertical: 'center',
@@ -49,9 +79,10 @@ const styles = StyleSheet.create ({
         paddingHorizontal: 20,
     },
     statisticTitle: {
-        fontSize: 24,
+        fontSize: 22,
         fontWeight: 'bold',
-        marginVertical: 10
+        marginVertical: 10,
+        marginHorizontal: 10,
     },
     ttTitle: {
         fontSize: 16,
@@ -79,9 +110,11 @@ const styles = StyleSheet.create ({
         backgroundColor: 'yellow'
     },
     stretch: {
-        height: 30,
-        width: 200,
-        backgroundColor: 'blue'
+        height: 35,
+        width: screenWidth,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-evenly',
     }
 });
 

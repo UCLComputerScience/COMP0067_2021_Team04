@@ -6,7 +6,7 @@ const screenWidth = Dimensions.get("window").width;
 
 // each value represents a goal ring in Progress chart
 const data = {
-    labels: ["Swim", "Bike", "Run"], // optional
+    labels: ["Beginner", "Intermediate", "Advanced"], // optional
     data: [0.4, 0.6, 0.8]
   };
 

@@ -4,28 +4,15 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import LoginScreen from './src/screens/LoginScreen';
-import IconNav from './src/screens/LandingPage';
-import MultiChoiceGame from './src/factory/MultiChoiceGame';
-import Stats from './src/screens/StatsScreen';
-import SetHomework from './src/screens/SetAssignment';
-import Loading from './src/screens/LoadingScreen';
-import Tasks from './src/screens/MyTasks';
-import Loader from './src/screens/GameLoadingScreen';
-import MyProfile from './src/screens/MyProfile';
+import LoginScreen from '../screens/LoginScreen'
+import IconNav from '../screens/LandingPage';
+import MultiChoiceGame from '../factory/MultiChoiceGame'
+import Stats from '../screens/StatsScreen';
+// import SetHomework from './src/screens/SetAssignment';
+import Loading from '../screens/LoadingScreen';
+import Tasks from '../screens/MyTasks';
+import Loader from '../screens/GameLoadingScreen';
 
-
-
-const LoginStack = createStackNavigator();
-
-function LoginStackScreen() {
-  return (
-    <LoginStack.Navigator headerMode={false}>
-      <LoginStack.Screen name="Loading" component={Loading} />
-      <LoginStack.Screen name="Login" component={LoginScreen} />
-    </LoginStack.Navigator>
-  );
-}
 
 function ProfileScreen() {
   return (
@@ -34,6 +21,20 @@ function ProfileScreen() {
     </View>
   );
 }
+
+// function HomeScreen({ navigation }) {
+//   return (
+//     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+//       <Text>Home screen</Text>
+//       <Button
+//         title="Go to Details"
+//         onPress={() => this.props.navigation.navigate('Details')}
+//       />
+//     </View>
+//   );
+// }
+
+
 
 const StatsStack = createStackNavigator();
 
@@ -57,13 +58,25 @@ function HomeworkStackScreen() {
   );
 }
 
+const LoginStack = createStackNavigator();
+
+function LoginStackScreen() {
+  return (
+    <LoginStack.Navigator headerMode={false}>
+      <LoginStack.Screen name="Loading" component={Loading} />
+      <LoginStack.Screen name="Login" component={LoginScreen} />
+      <LoginStack.Screen name="Landing" component={IconNav}/>
+    </LoginStack.Navigator>
+  );
+}
+
 const PlayStack = createStackNavigator();
 
 function PlayStackScreen() {
   return (
     <PlayStack.Navigator>
-      <PlayStack.Screen name="Landing" component={IconNav} />
-      <PlayStack.Screen name="Load" component={Loader}  />
+     <PlayStack.Screen name="Landing" component={IconNav} /> 
+      <PlayStack.Screen name="Load" component={Loader} />
       <PlayStack.Screen name="Game" component={MultiChoiceGame} />
     </PlayStack.Navigator>
   );
@@ -74,12 +87,15 @@ const ProfileStack = createStackNavigator();
 function ProfileStackScreen() {
   return (
     <ProfileStack.Navigator>
-     <ProfileStack.Screen name="My Profile" component={MyProfile} />
+     <ProfileStack.Screen name="My Profile" component={ProfileScreen} />
     </ProfileStack.Navigator>
   );
 }
 
-function StackNavi() {
+
+const Tab = createBottomTabNavigator();
+
+export default function StackNavi() {
   return (
       <Tab.Navigator>
                    <Tab.Screen name="Play" component={PlayStackScreen} 
@@ -116,27 +132,5 @@ function StackNavi() {
         }}
          />
       </Tab.Navigator>
-  );
-}
-
-const AppStack = createStackNavigator();
-
-function AppStackScreen() {
-  return (
-    <AppStack.Navigator headerMode={false}>
-     <AppStack.Screen name="Login" component={LoginStackScreen} />
-     <AppStack.Screen name="numberFit" component={StackNavi} />
-    </AppStack.Navigator>
-  );
-}
-
-
-const Tab = createBottomTabNavigator();
-
-export default function App() {
-  return (
-    <NavigationContainer>
-      <AppStackScreen />
-    </NavigationContainer>
   );
 }

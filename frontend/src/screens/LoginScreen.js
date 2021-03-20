@@ -32,7 +32,7 @@ const LoginScreen = ({navigation}) => {
             />
             <FormButton
               buttonTitle="SIGN IN"
-              onPress={() => navigation.navigate('Landing')}
+              onPress={() => navigation.navigate('numberFit')}
             />
 
             <TouchableOpacity style={styles.forgotButton} onPress={() => {}}>

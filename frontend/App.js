@@ -13,6 +13,7 @@ import Loading from './src/screens/LoadingScreen';
 import Tasks from './src/screens/MyTasks';
 import DifficultyPage from './src/screens/DifficultyPage';
 import MyProfile from './src/screens/MyProfile';
+import AvatarMenu from './src/components/avatar_menu';
 
 
 function ProfileScreen() {

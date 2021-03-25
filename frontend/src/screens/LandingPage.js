@@ -44,77 +44,77 @@ const IconNav = ({navigation}) => {
                 <View style={styles.randomContainer}>
     <TouchableHighlight 
       underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Load')}
+      onPress={() => navigation.navigate('Difficulty')}
 
     >
       <Text style = {styles.text}>{dos + "x"}</Text> 
     </TouchableHighlight>
     <TouchableHighlight 
       underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Load')}
+      onPress={() => navigation.navigate('Difficulty')}
 
     >
       <Text style = {styles.text}>3x</Text> 
     </TouchableHighlight>
     <TouchableHighlight 
       underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Load')}
+      onPress={() => navigation.navigate('Difficulty')}
 
     >
       <Text style = {styles.text}>4x</Text> 
     </TouchableHighlight>
     <TouchableHighlight
       underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Load')}
+      onPress={() => navigation.navigate('Difficulty')}
 
     >
       <Text style = {styles.text}>5x</Text> 
     </TouchableHighlight>
     <TouchableHighlight 
       underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Load')}
+      onPress={() => navigation.navigate('Difficulty')}
 
     >
       <Text style = {styles.text}>6x</Text> 
     </TouchableHighlight>
     <TouchableHighlight
       underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Load')}
+      onPress={() => navigation.navigate('Difficulty')}
 
     >
       <Text style = {styles.text}>7x</Text> 
     </TouchableHighlight>
     <TouchableHighlight 
       underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Load')}
+      onPress={() => navigation.navigate('Difficulty')}
 
     >
       <Text style = {styles.text}>8x</Text> 
     </TouchableHighlight>
     <TouchableHighlight
       underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Load')}
+      onPress={() => navigation.navigate('Difficulty')}
 
     >
       <Text style = {styles.text}>9x</Text> 
     </TouchableHighlight>
     <TouchableHighlight
       underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Load')}
+      onPress={() => navigation.navigate('Difficulty')}
 
     >
       <Text style = {styles.text}>10x</Text> 
     </TouchableHighlight>
     <TouchableHighlight
       underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Load')}
+      onPress={() => navigation.navigate('Difficulty')}
 
     >
       <Text style = {styles.text}>11x</Text> 
     </TouchableHighlight>
     <TouchableHighlight 
       underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Load')}
+      onPress={() => navigation.navigate('Difficulty')}
 
     >
       <Text style = {styles.text}>12x</Text> 
@@ -123,7 +123,7 @@ const IconNav = ({navigation}) => {
 
     <View style = {styles.extrabuttons}>
     <TouchableHighlight 
-      onPress = { () => alert('Shuffle Mode!') }
+      onPress={() => navigation.navigate('Countdown3')}
     >
       <Image style={styles.tinyLogo}
           source={require('../imgs/vector-shuffle-glyph-black-icon.jpg')}
@@ -132,7 +132,7 @@ const IconNav = ({navigation}) => {
     </TouchableHighlight>
     <TouchableHighlight 
       underlayColor = '#ccc'
-      onPress = { () => alert('Challenge Mode!') }
+      onPress={() => navigation.navigate('Challenge')}
     >
       <Image style={styles.tinyLogo}
           source={require('../imgs/multiplayer-icon-mode-isolated-contour-vector-28398206.jpg')}

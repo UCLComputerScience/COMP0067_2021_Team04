@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Appbar } from 'react-native-paper';
 import { StyleSheet, Image, View, Text } from 'react-native';
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
 const LandingHeader = () => (
     

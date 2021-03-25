@@ -1,7 +1,7 @@
 import React, {Component} from 'react';  
 import {Platform, StyleSheet, Text, View, Animated} from 'react-native';  
   
-export default class App extends Component {  
+export default class LoadBar extends Component {  
     state={  
         progressStatus: 0,  
     }  

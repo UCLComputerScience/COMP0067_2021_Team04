@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Text, View } from 'react-native';
+import { Button, Text, View, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -12,29 +12,27 @@ import SetHomework from './src/screens/SetAssignment';
 import Loading from './src/screens/LoadingScreen';
 import Tasks from './src/screens/MyTasks';
 import Loader from './src/screens/GameLoadingScreen';
+import MyProfile from './src/screens/MyProfile';
+import LeaderBoardScreen from './src/screens/LeaderboardScreen';
+import Challenger from './src/screens/ChallengeScreen';
+import DifficultyPage from './src/screens/DifficultyPage';
+import Countdown3 from './src/screens/Countdown3';
+import Countdown2 from './src/screens/Countdown2';
+import Countdown1 from './src/screens/Countdown1';
+import Go from './src/screens/GoScreen';
 
 
-function ProfileScreen() {
+
+const LoginStack = createStackNavigator();
+
+function LoginStackScreen() {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>My Profile!</Text>
-    </View>
+    <LoginStack.Navigator headerMode={false}>
+      <LoginStack.Screen name="Loading" component={Loading} />
+      <LoginStack.Screen name="Login" component={LoginScreen} />
+    </LoginStack.Navigator>
   );
 }
-
-// function HomeScreen({ navigation }) {
-//   return (
-//     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-//       <Text>Home screen</Text>
-//       <Button
-//         title="Go to Details"
-//         onPress={() => this.props.navigation.navigate('Details')}
-//       />
-//     </View>
-//   );
-// }
-
-
 
 const StatsStack = createStackNavigator();
 
@@ -42,7 +40,7 @@ function StatsStackScreen() {
   return (
     <StatsStack.Navigator>
       <StatsStack.Screen name="Progress" component={Stats} />
-      {/* <StatsStack.Screen name="Details" component={DetailsScreen} /> */}
+      <StatsStack.Screen name="Leaderboard" component={LeaderBoardScreen} />
     </StatsStack.Navigator>
   );
 }
@@ -63,10 +61,14 @@ const PlayStack = createStackNavigator();
 function PlayStackScreen() {
   return (
     <PlayStack.Navigator>
-      <PlayStack.Screen name="Loading" component={Loading} />
-      <PlayStack.Screen name="Login" component={LoginScreen} />
-      <PlayStack.Screen name="Landing" component={IconNav} />
-      <PlayStack.Screen name="Load" component={Loader} />
+      <PlayStack.Screen name="Landing" component={IconNav} options={{headerShown: false}}/>
+      <PlayStack.Screen name="Countdown3" component={Countdown3} options={{headerShown: false}}/>
+      <PlayStack.Screen name="Countdown2" component={Countdown2} options={{headerShown: false}}/>
+      <PlayStack.Screen name="Countdown1" component={Countdown1} options={{headerShown: false}}/>
+      <PlayStack.Screen name="Go" component={Go} options={{headerShown: false}}/>
+      <PlayStack.Screen name="Difficulty" component={DifficultyPage} />
+      <PlayStack.Screen name="Load" component={Loader} options={{headerShown: false}} />
+      <PlayStack.Screen name="Challenge" component={Challenger} />
       <PlayStack.Screen name="Game" component={MultiChoiceGame} />
     </PlayStack.Navigator>
   );
@@ -77,23 +79,20 @@ const ProfileStack = createStackNavigator();
 function ProfileStackScreen() {
   return (
     <ProfileStack.Navigator>
-     <ProfileStack.Screen name="My Profile" component={ProfileScreen} />
+     <ProfileStack.Screen name="My Profile" component={MyProfile} />
     </ProfileStack.Navigator>
   );
 }
 
-
-const Tab = createBottomTabNavigator();
-
-export default function App() {
+function StackNavi() {
   return (
-    <NavigationContainer>
       <Tab.Navigator>
-              <Tab.Screen name="Play" component={PlayStackScreen} 
+                   <Tab.Screen name="Play" component={PlayStackScreen} 
          options={{
           tabBarLabel: 'Play',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="play" color={'red'} size={size} />
+            
             
           ),
         }}
@@ -123,6 +122,38 @@ export default function App() {
         }}
          />
       </Tab.Navigator>
-    </NavigationContainer>
   );
 }
+
+const AppStack = createStackNavigator();
+
+function AppStackScreen() {
+  return (
+    <AppStack.Navigator headerMode={false}>
+     <AppStack.Screen name="Login" component={LoginStackScreen} />
+     <AppStack.Screen name="numberFit" component={StackNavi} />
+    </AppStack.Navigator>
+  );
+}
+
+
+const Tab = createBottomTabNavigator();
+
+export default function App() {
+  return (
+    <View style={styles.container}>
+    <NavigationContainer>
+      <AppStackScreen />
+    </NavigationContainer>
+    </View>
+  );
+}
+
+
+const styles = StyleSheet.create({
+  container: {
+      flex: 1,
+      backgroundColor: "#FFF",
+      marginTop: 42
+  }
+})

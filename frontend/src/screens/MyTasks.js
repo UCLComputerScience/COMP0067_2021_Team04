@@ -64,7 +64,7 @@ const styles = StyleSheet.create ({
         width: 25,
         height: 25,
         marginHorizontal: 8,
-        marginVertical: 2,
+        marginVertical: 1,
       },
     statistic: {
         alignItems: 'center',
@@ -82,12 +82,15 @@ const styles = StyleSheet.create ({
         fontSize: 22,
         fontWeight: 'bold',
         marginVertical: 10,
-        marginHorizontal: 10,
+        marginHorizontal: 15,
+        marginTop: 15,
+        textAlign: 'center'
     },
     ttTitle: {
         fontSize: 16,
         fontWeight: 'bold',
-        marginVertical: 10
+        marginVertical: 5,
+        marginHorizontal: 15
     },
     title: {
         fontSize: 34,

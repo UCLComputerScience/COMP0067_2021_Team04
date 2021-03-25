@@ -7,39 +7,38 @@ import LineGraph from '../components/LineGraph';
 import ProgressRing from '../components/ProgressRing';
 // import Pie from '../src/components/PieChart';
 
-class Stats extends React.Component {
-    render() {
-    return (
+
+const Stats = ({navigation}) => {
+      return (
         <View style={styles.container}>
-            <ScrollView>
-          <Text style={styles.statisticTitle}>2x timestable</Text>
-          <Progress />
-          <LineGraph />
-          <Table />
-          <Text style={styles.statisticTitle}>3x timestable</Text>
-          <Progress />
-          <Text style={styles.statisticTitle}>4x timestable</Text>
-          <Progress />
-          <ProgressRing />
-          <Text style={styles.statisticTitle}>5x timestable</Text>
-          <Progress />
-          <Text style={styles.statisticTitle}>6x timestable</Text>
-          <Table />
-          <Progress />
-          {/* <Pie /> */}
-          <Text style={styles.statisticTitle}>7x timestable</Text>
-          <Progress />
-          <Text> </Text>
-          <Text> </Text>
-          <Text> </Text>
-          <Button
-          title="Leaderboards"
-          onPress = { () => alert('Leaderboards') } />
-          </ScrollView>
-            </View> 
-    );
-  }
-}
+        <ScrollView>
+      <Text style={styles.statisticTitle}>2x timestable</Text>
+      <Progress />
+      <LineGraph />
+      <Table />
+      <Text style={styles.statisticTitle}>3x timestable</Text>
+      <Progress />
+      <Text style={styles.statisticTitle}>4x timestable</Text>
+      <Progress />
+      <ProgressRing />
+      <Text style={styles.statisticTitle}>5x timestable</Text>
+      <Progress />
+      <Text style={styles.statisticTitle}>6x timestable</Text>
+      <Table />
+      <Progress />
+      {/* <Pie /> */}
+      <Text style={styles.statisticTitle}>7x timestable</Text>
+      <Progress />
+      <Text> </Text>
+      <Text> </Text>
+      <Text> </Text>
+      <Button
+      title="Leaderboards"
+      onPress = { () => navigation.navigate('Leaderboard') } />
+      </ScrollView>
+        </View> 
+        );
+  };
 
 const styles = StyleSheet.create ({
     container: {
@@ -61,7 +60,8 @@ const styles = StyleSheet.create ({
     statisticTitle: {
         fontSize: 24,
         fontWeight: 'bold',
-        marginVertical: 10
+        marginVertical: 10,
+        marginHorizontal: 10
     },
     title: {
         fontSize: 34,

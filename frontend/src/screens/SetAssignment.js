@@ -45,8 +45,6 @@ class SetHomework extends React.Component {
                     </View>
                     <View style={styles.container3}></View> 
                             <Cal />
-
-
              </View>
              
             <View style={styles.buttonContainer}>
@@ -101,7 +99,6 @@ const styles = StyleSheet.create ({
         height: 300,
         alignSelf: 'center',
         margin: 30
-        // marginTop: -200
     },
     buttonContainer: {
         flex: 1,

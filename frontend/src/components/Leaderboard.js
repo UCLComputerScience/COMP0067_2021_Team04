@@ -1,9 +1,12 @@
 //...
+
 import Leaderboard from 'react-native-leaderboard';
 import React from "react";
 import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView, TouchableHighlight } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+
 //...
+
 const Leader = () => {
 this.state = {
     data: [

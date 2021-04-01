@@ -1,8 +1,8 @@
 import React, {Component} from 'react';  
 import {Platform, StyleSheet, Text, View, Animated, ImageBackground, Image} from 'react-native';
-import Runner from '../animations/Runner';  
+import Calculator from '../animations/Calculator';  
   
-export default class Loader extends Component {  
+export default class LeaderLoader extends Component {  
     state={  
         progressStatus: 0,  
     }  
@@ -10,7 +10,7 @@ export default class Loader extends Component {
     componentDidMount(){  
         this.onAnimate(),
         this.timeoutHandle = setTimeout(()=>{
-            this.props.navigation.navigate('Game')
+            this.props.navigation.navigate('Leaderboard')
         }, 2200);
     }  
     onAnimate = () =>{  
@@ -42,7 +42,7 @@ export default class Loader extends Component {
             </Animated.Text>
       </View>  
       <View style={styles.animation}>
-        {/* <Runner /> */}
+        {/* <Calculator /> */}
         </View>
       </View>
     );  

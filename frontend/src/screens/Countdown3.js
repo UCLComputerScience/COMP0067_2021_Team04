@@ -2,10 +2,38 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, Button, StyleSheet, Animated, ImageBackground, Image, TouchableHighlight} from 'react-native';
 import { Component } from 'react';
-
+import { Audio } from 'expo-av';
 import Logo from '../imgs/logo.png'
 
+function StartSound() {
+    const [sound, setSound] = React.useState();
+
+  async function playSound() {
+    console.log('Loading Sound');
+    const { sound } = await Audio.Sound.createAsync(
+       require('../../assets/Start.mp3')
+    );
+    setSound(sound);
+
+    console.log('Playing Sound');
+    await sound.playAsync(); }
+
+  React.useEffect(() => {
+    return sound
+      ? () => {
+          console.log('Unloading Sound');
+          sound.unloadAsync(); }
+      : undefined;
+  }, [sound]);
+
+  return (
+      <Button title="Play Sound" onPress={playSound} />
+  );
+}
+
+
 class Countdown3 extends Component {
+
     state = {
         LogoAnime: new Animated.Value(0),
         LogoText: new Animated.Value(0),
@@ -17,6 +45,7 @@ class Countdown3 extends Component {
         this.timeoutHandle = setTimeout(()=>{
             this.props.navigation.navigate('Countdown2')
        }, 1000);
+       <StartSound />
         Animated.parallel([
             Animated.spring(LogoAnime, {
                 toValue: 1,
@@ -50,36 +79,32 @@ class Countdown3 extends Component {
                         outputRange: [80, 0],
                         }),
                 }}>
-                     <TouchableHighlight 
-
-                    onPress = { () => this.props.navigation.navigate('Login') }
-    >
+  
  <Text style={{fontSize: 200, color: 'white'}}>3</Text>
-    </TouchableHighlight>
                     {/* <Image source={Logo} style={styles.logo}/> */}
                 </Animated.View>
                 {/* <Animated.View style={{opacity: this.state.LogoText}}> 
             <Text style={styles.logoText}>HEALTHY CHILDREN LOVE LEARNING</Text>
             </Animated.View> */}
+            <StartSound />
             </View>
         );
         }
     };
 
-export default Countdown3;
 
-const styles = StyleSheet.create({
-    background: {
-        flex: 1,
-        justifyContent: "flex-end",
-        alignItems: "center",
-        backgroundColor: 'green'
-    },
+    const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'red'
+    },
+    background: {
+        flex: 1,
+        justifyContent: "flex-end",
+        alignItems: "center",
+        backgroundColor: 'green'
     },
     logoText: {
         color: 'white',
@@ -101,4 +126,7 @@ const styles = StyleSheet.create({
         borderColor: 'blue',
         borderWidth: 3,
     },
-});
+  });
+
+
+export default Countdown3;

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, Button, StyleSheet, Animated, ImageBackground } from 'react-native';
+import { View, Text, Button, StyleSheet} from 'react-native';
 import RandomNumber from './RandomNumber';
 import { shuffle } from "lodash";
 // import {dos} from './LandingPage';
@@ -9,6 +9,11 @@ import Timer from '../components/Timer';
 import GameHeader from '../components/GameHeader';
 import Quit from '../components/QuitGame';
 import { HeaderBackButton } from 'react-navigation';
+import TestTimer from '../components/TestTimer';
+// import { useState }  from 'react';
+// import { useReducer } from 'react';
+// import { TouchableOpacity } from 'react-native-gesture-handler';
+// import Task from '../components/Task';
 
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
@@ -16,6 +21,7 @@ function getRandomIntInclusive(min, max) {
   
   return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
 }
+
 
 function multiplesOf(numbers, number) { // add second argument
     var multiples = []; // change to array (so that we can store multiple numbers - not just one multiple)
@@ -32,10 +38,29 @@ function multiplesOf(numbers, number) { // add second argument
   while(arr.length < 5) {
   var r = Math.floor(Math.random() * 100) + 1;
   if(arr.indexOf(r) === -1) arr.push(r);
-}
-}
+}}
 
-class Game extends React.Component {
+// const [task, setTask] = useState();
+// const [taskItems, setTaskItems] = useState([]);
+
+// const handleAddTask = () => {
+//     Keyboard.dismiss();
+//     setTaskItems([...taskItems, task])
+//     setTask(null);
+// }
+
+// const completeTask = (index) => {
+//     let itemsCopy = [...taskItems];
+//     itemsCopy.splice(index, 1);
+//     setTaskItems(itemsCopy)
+// }
+
+// const [text, setText] = useState('');
+
+
+class TypeGame extends React.Component {
+    
+
     static propTypes = {
         randomNumberCount: PropTypes.number.isRequired,
         initialSeconds: PropTypes.number.isRequired,
@@ -67,7 +92,7 @@ class Game extends React.Component {
                 }
             },
             );
-        }, 1000);
+        }, 60000);
     }
     componentWillUnmount() {
         clearInterval(this.intervalId);
@@ -116,15 +141,12 @@ class Game extends React.Component {
        }
       }      
 
-
     render() {
         const gameStatus = this.gameStatus;
         return (
             <View style={styles.container}>
                   <GameHeader></GameHeader>
-                  
-                {/* {/* <Text style = {styles.titleText}>  </Text> */}
-                <Text style = {styles.titleText}>  </Text>
+                    <Text style = {styles.titleText}>  </Text>
 
                 <Text style = {styles.titleText}>Select the correct answer for this multiplication:</Text>
                 <Text style={[styles.target, styles['STATUS_' + gameStatus]]}> 2 x {this.target / 2}
@@ -140,16 +162,23 @@ class Game extends React.Component {
                     />
                 ))}
             </View>
-
+            {/* <View>
+                <TextInput
+                onChangeText={text => setText(text)}
+                defaultValue={text}
+                />
+                <Text>
+                {text}
+                </Text>
+            </View> */}
+            <TestTimer isPlaying ={true} />
             {this.gameStatus !== 'PLAYING' && (
             <Button title="Play Again" onPress={this.props.onPlayAgain} />)}
-            {this.gameStatus == 'PLAYING' && (
-            <Timer isPlaying ={true} />)}
+            {/* {this.gameStatus == 'PLAYING' && ( */}
         </View>
         );
     }
 }
-
 
     const styles = StyleSheet.create({
         background: {
@@ -195,7 +224,45 @@ class Game extends React.Component {
         STATUS_LOST: {
             backgroundColor: 'red',
         },
-
+        tasksWrapper: {
+                    paddingTop: 40,
+                    paddingHorizontal: 20,
+        },
+        sectionTitle: {
+            fontSize: 24,
+            fontWeight: 'bold',
+        },
+        items: {
+            margin: 30
+        },
+        writeTaskWrapper: {
+            position: 'absolute',
+            bottom: 60,
+            width: '100%',
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            alignItems: 'center'
+        },
+        input: {
+            paddingVertical: 15,
+            paddingHorizontal: 15,
+            backgroundColor: '#FFF',
+            borderRadius: 60,
+            borderColor: '#C0C0C0C0',
+            borderWidth: 1,
+            width: 250
+        },
+        addWrapper: {
+            width: 60,
+            height: 60,
+            backgroundColor: '#FFF',
+            borderRadius: 60,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderColor: '#C0C0C0C0',
+            borderWidth: 1,
+        },
+        addText: {}
     });
-
-export default Game;
+          
+export default TypeGame;

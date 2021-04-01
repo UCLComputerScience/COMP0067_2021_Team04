@@ -1,17 +1,18 @@
 import React, { useState }  from 'react';
 import { Alert, Button, Platform, SafeAreaView, StatusBar, StyleSheet, Text, View, ScrollView } from 'react-native';
 import Progress from '../components/ProgressBar';
-// import * as Progresser from 'react-native-progress';
 import Table from '../components/Datatable';
 import LineGraph from '../components/LineGraph';
 import ProgressRing from '../components/ProgressRing';
 // import Pie from '../src/components/PieChart';
+import Rocket from '../animations/Rocket';
 
 
 const Stats = ({navigation}) => {
       return (
         <View style={styles.container}>
         <ScrollView>
+        {/* <Rocket /> */}
       <Text style={styles.statisticTitle}>2x timestable</Text>
       <Progress />
       <LineGraph />
@@ -34,7 +35,7 @@ const Stats = ({navigation}) => {
       <Text> </Text>
       <Button
       title="Leaderboards"
-      onPress = { () => navigation.navigate('Leaderboard') } />
+      onPress = { () => navigation.navigate('Load') } />
       </ScrollView>
         </View> 
         );
@@ -43,7 +44,7 @@ const Stats = ({navigation}) => {
 const styles = StyleSheet.create ({
     container: {
         flex: 1,
-        backgroundColor: '#E8EAED',
+        backgroundColor: 'white',
     },
     statistic: {
         alignItems: 'center',
@@ -87,3 +88,4 @@ const styles = StyleSheet.create ({
 });
 
 export default Stats;
+

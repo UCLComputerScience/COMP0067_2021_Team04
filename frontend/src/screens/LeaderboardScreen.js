@@ -1,11 +1,10 @@
 import  { useState }  from 'react';
-import { Alert, Button, Platform, SafeAreaView, StatusBar, StyleSheet, Text, View, ScrollView, Image, TouchableHighlight} from 'react-native';
+import { Alert, StyleSheet, Text, View, TouchableHighlight} from 'react-native';
 import Leader from '../components/Leaderboard';
 import Leaderboard from 'react-native-leaderboard';
 import React, { Component } from "react";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import ModalDropdown from 'react-native-modal-dropdown';
-
 
 
 export default class LeaderBoardScreen extends Component {
@@ -43,7 +42,7 @@ export default class LeaderBoardScreen extends Component {
       },
       evenRowColor: "#edfcf9"
     };
-
+    
     return (
       <View style={styles.container}>
           <View style={styles.scaleWrap}>

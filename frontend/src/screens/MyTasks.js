@@ -47,7 +47,7 @@ const Tasks = ({navigation}) => {
 const styles = StyleSheet.create ({
     container: {
         flex: 1,
-        backgroundColor: '#E8EAED',
+        backgroundColor: 'white',
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-evenly',

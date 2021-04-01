@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, Animated, ImageBackground, Image} from 'react-native';
 import Runner from '../animations/Runner';  
   
-export default class Loader extends Component {  
+export default class TestLoader extends Component {
+    
     state={  
         progressStatus: 0,  
     }  
@@ -10,7 +11,7 @@ export default class Loader extends Component {
     componentDidMount(){  
         this.onAnimate(),
         this.timeoutHandle = setTimeout(()=>{
-            this.props.navigation.navigate('Game')
+            this.props.navigation.navigate('Test')
         }, 2200);
     }  
     onAnimate = () =>{  
@@ -86,6 +87,4 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     alignItems: 'center',
   }
-
-
 });  

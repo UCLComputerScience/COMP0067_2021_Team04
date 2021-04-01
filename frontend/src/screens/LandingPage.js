@@ -6,6 +6,7 @@ import { Dimensions, TouchableHighlight } from 'react-native';
 import LandingHeader from '../components/LandingHeader';
 
 
+
 class LandingPage extends React.Component {
     // static propTypes = {
     //     iconNumberCount: PropTypes.number.isRequired,
@@ -29,7 +30,7 @@ const IconNav = ({navigation}) => {
         return(
             <View style={styles.container}>
 
-              <LandingHeader />
+              {/* <LandingHeader /> */}
                 <View style={styles.iconContainer}>
                             <TouchableHighlight 
       underlayColor = '#ccc'

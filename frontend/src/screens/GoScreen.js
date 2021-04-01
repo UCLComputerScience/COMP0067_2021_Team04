@@ -2,8 +2,35 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, Button, StyleSheet, Animated, ImageBackground, Image, TouchableHighlight} from 'react-native';
 import { Component } from 'react';
-
+import { Audio } from 'expo-av';
 import Logo from '../imgs/logo.png'
+
+function StartSound() {
+    const [sound, setSound] = React.useState();
+
+  async function playSound() {
+    console.log('Loading Sound');
+    const { sound } = await Audio.Sound.createAsync(
+       require('../../assets/Go.mp3')
+    );
+    setSound(sound);
+
+    console.log('Playing Sound');
+    await sound.playAsync(); }
+
+  React.useEffect(() => {
+    return sound
+      ? () => {
+          console.log('Unloading Sound');
+          sound.unloadAsync(); }
+      : undefined;
+  }, [sound]);
+
+  return (
+      <Button title="Play Sound" onPress={playSound} />
+  );
+}
+
 
 class Go extends Component {
     state = {
@@ -51,18 +78,15 @@ class Go extends Component {
                         outputRange: [80, 0],
                         }),
                 }}>
-                     <TouchableHighlight 
 
-                    onPress = { () => this.props.navigation.navigate('Login') }
-    >
       <Text style={{fontSize: 200, color: 'black', marginTop: 50}}>GO!</Text>
 
-    </TouchableHighlight>
                     {/* <Image source={Logo} style={styles.logo}/> */}
                 </Animated.View>
                 {/* <Animated.View style={{opacity: this.state.LogoText}}> 
             <Text style={styles.logoText}>HEALTHY CHILDREN LOVE LEARNING</Text>
             </Animated.View> */}
+            <StartSound />
             </View>
             </ImageBackground>
         );
@@ -76,7 +100,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "flex-end",
         alignItems: "center",
-        backgroundColor: 'green'
     },
     container: {
         flex: 1,
@@ -85,7 +108,6 @@ const styles = StyleSheet.create({
     },
     logoText: {
         color: 'white',
-        backgroundColor: 'gray',
         fontFamily: 'Roboto',
         fontSize: 20,
         marginTop: 29.1,
@@ -99,7 +121,6 @@ const styles = StyleSheet.create({
         width: 300,
         marginVertical: 20,
         resizeMode: 'cover',
-        backgroundColor: 'white',
         borderColor: 'blue',
         borderWidth: 3,
     },

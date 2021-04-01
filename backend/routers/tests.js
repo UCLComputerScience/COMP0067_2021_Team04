@@ -23,7 +23,7 @@ router.get(`/`, async (req, res) => {
   if(!testsList) {
       res.status(500).json({sucess: false})
   }
-  res.send(testsList);
+  res.status(200).send(testsList);
 })
 
 router.get(`/:testID`, async (req, res) => {
@@ -38,12 +38,12 @@ router.get(`/:testID`, async (req, res) => {
     };
     const test = await documentClient.get(params).promise()
     if(!test) {
-        res.status(500).json({sucess: false})
+        res.status(500).json({sucess: false, message: 'The test with the given ID was no found'})
     }
-    res.send(test);
+    res.status(200).send(test);
   })
 
-router.post(`/`, (req, res) => {
+router.post(`/`, async (req, res) => {
 
   const documentClient = new AWS.DynamoDB.DocumentClient();
 
@@ -56,12 +56,54 @@ router.post(`/`, (req, res) => {
           questions: req.body.questions
       }
   }
-
-  documentClient.put(params, (err, data) => {
-      if(err) console.log(err);
-      console.log('[response]', data)
-  }).promise();
+  try {
+    const test = await documentClient.put(params).promise();    
+    res.send(test);
+    } catch (err) {
+        console.error(err);
+        res.status(404).send('Something went wrong');
+    }
 })
+
+router.put('/:testID', async (req, res) => {
+    const documentClient = new AWS.DynamoDB.DocumentClient();
+    const test = req.body;
+    // not necessary
+    const testID = req.params.testID;
+
+    const params = {
+        TableName: TABLE_NAME,
+        Item: test,
+    };
+    try {
+        updatedTest = await documentClient.put(params).promise(); 
+        res.status(200).json({success: true, message: 'the test is updated'})  
+      } catch (err) {
+            console.error(err);
+            res.status(400).json({success: false, error: err});
+        } 
+})
+
+router.delete(`/:testID`, async (req, res) => {
+
+    const documentClient = new AWS.DynamoDB.DocumentClient();
+  
+    const testID = req.params.testID;
+
+    const params = {
+        TableName: TABLE_NAME,
+        Key: {
+            testID,
+        },
+    };
+    try {
+      test = await documentClient.delete(params).promise();  
+      res.status(200).json({success: true, message: 'the test is deleted'})  
+    } catch (err) {
+          console.error(err);
+          res.status(400).json({success: false, error: err});
+      }
+  })
 
 //export a module
 module.exports=router;

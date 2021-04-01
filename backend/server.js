@@ -6,12 +6,21 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 // mongoose equivalent (optional)
 const dynamoose = require('dynamoose');
+// prevent cross.origin.resource.sharing error (node.js applications cannot trust other applications)
+// when sending requests from the frontend to the backend, the backend will not respond to me the same data
+// that i want, because it is forbidden, so we use cors to enable any application to request api from my server
+const cors = require('cors');
 
 // getting all the code from AWS
 const AWS = require('aws-sdk');
 const uuid = require('uuid');
 const config = require('./config/config.js');
 const { Support } = require('aws-sdk');
+
+app.use(cors());
+// some type of HTTP request (get, post). '*' indicates you're allowing any HTTP request to
+// be parsed from any other origin.
+app.options('*', cors())
 
 // middleware - backend will now understand the json sent from the frontend
 app.use(bodyParser.json());
@@ -20,12 +29,15 @@ app.use(morgan('tiny'));
 // get environment variables from env file 
 require('dotenv/config');
 
+// if time, add models and schemas for data validation
+const User = require('./models/user');
 
 
 const usersRoutes = require('./routers/users');
 const classesRoutes = require('./routers/classes');
 const testsRoutes = require('./routers/tests');
 const testStatisticsRoutes = require('./routers/testStatistics');
+const questionsRoutes = require('./routers/questions');
 
 // api url environment variable
 const api = process.env.API_URL;
@@ -37,6 +49,7 @@ app.use(`${api}/users`, usersRoutes)
 app.use(`${api}/classes`, classesRoutes)
 app.use(`${api}/tests`, testsRoutes)
 app.use(`${api}/testStatistics`, testStatisticsRoutes)
+app.use(`${api}/questions`, questionsRoutes)
 
 // database connection
 // dynamoose.aws.sdk.config.update({region: 'us-east-2'});

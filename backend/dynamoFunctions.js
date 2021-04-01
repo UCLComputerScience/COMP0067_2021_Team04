@@ -6,13 +6,13 @@ AWS.config.update({
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 });
 
-const dynamoClient = new AWS.DynamoDB.DocumentClient();
+const documentClient = new AWS.DynamoDB.DocumentClient();
 const TABLE_NAME = 'UCL-TT-users';
 const getUsers = async () => {
     const params = {
         TableName: TABLE_NAME,
     };
-    const Users = await dynamoClient.scan(params).promise();
+    const Users = await documentClient.scan(params).promise();
     return Users;
 };
 
@@ -23,7 +23,7 @@ const getUserById = async (userID) => {
             userID,
         },
     };
-    return await dynamoClient.get(params).promise();
+    return await documentClient.get(params).promise();
 };
 
 const addOrUpdateItem = async (item, tableName) => {
@@ -31,7 +31,7 @@ const addOrUpdateItem = async (item, tableName) => {
         TableName: tableName,
         Item: item,
     };
-    return await dynamoClient.put(params).promise();
+    return await documentClient.put(params).promise();
 };
 
 const deleteItem = async (ID, tableName) => {
@@ -41,11 +41,11 @@ const deleteItem = async (ID, tableName) => {
             ID,
         },
     };
-    return await dynamoClient.delete(params).promise();
+    return await documentClient.delete(params).promise();
 };
 
 module.exports = {
-    dynamoClient,
+    documentClient,
     getUsers,
     getUserById,
     addOrUpdateItem,

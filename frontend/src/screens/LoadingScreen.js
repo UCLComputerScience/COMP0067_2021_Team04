@@ -51,18 +51,9 @@ class Loading extends Component {
                         outputRange: [80, 0],
                         }),
                 }}>
-                     <TouchableHighlight 
-
-                    onPress = { () => this.props.navigation.navigate('Login') }
-    >
-                    <Image source={Logo} style={styles.logo}
-      />
-    </TouchableHighlight>
-                    {/* <Image source={Logo} style={styles.logo}/> */}
+                    <Image source={Logo} style={styles.logo} />
                 </Animated.View>
-                {/* <Animated.View style={{opacity: this.state.LogoText}}> 
-            <Text style={styles.logoText}>HEALTHY CHILDREN LOVE LEARNING</Text>
-            </Animated.View> */}
+
             </View>
             </ImageBackground>
         );

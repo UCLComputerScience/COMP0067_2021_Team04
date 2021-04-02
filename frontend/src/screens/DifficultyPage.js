@@ -16,84 +16,54 @@ const DifficultyPage = ({navigation})=>{
                 colour = '#cd7f32'
                 isDisabled = {false}
                 onPress={() => Alert.alert(
-                "Options",
-                "Please select an option",
-                [
-                {
-                    text: "Watch Video!",
-                    onPress: () => Alert.alert('Please confirm: ', "Click 'Let's workout' to play the video",[{text: "Let's workout!",
-                    onPress: () => navigation.navigate('Video')},
-                { text: "Cancel",
-                    onPress: () => console.log("Cancel Pressed"),
-                    style: "cancel" },]),
-                    style: "cancel"
-                },
-                { text: "Test", onPress: Alert.alert('Please confirm: ', 'Once you start a test your marks will be visible to teachers and parents',
-                [{text: 'Start Test!', onPress: () => navigation.navigate('Load Test') },
-                 {text: 'Cancel', onPress:  () => console.log("Cancel Pressed"),
-                    style: "cancel" },]),
-                    style: "cancel" },
-                { text: "Cancel",
-                    onPress: () => console.log("Cancel Pressed"),
-                    style: "cancel" },
-                ]
-            )} >
+                    "Please select an option: ",
+                    "Note: Once you start a test your marks will be visible to teachers and parents",
+                    [
+                        {
+                        text: "Cancel",
+                        onPress: () => console.log("Cancel Pressed"),
+                        style: "cancel"
+                        },
+                        { text: "Watch Video", onPress: () => navigation.navigate('Load Video') },
+                        { text: "Start Test!", onPress: () => navigation.navigate('Load') }
+                    ]
+                    )}        >
             </DifficultyButton>
             <DifficultyButton
                 level = 'Intermediate'
                 colour = '#c0c0c0'
                 isDisabled = {false}
                 onPress={() => Alert.alert(
-                "Options",
-                "Please select an option",
-                [
-                {
-                    text: "Watch Video!",
-                    onPress: () => Alert.alert('Please confirm: ', "Click 'Let's workout' to play the video",[{text: "Let's workout!",
-                onPress: () => navigation.navigate('Video')},
-                { text: "Cancel",
-                    onPress: () => console.log("Cancel Pressed"),
-                    style: "cancel" },]),
-                    style: "cancel"
-                },
-                { text: "Test", onPress: Alert.alert('Please confirm: ', 'Once you start a test your marks will be visible to teachers and parents',
-                [{text: 'Start Test!', onPress: () => navigation.navigate('Load Test') }, {text: 'Cancel',
-                onPress:  () => console.log("Cancel Pressed"),
-                tyle: "cancel" },]),
-                    style: "cancel" },
-                { text: "Cancel",
-                    onPress: () => console.log("Cancel Pressed"),
-                    style: "cancel" },
-                ]
-            )} >
+                    "Please select an option: ",
+                    "Note: Once you start a test your marks will be visible to teachers and parents",
+                    [
+                        {
+                        text: "Cancel",
+                        onPress: () => console.log("Cancel Pressed"),
+                        style: "cancel"
+                        },
+                        { text: "Watch Video", onPress: () => navigation.navigate('Load Video') },
+                        { text: "Start Test!", onPress: () => navigation.navigate('Load') }
+                    ]
+                    )} >
             </DifficultyButton>
             <DifficultyButton
                 level = 'Advanced'
                 colour = '#ffd700'
                 isDisabled = {true}
                 onPress={() => Alert.alert(
-                "Options",
-                "Please select an option",
-                [
-                {
-                    text: "Watch Video!",
-                    onPress: () => Alert.alert('Please confirm: ', "Click 'Let's workout' to play the video",[{text: "Let's workout!",
-                onPress: () => navigation.navigate('Video')},
-                { text: "Cancel",
-                    onPress: () => console.log("Cancel Pressed"),
-                    style: "cancel" },]),
-                    style: "cancel"
-                },
-                { text: "Test", onPress: Alert.alert('Please confirm: ', 'Once you start a test your marks will be visible to teachers and parents',
-                [{text: 'Start Test!', onPress: () => navigation.navigate('Load Test') }, {text: 'Cancel',
-                onPress:  () => console.log("Cancel Pressed"),
-                tyle: "cancel" },]),
-                    style: "cancel" },
-                { text: "Cancel",
-                    onPress: () => console.log("Cancel Pressed"),
-                    style: "cancel" },
-                ]
-            )} >
+                    "Please select an option: ",
+                    "Note: Once you start a test your marks will be visible to teachers and parents",
+                    [
+                        {
+                        text: "Cancel",
+                        onPress: () => console.log("Cancel Pressed"),
+                        style: "cancel"
+                        },
+                        { text: "Watch Video", onPress: () => navigation.navigate('Load Video') },
+                        { text: "Start Test!", onPress: () => navigation.navigate('Load') }
+                    ]
+                    )} >
             </DifficultyButton>
         </View>
     )}

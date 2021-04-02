@@ -29,7 +29,7 @@ import TypeGame from './src/factory/TypeGame';
 import TestSettings from './src/factory/TestSettings';
 import TestLoader from './src/screens/TestLoadingScreen';
 import PlayVideo from './src/screens/VideoScreen';
-
+import VidLoader from './src/screens/VideoLoadingScreen';
 
 const LoginStack = createStackNavigator();
 
@@ -114,8 +114,34 @@ function PlayStackScreen() {
       <PlayStack.Screen name="Countdown2" component={Countdown2} options={{headerShown: false}}/>
       <PlayStack.Screen name="Countdown1" component={Countdown1} options={{headerShown: false}}/>
       <PlayStack.Screen name="Go" component={Go} options={{headerShown: false}}/>
-      <PlayStack.Screen name="Difficulty" component={DifficultyPage} />
-      <PlayStack.Screen name="Video" component={PlayVideo} />
+      <PlayStack.Screen name="Difficulty" component={DifficultyPage} options={() => ({
+           title: 'Difficulty',
+          headerStyle: {
+            backgroundColor: 'blue',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },})}/>
+      <PlayStack.Screen name="Load Video" component={VidLoader} options={{headerShown: false}}/>
+      <PlayStack.Screen name="Video" component={PlayVideo} options={({navigation}) => ({
+        headerLeft: (props) => (
+          <HeaderBackButton
+            {...props}
+            label='Go Back'
+            onPress={() => Alert.alert(
+            "Exit Video",
+            "Are you sure that you would like to exit the video?",
+            [
+              {
+                text: "Cancel",
+                onPress: () => console.log("Cancel Pressed"),
+                style: "cancel"
+              },
+              { text: "Yes", onPress: () => navigation.navigate('Difficulty') }
+            ]
+            )} 
+          />),})}/>
       <PlayStack.Screen name="Load Test" component={TestLoader} options={{headerShown: false}} />
       <PlayStack.Screen name="Test" component={TestSettings} options={({navigation}) => ({
         
@@ -132,7 +158,7 @@ function PlayStackScreen() {
         onPress: () => console.log("Cancel Pressed"),
         style: "cancel"
       },
-      { text: "OK", onPress: () => navigation.navigate('Landing') }
+      { text: "Yes", onPress: () => navigation.navigate('Landing') }
     ]
   )} 
   />),})}/>
@@ -154,7 +180,7 @@ function PlayStackScreen() {
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel"
         },
-        { text: "OK", onPress: () => navigation.navigate('Landing') }
+        { text: "Yes", onPress: () => navigation.navigate('Landing') }
       ]
     )} />
             

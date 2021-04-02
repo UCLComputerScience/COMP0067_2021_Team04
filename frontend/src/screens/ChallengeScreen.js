@@ -113,6 +113,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#00CED1",
     height:200
   },
+  btntext:{
+    fontSize: 30,
+    marginTop: 20,
+  },
   headerContent:{
     padding:30,
     alignItems: 'center',

@@ -27,20 +27,22 @@ router.get(`/`, async (req, res) => {
 })
 
 router.get(`/:userID`, async (req, res) => {
-    const userID = req.params.testStatisticID;
+    const userID = req.params.userID;
+    const dateFinished = req.params.dateFinished;
     const documentClient = new AWS.DynamoDB.DocumentClient();
-  
+    
     const params = {
         Key: {
             "userID": userID,
+            "dateFinished": "02/09/21"
         },
         TableName: TABLE_NAME
     };
-    const testStatisticItem = await documentClient.get(params).promise()
-    if(!testStatisticItem) {
-        res.status(500).json({sucess: false})
+    const testStatistic = await documentClient.get(params).promise()
+    if(!testStatistic) {
+        res.status(500).json({sucess: false, message: 'The test with the given ID was no found'})
     }
-    res.send(testStatisticItem);
+    res.status(200).send(testStatistic);
   })
 
 router.post(`/`, (req, res) => {
@@ -62,24 +64,32 @@ router.post(`/`, (req, res) => {
       }
   }
 
-  documentClient.put(params, (err, data) => {
-      if(err) console.log(err);
-      console.log('[response]', data)
-  }).promise();
+  try {
+    const testStatistic = await documentClient.put(params).promise();    
+    res.send(testStatistic);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Something went wrong');
+    }
 })
 
-router.put(`/:userID`, async (req, res) => {
-    const testStatisticItem = req.body;
-    const { userID } = req.params;
-    testStatisticItem.userID = userID;
+router.put(`/:testStatisticID`, async (req, res) => {
+    const documentClient = new AWS.DynamoDB.DocumentClient();
+    const testStatistic = req.body;
+
+    const params = {
+        TableName: TABLE_NAME,
+        Item: testStatistic,
+    };
     try {
-        const updatedtestStatistic = await addOrUpdateItem(testStatisticItem, TABLE_NAME);
-        res.json(updatedtestStatistic);
-    } catch (error) {
+        updatedtestStatistic = await documentClient.put(params).promise();
+        res.status(200).json({success: true, message: 'the test is updated'});
+    } catch (err) {
         console.error(err);
-        res.status(500).json({err:'something went wrong'});
+        res.status(400).json({success: false, error: err});
     }
-  })
+
+})
 
 router.delete('/:userID', async (req, res) => {
     const { userID } = req.params;

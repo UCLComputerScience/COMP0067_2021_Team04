@@ -1,4 +1,3 @@
-
 // getting all the code from AWS
 const AWS = require('aws-sdk');
 const uuid = require('uuid');

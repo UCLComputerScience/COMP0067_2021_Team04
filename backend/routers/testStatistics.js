@@ -45,7 +45,7 @@ router.get(`/:userID`, async (req, res) => {
     res.status(200).send(testStatistic);
   })
 
-router.post(`/`, (req, res) => {
+router.post(`/`, async (req, res) => {
 
   const documentClient = new AWS.DynamoDB.DocumentClient();
 

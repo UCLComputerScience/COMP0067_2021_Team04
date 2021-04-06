@@ -3,66 +3,60 @@ const router = express.Router();
 const AWS = require('aws-sdk');
 const uuid = require('uuid');
 const config = require('../config/config.js');
-const { addOrUpdateItem, deleteItem } = require('../dynamoFunctions.js');
-
-const TABLE_NAME = 'UCL-TT-tests';
 
 AWS.config.update({
     region: process.env.AWS_DEFAULT_REGION,
 })
 
-router.get(`/`, async (req, res) => {
-  const documentClient = new AWS.DynamoDB.DocumentClient();
+const documentClient = new AWS.DynamoDB.DocumentClient();
+const TABLE_NAME = 'UCL-TT-tests';
 
 
-  const params = {
-      TableName: TABLE_NAME
-  };
+router.get(`/:testID?`, async (req, res) => {
+    
+    const params = {
+        TableName: TABLE_NAME
+    }
+    
+    // create an empty object to hold the response
+    let responseData;
 
-  const testsList = await documentClient.scan(params).promise()
-  if(!testsList) {
-      res.status(500).json({sucess: false})
-  }
-  res.status(200).send(testsList);
+    // check if URI parameters exists
+    if (req.params.testID) {
+        params.Key = {
+            testID: req.params.testID
+        }
+    } else {
+        // check if query parameter exists
+        if(req.query.testID) {
+            params.Key = {
+                testID: req.query.testID
+            }
+        }
+    }
+    // check if the query parameter has NOT been passed in
+    if (!params.Key) {
+        responseData = await documentClient.scan(params).promise()
+    } else {
+        responseData = await documentClient.get(params).promise()
+    }
+    res.json(responseData)
 })
 
-router.get(`/:testID`, async (req, res) => {
-    const testID = req.params.testID;
-    const documentClient = new AWS.DynamoDB.DocumentClient();
-  
+router.post('/', async (req, res) => {
     const params = {
-        Key: {
-            "testID": testID,
-        },
-        TableName: TABLE_NAME
-    };
-    const test = await documentClient.get(params).promise()
-    if(!test) {
-        res.status(500).json({sucess: false, message: 'The test with the given ID was no found'})
+        TableName: TABLE_NAME,
+        Item: req.body
     }
-    res.status(200).send(test);
-  })
 
-router.post(`/`, async (req, res) => {
-
-  const documentClient = new AWS.DynamoDB.DocumentClient();
-
-  const params = {
-      TableName: TABLE_NAME,
-      Item: {
-          testID: req.body.testID,
-          timestable: req.body.timestable,
-          difficulty: req.body.difficulty,
-          questions: req.body.questions
-      }
-  }
-  try {
-    const test = await documentClient.put(params).promise();    
-    res.send(test);
-    } catch (err) {
-        console.error(err);
-        res.status(404).send('Something went wrong');
-    }
+    documentClient.put(params, (error) => {
+        if(!error) {
+            // HTTP status code of created is 201, whereas 200 is ok
+            res.status(201).send();
+        } else {
+            res.status(500).send("Unable to save record: " + error)
+        }
+    })
 })
 
 router.put('/:testID', async (req, res) => {

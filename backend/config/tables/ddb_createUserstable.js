@@ -1,7 +1,11 @@
 // Load the AWS SDK for Node.js
 const AWS = require('aws-sdk');
 
-AWS.config.update({region: 'eu-west-1'})
+AWS.config.update({
+    region: process.env.AWS_DEFAULT_REGION,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+})
 
 // Create the DynamoDB service object
 

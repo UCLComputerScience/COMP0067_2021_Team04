@@ -1,11 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const AWS = require('aws-sdk');
-const uuid = require('uuid');
-const config = require('../config/config.js');
+//express validator to validate data sent to an api ensuring that its properly validated
+const { validationResult } = require('express-validator');
+const validators = require('./testsValidators');
 
 AWS.config.update({
+    
     region: process.env.AWS_DEFAULT_REGION,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 })
 
 const documentClient = new AWS.DynamoDB.DocumentClient();
@@ -43,7 +47,17 @@ router.get(`/:testID?`, async (req, res) => {
     res.json(responseData)
 })
 
-router.post('/', async (req, res) => {
+router.post('/', validators.postTestsValidators, async (req, res) => {
+
+    const errors = validationResult(req)
+    if(!errors.isEmpty()) {
+        // 400 code equals bad request
+        // send back a response with a json
+        res.status(400).json({
+            errors: errors.array()
+        })
+    }
+
     const params = {
         TableName: TABLE_NAME,
         Item: req.body

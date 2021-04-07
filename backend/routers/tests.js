@@ -4,6 +4,7 @@ const AWS = require('aws-sdk');
 //express validator to validate data sent to an api ensuring that its properly validated
 const { validationResult } = require('express-validator');
 const validators = require('./testsValidators');
+const {validateAuth} = require('../auth');
 
 AWS.config.update({
     
@@ -47,7 +48,7 @@ router.get(`/:testID?`, async (req, res) => {
     res.json(responseData)
 })
 
-router.post('/', validators.postTestsValidators, async (req, res) => {
+router.post('/', [validateAuth, ...validators.postTestsValidators], async (req, res) => {
 
     const errors = validationResult(req)
     if(!errors.isEmpty()) {

@@ -8,7 +8,7 @@ const cognitoExpress = new CognitoExpress({
     cognitoUserPoolId: process.env.COGNITO_USER_POOL_ID,
     tokenUse: "access",
     // 1 hour
-    tokenExpiration: 3600
+    tokenExpiration: 36000
 })
 
 // export a function called validateAuth 
@@ -18,7 +18,6 @@ exports.validateAuth = (req, res, next) => {
     // authentication tokens are passed in the authorization header with a type of bearer 
     // and a token to follow as the value => we need to check if that exists
     if(req.headers.authorization && req.headers.authorization.split(' ')[0] === "Bearer") {
-        console.log(req.headers.authorization);
         const token = req.headers.authorization.split(' ')[1]
         cognitoExpress.validate(token, (err) => {
             if(err) {

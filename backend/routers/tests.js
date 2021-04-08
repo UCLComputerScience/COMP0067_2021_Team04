@@ -3,7 +3,7 @@ const router = express.Router();
 const AWS = require('aws-sdk');
 //express validator to validate data sent to an api ensuring that its properly validated
 const { validationResult } = require('express-validator');
-const validators = require('./testsValidators');
+const validators = require('./validators/testsValidators');
 const {validateAuth} = require('../auth');
 
 AWS.config.update({

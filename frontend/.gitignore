@@ -13,7 +13,6 @@ app.json
 babel.config.js
 package-lock.json
 yarn.lock
-assets/
 android/
 .vscode/
 .expo-shared

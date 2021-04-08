@@ -9,6 +9,8 @@ import Timer from '../components/Timer';
 import GameHeader from '../components/GameHeader';
 import Quit from '../components/QuitGame';
 import { HeaderBackButton } from 'react-navigation';
+import EndGame from '../components/EndGameModal';
+
 
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
@@ -129,6 +131,7 @@ class Game extends React.Component {
                 <Text style = {styles.titleText}>Select the correct answer for this multiplication:</Text>
                 <Text style={[styles.target, styles['STATUS_' + gameStatus]]}> 2 x {this.target / 2}
                 </Text>
+                <Timer isPlaying ={true} />
                 <View style={styles.randomContainer}>
                     {this.shuffledRandomNumbers.map((randomNumber, index) => (
                     <RandomNumber 
@@ -140,62 +143,100 @@ class Game extends React.Component {
                     />
                 ))}
             </View>
-
-            {this.gameStatus !== 'PLAYING' && (
+            <EndGame onPress={this.props.onPlayAgain}/>
+            {/* {this.gameStatus !== 'PLAYING' && (
             <Button title="Play Again" onPress={this.props.onPlayAgain} />)}
             {this.gameStatus == 'PLAYING' && (
-            <Timer isPlaying ={true} />)}
+            <Timer isPlaying ={true} />)} */}
         </View>
         );
     }
 }
 
 
-    const styles = StyleSheet.create({
-        background: {
-            flex: 1,
-            justifyContent: "flex-end",
-            alignItems: "center"
-        },
-        container: {
-            color: 'white',
-            flex: 1,
-        },
-        timercontainer: {
-            color: 'white',
-            flex: 1,
-            alignItems: 'flex-start',
-            justifyContent: 'flex-end',
-            marginVertical: 20,
-            marginHorizontal: 30,
-        },
-        titleText: {
-            fontSize: 20,
-            fontWeight: "bold",
-            textAlign: 'center',
-        },
-        target: {
-            fontSize: 50,
-            backgroundColor: '#bbb',
-            margin: 50,
-            textAlign: 'center',
-        },
-        randomContainer: {
-            flex: 1,
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'space-around',
-        },
-        STATUS_PLAYING: {
-            backgroundColor: '#bbb',
-        },
-        STATUS_WON: {
-            backgroundColor: 'green',
-        },
-        STATUS_LOST: {
-            backgroundColor: 'red',
-        },
-
-    });
+const styles = StyleSheet.create({
+    background: {
+        flex: 1,
+        justifyContent: "flex-end",
+        alignItems: "center"
+    },
+    container: {
+        color: 'white',
+        flex: 1,
+    },
+    timercontainer: {
+        color: 'white',
+        flex: 1,
+        alignItems: 'flex-start',
+        justifyContent: 'flex-end',
+        marginVertical: 20,
+        marginHorizontal: 30,
+    },
+    titleText: {
+        fontSize: 20,
+        fontWeight: "bold",
+        textAlign: 'center',
+    },
+    target: {
+        fontSize: 50,
+        backgroundColor: '#bbb',
+        margin: 30,
+        textAlign: 'center',
+    },
+    randomContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-around',
+    },
+    STATUS_PLAYING: {
+        backgroundColor: '#bbb',
+    },
+    STATUS_WON: {
+        backgroundColor: 'green',
+    },
+    STATUS_LOST: {
+        backgroundColor: 'red',
+    },
+    tasksWrapper: {
+                paddingTop: 40,
+                paddingHorizontal: 20,
+    },
+    sectionTitle: {
+        fontSize: 24,
+        fontWeight: 'bold',
+    },
+    items: {
+        margin: 30
+    },
+    writeTaskWrapper: {
+        position: 'absolute',
+        bottom: 60,
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center'
+    },
+    input: {
+        paddingVertical: 15,
+        paddingHorizontal: 15,
+        backgroundColor: '#FFF',
+        borderRadius: 60,
+        borderColor: '#C0C0C0C0',
+        borderWidth: 1,
+        width: 250
+    },
+    addWrapper: {
+        width: 60,
+        height: 60,
+        backgroundColor: '#FFF',
+        borderRadius: 60,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderColor: '#C0C0C0C0',
+        borderWidth: 1,
+    },
+    addText: {}
+});
 
 export default Game;

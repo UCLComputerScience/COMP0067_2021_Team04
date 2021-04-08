@@ -25,7 +25,7 @@ const DifficultyPage = ({navigation})=>{
                         style: "cancel"
                         },
                         { text: "Watch Video", onPress: () => navigation.navigate('Load Video') },
-                        { text: "Start Test!", onPress: () => navigation.navigate('Load') }
+                        { text: "Start Test!", onPress: () => navigation.navigate('Load Test') }
                     ]
                     )}        >
             </DifficultyButton>
@@ -43,7 +43,7 @@ const DifficultyPage = ({navigation})=>{
                         style: "cancel"
                         },
                         { text: "Watch Video", onPress: () => navigation.navigate('Load Video') },
-                        { text: "Start Test!", onPress: () => navigation.navigate('Load') }
+                        { text: "Start Test!", onPress: () => navigation.navigate('Load Test') }
                     ]
                     )} >
             </DifficultyButton>
@@ -61,7 +61,7 @@ const DifficultyPage = ({navigation})=>{
                         style: "cancel"
                         },
                         { text: "Watch Video", onPress: () => navigation.navigate('Load Video') },
-                        { text: "Start Test!", onPress: () => navigation.navigate('Load') }
+                        { text: "Start Test!", onPress: () => navigation.navigate('Load Test') }
                     ]
                     )} >
             </DifficultyButton>

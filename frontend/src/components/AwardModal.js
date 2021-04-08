@@ -38,7 +38,6 @@ const TaskModal = () => {
 
 const styles = StyleSheet.create({
   centeredView: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     marginTop: 3,
@@ -57,7 +56,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5
+    elevation: 2
   },
   button: {
     borderRadius: 20,
@@ -76,7 +75,7 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   modalText: {
-    marginBottom: 15,
+    marginBottom: 10,
     textAlign: "center"
   }
 });

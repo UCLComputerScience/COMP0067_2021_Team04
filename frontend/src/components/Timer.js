@@ -4,8 +4,9 @@ import React from 'react';
 
 const Timer = () => {
     return (
+      <View style={styles.centeredView}>
   <CountdownCircleTimer
-    size={50}
+    size={80}
     isPlaying
     duration={10}
     colors={[
@@ -20,7 +21,16 @@ const Timer = () => {
       </Animated.Text>
     )}
   </CountdownCircleTimer>
+  </View>
     );
     };
+
+    const styles = StyleSheet.create({
+      centeredView: {
+        justifyContent: "center",
+        alignItems: "center",
+        // marginEnd: -50
+      }
+    })
 
 export default Timer;

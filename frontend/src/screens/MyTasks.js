@@ -1,4 +1,5 @@
 import React, { useState }  from 'react';
+import {Component} from 'react';
 import { Dimensions } from "react-native";
 import { Alert, Button, Platform, SafeAreaView, StatusBar, StyleSheet, Text, View, ScrollView } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -9,6 +10,7 @@ import LineGraph from '../components/LineGraph';
 import ProgressRing from '../components/ProgressRing';
 // import Pie from '../src/components/PieChart';
 import TaskModal from '../components/TasksModal';
+import PropTypes from 'prop-types';
 
 
 const screenWidth = Dimensions.get("window").width;
@@ -20,20 +22,20 @@ const Tasks = ({navigation}) => {
         <ScrollView>
       <Text style={styles.statisticTitle}>Your teacher has set you the following tasks:</Text>
       <Text style={styles.ttTitle}>Complete 8 levels of indermediate 6x tables</Text>
-      <Progress />
+      <Progress  completion={0.3}/>
       <View style={styles.stretch}>
       <MaterialCommunityIcons name="timer-sand-full" color={'gray'} size={30} style={styles.tinyLogo} />
       <Text style={styles.timeRemainingText}>(5d 2h left)</Text>
       < TaskModal />
       </View>
       <Text style={styles.ttTitle}>Complete 5 levels of advanced 5x tables</Text>
-      <Progress /><View style={styles.stretch}>
+      <Progress completion={0.5} /><View style={styles.stretch}>
       <MaterialCommunityIcons name="timer-sand-full" color={'gray'} size={30} style={styles.tinyLogo} />
       <Text style={styles.timeRemainingText}>(2d 18h left)</Text>
       < TaskModal />
       </View>
       <Text style={styles.ttTitle}>Score 100% on one level of beginner 4x tables</Text>
-      <Progress /><View style={styles.stretch}>
+      <Progress  completion={0.8}/><View style={styles.stretch}>
       <MaterialCommunityIcons name="timer-sand-full" color={'gray'} size={30} style={styles.tinyLogo} />
       <Text style={styles.timeRemainingText}>(6h left)</Text>
       < TaskModal />
@@ -43,6 +45,16 @@ const Tasks = ({navigation}) => {
 );
 }
 
+class TasksScreen extends Component{
+    static propTypes = {
+        CompletionPercentage: PropTypes.number.isRequired,
+    };
+    render(){
+        return( 
+            <Tasks />
+          )
+        } 
+        }
 
 const styles = StyleSheet.create ({
     container: {

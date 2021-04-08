@@ -30,6 +30,8 @@ import TestSettings from './src/factory/TestSettings';
 import TestLoader from './src/screens/TestLoadingScreen';
 import PlayVideo from './src/screens/VideoScreen';
 import VidLoader from './src/screens/VideoLoadingScreen';
+import MyStudents from './src/screens/MyStudents';
+import MyKids from './src/screens/MyKids';
 
 const LoginStack = createStackNavigator();
 
@@ -151,7 +153,7 @@ function PlayStackScreen() {
             label='Quit?'
             onPress={() => Alert.alert(
     "Exit Game",
-    "Are you sure that you would like to exit the game?",
+    "Are you sure that you would like to exit the test - your progress will not be saved?",
     [
       {
         text: "Cancel",
@@ -281,6 +283,6 @@ const styles = StyleSheet.create({
   container: {
       flex: 1,
       backgroundColor: "#FFF",
-      marginTop: '10%'
+      marginTop: '11%'
   }
 })

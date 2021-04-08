@@ -11,6 +11,7 @@ import {
   ScrollView
 } from 'react-native';
 import { Button } from 'react-native-paper';
+import SparklyThing from '../components/Sparkle';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default class Challenger extends Component {
@@ -47,8 +48,7 @@ export default class Challenger extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-          
+      <View style={styles.container}>          
         <FlatList 
           style={styles.userList}
           columnWrapperStyle={styles.listContainer}

@@ -1,11 +1,12 @@
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
-import { Animated } from "react-native";
+import { Animated, View, StyleSheet} from "react-native";
 import React from 'react';
 
 const TestTimer = () => {
     return (
+      <View style={styles.centeredView}>
   <CountdownCircleTimer
-    size={50}
+    size={80}
     isPlaying
     duration={60}
     colors={[
@@ -20,7 +21,16 @@ const TestTimer = () => {
       </Animated.Text>
     )}
   </CountdownCircleTimer>
+  </View>
     );
     };
+
+    const styles = StyleSheet.create({
+      centeredView: {
+        justifyContent: "center",
+        alignItems: "center",
+        // marginEnd: -50
+      }
+    })
 
 export default TestTimer;

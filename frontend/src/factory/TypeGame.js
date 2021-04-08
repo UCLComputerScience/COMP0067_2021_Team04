@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, Button, StyleSheet} from 'react-native';
 import RandomNumber from './RandomNumber';
@@ -10,6 +10,7 @@ import GameHeader from '../components/GameHeader';
 import Quit from '../components/QuitGame';
 import { HeaderBackButton } from 'react-navigation';
 import TestTimer from '../components/TestTimer';
+import EndGame from '../components/EndGameModal';
 // import { useState }  from 'react';
 // import { useReducer } from 'react';
 // import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -65,6 +66,7 @@ class TypeGame extends React.Component {
         randomNumberCount: PropTypes.number.isRequired,
         initialSeconds: PropTypes.number.isRequired,
         onPlayAgain: PropTypes.func.isRequired,
+        onPress: PropTypes.func.isRequired,
     };
     state = {
         selectedIds: [],
@@ -151,6 +153,7 @@ class TypeGame extends React.Component {
                 <Text style = {styles.titleText}>Select the correct answer for this multiplication:</Text>
                 <Text style={[styles.target, styles['STATUS_' + gameStatus]]}> 2 x {this.target / 2}
                 </Text>
+                <TestTimer isPlaying ={true} />
                 <View style={styles.randomContainer}>
                     {this.shuffledRandomNumbers.map((randomNumber, index) => (
                     <RandomNumber 
@@ -171,7 +174,6 @@ class TypeGame extends React.Component {
                 {text}
                 </Text>
             </View> */}
-            <TestTimer isPlaying ={true} />
             {this.gameStatus !== 'PLAYING' && (
             <Button title="Play Again" onPress={this.props.onPlayAgain} />)}
             {/* {this.gameStatus == 'PLAYING' && ( */}
@@ -206,7 +208,7 @@ class TypeGame extends React.Component {
         target: {
             fontSize: 50,
             backgroundColor: '#bbb',
-            margin: 50,
+            margin: 30,
             textAlign: 'center',
         },
         randomContainer: {

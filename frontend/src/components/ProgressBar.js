@@ -1,10 +1,15 @@
-import * as React from 'react';
 import { ProgressBar, Colors } from 'react-native-paper';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
-var completion = 0.65
 
-const Progress = () => (
-  <ProgressBar progress={completion} color={Colors.green800} style={{height:25, width: 350, alignSelf: 'center', marginVertical: 20}} />
-);
+class Progress extends Component{
+  render(){
+
+    return( 
+          <ProgressBar progress={this.props.completion} color={Colors.green800} style={{height:25, width: 350, alignSelf: 'center', marginVertical: 20}} />
+      )
+    } 
+    }
 
 export default Progress;

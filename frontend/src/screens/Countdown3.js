@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { View, Text, Button, StyleSheet, Animated, ImageBackground, Image, TouchableHighlight} from 'react-native';
 import { Component } from 'react';
 import { Audio } from 'expo-av';
-import Logo from '../imgs/logo.png'
+import Logo from '../imgs/logo.png';
+import SparklyThing from '../components/Sparkle';
 
 function StartSound() {
     const [sound, setSound] = React.useState();
@@ -81,6 +82,7 @@ class Countdown3 extends Component {
                 }}>
   
  <Text style={{fontSize: 200, color: 'white'}}>3</Text>
+ {/* <SparklyThing /> */}
                     {/* <Image source={Logo} style={styles.logo}/> */}
                 </Animated.View>
                 {/* <Animated.View style={{opacity: this.state.LogoText}}> 

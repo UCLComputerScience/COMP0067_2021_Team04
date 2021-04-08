@@ -6,40 +6,55 @@ import LineGraph from '../components/LineGraph';
 import ProgressRing from '../components/ProgressRing';
 // import Pie from '../src/components/PieChart';
 import Rocket from '../animations/Rocket';
+import PropTypes from 'prop-types';
+import  {Component} from 'react';
 
 
 const Stats = ({navigation}) => {
-      return (
-        <View style={styles.container}>
-        <ScrollView>
-        {/* <Rocket /> */}
-      <Text style={styles.statisticTitle}>2x timestable</Text>
-      <Progress />
-      <LineGraph />
-      <Table />
-      <Text style={styles.statisticTitle}>3x timestable</Text>
-      <Progress />
-      <Text style={styles.statisticTitle}>4x timestable</Text>
-      <Progress />
-      <ProgressRing />
-      <Text style={styles.statisticTitle}>5x timestable</Text>
-      <Progress />
-      <Text style={styles.statisticTitle}>6x timestable</Text>
-      <Table />
-      <Progress />
-      {/* <Pie /> */}
-      <Text style={styles.statisticTitle}>7x timestable</Text>
-      <Progress />
-      <Text> </Text>
-      <Text> </Text>
-      <Text> </Text>
-      <Button
-      title="Leaderboards"
-      onPress = { () => navigation.navigate('Load') } />
-      </ScrollView>
-        </View> 
-        );
-  };
+    
+    return (
+      <View style={styles.container}>
+      <ScrollView>
+      {/* <Rocket /> */}
+    <Text style={styles.statisticTitle}>2x timestable</Text>
+    <Progress completion={0.3}/>
+    <LineGraph />
+    <Table />
+    <Text style={styles.statisticTitle}>3x timestable</Text>
+    <Progress completion={0.65}/>
+    <Text style={styles.statisticTitle}>4x timestable</Text>
+    <Progress completion={0.3}/>
+    <ProgressRing />
+    <Text style={styles.statisticTitle}>5x timestable</Text>
+    <Progress completion={1}/>
+    <Text style={styles.statisticTitle}>6x timestable</Text>
+    <Table />
+    <Progress completion={0.2}/>
+    {/* <Pie /> */}
+    <Text style={styles.statisticTitle}>7x timestable</Text>
+    <Progress completion={0.5}/>
+    <Text> </Text>
+    <Text> </Text>
+    <Text> </Text>
+    <Button
+    title="Leaderboards"
+    onPress = { () => navigation.navigate('Load') } />
+    </ScrollView>
+      </View> 
+      );
+};
+
+class StatsScreen extends Component{
+    static propTypes = {
+        CompletionPercentage: PropTypes.number.isRequired,
+    };
+    render(){
+        return( 
+            <Stats />
+          )
+        } 
+        }
+
 
 const styles = StyleSheet.create ({
     container: {
@@ -88,4 +103,3 @@ const styles = StyleSheet.create ({
 });
 
 export default Stats;
-

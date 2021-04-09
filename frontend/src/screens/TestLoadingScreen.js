@@ -43,7 +43,7 @@ export default class TestLoader extends Component {
             </Animated.Text>
       </View>  
       <View style={styles.animation}>
-        {/* <Runner /> */}
+        <Runner />
         </View>
       </View>
     );  

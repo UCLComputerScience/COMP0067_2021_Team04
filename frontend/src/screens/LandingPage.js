@@ -4,6 +4,7 @@ import { View, Text, Image, StyleSheet, Animated, ScrollView, ImageBackground} f
 import RandomNumber from '../factory/RandomNumber';
 import { Dimensions, TouchableHighlight } from 'react-native';
 import LandingHeader from '../components/LandingHeader';
+import TTButton from '../components/TTButton';
 
 
 
@@ -43,85 +44,62 @@ const IconNav = ({navigation}) => {
     </View>
                 
                 <View style={styles.randomContainer}>
-    <TouchableHighlight 
-      underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Difficulty')}
-
-    >
-      <Text style = {styles.text}>{dos + "x"}</Text> 
-    </TouchableHighlight>
-    <TouchableHighlight 
-      underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Difficulty')}
-
-    >
-      <Text style = {styles.text}>3x</Text> 
-    </TouchableHighlight>
-    <TouchableHighlight 
-      underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Difficulty')}
-
-    >
-      <Text style = {styles.text}>4x</Text> 
-    </TouchableHighlight>
-    <TouchableHighlight
-      underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Difficulty')}
-
-    >
-      <Text style = {styles.text}>5x</Text> 
-    </TouchableHighlight>
-    <TouchableHighlight 
-      underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Difficulty')}
-
-    >
-      <Text style = {styles.text}>6x</Text> 
-    </TouchableHighlight>
-    <TouchableHighlight
-      underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Difficulty')}
-
-    >
-      <Text style = {styles.text}>7x</Text> 
-    </TouchableHighlight>
-    <TouchableHighlight 
-      underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Difficulty')}
-
-    >
-      <Text style = {styles.text}>8x</Text> 
-    </TouchableHighlight>
-    <TouchableHighlight
-      underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Difficulty')}
-
-    >
-      <Text style = {styles.text}>9x</Text> 
-    </TouchableHighlight>
-    <TouchableHighlight
-      underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Difficulty')}
-
-    >
-      <Text style = {styles.text}>10x</Text> 
-    </TouchableHighlight>
-    <TouchableHighlight
-      underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Difficulty')}
-
-    >
-      <Text style = {styles.text}>11x</Text> 
-    </TouchableHighlight>
-    <TouchableHighlight 
-      underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Difficulty')}
-
-    >
-      <Text style = {styles.text}>12x</Text> 
-    </TouchableHighlight>
+                  <TTButton number={'2'}
+                  colour={'#cd7f32'}
+                  isDisabled = {false}
+                  onPress={() => navigation.navigate('Difficulty')}
+                   />
+       <TTButton number={'3'}
+                  colour={'#c0c0c0'}
+                  isDisabled = {false}
+                  onPress={() => navigation.navigate('Difficulty')}
+                   />
+       <TTButton number={'4'}
+                  colour={'#c0c0c0'}
+                  isDisabled = {false}
+                  onPress={() => navigation.navigate('Difficulty')}
+                   />
+       <TTButton number={'5'}
+                  colour={'#ffd700'}
+                  isDisabled = {false}
+                  onPress={() => navigation.navigate('Difficulty')}
+                   />
+       <TTButton number={'6'}
+                  colour={'#c0c0c0'}
+                  isDisabled = {false}
+                  onPress={() => navigation.navigate('Difficulty')}
+                   />
+       <TTButton number={'7'}
+                  colour={'#c0c0c0'}
+                  isDisabled = {false}
+                  onPress={() => navigation.navigate('Difficulty')}
+                   />
+       <TTButton number={'8'}
+                  colour={'#ffd700'}
+                  isDisabled = {false}
+                  onPress={() => navigation.navigate('Difficulty')}
+                   />
+       <TTButton number={'9'}
+                  colour={'#c0c0c0'}
+                  isDisabled = {false}
+                  onPress={() => navigation.navigate('Difficulty')}
+                   />
+       <TTButton number={'10'}
+                  colour={'#ffd700'}
+                  isDisabled = {false}
+                  onPress={() => navigation.navigate('Difficulty')}
+                   />
+       <TTButton number={'11'}
+                  colour={'#cd7f32'}
+                  isDisabled = {false}
+                  onPress={() => navigation.navigate('Difficulty')}
+                   />
+       <TTButton number={'12'}
+                  colour={'#cd7f32'}
+                  isDisabled = {false}
+                  onPress={() => navigation.navigate('Difficulty')}
+                   />
     </View>
-
     <View style = {styles.extrabuttons}>
     <TouchableHighlight 
       onPress={() => navigation.navigate('Countdown3')}
@@ -204,9 +182,6 @@ const styles = StyleSheet.create({
         marginVertical: 10,
       },
       text: {
-        borderRadius: Math.round(Dimensions.get('window').width + Dimensions.get('window').height) / 2,
-        width: Dimensions.get('window').width * 0.18,
-        height: Dimensions.get('window').width * 0.18,
         backgroundColor:'white',
         borderColor: 'black',
         borderWidth: 4,
@@ -214,6 +189,8 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         textAlign: 'center',
         width: 70,
+        height: 70,
+        borderRadius:70/2,
         marginHorizontal: 40,
         marginVertical: 5,
         fontSize: 30,

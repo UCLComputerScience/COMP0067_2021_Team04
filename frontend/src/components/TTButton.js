@@ -8,25 +8,25 @@ import LandingHeader from '../components/LandingHeader';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 
-class DifficultyButton extends Component{
+class TTButton extends Component{
     
-   
     render(){
-        let buttonStyle = styles(this.props)
-        
+        let buttonStyle = styles(this.props)       
         return( 
-        <View style = {buttonStyle.container}>
+        <View>
             {function(){
                 if(this.props.isDisabled){return(
                 <AntDesign name="lock1" size={70} color="#000000"/>
-                
                 )}else{
                 return(<TouchableOpacity
                     activeOpacity= {.7}
-                    style= {buttonStyle.button}
+                    style= {buttonStyle.circles}
                     onPress= {this.props.onPress}
-                    disabled= {this.props.isDisabled}
                     >
+                           <Text 
+                style = {buttonStyle.text}>
+                {this.props.number + 'x'}
+            </Text>
                 </TouchableOpacity>)
             }}.bind(this)()}
         </View>
@@ -35,26 +35,22 @@ class DifficultyButton extends Component{
 }
 
 const styles = (props) => StyleSheet.create({
-    container: {
-        position: 'relative',
-        alignItems: 'center',
-        justifyContent: 'space-evenly',
-        flexDirection: 'column',
-    },
-    text: {
-        fontSize: 25,
-        fontFamily: "Cochin"
-    },
-
-    button: {
+    circles: {
         backgroundColor: props.colour,
-        justifyContent: 'center',
-        alignContent: 'center',
-        borderWidth: 3,
-        borderRadius: (50),
-        width: 100,
-        height: 100,
-      },})
+        borderColor: 'black',
+        borderWidth: 4,
+        alignItems: 'center',
+        width: 70,
+        height: 70,
+        borderRadius:70/2,
+        marginHorizontal: 40,
+        marginVertical: 5,
+        justifyContent: 'center'
+      },
+      text: {
+        fontSize: 30,
+    },
+    })
 
 
-export default DifficultyButton
+export default TTButton;

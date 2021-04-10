@@ -1,68 +1,77 @@
 const express = require('express');
 const router = express.Router();
 const AWS = require('aws-sdk');
-const uuid = require('uuid');
-const config = require('../config/config.js');
-const { addOrUpdateItem, deleteItem } = require('../dynamoFunctions.js');
-
-const TABLE_NAME = 'UCL-TT-tests';
+//express validator to validate data sent to an api ensuring that its properly validated
+const { validationResult } = require('express-validator');
+const validators = require('./validators/testsValidators');
+const {validateAuth} = require('../auth');
 
 AWS.config.update({
+    
     region: process.env.AWS_DEFAULT_REGION,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 })
 
-router.get(`/`, async (req, res) => {
-  const documentClient = new AWS.DynamoDB.DocumentClient();
+const documentClient = new AWS.DynamoDB.DocumentClient();
+const TABLE_NAME = 'UCL-TT-tests';
 
 
-  const params = {
-      TableName: TABLE_NAME
-  };
-
-  const testsList = await documentClient.scan(params).promise()
-  if(!testsList) {
-      res.status(500).json({sucess: false})
-  }
-  res.status(200).send(testsList);
-})
-
-router.get(`/:testID`, async (req, res) => {
-    const testID = req.params.testID;
-    const documentClient = new AWS.DynamoDB.DocumentClient();
-  
+router.get(`/:testID?`, async (req, res) => {
+    
     const params = {
-        Key: {
-            "testID": testID,
-        },
         TableName: TABLE_NAME
-    };
-    const test = await documentClient.get(params).promise()
-    if(!test) {
-        res.status(500).json({sucess: false, message: 'The test with the given ID was no found'})
     }
-    res.status(200).send(test);
-  })
+    
+    // create an empty object to hold the response
+    let responseData;
 
-router.post(`/`, async (req, res) => {
-
-  const documentClient = new AWS.DynamoDB.DocumentClient();
-
-  const params = {
-      TableName: TABLE_NAME,
-      Item: {
-          testID: req.body.testID,
-          timestable: req.body.timestable,
-          difficulty: req.body.difficulty,
-          questions: req.body.questions
-      }
-  }
-  try {
-    const test = await documentClient.put(params).promise();    
-    res.send(test);
-    } catch (err) {
-        console.error(err);
-        res.status(404).send('Something went wrong');
+    // check if URI parameters exists
+    if (req.params.testID) {
+        params.Key = {
+            testID: req.params.testID
+        }
+    } else {
+        // check if query parameter exists
+        if(req.query.testID) {
+            params.Key = {
+                testID: req.query.testID
+            }
+        }
     }
+    // check if the query parameter has NOT been passed in
+    if (!params.Key) {
+        responseData = await documentClient.scan(params).promise()
+    } else {
+        responseData = await documentClient.get(params).promise()
+    }
+    res.json(responseData)
+})
+
+router.post('/', [validateAuth, ...validators.postTestsValidators], async (req, res) => {
+
+    const errors = validationResult(req)
+    if(!errors.isEmpty()) {
+        // 400 code equals bad request
+        // send back a response with a json
+        res.status(400).json({
+            errors: errors.array()
+        })
+    }
+
+    const params = {
+        TableName: TABLE_NAME,
+        Item: req.body
+    }
+
+    documentClient.put(params, (error) => {
+        if(!error) {
+            // HTTP status code of created is 201, whereas 200 is ok
+            res.status(201).send();
+        } else {
+            res.status(500).send("Unable to save record: " + error)
+        }
+    })
 })
 
 router.put('/:testID', async (req, res) => {

@@ -6,10 +6,18 @@ const config = require('../config/config.js');
 const { addOrUpdateItem, deleteItem } = require('../dynamoFunctions.js');
 
 AWS.config.update({
+    
     region: process.env.AWS_DEFAULT_REGION,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 })
 
-const TABLE_NAME = 'UCL-TT-users';
+// getting an object from AWS 
+// create the document client interface for DynamoDB
+const documentClient = new AWS.DynamoDB.DocumentClient();
+
+//specify table name to connect to
+const TABLE_NAME = 'UCL-TT-USERS-V2';
 // http://localhost:3000/api/v1/users
 // get request to initialise the route '/'
 // ` back ticks are helpful to combine constants and strings, from api + '/users'
@@ -18,11 +26,6 @@ const TABLE_NAME = 'UCL-TT-users';
 // note the api is http:3000/users
 // if `/jimmy` it will be http:3000/users/jimmy
 router.get(`/`, async (req, res) => {
-  // getting an object from AWS 
-  // create the document client interface for DynamoDB
-  const documentClient = new AWS.DynamoDB.DocumentClient();
-  //specify table name to connect to
-  const TABLE_NAME = 'UCL-TT-users';
 
   const params = {
       TableName: TABLE_NAME
@@ -36,18 +39,14 @@ router.get(`/`, async (req, res) => {
   res.send(userList);
 })
 
-// pass specific userID in URL and collect specific user
+// pass specific userID in URL and collect specific user profile
 router.get(`/:userID`, async (req, res) => {
     const userID = req.params.userID;
-    // getting an object from AWS 
-    // create the document client interface for DynamoDB
-    const documentClient = new AWS.DynamoDB.DocumentClient();
-    //specify table name to connect to
-    const TABLE_NAME = 'UCL-TT-users';
   
     const params = {
         Key: {
-            "userID": userID
+            "PK": userID,
+            "SK": "profile"
         },
         TableName: TABLE_NAME
     };
@@ -62,42 +61,20 @@ router.get(`/:userID`, async (req, res) => {
 
 // creating a new user
 router.post(`/`, (req, res) => {
-  // retrieve request within body
-  // const user = new User(        
-  // {
-  //     userID: req.body.userID,
-  //     username: req.body.username,
-  //     accountType: req.body.accountType,
-  //     dateOfBirth: req.body.dateOfBirth,
-  //     firstName: req.body.firstName,
-  //     lastName: req.body.lastName,
-  //     password: req.body.password,
-  //     selectedClassID: req.body.selectedClassID,
-  //     childID: req.body.childID}
-  //     )
-  // console.log(user.userID)
-
-  const documentClient = new AWS.DynamoDB.DocumentClient();
-  const TABLE_NAME = 'UCL-TT-users';
-
   const params = {
       TableName: TABLE_NAME,
       Item: {
-          userID: req.body.userID,
-          username: req.body.username,
-          accountType: req.body.accountType,
-          dateOfBirth: req.body.dateOfBirth,
+          PK: req.body.PK,
+          SK: req.body.SK,
           firstName: req.body.firstName,
-          lastName: req.body.lastName,
-          password: req.body.password,
-          selectedClassID: req.body.selectedClassID,
-          childID: req.body.childID,
+          lastName: req.body.lastName,  
       }
   }
 
   documentClient.put(params, (err, data) => {
       if(err) console.log(err);
       console.log('[response]', data)
+      res.status(201).send();
   }).promise();
 
   // read/write data to database using API

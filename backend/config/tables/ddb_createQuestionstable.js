@@ -10,15 +10,23 @@ var ddb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
 var params = {
     AttributeDefinitions: [
         {
+            AttributeName: 'timestable',
+            AttributeType: 'N'
+        },
+        {
             AttributeName: 'questionID',
             AttributeType: 'S'
-        },
+        }
     ],
     KeySchema: [
         {
-            AttributeName: 'questionID',
+            AttributeName: 'timestable',
             KeyType: 'HASH'
         },
+        {
+            AttributeName: 'questionID',
+            KeyType: 'RANGE'
+        }
     ],
     ProvisionedThroughput: {
         ReadCapacityUnits: 5,

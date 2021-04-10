@@ -12,10 +12,10 @@ AWS.config.update({
 })
 
 const documentClient = new AWS.DynamoDB.DocumentClient();
-const TABLE_NAME = 'UCL-TT-test-statistics';
+const TABLE_NAME = 'UCL-TT-USERS-V2';
 
-
-router.get(`/:userID?`, async (req, res) => {
+// get user's test statistics
+router.get(`/:PK`, async (req, res) => {
 
     const params = {
         TableName: TABLE_NAME
@@ -25,40 +25,77 @@ router.get(`/:userID?`, async (req, res) => {
     let responseData;
 
     // check if URI parameters exists
-    if (req.params.userID) {
-        params.Key = {
-            userID: req.params.userID,
-        }
-        params.KeyConditionExpression = 'userID = :userID',
+    if (req.params.PK) {
+        params.KeyConditionExpression = 'PK = :pk AND begins_with(SK, :sk)',
         params.ExpressionAttributeValues = {
-            ':userID': req.params.userID
+            ':pk': req.params.PK,
+            ':sk': "test_statistic"
         }
         
     } else {
         // check if query parameter exists
-        if(req.query.userID) {
+        if(req.query.PK) {
             params.Key = {
-                userID: req.query.userID,
+                PK: req.query.PK,
             }
-            params.KeyConditionExpression = 'userID = :userID',
+            params.KeyConditionExpression = 'PK = :pk AND begins_with(SK, :sk)',
             params.ExpressionAttributeValues = {
-                ':userID': req.query.userID
+                ':pk': req.params.PK,
+                ':sk': req.params.SK
             }
         }
     }
     console.log(params)
     // check if the parameter has NOT been passed in
     try {
-        if (!params.Key) {
-            responseData = await documentClient.scan(params).promise()
-        } else {
-            responseData = await documentClient.query(params).promise()
-        }
+        responseData = await documentClient.query(params).promise()
         res.json(responseData)
     } catch (error) {
         res.status(500).send("Unable to collect record: " + error)
     } 
 })
+
+// get class' test statistics
+router.get(`/classStatistics/:GSI1`, async (req, res) => {
+
+    const params = {
+        TableName: TABLE_NAME
+    };
+
+    // create an empty object to hold the response
+    let responseData;
+
+    // check if URI parameters exists
+    if (req.params.GSI1) {
+        params.IndexName = 'GSI1-SK-index'
+        params.KeyConditionExpression = 'GSI1 = :gsi1 AND begins_with(SK, :sk)',
+        params.ExpressionAttributeValues = {
+            ':gsi1': req.params.GSI1, // class_id
+            ':sk': "test_statistic"
+        }
+        
+    } else {
+        // check if query parameter exists
+        if(req.query.GSI1) {
+            params.IndexName = 'GSI1-SK-index'
+            params.KeyConditionExpression = 'GSI1 = :gsi1 AND begins_with(SK, :sk)',
+            params.ExpressionAttributeValues = {
+                ':gsi1': req.params.GSI1,
+                ':sk': "test_statistic"
+            }
+        }
+    }
+    console.log(params)
+    // check if the parameter has NOT been passed in
+    try {
+        responseData = await documentClient.query(params).promise()
+        res.json(responseData)
+    } catch (error) {
+        res.status(500).send("Unable to collect record: " + error)
+    } 
+})
+
+
 
 router.post(`/`, [validateAuth, ...validators.postTestStatisticsValidators], async (req, res) => {
 
@@ -74,7 +111,9 @@ router.post(`/`, [validateAuth, ...validators.postTestStatisticsValidators], asy
     const params = {
         TableName: TABLE_NAME,
         Item: {
-        userID: req.body.userID,
+        PK: req.body.PK, //user_id
+        SK: req.body.SK, //testStatistic_id
+        GSI1: req.body.GSI1, //class_id
         dateFinished: req.body.dateFinished,
         timetaken: req.body.timeTaken,
         accuracy: req.body.accuracy,

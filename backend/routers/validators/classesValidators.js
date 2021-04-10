@@ -8,9 +8,12 @@ AWS.config.update({
 const documentClient = new AWS.DynamoDB.DocumentClient();
 const TABLE_NAME = 'UCL-TT-USERS-V2';
 
-exports.postTestStatisticsValidators = [
+exports.postClassesValidators = [
+    check('name').exists(),
+    check('GSI1').exists()
     
-        // express-validator
-        check('GSI1').exists()
-    
+]
+exports.postMembersValidators = [
+    check('role').exists(),
+    check('GSI1').exists(),
 ]

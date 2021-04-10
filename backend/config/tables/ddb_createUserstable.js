@@ -2,9 +2,7 @@
 const AWS = require('aws-sdk');
 
 AWS.config.update({
-    region: process.env.AWS_DEFAULT_REGION,
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+    region: 'eu-west-1'
 })
 
 // Create the DynamoDB service object
@@ -14,21 +12,29 @@ var ddb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
 var params = {
     AttributeDefinitions: [
         {
-            AttributeName: 'userID',
+            AttributeName: 'PK',
+            AttributeType: 'S'
+        },
+        {
+            AttributeName: 'SK',
             AttributeType: 'S'
         }
     ],
     KeySchema: [
         {
-            AttributeName: 'userID',
+            AttributeName: 'PK',
             KeyType: 'HASH'
+        },
+        {
+            AttributeName: 'SK',
+            KeyType: 'RANGE'
         }
     ],
     ProvisionedThroughput: {
         ReadCapacityUnits: 5,
         WriteCapacityUnits: 5
     },
-    TableName: 'UCL-TT-users',
+    TableName: 'UCL-TT-USERS-V2',
     StreamSpecification: {
         StreamEnabled: false
     }

@@ -2,9 +2,8 @@ const express = require('express');
 const router = express.Router();
 const AWS = require('aws-sdk');
 const uuid = require('uuid');
-const { addOrUpdateItem, deleteItem } = require('../dynamoFunctions.js');
 const { validationResult } = require('express-validator');
-const validators = require('./validators/testStatisticsValidators');
+const validators = require('./validators/assignmentsValidators');
 const {validateAuth} = require('../auth');
 
 AWS.config.update({
@@ -14,8 +13,8 @@ AWS.config.update({
 const documentClient = new AWS.DynamoDB.DocumentClient();
 const TABLE_NAME = 'UCL-TT-USERS-V2';
 
-// get user's test statistics
-router.get(`userStatistics/:PK`, async (req, res) => {
+// get user's test assignments
+router.get(`/:PK`, async (req, res) => {
 
     const params = {
         TableName: TABLE_NAME
@@ -29,7 +28,7 @@ router.get(`userStatistics/:PK`, async (req, res) => {
         params.KeyConditionExpression = 'PK = :pk AND begins_with(SK, :sk)',
         params.ExpressionAttributeValues = {
             ':pk': req.params.PK,
-            ':sk': "test_statistic"
+            ':sk': "assignment"
         }
         
     } else {
@@ -53,12 +52,9 @@ router.get(`userStatistics/:PK`, async (req, res) => {
     } 
 })
 
-// get user's test statistics (specific timestable)
-router.get(`/userStatistics/:PK/:timestable?`, async (req, res) => {
+// get class' assignments
+router.get(`/classAssignments/:GSI1`, async (req, res) => {
 
-    const timestable = req.params.timestable ? req.params.timestable : ""
-    //eventual filter
-    // const days = req.params.days ? req.params.days : 7
     const params = {
         TableName: TABLE_NAME
     };
@@ -67,61 +63,27 @@ router.get(`/userStatistics/:PK/:timestable?`, async (req, res) => {
     let responseData;
 
     // check if URI parameters exists
-    if (req.params.PK) {
-        params.KeyConditionExpression = 'PK = :pk AND begins_with(SK, :sk)',
+    if (req.params.GSI1) {
+        params.IndexName = 'GSI1-SK-index'
+        params.KeyConditionExpression = 'GSI1 = :gsi1 AND begins_with(SK, :sk)',
         params.ExpressionAttributeValues = {
-            ':pk': req.params.PK,
-            ':sk': `test_statistic_${timestable}`
-        }
-        
-    } else {
-        // check if query parameter exists
-        if(req.query.PK) {
-            params.Key = {
-                PK: req.query.PK,
-            }
-            params.KeyConditionExpression = 'PK = :pk AND begins_with(SK, :sk)',
-            params.ExpressionAttributeValues = {
-                ':pk': req.params.PK,
-                ':sk': req.params.SK
-            }
-        }
-    }
-    try {
-        responseData = await documentClient.query(params).promise()
-        res.json(responseData)
-    } catch (error) {
-        res.status(500).send("Unable to collect record: " + error)
-    } 
-
-    // filter by day 
-    // const filteredResults = responseData.Items.filter(item => dateNow - item.Data.dateFinished > x)
-})
-
-// get class' test statistics
-router.get(`/classStatistics/:GSI1/`, async (req, res) => {
-    // localhost:3000/api/v1/testStatistics/classStatistics/:GSI1/
-    const params = {
-        TableName: TABLE_NAME,
-        IndexName: 'GSI1-SK-index',
-        KeyConditionExpression: 'GSI1 = :gsi1 AND begins_with(SK, :sk)',
-        ExpressionAttributeValues: {
             ':gsi1': req.params.GSI1, // class_id
-            ':sk': "test_statistic"
+            ':sk': "assignment"
         }
-    };
-    // create an empty object to hold the response
-    let responseData;
-
-    // check if query parameter exists
-    if(req.query.timestable) {
-        params.ExpressionAttributeValues = {
-            ':gsi1': req.params.GSI1,
-            ':sk': `test_statistic_${req.query.timestable}`
+        
+    } else {
+        // check if query parameter exists
+        if(req.query.GSI1) {
+            params.IndexName = 'GSI1-SK-index'
+            params.KeyConditionExpression = 'GSI1 = :gsi1 AND begins_with(SK, :sk)',
+            params.ExpressionAttributeValues = {
+                ':gsi1': req.params.GSI1,
+                ':sk': "assignment"
+            }
         }
     }
-    
     console.log(params)
+    // check if the parameter has NOT been passed in
     try {
         responseData = await documentClient.query(params).promise()
         res.json(responseData)
@@ -132,7 +94,7 @@ router.get(`/classStatistics/:GSI1/`, async (req, res) => {
 
 
 
-router.post(`/`, [validateAuth, ...validators.postTestStatisticsValidators], async (req, res) => {
+router.post(`/`, [validateAuth, ...validators.postAssignmentsValidators], async (req, res) => {
 
     const errors = validationResult(req)
     if(!errors.isEmpty()) {
@@ -147,27 +109,22 @@ router.post(`/`, [validateAuth, ...validators.postTestStatisticsValidators], asy
         TableName: TABLE_NAME,
         Item: {
         PK: req.body.PK, //user_id
-        SK: req.body.SK, //testStatistic_timestableDifficulty_id
+        SK: req.body.SK, //assignment_id
         GSI1: req.body.GSI1, //class_id
-        dateFinished: req.body.dateFinished,
-        timetaken: req.body.timeTaken,
-        accuracy: req.body.accuracy,
-        difficulty: req.body.difficulty,
-        experience: req.body.experience,
-        timestable: req.body.timestable
+        data: req.body.data
     }
     }
 
   try {
-    const testStatistic = await documentClient.put(params).promise();    
-    res.status(201).send(testStatistic);
+    const assignment = await documentClient.put(params).promise();    
+    res.status(201).send(assignment);
     } catch (err) {
         console.error(err);
         res.status(500).send('Something went wrong');
     }
 })
 
-//update user statistic (need alteration and may not be necessary)
+//update user assignment (need alteration and may not be necessary)
 router.put(`/:userID`, async (req, res) => {
 
     const params = {
@@ -191,16 +148,16 @@ router.put(`/:userID`, async (req, res) => {
         params.ReturnValues = "UPDATED_NEW"
     }
     try {
-        updatedtestStatistic = await documentClient.update(params).promise();
-        res.status(200).json({success: true, message: 'the test statistic is updated'});
+        updatedassignment = await documentClient.update(params).promise();
+        res.status(200).json({success: true, message: 'the test assignment is updated'});
     } catch (err) {
         console.error(err);
-        res.status(500).json({success: false, message: 'the test statistic could not be updated', error: err});
+        res.status(500).json({success: false, message: 'the test assignment could not be updated', error: err});
     }
 
 })
 
-// delete user statistics (needs modification)
+// delete user assignments (needs modification)
 router.delete('/:PK', async (req, res) => {
 
     let responseData;
@@ -209,12 +166,12 @@ router.delete('/:PK', async (req, res) => {
         TableName: TABLE_NAME,
         Key: {
             PK: req.params.PK,
-            SK: "test_statistic"
+            SK: "assignment"
         },
         KeyConditionExpression: 'PK = :pk AND begins_with(SK, :sk)',
         ExpressionAttributeValues: {
             ':pk': req.params.PK, //user_id
-            ':sk': "test_statistic"
+            ':sk': "assignment"
         }
     };
     responseData = await documentClient.query(params).promise()

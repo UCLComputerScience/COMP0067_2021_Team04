@@ -37,6 +37,7 @@ const usersRoutes = require('./routers/users');
 const classesRoutes = require('./routers/classes');
 const testsRoutes = require('./routers/tests');
 const testStatisticsRoutes = require('./routers/testStatistics');
+const assignmentsRoutes = require('./routers/assignments');
 const questionsRoutes = require('./routers/questions');
 
 // api url environment variable
@@ -49,6 +50,7 @@ app.use(`${api}/users`, usersRoutes)
 app.use(`${api}/classes`, classesRoutes)
 app.use(`${api}/tests`, testsRoutes)
 app.use(`${api}/testStatistics`, testStatisticsRoutes)
+app.use(`${api}/assignments`, assignmentsRoutes)
 app.use(`${api}/questions`, questionsRoutes)
 
 // database connection

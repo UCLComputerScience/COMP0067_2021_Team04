@@ -48,7 +48,7 @@ router.get(`/:testID?`, async (req, res) => {
     res.json(responseData)
 })
 
-router.post('/', [validateAuth, ...validators.postTestsValidators], async (req, res) => {
+router.post('/', [ ...validators.postTestsValidators], async (req, res) => {
 
     const errors = validationResult(req)
     if(!errors.isEmpty()) {

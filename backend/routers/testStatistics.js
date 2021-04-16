@@ -125,6 +125,7 @@ router.get(`/classStatistics/:GSI1/`, async (req, res) => {
     try {
         responseData = await documentClient.query(params).promise()
         res.json(responseData)
+        console.log(responseData.Items[0].experience)
     } catch (error) {
         res.status(500).send("Unable to collect record: " + error)
     } 
@@ -132,7 +133,7 @@ router.get(`/classStatistics/:GSI1/`, async (req, res) => {
 
 
 
-router.post(`/`, [validateAuth, ...validators.postTestStatisticsValidators], async (req, res) => {
+router.post(`/`, [ ...validators.postTestStatisticsValidators], async (req, res) => {
 
     const errors = validationResult(req)
     if(!errors.isEmpty()) {

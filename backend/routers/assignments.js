@@ -94,7 +94,7 @@ router.get(`/classAssignments/:GSI1`, async (req, res) => {
 
 
 
-router.post(`/`, [validateAuth, ...validators.postAssignmentsValidators], async (req, res) => {
+router.post(`/`, [ ...validators.postAssignmentsValidators], async (req, res) => {
 
     const errors = validationResult(req)
     if(!errors.isEmpty()) {

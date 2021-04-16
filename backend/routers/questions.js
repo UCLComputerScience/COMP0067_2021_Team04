@@ -59,7 +59,7 @@ router.get(`/:timestable?`, async (req, res) => {
     }   
 })
 
-router.post('/', [validateAuth, ...validators.postQuestionsValidators], async (req, res) => {
+router.post('/', [ ...validators.postQuestionsValidators], async (req, res) => {
 
     const errors = validationResult(req)
     if(!errors.isEmpty()) {

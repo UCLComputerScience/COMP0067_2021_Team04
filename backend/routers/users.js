@@ -8,6 +8,10 @@ const { validationResult } = require('express-validator');
 const validators = require('./validators/usersValidators');
 const {validateAuth} = require('../auth');
 
+// return json web token 
+const jwt = require('jsonwebtoken');
+
+
 //hashing password
 const bcrypt = require("bcryptjs")
 
@@ -56,7 +60,7 @@ router.get(`/:GSI1`, async (req, res) => {
 })
 
 // pass specific userID in URL and collect specific user profile
-router.get(`/:userID`, async (req, res) => {
+router.get(`/individual/:userID`, async (req, res) => {
     const userID = req.params.userID;
   
     const params = {
@@ -75,15 +79,14 @@ router.get(`/:userID`, async (req, res) => {
     res.send(user);
   })
 
-// creating a new user
-router.post(`/`, [validateAuth, ...validators.postUsersValidators], async (req, res) => {
+// creating a new student user
+router.post(`/register/student`, [ ...validators.postUsersValidators], async (req, res) => {
     const errors = validationResult(req)
     if(!errors.isEmpty()) {
         res.status(400).json({
             errors: errors.array()
         })
     }  
-
     const params = {
         RequestItems: {
           'UCL-TT-USERS-V2': [
@@ -130,6 +133,35 @@ router.post(`/`, [validateAuth, ...validators.postUsersValidators], async (req, 
     }
 })
 
+// creating a new teacher user
+router.post(`/register/teacher`, async (req, res) => {
+    console.log("hello =")
+    const params = {
+        TableName: TABLE_NAME,
+        Item: {
+        PK: req.body.PK, //user_id
+        SK: req.body.SK, //profile
+        GSI1: req.body.GSI1, //school_id?
+        data: {
+            firstName: req.body.data.firstName,
+            lastName: req.body.data.lastName,
+            email: req.body.data.email,
+            // hashing user password
+            hashPassword: bcrypt.hashSync(req.body.data.password, 10),
+            role: req.body.data.role
+        }
+    }
+    }
+      console.log(params)
+  try {
+    const user = await documentClient.put(params).promise();    
+    res.status(201).send(user);
+    } catch (err) {
+        console.error(err);
+        res.status(400).send('User could not be created');
+    }
+})
+
 // updating a user
 router.put(`/:userID`, async (req, res) => {
     const user = req.body;
@@ -169,13 +201,23 @@ router.post('/login', async (req, res) => {
         }
 
         } 
+    const secret = process.env.secret;
     const password = req.body.password
     const user = await documentClient.get(params).promise()
     if(!user.Item) {
         return res.status(400).send('The user not found')
     } else {
         if(user.Item && bcrypt.compareSync(password, user.Item.data.hashPassword)){
-            res.status(200).send('user authenticated')
+            const token = jwt.sign({
+                PK: user.Item.PK,
+                role: user.Item.data.role
+            },
+            // user authentication token
+            secret,
+            // token expires in 1 day
+            {expiresIn: '1d'}
+            )
+            res.status(200).send({user: user.Item.PK, email: user.Item.data.email, token: token})
         }   else {
             res.status(400).send('wrong password.')
         }

@@ -129,7 +129,7 @@ router.get(`/:classID`, async (req, res) => {
     res.send(classItem);
   })
 
-router.post(`/`, [validateAuth, ...validators.postClassesValidators], async (req, res) => {
+router.post(`/`, [ ...validators.postClassesValidators], async (req, res) => {
 
     const errors = validationResult(req)
     if(!errors.isEmpty()) {

@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView, TouchableHighlight } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import AvatarMenu from '../components/AvatarMenu'
 
 
 export default function MyProfile() {
@@ -15,11 +16,11 @@ export default function MyProfile() {
 
                 <View style={{ alignSelf: "center" }}>
                     <View style={styles.profileImage}>
-                        <Image source={require("../imgs/Numberbug8.png")} style={styles.image} resizeMode="center"></Image>
+                        <Image source={require("../imgs/bee.jpeg")} style={styles.image} resizeMode="center"></Image>
                     </View>
                     <View style={styles.active}></View>
                     <View style={styles.add}>
-                        <Ionicons name="ios-add" size={48} color="#DFD8C8" style={{ marginTop: 6, marginLeft: 2 }}></Ionicons>
+                        <AvatarMenu></AvatarMenu>
                     </View>
                 </View>
 
@@ -137,10 +138,7 @@ const styles = StyleSheet.create({
         width: 200,
         height: 200,
         borderRadius: 100,
-        borderColor: 'black',
-        borderWidth: 2,
-        overflow: "hidden",
-        backgroundColor: 'lightblue'
+        overflow: "hidden"
     },
     dm: {
         backgroundColor: "#41444B",
@@ -171,7 +169,9 @@ const styles = StyleSheet.create({
         height: 60,
         borderRadius: 30,
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        flex:1,
+        flexDirection: 'column'
     },
     infoContainer: {
         alignSelf: "center",

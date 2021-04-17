@@ -75,12 +75,14 @@ const styles = StyleSheet.create({
       marginBottom: 10,
       fontWeight: '500',
       color: '#051d5f',
+      fontFamily: "HelveticaNeue",
     },
     textRegister: {
       fontSize: 15,
       marginVertical: 10,
       fontWeight: '500',
       color: '#abb8c3',
+      fontFamily: "HelveticaNeue",
     },
     navButton: {
       marginTop: 15,
@@ -95,5 +97,6 @@ const styles = StyleSheet.create({
       fontSize: 18,
       fontWeight: '500',
       color: '#2e64e5',
+      fontFamily: "HelveticaNeue",
     },
 });

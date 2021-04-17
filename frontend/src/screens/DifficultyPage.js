@@ -76,10 +76,12 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'space-evenly',
         flexDirection: 'column',
+        backgroundColor: '#FFFFFF'
     },
     title: {
         fontSize: 30,
-        fontWeight: "bold"
+        fontWeight: "bold",
+        fontFamily: "HelveticaNeue",
     }
 }
 )

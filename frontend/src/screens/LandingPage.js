@@ -129,11 +129,13 @@ const styles = StyleSheet.create({
     background: {
         flex: 1,
         justifyContent: "flex-end",
-        alignItems: "center"
+        alignItems: "center",
+        color: 'white',
     },
     container: {
         color: 'white',
         flex: 1,
+        backgroundColor: '#FFFFFF'
     },
     iconContainer: {
         flexDirection: 'row',
@@ -167,6 +169,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'center',
+        fontFamily: "HelveticaNeue",
+        top: 40
     },
     qmark: {
         flexDirection: 'row-reverse',
@@ -194,6 +198,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 40,
         marginVertical: 5,
         fontSize: 30,
+        fontFamily: "HelveticaNeue",
       },
   });
 

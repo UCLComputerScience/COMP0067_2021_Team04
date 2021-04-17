@@ -116,11 +116,13 @@ const styles = StyleSheet.create({
   btntext:{
     fontSize: 30,
     marginTop: 20,
+    
   },
   headerContent:{
     padding:30,
     alignItems: 'center',
     flex:1,
+    fontFamily: "HelveticaNeue",
   },
   detailContent:{
     top:80,
@@ -129,7 +131,8 @@ const styles = StyleSheet.create({
     marginHorizontal:30,
     flexDirection: 'row',
     position:'absolute',
-    backgroundColor: "#ffffff"
+    backgroundColor: "#ffffff",
+    fontFamily: "HelveticaNeue",
   },
   userList:{
     flex:1,
@@ -165,6 +168,7 @@ const styles = StyleSheet.create({
     fontSize:18,
     flex:1,
     alignSelf:'center',
+    fontFamily: "HelveticaNeue",
     color:"#008080",
     fontWeight:'bold'
   },
@@ -191,6 +195,7 @@ const styles = StyleSheet.create({
   followButtonText:{
     color: "#FFFFFF",
     fontSize:20,
+    fontFamily: "HelveticaNeue",
   },
  /************ modals ************/
   popup: {

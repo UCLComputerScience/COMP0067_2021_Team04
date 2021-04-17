@@ -19,12 +19,19 @@ class LandingPage extends React.Component {
     isNumberSelected = (numberIndex) => {
         return this.state.selectedIds.indexOf(numberIndex) >= 0;
     };
+    // beginner="#cd7f32"
+    // intermediate="#c0c0c0"
+    // advanced="ffd700"
     selectNumber = (numberIndex) => {
         this.setState((prevState) => ({ 
             selectedIds: [...prevState.selectedIds, numberIndex],
         }));
     };
 }
+
+const beginner="#cd7f32"
+const intermediate="#c0c0c0"
+const advanced="#ffd700"
 
 const IconNav = ({navigation}) => {
         var dos = 2;
@@ -45,57 +52,57 @@ const IconNav = ({navigation}) => {
                 
                 <View style={styles.randomContainer}>
                   <TTButton number={'2'}
-                  colour={'#cd7f32'}
+                  colour={beginner}
                   isDisabled = {false}
                   onPress={() => navigation.navigate('Difficulty')}
                    />
        <TTButton number={'3'}
-                  colour={'#c0c0c0'}
+                  colour={intermediate}
                   isDisabled = {false}
                   onPress={() => navigation.navigate('Difficulty')}
                    />
        <TTButton number={'4'}
-                  colour={'#c0c0c0'}
+                  colour={intermediate}
                   isDisabled = {false}
                   onPress={() => navigation.navigate('Difficulty')}
                    />
        <TTButton number={'5'}
-                  colour={'#ffd700'}
+                  colour={advanced}
                   isDisabled = {false}
                   onPress={() => navigation.navigate('Difficulty')}
                    />
        <TTButton number={'6'}
-                  colour={'#c0c0c0'}
+                  colour={intermediate}
                   isDisabled = {false}
                   onPress={() => navigation.navigate('Difficulty')}
                    />
        <TTButton number={'7'}
-                  colour={'#c0c0c0'}
+                  colour={intermediate}
                   isDisabled = {false}
                   onPress={() => navigation.navigate('Difficulty')}
                    />
        <TTButton number={'8'}
-                  colour={'#ffd700'}
+                  colour={advanced}
                   isDisabled = {false}
                   onPress={() => navigation.navigate('Difficulty')}
                    />
        <TTButton number={'9'}
-                  colour={'#c0c0c0'}
+                  colour={intermediate}
                   isDisabled = {false}
                   onPress={() => navigation.navigate('Difficulty')}
                    />
        <TTButton number={'10'}
-                  colour={'#ffd700'}
+                  colour={advanced}
                   isDisabled = {false}
                   onPress={() => navigation.navigate('Difficulty')}
                    />
        <TTButton number={'11'}
-                  colour={'#cd7f32'}
+                  colour={beginner}
                   isDisabled = {false}
                   onPress={() => navigation.navigate('Difficulty')}
                    />
        <TTButton number={'12'}
-                  colour={'#cd7f32'}
+                  colour={beginner}
                   isDisabled = {false}
                   onPress={() => navigation.navigate('Difficulty')}
                    />
@@ -129,13 +136,11 @@ const styles = StyleSheet.create({
     background: {
         flex: 1,
         justifyContent: "flex-end",
-        alignItems: "center",
-        color: 'white',
+        alignItems: "center"
     },
     container: {
         color: 'white',
         flex: 1,
-        backgroundColor: '#FFFFFF'
     },
     iconContainer: {
         flexDirection: 'row',
@@ -169,8 +174,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'center',
-        fontFamily: "HelveticaNeue",
-        top: 40
     },
     qmark: {
         flexDirection: 'row-reverse',
@@ -198,7 +201,6 @@ const styles = StyleSheet.create({
         marginHorizontal: 40,
         marginVertical: 5,
         fontSize: 30,
-        fontFamily: "HelveticaNeue",
       },
   });
 

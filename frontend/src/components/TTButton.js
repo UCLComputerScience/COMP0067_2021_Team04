@@ -40,9 +40,9 @@ const styles = (props) => StyleSheet.create({
         borderColor: 'black',
         borderWidth: 4,
         alignItems: 'center',
-        width: 80,
-        height: 80,
-        borderRadius:80/2,
+        width: 70,
+        height: 70,
+        borderRadius:70/2,
         marginHorizontal: 40,
         marginVertical: 5,
         justifyContent: 'center'

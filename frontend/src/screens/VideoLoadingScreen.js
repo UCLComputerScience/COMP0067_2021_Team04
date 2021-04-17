@@ -11,7 +11,7 @@ export default class VidLoader extends Component {
     componentDidMount(){  
         this.onAnimate(),
         this.timeoutHandle = setTimeout(()=>{
-            this.props.navigation.navigate('Video')
+            this.props.navigation.navigate('Example')
         }, 2200);
     }  
     onAnimate = () =>{  
@@ -43,7 +43,7 @@ export default class VidLoader extends Component {
             </Animated.Text>
       </View>  
       <View style={styles.animation}>
-        <Workout />
+        {/* <Workout /> */}
         </View>
       </View>
     );  

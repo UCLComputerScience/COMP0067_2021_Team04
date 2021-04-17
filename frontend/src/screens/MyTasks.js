@@ -96,13 +96,16 @@ const styles = StyleSheet.create ({
         marginVertical: 10,
         marginHorizontal: 15,
         marginTop: 15,
-        textAlign: 'center'
+        textAlign: 'center',
+        fontFamily: "HelveticaNeue",
     },
     ttTitle: {
         fontSize: 16,
         fontWeight: 'bold',
         marginVertical: 5,
-        marginHorizontal: 15
+        marginHorizontal: 15,
+        fontFamily: "HelveticaNeue",
+        color: "#52575D",
     },
     title: {
         fontSize: 34,

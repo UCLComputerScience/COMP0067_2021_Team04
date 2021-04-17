@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, {useState} from "react";
 import PropTypes from 'prop-types';
-import { View, Text, Button, StyleSheet} from 'react-native';
+import { View, Text, Button, StyleSheet, TextInput} from 'react-native';
 import RandomNumber from './RandomNumber';
-import { shuffle } from "lodash";
+import { result, shuffle } from "lodash";
 // import {dos} from './LandingPage';
 import Timer from '../components/Timer';
 // import AppBar from './AppBar';
@@ -11,6 +11,11 @@ import Quit from '../components/QuitGame';
 import { HeaderBackButton } from 'react-navigation';
 import TestTimer from '../components/TestTimer';
 import EndGame from '../components/EndGameModal';
+import Input from '../components/Input';
+import MathButton from '../components/MathButton';
+
+
+// import Typing from '../screens/Typing';
 // import { useState }  from 'react';
 // import { useReducer } from 'react';
 // import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -21,6 +26,20 @@ function getRandomIntInclusive(min, max) {
   max = Math.floor(max);
   
   return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
+}
+
+function Typing() {
+    const [answer, setAnswer] = useState(' ');
+    return (
+        <View style={styles.typeContainer}>
+        <Text>Enter your answer:</Text>
+        <TextInput 
+        style={styles.input}
+        placeholder='e.g. JohnDoe'
+        onChangeText={(val) => setAnswer(val)}
+        keyboardType='numeric' />
+        <Text>answer: {answer}</Text></View>
+    );
 }
 
 
@@ -71,7 +90,20 @@ class TypeGame extends React.Component {
     state = {
         selectedIds: [],
         remainingSeconds: this.props.initialSeconds,
+        num1: 0,
+        // num2: 0,
+        operator: "",
+        result: 0
     };
+    
+    handleText = (text, inputNumber) => {
+        if(Number.isInteger(+text)) {
+            inputNumber == 1 
+            ? this.setState({num1: +text})
+            : this.setState({num2: +text});
+        };
+    };
+
     gameStatus = 'PLAYING';
     target = 2 * Math.floor(getRandomIntInclusive(1,12))
     goal = [this.target]
@@ -94,7 +126,7 @@ class TypeGame extends React.Component {
                 }
             },
             );
-        }, 60000);
+        }, 5000);
     }
     componentWillUnmount() {
         clearInterval(this.intervalId);
@@ -113,11 +145,28 @@ class TypeGame extends React.Component {
             nextState.remainingSeconds === 0
             ) {
                 this.gameStatus = this.calcGameStatus(nextState);
+                // this.gameStatus=this.compareAnswer(nextState)
                 if (this.gameStatus !== 'PLAYING') {
                     clearInterval(this.intervalId);
                 }
             }
     }
+
+        compareAnswer = () => {
+        const answer = this.state.num1
+        // console.warn(answer)
+        console.warn(this.gameStatus)
+        if (answer < this.target) {
+            return 'LOST';
+        }
+        if (answer === this.target) {
+            return 'WON';
+        }
+        if (answer > this.target) {
+            return 'LOST';
+        }
+    }
+
     calcGameStatus = (nextState) => {
         console.log('calcGameStatus')
         const sumSelected = nextState.selectedIds.reduce((acc, curr) => {
@@ -145,38 +194,31 @@ class TypeGame extends React.Component {
 
     render() {
         const gameStatus = this.gameStatus;
+        // const [Score, setScore] = useState(0)
+
+//         function incrementScore(){
+//             setScore(prevScore => prevScore + 1)
+// }
         return (
             <View style={styles.container}>
                   <GameHeader></GameHeader>
                     <Text style = {styles.titleText}>  </Text>
 
                 <Text style = {styles.titleText}>Select the correct answer for this multiplication:</Text>
+                <Text style = {styles.titleText}>Score: 1/10</Text>
+                
+            {/* <Button title="Play Again" onPress={this.props.onPlayAgain} /> */}
                 <Text style={[styles.target, styles['STATUS_' + gameStatus]]}> 2 x {this.target / 2}
                 </Text>
-                <TestTimer isPlaying ={true} />
-                <View style={styles.randomContainer}>
-                    {this.shuffledRandomNumbers.map((randomNumber, index) => (
-                    <RandomNumber 
-                    key={index} 
-                    id={index}
-                    number={randomNumber} 
-                    isDisabled={this.isNumberSelected(index) || gameStatus !== 'PLAYING' }
-                    onPress={this.selectNumber}
-                    />
-                ))}
-            </View>
-            {/* <View>
-                <TextInput
-                onChangeText={text => setText(text)}
-                defaultValue={text}
+                <Input onChangeText={(text) => this.handleText(text, 1)} 
+                placeholder="....."
+                label="Type answer here..."
                 />
-                <Text>
-                {text}
-                </Text>
-            </View> */}
-            {this.gameStatus !== 'PLAYING' && (
-            <Button title="Play Again" onPress={this.props.onPlayAgain} />)}
-            {/* {this.gameStatus == 'PLAYING' && ( */}
+                <Text>The Result is : {this.state.num1}</Text>
+                {/* <TestTimer isPlaying ={true} /> */}
+                <MathButton onPress={this.compareAnswer} />
+
+
         </View>
         );
     }
@@ -263,6 +305,19 @@ class TypeGame extends React.Component {
             alignItems: 'center',
             borderColor: '#C0C0C0C0',
             borderWidth: 1,
+        },
+        typeContainer: {
+            flex: 1,
+            backgroundColor: 'white',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+        },
+        input: {
+            borderWidth: 1,
+            borderColor: '#777',
+            padding: 8,
+            margin: 10,
+            width: 200
         },
         addText: {}
     });

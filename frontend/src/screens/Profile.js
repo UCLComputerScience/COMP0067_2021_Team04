@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {View, Text, TouchableHighlight, StyleSheet} from 'react-native';
-
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 class Profile extends Component{

@@ -74,10 +74,12 @@ const styles = StyleSheet.create ({
         paddingHorizontal: 20,
     },
     statisticTitle: {
-        fontSize: 24,
+        fontSize: 25,
         fontWeight: 'bold',
-        marginVertical: 10,
-        marginHorizontal: 10
+        marginVertical: 5,
+        marginHorizontal: 15,
+        fontFamily: "HelveticaNeue",
+        color: "#52575D",
     },
     title: {
         fontSize: 34,

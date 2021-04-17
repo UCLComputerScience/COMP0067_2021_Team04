@@ -61,14 +61,14 @@ export default class LeaderBoardScreen extends Component {
         <View
           style={styles.headerWrap}
         >
-          <Text style={{ fontSize: 30, color: "white", paddingBottom: 10, fontfamily:"HelveticaNeue"}}>
+          <Text style={{ fontSize: 30, color: "white", paddingBottom: 10 ,fontFamily: "HelveticaNeue" }}>
             Star Students!  <Ionicons name="star" size={30} color="gold"></Ionicons>
             <Ionicons name="star" size={30} color="silver">
                 </Ionicons><Ionicons name="star" size={30} color="#cd7f32"></Ionicons>
           </Text>
           <View style={styles.formLayout}>
-                <ModalDropdown dropdownTextStyle={{fontWeight:'bold', textAlign: 'center', fontSize: 15, fontFamily: "HelveticaNeue",}}
-                    textStyle={{fontWeight:'bold', textAlign: 'right',  fontSize: 20,fontFamily: "HelveticaNeue",}} 
+                <ModalDropdown dropdownTextStyle={{fontWeight:'bold', textAlign: 'center', fontSize: 15}}
+                    textStyle={{fontWeight:'bold', textAlign: 'right',  fontSize: 20}} 
                     animated={true} 
                     showsVerticalScrollIndicator={true} 
                     isFullWidth = {true} 
@@ -188,6 +188,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         fontFamily: "HelveticaNeue",
+
     },
     square: {
         height: 30,

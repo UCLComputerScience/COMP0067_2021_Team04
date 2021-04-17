@@ -16,6 +16,10 @@ class DifficultyButton extends Component{
         
         return( 
         <View style = {buttonStyle.container}>
+                  <Text 
+                style = {buttonStyle.text}>
+                {this.props.level + '\n'}
+            </Text>
             {function(){
                 if(this.props.isDisabled){return(
                 <AntDesign name="lock1" size={70} color="#000000"/>
@@ -43,7 +47,9 @@ const styles = (props) => StyleSheet.create({
     },
     text: {
         fontSize: 25,
-        fontFamily: "Cochin"
+        fontFamily: "HelveticaNeue",
+        color: "#52575D",
+        // fontFamily: "Cochin"
     },
 
     button: {

@@ -42,7 +42,7 @@ export default class LeaderLoader extends Component {
             </Animated.Text>
       </View>  
       <View style={styles.animation}>
-        <Calculator />
+        {/* <Calculator /> */}
         </View>
       </View>
     );  

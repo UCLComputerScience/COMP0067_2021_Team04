@@ -20,7 +20,7 @@ export default class TestSettings extends Component {
                 key={this.state.gameId}
                 onPlayAgain={this.resetGame} 
                 randomNumberCount={5} 
-                initialSeconds={60} 
+                initialSeconds={5} 
                 />
             </View>
         );

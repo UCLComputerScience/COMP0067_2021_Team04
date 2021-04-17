@@ -15,7 +15,7 @@ AWS.config.update({
 const documentClient = new AWS.DynamoDB.DocumentClient();
 const TABLE_NAME = 'UCL-TT-USERS-V2';
 
-// get all informtation about a class
+// get all information about a class
 router.get(`/:PK`, async (req, res) => {
 
     const params = {
@@ -129,7 +129,7 @@ router.get(`/:classID`, async (req, res) => {
     res.send(classItem);
   })
 
-router.post(`/`, [validateAuth, ...validators.postClassesValidators], async (req, res) => {
+router.post(`/`, [ ...validators.postClassesValidators], async (req, res) => {
 
     const errors = validationResult(req)
     if(!errors.isEmpty()) {
@@ -188,28 +188,27 @@ router.post(`/newMember/`, [validateAuth, ...validators.postMembersValidators], 
     }
 })
 
-router.put(`/:classID`, async (req, res) => {
-    const classItem = req.body;
-    const { classID } = req.params;
-    classItem.classID = classID;
-    try {
-        const updatedClass = await addOrUpdateItem(classItem, TABLE_NAME);
-        res.json(updatedClass);
-    } catch (error) {
-        console.error(err);
-        res.status(500).json({err:'something went wrong'});
-    }
-  })
+// router.put(`/:classID`, async (req, res) => {
+//     const classItem = req.body;
+//     const { classID } = req.params;
+//     classItem.classID = classID;
+//     try {
+//         const updatedClass = await addOrUpdateItem(classItem, TABLE_NAME);
+//         res.json(updatedClass);
+//     } catch (error) {
+//         console.error(err);
+//         res.status(500).json({err:'something went wrong'});
+//     }
+//   })
 
-router.delete('/:classID', async (req, res) => {
-    const { classID } = req.params;
-    try {
-        res.json(await deleteItem(classID, TABLE_NAME));
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({err: 'something went wrong'})
-    }
-});
+// router.delete('/:classID', async (req, res) => {
+//     const { classID } = req.params;
+//     try {
+//         res.json(await deleteItem(classID, TABLE_NAME));
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).json({err: 'something went wrong'})
+//     }
+// });
 
-//export a module
 module.exports=router;

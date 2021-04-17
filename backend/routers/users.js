@@ -4,6 +4,16 @@ const AWS = require('aws-sdk');
 const uuid = require('uuid');
 const config = require('../config/config.js');
 const { addOrUpdateItem, deleteItem } = require('../dynamoFunctions.js');
+const { validationResult } = require('express-validator');
+const validators = require('./validators/usersValidators');
+const {validateAuth} = require('../auth');
+
+// return json web token 
+const jwt = require('jsonwebtoken');
+
+
+//hashing password
+const bcrypt = require("bcryptjs")
 
 AWS.config.update({
     
@@ -12,35 +22,45 @@ AWS.config.update({
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 })
 
-// getting an object from AWS 
 // create the document client interface for DynamoDB
 const documentClient = new AWS.DynamoDB.DocumentClient();
 
 //specify table name to connect to
 const TABLE_NAME = 'UCL-TT-USERS-V2';
-// http://localhost:3000/api/v1/users
-// get request to initialise the route '/'
-// ` back ticks are helpful to combine constants and strings, from api + '/users'
 // async method + await so when you call the userlist from dynamodb, it will wait to be filled before sending the response to the frontend
-// app replaced with router for express to cleanup code
-// note the api is http:3000/users
-// if `/jimmy` it will be http:3000/users/jimmy
-router.get(`/`, async (req, res) => {
+// get all user profiles within a class
+router.get(`/:GSI1`, async (req, res) => {
 
   const params = {
-      TableName: TABLE_NAME
+      TableName: TABLE_NAME,
+      IndexName:'GSI1-SK-index',
+      KeyConditionExpression: 'GSI1 = :gsi1 and SK =:sk',
+      ExpressionAttributeValues: {
+          ':gsi1': req.params.GSI1, // potentially change class_id => school_id_class_id
+          ':sk': "profile"
+      } 
+
   };
+    // create an empty object to hold the response
+    let responseData;
+
+    try {
+        responseData = await documentClient.query(params).promise()
+        res.json(responseData)
+    } catch (error) {
+        res.status(500).send("Unable to collect record: " + error)
+    } 
   // await dynamodb.scan(params).promise()
   // returns object that has items: [user1, user2]
-  const userList = await documentClient.scan(params).promise()
-  if(!userList) {
-      res.status(500).json({sucess: false})
-  }
-  res.send(userList);
+//   const userList = await documentClient.scan(params).promise()
+//   if(!userList) {
+//       res.status(500).json({sucess: false})
+//   }
+//   res.send(userList);
 })
 
 // pass specific userID in URL and collect specific user profile
-router.get(`/:userID`, async (req, res) => {
+router.get(`/individual/:userID`, async (req, res) => {
     const userID = req.params.userID;
   
     const params = {
@@ -59,35 +79,87 @@ router.get(`/:userID`, async (req, res) => {
     res.send(user);
   })
 
-// creating a new user
-router.post(`/`, (req, res) => {
-  const params = {
-      TableName: TABLE_NAME,
-      Item: {
-          PK: req.body.PK,
-          SK: req.body.SK,
-          firstName: req.body.firstName,
-          lastName: req.body.lastName,  
-      }
-  }
+// creating a new student user
+router.post(`/register/student`, [ ...validators.postUsersValidators], async (req, res) => {
+    const errors = validationResult(req)
+    if(!errors.isEmpty()) {
+        res.status(400).json({
+            errors: errors.array()
+        })
+    }  
+    const params = {
+        RequestItems: {
+          'UCL-TT-USERS-V2': [
+            {
+              PutRequest: {
+                Item: {
+                    PK: req.body.PK, //user_id
+                    SK: req.body.SK, //profile
+                    GSI1: req.body.GSI1, //class_id?
+                    data: {
+                        firstName: req.body.data.firstName,
+                        lastName: req.body.data.lastName,
+                        email: req.body.data.email,
+                        // hashing user password
+                        hashPassword: bcrypt.hashSync(req.body.data.password, 10),
+                        role: req.body.data.role
+                        }
+                    }
+                }
+            },
+            {
+                PutRequest: {
+                    Item: {
+                        PK: req.body.GSI1, //class_id
+                        SK: req.body.SK2, //classMember_id
+                        GSI1: req.body.PK, //user_id *test if this is necessary
+                        data: {
+                            role: req.body.data.role
+                        }
+                    }
+                }
+              }
 
-  documentClient.put(params, (err, data) => {
-      if(err) console.log(err);
-      console.log('[response]', data)
-      res.status(201).send();
-  }).promise();
+        ]
+        }
+      };
+      console.log(params)
+  try {
+    const user = await documentClient.batchWrite(params).promise();    
+    res.status(201).send(user);
+    } catch (err) {
+        console.error(err);
+        res.status(400).send('User could not be created');
+    }
+})
 
-  // read/write data to database using API
-  // saves user to the database with call back function
-  // 201 indicates successful creation of document
-  // catch error 500, return error object
-  // user.save((error) => {
-  //     if (error) {
-  //         console.error(error);
-  //     } else {
-  //         console.log("Save operation was successful.");
-  //     }
-  // });
+// creating a new teacher user
+router.post(`/register/teacher`, async (req, res) => {
+    console.log("hello =")
+    const params = {
+        TableName: TABLE_NAME,
+        Item: {
+        PK: req.body.PK, //user_id
+        SK: req.body.SK, //profile
+        GSI1: req.body.GSI1, //school_id?
+        data: {
+            firstName: req.body.data.firstName,
+            lastName: req.body.data.lastName,
+            email: req.body.data.email,
+            // hashing user password
+            hashPassword: bcrypt.hashSync(req.body.data.password, 10),
+            role: req.body.data.role
+        }
+    }
+    }
+      console.log(params)
+  try {
+    const user = await documentClient.put(params).promise();    
+    res.status(201).send(user);
+    } catch (err) {
+        console.error(err);
+        res.status(400).send('User could not be created');
+    }
 })
 
 // updating a user
@@ -118,5 +190,40 @@ router.delete('/:userID', async (req, res) => {
     }
 });
 
+// logging in
+
+router.post('/login', async (req, res) => {
+    const params = {
+        TableName: TABLE_NAME,
+        Key : {
+            "PK": `user_${req.body.PK}`,
+            "SK": "profile"
+        }
+
+        } 
+    const secret = process.env.secret;
+    const password = req.body.password
+    const user = await documentClient.get(params).promise()
+    if(!user.Item) {
+        return res.status(400).send('The user not found')
+    } else {
+        if(user.Item && bcrypt.compareSync(password, user.Item.data.hashPassword)){
+            const token = jwt.sign({
+                PK: user.Item.PK,
+                role: user.Item.data.role
+            },
+            // user authentication token
+            secret,
+            // token expires in 1 day
+            {expiresIn: '1d'}
+            )
+            res.status(200).send({user: user.Item.PK, email: user.Item.data.email, token: token})
+        }   else {
+            res.status(400).send('wrong password.')
+        }
+    }
+})
+
 //export a module
 module.exports=router;
+

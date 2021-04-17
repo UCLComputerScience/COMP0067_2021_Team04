@@ -27,7 +27,7 @@ app.use(bodyParser.json());
 app.use(morgan('tiny'));
 
 // get environment variables from env file 
-require('dotenv/config');
+require('dotenv').config;
 
 // if time, add models and schemas for data validation
 const User = require('./models/user');
@@ -62,5 +62,5 @@ AWS.config.update({
 // run express server on initial port 3000 or environment variables
 const port = process.env.PORT || 3000;
 app.listen(port, () =>{
-    console.log("server is running on http://localhost:3000")
+    console.log(`server is running on http://localhost:${port}`)
 })

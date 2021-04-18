@@ -9,7 +9,7 @@ const documentClient = new AWS.DynamoDB.DocumentClient();
 const TABLE_NAME = 'UCL-TT-USERS-V2';
 
 exports.postClassesValidators = [
-    check('name').exists(),
+    check('data').exists(),
     check('GSI1').exists()
     
 ]

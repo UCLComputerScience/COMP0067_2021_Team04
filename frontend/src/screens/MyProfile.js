@@ -1,7 +1,9 @@
 import React from "react";
 import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView, TouchableHighlight } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-import AvatarMenu from '../components/AvatarMenu'
+import AvatarMenu from '../components/AvatarMenu';
+
+
 
 
 export default function MyProfile() {

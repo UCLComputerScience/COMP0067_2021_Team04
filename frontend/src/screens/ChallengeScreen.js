@@ -13,6 +13,9 @@ import {
 import { Button } from 'react-native-paper';
 import SparklyThing from '../components/Sparkle';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
+const user = require('./LoginScreen').user
 
 export default class Challenger extends Component {
 
@@ -32,10 +35,26 @@ export default class Challenger extends Component {
         {id:8,  name: "John Doe",   position:"IOS dev",           image:"https://bootdey.com/img/Content/avatar/avatar1.png", about:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo."} ,
         {id:9,  name: "John Doe",   position:"Web dev",           image:"https://bootdey.com/img/Content/avatar/avatar4.png", about:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo."} ,
         {id:10, name: "John Doe",   position:"Analyst",           image:"https://bootdey.com/img/Content/avatar/avatar7.png", about:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo."} ,
-      ]
+      ],
+      
+
     };
   }
+  makeChallenge = (player1, player2) =>{
+    axios.post('http://localhost:3000/api/v1/challenges', {PK: player1, 
+    GSI1: player2,
+    data: {
+        winner: 0,
+         player1Score: 0,
+         player2Score: 0
+}}).then(res => {
+  console.log(res);
+  console.log(res.data);
+});
+this.setModalVisible(false)
+this.props.navigation.navigate('Game')
 
+  }
   clickEventListener = (item) => {
     this.setState({userSelected: item}, () =>{
       this.setModalVisible(true);
@@ -58,12 +77,12 @@ export default class Challenger extends Component {
           }}
           renderItem={({item}) => {
           return (
-            <TouchableOpacity style={styles.card} onPress={() => {this.clickEventListener(item)}}>
+            <TouchableOpacity style={styles.card}>
               <Image style={styles.image} source={{uri: item.image}}/>
               <View style={styles.cardContent}>
                 <Text style={styles.name}>{item.name}</Text>
                 <Text style={styles.position}>{item.position}</Text>
-                <TouchableOpacity style={styles.followButton} onPress={()=> this.clickEventListener(item)}>
+                <TouchableOpacity style={styles.followButton} onPress={() => {this.makeChallenge('user', item.name)}}>
                   <Text style={styles.followButtonText}>Challenge</Text>  
                 </TouchableOpacity>
               </View>
@@ -87,7 +106,7 @@ export default class Challenger extends Component {
                 </ScrollView>
               </View>
               <View style={styles.popupButtons}>
-              <TouchableOpacity onPress = { () => alert('Request to Challenge') } style={styles.btnClose}>
+              <TouchableOpacity onPress = {() => this.makeChallenge('user', this.state.userSelected.name) } style={styles.btnClose}>
                   <Text>Challenge</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {this.setModalVisible(false) }} style={styles.btnClose}>

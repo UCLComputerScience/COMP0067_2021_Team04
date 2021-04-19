@@ -101,8 +101,87 @@ router.post(`/register/student`, [ ...validators.postStudentValidators], async (
                         // hashing user password
                         hashPassword: bcrypt.hashSync(req.body.data.password, 10),
                         role: "student",
-                        secret: "studentSecret"
-                        }
+                        secret: "studentSecret",
+                        avatar: "bug pic",
+                        pendingAssignments: 0
+                        },
+                    overall: {
+                        testsTaken: 0,
+                        timeTaken: 0,
+                        accuracy: 0, 
+                    },
+                    onex: {
+                        testsTaken: 0,
+                        timeTaken: 0,
+                        accuracy: 0,
+                        state: 'beginner'
+                    },
+                    twox: {
+                        testsTaken: 0,
+                        timeTaken: 0,
+                        accuracy: 0,
+                        state: 'beginner'
+                    },
+                    threex: {
+                        testsTaken: 0,
+                        timeTaken: 0,
+                        accuracy: 0,
+                        state: 'beginner'
+                    },
+                    fourx: {
+                        testsTaken: 0,
+                        timeTaken: 0,
+                        accuracy: 0,
+                        state: 'beginner'
+                    },
+                    fivex: {
+                        testsTaken: 0,
+                        timeTaken: 0,
+                        accuracy: 0,
+                        state: 'beginner'
+                    },
+                    sixx: {
+                        testsTaken: 0,
+                        timeTaken: 0,
+                        accuracy: 0,
+                        state: 'beginner'
+                    },
+                    sevenx: {
+                        testsTaken: 0,
+                        timeTaken: 0,
+                        accuracy: 0,
+                        state: 'beginner'
+                    },
+                    eightx: {
+                        testsTaken: 0,
+                        timeTaken: 0,
+                        accuracy: 0,
+                        state: 'beginner'
+                    },
+                    ninex: {
+                        testsTaken: 0,
+                        timeTaken: 0,
+                        accuracy: 0,
+                        state: 'beginner'
+                    },
+                    tenx: {
+                        testsTaken: 0,
+                        timeTaken: 0,
+                        accuracy: 0,
+                        state: 'beginner'
+                    },
+                    elevenx: {
+                        testsTaken: 0,
+                        timeTaken: 0,
+                        accuracy: 0,
+                        state: 'beginner'
+                    },
+                    twelvex: {
+                        testsTaken: 0,
+                        timeTaken: 0,
+                        accuracy: 0,
+                        state: 'beginner'
+                    }
                     }
                 }
       console.log(params)
@@ -256,11 +335,25 @@ router.post('/login', async (req, res) => {
             )
 
             let result = {
+                token,
                 PK: user.Item.PK,
                 role: user.Item.data.role,
                 GSI1: user.Item.GSI1,
-                token,
-                expiresIn: 168
+                expiresIn: 168,
+                data: user.Item.data,
+                overall: user.Item.overall,
+                onex: user.Item.onex,
+                twox: user.Item.twox,
+                threex: user.Item.threex,
+                fourx: user.Item.fourx,
+                fivex: user.Item.fivex,
+                sixx: user.Item.sixx,
+                sevenx: user.Item.sevenx,
+                eightx: user.Item.eightx,
+                ninex: user.Item.ninex,
+                tenx: user.Item.tenx,
+                elevenx: user.Item.elevenx,
+                twelvex: user.Item.twelvex,                
             };
             res.status(200).json({
                 ...result,

@@ -79,5 +79,5 @@ AWS.config.update({
 // run express server on initial port 3000 or environment variables
 const port = process.env.PORT || 3000;
 app.listen(port, () =>{
-    success({ message: `Server is running on on http://localhost:${port}`, badge: true})
+    success({ message: `Server is running on on http://54.171.167.5`, badge: true})
 })

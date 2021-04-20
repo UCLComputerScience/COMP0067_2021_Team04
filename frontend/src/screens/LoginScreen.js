@@ -4,20 +4,33 @@ import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 import SocialButton from '../components/SocialButton';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const _storeData = async (userStr) => {
+    try {
+      await AsyncStorage.setItem(
+        'user',
+        userStr
+      );
+    } catch (error) {
+      console.log('fkgjfkjh')
+    }
+  };
   const userLogin = async()=>{
     navigation.navigate('numberFit');
     
     const {data: user} = await axios.get('http://localhost:3000/api/v1/users/user_twoplustwoisfour')
-    
     console.log(user.Item.data.avatar)
+    const userString = JSON.stringify(user.Item)
+    _storeData(userString)
+    
+    
     
   }
-  useEffect(()=>{console.log('did Mount')}, [])
     return (
         <View style={styles.container}>
             <Image 

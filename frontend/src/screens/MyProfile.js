@@ -2,9 +2,25 @@ import React from "react";
 import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView, TouchableHighlight } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import AvatarMenu from '../components/AvatarMenu';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
+const _retrieveData = async () => {
+    try {
+      console.log('this one')
+      const value = await AsyncStorage.getItem('user');
+      if (value !== null) {
+        // We have data!!
+        
+        return(value)
+      }
+    } catch (error) {
+      console.log(';alsdkfhjk;')
+      return('Its broken')
+    }
+  };
 
+//console.log(user.Item.data.avatar)
 
 export default function MyProfile() {
     return (

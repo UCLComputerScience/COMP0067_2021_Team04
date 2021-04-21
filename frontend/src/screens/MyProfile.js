@@ -120,7 +120,7 @@ export default function MyProfile() {
       }
     } catch (error) {
       
-      console.log("error")
+      console.log("errorasf")
     }
   }
   

@@ -1,28 +1,134 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView, TouchableHighlight } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import AvatarMenu from '../components/AvatarMenu';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { result } from "lodash";
+import avatarDict from "../components/AvatarDict";
 
 
-const _retrieveData = async () => {
-    try {
-      console.log('this one')
-      const value = await AsyncStorage.getItem('user');
-      if (value !== null) {
-        // We have data!!
-        
-        return(value)
-      }
-    } catch (error) {
-      console.log(';alsdkfhjk;')
-      return('Its broken')
-    }
-  };
+  
 
 //console.log(user.Item.data.avatar)
 
 export default function MyProfile() {
+    
+    const [profilePic, changePP] = useState({photo: require("../imgs/bee.jpeg")});
+    const [user, userLoad] = useState({
+        GSI1: "class_2ec278cf-1a35-4746-911b-1a360c83dbb5",
+        PK: "user_mathsqueen",
+        data:  {
+          "avatar": 4,
+          "firstName": "Andrew",
+          "hashPassword": "$2a$10$E71aiun83wdz5/FY374JU.e1abBYyA0VwV/C.unxGKZ2CXaZSXB6i",
+          "lastName": "O'Connell",
+          "pendingAssignments": 16,
+          "role": "student",
+          "secret": "studentSecret",
+        },
+        "eightx":  {
+          "accuracy": 0,
+          "state": "beginner",
+          "testsTaken": 0,
+          "timeTaken": 0,
+        },
+        "elevenx":  {
+          "accuracy": 0,
+          "state": "beginner",
+          "testsTaken": 0,
+          "timeTaken": 0,
+        },
+        "expiresIn": 168,
+        "fivex":  {
+          "accuracy": 0,
+          "state": "beginner",
+          "testsTaken": 0,
+          "timeTaken": 0,
+        },
+        "fourx": {
+          "accuracy": 0,
+          "state": "beginner",
+          "testsTaken": 0,
+          "timeTaken": 0,
+        },
+        "message": "You have successfully logged in.",
+        "ninex":  {
+          "accuracy": 0,
+          "state": "beginner",
+          "testsTaken": 0,
+          "timeTaken": 0,
+        },
+        "onex":  {
+          "accuracy": 0,
+          "state": "beginner",
+          "testsTaken": 0,
+          "timeTaken": 0,
+        },
+        "overall":  {
+          "accuracy": 0,
+          "testsTaken": 0,
+          "timeTaken": 0,
+        },
+        "role": "student",
+        "sevenx":  {
+          "accuracy": 0,
+          "state": "beginner",
+          "testsTaken": 0,
+          "timeTaken": 0,
+        },
+        "sixx":  {
+          "accuracy": 0,
+          "state": "beginner",
+          "testsTaken": 0,
+          "timeTaken": 0,
+        },
+        "success": true,
+        "tenx":  {
+          "accuracy": 0,
+          "state": "beginner",
+          "testsTaken": 0,
+          "timeTaken": 0,
+        },
+        "threex":  {
+          "accuracy": 0,
+          "state": "beginner",
+          "testsTaken": 0,
+          "timeTaken": 0,
+        },
+    })
+    
+    useEffect(()=>{
+        async function fetchData (){
+
+    try {
+      
+      const value = await AsyncStorage.getItem('user');
+      if (value !== null) {
+        // We have data!!
+        let result = JSON.parse(value)
+        userLoad(result)
+        let pic = result.data.avatar
+        let pp = avatarDict[pic]
+        changePP({photo: pp})
+        console.log(user.data)
+        
+        
+        
+        
+
+        
+      }
+    } catch (error) {
+      
+      console.log("error")
+    }
+  }
+  
+  fetchData()
+  
+    },[]);
+
+  
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
@@ -34,7 +140,7 @@ export default function MyProfile() {
 
                 <View style={{ alignSelf: "center" }}>
                     <View style={styles.profileImage}>
-                        <Image source={require("../imgs/bee.jpeg")} style={styles.image} resizeMode="center"></Image>
+                        <Image source={profilePic.photo} style={styles.image} resizeMode="center"></Image>
                     </View>
                     <View style={styles.active}></View>
                     <View style={styles.add}>
@@ -43,9 +149,9 @@ export default function MyProfile() {
                 </View>
 
                 <View style={styles.infoContainer}>
-                    <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>Joseph Smith</Text>
-                    <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}>Teacher: Mr Langley</Text>
-                    <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}>Class: 4B</Text>
+                    <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>{user.data.firstName} {user.data.lastName}</Text>
+                    <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}>Teacher: Mr Langley</Text> 
+                    <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}>Class: {user.GSI1}</Text>
                     <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}>Date of Brith: 27/01/2012</Text>
                 </View>
 
@@ -55,7 +161,7 @@ export default function MyProfile() {
                         <Text style={[styles.text, styles.subText, {fontSize: 12}]}>App Completion</Text>
                     </View>
                     <View style={[styles.statsBox, { borderColor: "#DFD8C8", borderLeftWidth: 1, borderRightWidth: 1 }]}>
-                        <Text style={[styles.text, { fontSize: 24 }]}>1H 32M</Text>
+                        <Text style={[styles.text, { fontSize: 24 }]}>{user.overall.timeTaken}</Text>
                         <Text style={[styles.text, styles.subText, {fontSize: 12}]}>Time Spent</Text>
                     </View>
                     <View style={styles.statsBox}>

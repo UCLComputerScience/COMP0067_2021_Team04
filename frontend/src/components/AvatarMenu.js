@@ -19,24 +19,25 @@ class AvatarMenu extends Component {
       const value = await AsyncStorage.getItem('user');
       if (value !== null) {
         // We have data!!
-        console.log('hdfsre')
+        
         return value
       }
     } catch (error) {
-      console.log(';alsdkfhjk;')
+      
         return('Its broken')
     }
   };
   user = this._retrieveData();
   
-  setAvatar = (avatarURL) =>{
-    const userToUpdate = 'http://localhost:3000/api/v1/users/' + 'user_twoplustwoisfour'; 
+  setAvatar = (avatarNo) =>{
+    const userToUpdate = 'http://54.171.167.5/api/v1/users/user_twoplustwoisfour'; 
     axios.put(userToUpdate,{
-      avatar: avatarURL
+      data: {'avatar': avatarNo}
 }).then(res => {
   console.log(res);
   console.log(res.data);
 });
+console.log('setAvatar being called')
   }
 
   render() {
@@ -59,38 +60,38 @@ class AvatarMenu extends Component {
             <View style={styles.modalView}>
             <ScrollView style = {styles.buttonView}>
               <Text style={styles.modalText} >Select your avatar</Text>
-              <TouchableOpacity style={styles.profileImage} onPress={()=>{this._retrieveData()}}>
+              <TouchableOpacity style={styles.profileImage} onPress={()=>{this.setAvatar(1)}}>
                 <Image source={require("../imgs/bee.jpeg")} style={styles.image} resizeMode="center" onPress={()=>this._retrieveData()}></Image>
               </TouchableOpacity>
               
-              <TouchableOpacity style={styles.profileImage}>
+              <TouchableOpacity style={styles.profileImage} onPress={()=>this.setAvatar(2)}>
                 <Image source={require("../imgs/butterfly.jpeg")} style={styles.image} resizeMode="center" ></Image>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.profileImage}>
+              <TouchableOpacity style={styles.profileImage} onPress={()=>this.setAvatar(3)}>
                 <Image source={require("../imgs/butterfly2.jpeg")} style={styles.image} resizeMode="center"></Image>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.profileImage}>
+              <TouchableOpacity style={styles.profileImage} onPress={()=>this.setAvatar(4)}>
                 <Image source={require("../imgs/centipede.jpeg")} style={styles.image} resizeMode="center"></Image>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.profileImage}>
+              <TouchableOpacity style={styles.profileImage} onPress={()=>this.setAvatar(5)}>
                 <Image source={require("../imgs/grasshopper.jpeg")} style={styles.image} resizeMode="center"></Image>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.profileImage}>
+              <TouchableOpacity style={styles.profileImage} onPress={()=>this.setAvatar(6)}>
                 <Image source={require("../imgs/ladybird.jpeg")} style={styles.image} resizeMode="center"></Image>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.profileImage}>
+              <TouchableOpacity style={styles.profileImage} onPress={()=>this.setAvatar(7)}>
                 <Image source={require("../imgs/scorpion.jpeg")} style={styles.image} resizeMode="center"></Image>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.profileImage}>
+              <TouchableOpacity style={styles.profileImage} onPress={()=>this.setAvatar(8)}>
                 <Image source={require("../imgs/snail.jpeg")} style={styles.image} resizeMode="center"></Image>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.profileImage}>
+              <TouchableOpacity style={styles.profileImage} onPress={()=>this.setAvatar(9)}>
                 <Image source={require("../imgs/spider.jpeg")} style={styles.image} resizeMode="center"></Image>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.profileImage}>
+              <TouchableOpacity style={styles.profileImage} onPress={()=>this.setAvatar(10)}>
                 <Image source={require("../imgs/worm.jpeg")} style={styles.image} resizeMode="center"></Image>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.profileImage}>
+              <TouchableOpacity style={styles.profileImage} onPress={()=>this.setAvatar(11)}>
                 <Image source={require("../imgs/worm2.jpeg")} style={styles.image} resizeMode="center"></Image>
               </TouchableOpacity>
               <Pressable

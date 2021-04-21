@@ -12,20 +12,25 @@ const LoginScreen = ({navigation}) => {
   const [password, setPassword] = useState();
   const _storeData = async (userStr) => {
     try {
+      
       await AsyncStorage.setItem(
         'user',
         userStr
-      );
+      )
+      ;
     } catch (error) {
-      console.log('fkgjfkjh')
+      
     }
   };
   const userLogin = async()=>{
     navigation.navigate('numberFit');
     
-    const {data: user} = await axios.get('http://localhost:3000/api/v1/users/user_twoplustwoisfour')
-    console.log(user.Item.data.avatar)
-    const userString = JSON.stringify(user.Item)
+    const {data: user} = await axios.post('http://54.171.167.5/api/v1/users/login',{
+      "PK": "mathsqueen",
+      "password": "test123"
+  })
+    
+    const userString = JSON.stringify(user)
     _storeData(userString)
     
     

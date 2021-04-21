@@ -13,7 +13,7 @@ AWS.config.update({
 const documentClient = new AWS.DynamoDB.DocumentClient();
 const TABLE_NAME = 'UCL-TT-USERS-V2';
 
-// get user's test assignments
+// Get all assignments assigned to a student
 router.get(`/:PK`, async (req, res) => {
 
     const params = {
@@ -52,7 +52,7 @@ router.get(`/:PK`, async (req, res) => {
     } 
 })
 
-// get class' assignments
+// Get all assignments of a class
 router.get(`/classAssignments/:GSI1`, async (req, res) => {
 
     const params = {
@@ -93,24 +93,21 @@ router.get(`/classAssignments/:GSI1`, async (req, res) => {
 })
 
 
-
+// Post an assignment for an individual student
 router.post(`/`, [ ...validators.postAssignmentsValidators], async (req, res) => {
-
+    const assignmentID = uuid.v4()
     const errors = validationResult(req)
     if(!errors.isEmpty()) {
-        // 400 code equals bad request
-        // send back a response with a json
         res.status(400).json({
             errors: errors.array()
         })
-    }  
-
+    } else {
     const params = {
         TableName: TABLE_NAME,
         Item: {
-        PK: req.body.PK, //user_id
-        SK: req.body.SK, //assignment_id
-        GSI1: req.body.GSI1, //class_id
+        PK: `user_${req.body.PK}`, //user_id
+        SK: `assignment_${assignmentID}`, //assignment_id
+        GSI1: `class_${req.body.GSI1}`, //class_id
         data: req.body.data
     }
     }
@@ -122,6 +119,7 @@ router.post(`/`, [ ...validators.postAssignmentsValidators], async (req, res) =>
         console.error(err);
         res.status(500).send('Something went wrong');
     }
+}
 })
 
 //update user assignment (need alteration and may not be necessary)

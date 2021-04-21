@@ -14,6 +14,7 @@ const dynamoose = require('dynamoose');
 const cors = require('cors');
 const authJwt = require('./helpers/jwt');
 const errorHandler = require('./helpers/error-handler');
+const {success, error } = require('consola');
 
 // getting all the code from AWS
 const AWS = require('aws-sdk');
@@ -42,6 +43,8 @@ const testsRoutes = require('./routers/tests');
 const testStatisticsRoutes = require('./routers/testStatistics');
 const assignmentsRoutes = require('./routers/assignments');
 const questionsRoutes = require('./routers/questions');
+const schoolsRoutes = require('./routers/schools');
+const challengesRoutes = require('./routers/challenges');
 
 
 // api url environment variable
@@ -62,6 +65,8 @@ app.use(`${api}/tests`, testsRoutes)
 app.use(`${api}/testStatistics`, testStatisticsRoutes)
 app.use(`${api}/assignments`, assignmentsRoutes)
 app.use(`${api}/questions`, questionsRoutes)
+app.use(`${api}/schools`, schoolsRoutes)
+app.use(`${api}/challenges`, challengesRoutes)
 
 // database connection
 // dynamoose.aws.sdk.config.update({region: 'us-east-2'});
@@ -74,5 +79,5 @@ AWS.config.update({
 // run express server on initial port 3000 or environment variables
 const port = process.env.PORT || 3000;
 app.listen(port, () =>{
-    console.log(`server is running on http://localhost:${port}`)
+    success({ message: `Server is running on on http://54.171.167.5`, badge: true})
 })

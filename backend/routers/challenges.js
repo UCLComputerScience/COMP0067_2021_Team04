@@ -15,8 +15,8 @@ AWS.config.update({
 const documentClient = new AWS.DynamoDB.DocumentClient();
 const TABLE_NAME = 'UCL-TT-USERS-V2';
 
-// Get all meta information about the classes a user (teacher) owns
-router.get(`/getClasses/:GSI1`, async (req, res) => {
+// get all informtation about a class
+router.get(`/:PK`, async (req, res) => {
 
     const params = {
         TableName: TABLE_NAME
@@ -26,12 +26,10 @@ router.get(`/getClasses/:GSI1`, async (req, res) => {
     let responseData;
 
     // check if URI parameters exists
-    if (req.params.GSI1) {
-        params.IndexName = 'GSI1-SK-index'
-        params.KeyConditionExpression = 'GSI1 = :gsi1 AND begins_with(SK, :sk)',
+    if (req.params.PK) {
+        params.KeyConditionExpression = 'PK = :pk',
         params.ExpressionAttributeValues = {
-            ':gsi1': `user_${req.params.GSI1}`, //user_id
-            ':sk': "teacher_" 
+            ':pk': req.params.PK, //class_id
         }
         
     } else {
@@ -56,8 +54,8 @@ router.get(`/getClasses/:GSI1`, async (req, res) => {
     } 
 })
 
-// get all student profiles from a class
-router.get(`/getClassProfiles/:GSI1`, async (req, res) => {
+// get all information about the classes a user is within
+router.get(`/getClasses/:GSI1`, async (req, res) => {
 
     const params = {
         TableName: TABLE_NAME
@@ -71,13 +69,13 @@ router.get(`/getClassProfiles/:GSI1`, async (req, res) => {
         params.IndexName = 'GSI1-SK-index'
         params.KeyConditionExpression = 'GSI1 = :gsi1 AND begins_with(SK, :sk)',
         params.ExpressionAttributeValues = {
-            ':gsi1': `class_${req.params.GSI1}`, //class_id
-            ':sk': "profile" 
+            ':gsi1': req.params.GSI1, //user_id
+            ':sk': "classMember" 
         }
         
     } else {
         // check if query parameter exists
-        if(req.query.GSI1) {
+        if(req.query.PK) {
             params.Key = {
                 PK: req.query.PK,
             }
@@ -131,61 +129,29 @@ router.get(`/:classID`, async (req, res) => {
     res.send(classItem);
   })
 
+router.post(`/`,  async (req, res) => {
 
-// Create a class as a teacher (and add teacher-class relationship)
-router.post(`/`, [ ...validators.postClassesValidators], async (req, res) => {
-
-    const errors = validationResult(req)
-    if(!errors.isEmpty()) {
-        res.status(400).json({
-            errors: errors.array()
-        })
-    }  else {
-    // possibly needs a query to retrieve school and teacher data?? Otherwise this data will be stored in constant
-    const classID = uuid.v4()
     const params = {
-        RequestItems: {
-          'UCL-TT-USERS-V2': [
-            {
-              PutRequest: {
-                Item: {
-                    PK: `class_${classID}`, //class_id
-                    SK: 'meta', 
-                    GSI1: req.body.GSI1, //school_id?
-                    data: {
-                        name: req.body.data.name,
-                        year: req.body.data.year,
-                        secret: "classkey"  // class name, year group, secret
-                    }
-                }
-            },
-        }, {
-                PutRequest: {
-                    Item: {
-                        PK: `class_${classID}`, //class_id
-                        SK: `teacher_${req.body.SK2}`, //teacher_id
-                        GSI1: `user_${req.body.SK2}`, //user_id 
-                        data: {
-                            name: req.body.data.name,
-                            year: req.body.data.year,
-                            secret: "classkey"  // class name, year group, secret
-                        }  // class name, year group
-                    }
-                }
-              }
+        TableName: TABLE_NAME,
+        Item: {
+        PK: req.body.PK,
+        SK: 'Challenge',  
+        GSI1: req.body.GSI1,
+        data: {
+            winner: req.body.data.winner,
+             player1Score: req.body.data.player1Score,
+             player2Score: req.body.data.player2Score
+    }
+    }
+    }
 
-        ]
-        }
-      };
-
-    try {
-    const schoolClass = await documentClient.batchWrite(params).promise();    
-    res.status(201).send(schoolClass);
+  try {
+    const challenge = await documentClient.put(params).promise();    
+    res.status(201).send(challenge);
     } catch (err) {
         console.error(err);
-        res.status(400).send('Class could not be created');
-    }}
-
+        res.status(500).send('Something went wrong');
+    }
 })
 
 router.post(`/newMember/`, [validateAuth, ...validators.postMembersValidators], async (req, res) => {
@@ -216,27 +182,28 @@ router.post(`/newMember/`, [validateAuth, ...validators.postMembersValidators], 
     }
 })
 
-// router.put(`/:classID`, async (req, res) => {
-//     const classItem = req.body;
-//     const { classID } = req.params;
-//     classItem.classID = classID;
-//     try {
-//         const updatedClass = await addOrUpdateItem(classItem, TABLE_NAME);
-//         res.json(updatedClass);
-//     } catch (error) {
-//         console.error(err);
-//         res.status(500).json({err:'something went wrong'});
-//     }
-//   })
+router.put(`/:classID`, async (req, res) => {
+    const classItem = req.body;
+    const { classID } = req.params;
+    classItem.classID = classID;
+    try {
+        const updatedClass = await addOrUpdateItem(classItem, TABLE_NAME);
+        res.json(updatedClass);
+    } catch (error) {
+        console.error(err);
+        res.status(500).json({err:'something went wrong'});
+    }
+  })
 
-// router.delete('/:classID', async (req, res) => {
-//     const { classID } = req.params;
-//     try {
-//         res.json(await deleteItem(classID, TABLE_NAME));
-//     } catch (err) {
-//         console.error(err);
-//         res.status(500).json({err: 'something went wrong'})
-//     }
-// });
+router.delete('/:classID', async (req, res) => {
+    const { classID } = req.params;
+    try {
+        res.json(await deleteItem(classID, TABLE_NAME));
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({err: 'something went wrong'})
+    }
+});
 
+//export a module
 module.exports=router;

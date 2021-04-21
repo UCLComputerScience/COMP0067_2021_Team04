@@ -5,8 +5,10 @@ import OptionModal from '../components/OptionModal';
 import { useState } from "react";
 
 
-const DifficultyPage = ({navigation})=>{
+const DifficultyPage = ({route, navigation})=>{
     const [modalVisible, setModalVisible] = useState(false);
+    const { difficulty, otherParam } = route.params;
+    console.log(difficulty)
     return(
         <View style = {styles.container}>
             <Text style = {styles.title}>Choose Your Difficulty!</Text>
@@ -32,7 +34,7 @@ const DifficultyPage = ({navigation})=>{
             <DifficultyButton
                 level = 'Intermediate'
                 colour = '#c0c0c0'
-                isDisabled = {false}
+                isDisabled = {difficulty =="beginner" ? true : false }
                 onPress={() => Alert.alert(
                     "Please select an option: ",
                     "Note: Once you start a test your marks will be visible to teachers and parents",
@@ -50,7 +52,7 @@ const DifficultyPage = ({navigation})=>{
             <DifficultyButton
                 level = 'Advanced'
                 colour = '#ffd700'
-                isDisabled = {true}
+                isDisabled = {difficulty ==="advanced" ? false : true }
                 onPress={() => Alert.alert(
                     "Please select an option: ",
                     "Note: Once you start a test your marks will be visible to teachers and parents",

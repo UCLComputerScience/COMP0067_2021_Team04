@@ -133,9 +133,8 @@ export default function MyProfile() {
         <SafeAreaView style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.titleBar}>
-                <TouchableHighlight onPress = { () => alert('Mastered!') }>
-                    <Ionicons name="cog" size={40} color="#52575D"></Ionicons>
-                    </TouchableHighlight>
+                    <SettingsModal />
+                    <Button onPress={() => navigation.popToTop()}  title={'Log out'}/>
                 </View>
 
                 <View style={{ alignSelf: "center" }}>

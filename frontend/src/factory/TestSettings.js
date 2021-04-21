@@ -20,7 +20,8 @@ export default class TestSettings extends Component {
                 key={this.state.gameId}
                 onPlayAgain={this.resetGame} 
                 randomNumberCount={5} 
-                initialSeconds={5} 
+                initialSeconds={60} 
+                ttSelection={this.props.ttSelection}
                 />
             </View>
         );

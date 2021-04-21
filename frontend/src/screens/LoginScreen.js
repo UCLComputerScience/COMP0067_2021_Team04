@@ -38,6 +38,7 @@ const LoginScreen = ({navigation}) => {
   }
     return (
         <View style={styles.container}>
+          <Text>{email}</Text>
             <Image 
               style = {styles.logo} 
               source={require('../imgs/logo.png')}
@@ -60,7 +61,7 @@ const LoginScreen = ({navigation}) => {
             />
             <FormButton
               buttonTitle="SIGN IN"
-              onPress={()=>{userLogin()}}
+              onPress={() => navigation.navigate('numberFit')}
             />
 
             <TouchableOpacity style={styles.forgotButton} onPress={() => {}}>
@@ -76,7 +77,7 @@ const LoginScreen = ({navigation}) => {
               backgroundColor="#f5e7ea"
               onPress={() => {}}
             />
-            <TouchableOpacity style={styles.forgotButton} onPress={() => navigation.navigate('Signup')}>
+            <TouchableOpacity style={styles.forgotButton} onPress={() => navigation.navigate('UserSelect')}>
                 <Text style={styles.navButtonText}>NEW TO NUMBERFIT? JOIN HERE.</Text>
             </TouchableOpacity>
         </View>

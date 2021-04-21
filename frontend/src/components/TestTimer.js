@@ -6,9 +6,8 @@ import PropTypes from 'prop-types';
 
 const TestTimer = () => {
     return (
-      <View style={styles.centeredView}>
   <CountdownCircleTimer
-    size={80}
+    size={70}
     isPlaying
     duration={60}
     colors={[
@@ -23,14 +22,14 @@ const TestTimer = () => {
       </Animated.Text>
     )}
   </CountdownCircleTimer>
-  </View>
     );
     };
 
     const styles = StyleSheet.create({
       centeredView: {
-        justifyContent: "center",
-        alignItems: "center",
+        marginHorizontal: 30
+        // justifyContent: 'space-evenly',
+        // alignItems: 'space-evenly',
         // marginEnd: -50
       }
     })

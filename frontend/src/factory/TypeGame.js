@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import PropTypes from 'prop-types';
 import { View, Text, Button, StyleSheet, TextInput} from 'react-native';
 import RandomNumber from './RandomNumber';
-import { result, shuffle } from "lodash";
+import { isInteger, result, shuffle } from "lodash";
 // import {dos} from './LandingPage';
 import Timer from '../components/Timer';
 // import AppBar from './AppBar';
@@ -13,6 +13,22 @@ import TestTimer from '../components/TestTimer';
 import EndGame from '../components/EndGameModal';
 import Input from '../components/Input';
 import MathButton from '../components/MathButton';
+import { Dimensions } from "react-native";
+import LandingPage from '../screens/LandingPage';
+import {two} from '../screens/LandingPage';
+import {three} from '../screens/LandingPage';
+import {four} from '../screens/LandingPage';
+import {five} from '../screens/LandingPage';
+import {six} from '../screens/LandingPage';
+import {seven} from '../screens/LandingPage';
+import {eight} from '../screens/LandingPage';
+import {nine} from '../screens/LandingPage';
+import {ten} from '../screens/LandingPage';
+import {eleven} from '../screens/LandingPage';
+import {twelve} from '../screens/LandingPage';
+import {ChangeChoice} from '../screens/LandingPage';
+
+const screenWidth = Dimensions.get("window").width;
 
 
 // import Typing from '../screens/Typing';
@@ -80,21 +96,22 @@ function multiplesOf(numbers, number) { // add second argument
 
 class TypeGame extends React.Component {
     
-
+    state = {
+        selectedIds: [],
+        remainingSeconds: this.props.initialSeconds,
+        num1: isInteger,
+        // num2: 0,
+        operator: "",
+        result: isInteger
+    }
     static propTypes = {
         randomNumberCount: PropTypes.number.isRequired,
         initialSeconds: PropTypes.number.isRequired,
         onPlayAgain: PropTypes.func.isRequired,
         onPress: PropTypes.func.isRequired,
+        ttSelection: PropTypes.number.isRequired,
     };
-    state = {
-        selectedIds: [],
-        remainingSeconds: this.props.initialSeconds,
-        num1: 0,
-        // num2: 0,
-        operator: "",
-        result: 0
-    };
+ 
     
     handleText = (text, inputNumber) => {
         if(Number.isInteger(+text)) {
@@ -105,7 +122,7 @@ class TypeGame extends React.Component {
     };
 
     gameStatus = 'PLAYING';
-    target = 2 * Math.floor(getRandomIntInclusive(1,12))
+    target = global.TT * Math.floor(getRandomIntInclusive(1,12))
     goal = [this.target]
     randomNumbers = Array
         .from({ length: this.props.randomNumberCount })
@@ -126,7 +143,7 @@ class TypeGame extends React.Component {
                 }
             },
             );
-        }, 5000);
+        }, 1000);
     }
     componentWillUnmount() {
         clearInterval(this.intervalId);
@@ -139,52 +156,24 @@ class TypeGame extends React.Component {
             selectedIds: [...prevState.selectedIds, numberIndex],
         }));
     };
-    componentWillUpdate(nextProps, nextState) {
-        if (
-            nextState.selectedIds !== this.state.selectedIds ||
-            nextState.remainingSeconds === 0
-            ) {
-                this.gameStatus = this.calcGameStatus(nextState);
-                // this.gameStatus=this.compareAnswer(nextState)
-                if (this.gameStatus !== 'PLAYING') {
-                    clearInterval(this.intervalId);
+    componentWillUpdate() {
+                this.gameStatus = this.compareAnswer();
                 }
-            }
-    }
-
+            
         compareAnswer = () => {
         const answer = this.state.num1
-        // console.warn(answer)
-        console.warn(this.gameStatus)
-        if (answer < this.target) {
-            return 'LOST';
-        }
+        // console.warn(this.gameStatus)      
         if (answer === this.target) {
             return 'WON';
         }
         if (answer > this.target) {
             return 'LOST';
         }
+        if (answer < this.target) {
+            return 'LOST';
+        }
     }
 
-    calcGameStatus = (nextState) => {
-        console.log('calcGameStatus')
-        const sumSelected = nextState.selectedIds.reduce((acc, curr) => {
-            return acc + this.shuffledRandomNumbers[curr];
-        }, 0);
-        if (nextState.remainingSeconds === 0) {
-            return 'LOST';
-        }
-        if (sumSelected < this.target) {
-            return 'PLAYING';
-        }
-        if (sumSelected === this.target) {
-            return 'WON';
-        }
-        if (sumSelected > this.target) {
-            return 'LOST';
-        }
-    }
 
     static navigationOptions = ({navigation}) => {
         return{
@@ -207,18 +196,22 @@ class TypeGame extends React.Component {
                 <Text style = {styles.titleText}>Select the correct answer for this multiplication:</Text>
                 <Text style = {styles.titleText}>Score: 1/10</Text>
                 
-            {/* <Button title="Play Again" onPress={this.props.onPlayAgain} /> */}
-                <Text style={[styles.target, styles['STATUS_' + gameStatus]]}> 2 x {this.target / 2}
+                <Text style={[styles.target, styles['STATUS_' + gameStatus]]}> {global.TT} x {this.target/global.TT}
                 </Text>
+
+
                 <Input onChangeText={(text) => this.handleText(text, 1)} 
                 placeholder="....."
                 label="Type answer here..."
                 />
-                <Text>The Result is : {this.state.num1}</Text>
-                {/* <TestTimer isPlaying ={true} /> */}
-                <MathButton onPress={this.compareAnswer} />
+                                <View style={styles.timerContainer}><TestTimer isPlaying ={true} />
+                                <MathButton onPress={this.props.onPlayAgain} />
+    
+                                </View>
+                                <Button title='Play again' onPress={this.props.onPlayAgain}></Button>
 
 
+            
         </View>
         );
     }
@@ -231,21 +224,22 @@ class TypeGame extends React.Component {
             alignItems: "center"
         },
         container: {
-            color: 'white',
+            backgroundColor: 'white',
             flex: 1,
         },
-        timercontainer: {
-            color: 'white',
+        timerContainer: {
+            width: screenWidth,
+            height: 50,
+            justifyContent: 'space-around',
             flex: 1,
-            alignItems: 'flex-start',
-            justifyContent: 'flex-end',
-            marginVertical: 20,
-            marginHorizontal: 30,
+            flexDirection: 'row'
+
         },
         titleText: {
             fontSize: 20,
             fontWeight: "bold",
             textAlign: 'center',
+            marginTop: 5
         },
         target: {
             fontSize: 50,

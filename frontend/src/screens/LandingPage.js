@@ -183,7 +183,9 @@ fetchData()
                   <TTButton number={'2'}
                   colour={difficultyColours[user.twox.state]}
                   isDisabled = {false}
-                  onPress={() => navigation.navigate('Difficulty')}
+                  onPress={() => navigation.navigate('Difficulty', {
+                    difficulty: user.twox.state
+                  })}
                    />
        <TTButton number={'3'}
                   colour={difficultyColours[user.threex.state]}

@@ -103,91 +103,304 @@ router.post(`/register/student`, [ ...validators.postStudentValidators], async (
                         role: "student",
                         secret: "studentSecret",
                         avatar: "bug pic",
-                        pendingAssignments: 0
+                        pendingAssignments: 0,
+                        experience: 0
                         },
                     overall: {
+                        timestableMastered: 0,
                         testsTaken: 0,
                         timeTaken: 0,
                         accuracy: 0, 
                     },
-                    onex: {
-                        testsTaken: 0,
-                        timeTaken: 0,
-                        accuracy: 0,
-                        state: 'beginner'
-                    },
+                    // {
+                    //     testsTaken: 0,
+                    //     timeTaken: 0,
+                    //     accuracy: 0,
+                    //     state: 0
+                    // },
+                    twox: 0,
+                    // {
+                    //     testsTaken: 0,
+                    //     timeTaken: 0,
+                    //     accuracy: 0,
+                    //     state: 0
+                    // },
+                    threex: 0,
+                    // {
+                    //     testsTaken: 0,
+                    //     timeTaken: 0,
+                    //     accuracy: 0,
+                    //     state: 0
+                    // },
+                    fourx: 0,
+                    // {
+                    //     testsTaken: 0,
+                    //     timeTaken: 0,
+                    //     accuracy: 0,
+                    //     state: 0
+                    // },
+                    fivex: 0,
+                    // {
+                    //     testsTaken: 0,
+                    //     timeTaken: 0,
+                    //     accuracy: 0,
+                    //     state: 0
+                    // },
+                    sixx: 0,
+                    // {
+                    //     testsTaken: 0,
+                    //     timeTaken: 0,
+                    //     accuracy: 0,
+                    //     state: 0
+                    // },
+                    sevenx: 0,
+                    // {
+                    //     testsTaken: 0,
+                    //     timeTaken: 0,
+                    //     accuracy: 0,
+                    //     state: 0
+                    // },
+                    eightx: 0,
+                    // {
+                    //     testsTaken: 0,
+                    //     timeTaken: 0,
+                    //     accuracy: 0,
+                    //     state: 0
+                    // },
+                    ninex: 0,
+                    // {
+                    //     testsTaken: 0,
+                    //     timeTaken: 0,
+                    //     accuracy: 0,
+                    //     state: 0
+                    // },
+                    tenx: 0,
+                    // {
+                    //     testsTaken: 0,
+                    //     timeTaken: 0,
+                    //     accuracy: 0,
+                    //     state: 0
+                    // },
+                    elevenx: 0,
+                    // {
+                    //     testsTaken: 0,
+                    //     timeTaken: 0,
+                    //     accuracy: 0,
+                    //     state: 0
+                    // },
+                    twelvex: 0
+                    // {
+                    //     testsTaken: 0,
+                    //     timeTaken: 0,
+                    //     accuracy: 0,
+                    //     state: 0
+                    // }
+                    }
+                }
+    const params2 = {
+        TableName: TABLE_NAME,
+        Item: {
+                    PK: `user_${req.body.PK}`, //user_id
+                    SK: 'statistics', //profile
+                    GSI1: `class_${req.body.GSI1}`, //class_id
+                    data: {
                     twox: {
-                        testsTaken: 0,
-                        timeTaken: 0,
-                        accuracy: 0,
-                        state: 'beginner'
+                        beginner: {
+                            testsTaken: 0,
+                            timeTaken: 0,
+                            accuracy: 0
+                        },
+                        intermediate: {
+                            testsTaken: 0,
+                            timeTaken: 0,
+                            accuracy: 0
+                        },
+                        advanced: {
+                            testsTaken: 0,
+                            timeTaken: 0,
+                            accuracy: 0
+                        }
                     },
                     threex: {
-                        testsTaken: 0,
-                        timeTaken: 0,
-                        accuracy: 0,
-                        state: 'beginner'
+                        beginner: {
+                            testsTaken: 0,
+                            timeTaken: 0,
+                            accuracy: 0
+                        },
+                        intermediate: {
+                            testsTaken: 0,
+                            timeTaken: 0,
+                            accuracy: 0
+                        },
+                        advanced: {
+                            testsTaken: 0,
+                            timeTaken: 0,
+                            accuracy: 0
+                        }
                     },
                     fourx: {
-                        testsTaken: 0,
-                        timeTaken: 0,
-                        accuracy: 0,
-                        state: 'beginner'
+                        beginner: {
+                            testsTaken: 0,
+                            timeTaken: 0,
+                            accuracy: 0
+                        },
+                        intermediate: {
+                            testsTaken: 0,
+                            timeTaken: 0,
+                            accuracy: 0
+                        },
+                        advanced: {
+                            testsTaken: 0,
+                            timeTaken: 0,
+                            accuracy: 0
+                        }
                     },
                     fivex: {
-                        testsTaken: 0,
-                        timeTaken: 0,
-                        accuracy: 0,
-                        state: 'beginner'
+                        beginner: {
+                            testsTaken: 0,
+                            timeTaken: 0,
+                            accuracy: 0
+                        },
+                        intermediate: {
+                            testsTaken: 0,
+                            timeTaken: 0,
+                            accuracy: 0
+                        },
+                        advanced: {
+                            testsTaken: 0,
+                            timeTaken: 0,
+                            accuracy: 0
+                        }
                     },
                     sixx: {
-                        testsTaken: 0,
-                        timeTaken: 0,
-                        accuracy: 0,
-                        state: 'beginner'
+                        beginner: {
+                            testsTaken: 0,
+                            timeTaken: 0,
+                            accuracy: 0
+                        },
+                        intermediate: {
+                            testsTaken: 0,
+                            timeTaken: 0,
+                            accuracy: 0
+                        },
+                        advanced: {
+                            testsTaken: 0,
+                            timeTaken: 0,
+                            accuracy: 0
+                        }
                     },
                     sevenx: {
-                        testsTaken: 0,
-                        timeTaken: 0,
-                        accuracy: 0,
-                        state: 'beginner'
+                        beginner: {
+                            testsTaken: 0,
+                            timeTaken: 0,
+                            accuracy: 0
+                        },
+                        intermediate: {
+                            testsTaken: 0,
+                            timeTaken: 0,
+                            accuracy: 0
+                        },
+                        advanced: {
+                            testsTaken: 0,
+                            timeTaken: 0,
+                            accuracy: 0
+                        }
                     },
                     eightx: {
-                        testsTaken: 0,
-                        timeTaken: 0,
-                        accuracy: 0,
-                        state: 'beginner'
+                        beginner: {
+                            testsTaken: 0,
+                            timeTaken: 0,
+                            accuracy: 0
+                        },
+                        intermediate: {
+                            testsTaken: 0,
+                            timeTaken: 0,
+                            accuracy: 0
+                        },
+                        advanced: {
+                            testsTaken: 0,
+                            timeTaken: 0,
+                            accuracy: 0
+                        }
                     },
                     ninex: {
-                        testsTaken: 0,
-                        timeTaken: 0,
-                        accuracy: 0,
-                        state: 'beginner'
+                        beginner: {
+                            testsTaken: 0,
+                            timeTaken: 0,
+                            accuracy: 0
+                        },
+                        intermediate: {
+                            testsTaken: 0,
+                            timeTaken: 0,
+                            accuracy: 0
+                        },
+                        advanced: {
+                            testsTaken: 0,
+                            timeTaken: 0,
+                            accuracy: 0
+                        }
                     },
                     tenx: {
-                        testsTaken: 0,
-                        timeTaken: 0,
-                        accuracy: 0,
-                        state: 'beginner'
+                        beginner: {
+                            testsTaken: 0,
+                            timeTaken: 0,
+                            accuracy: 0
+                        },
+                        intermediate: {
+                            testsTaken: 0,
+                            timeTaken: 0,
+                            accuracy: 0
+                        },
+                        advanced: {
+                            testsTaken: 0,
+                            timeTaken: 0,
+                            accuracy: 0
+                        }
                     },
                     elevenx: {
-                        testsTaken: 0,
-                        timeTaken: 0,
-                        accuracy: 0,
-                        state: 'beginner'
+                        beginner: {
+                            testsTaken: 0,
+                            timeTaken: 0,
+                            accuracy: 0
+                        },
+                        intermediate: {
+                            testsTaken: 0,
+                            timeTaken: 0,
+                            accuracy: 0
+                        },
+                        advanced: {
+                            testsTaken: 0,
+                            timeTaken: 0,
+                            accuracy: 0
+                        }
                     },
                     twelvex: {
-                        testsTaken: 0,
-                        timeTaken: 0,
-                        accuracy: 0,
-                        state: 'beginner'
+                        beginner: {
+                            testsTaken: 0,
+                            timeTaken: 0,
+                            accuracy: 0
+                        },
+                        intermediate: {
+                            testsTaken: 0,
+                            timeTaken: 0,
+                            accuracy: 0
+                        },
+                        advanced: {
+                            testsTaken: 0,
+                            timeTaken: 0,
+                            accuracy: 0
+                        }
                     }
                     }
                 }
+                }
+
       console.log(params)
   try {
     const user = await documentClient.put(params).promise();    
+    const stat = await documentClient.put(params2).promise();    
     console.log(user)
+    console.log(stat)
     res.status(201).json({
         message: "You have successfully registered as a student. Please now login.",
         success: true
@@ -275,20 +488,35 @@ router.post(`/register/parent`,[ ...validators.postParentValidators], async (req
 }}
 )
 
-// updating a user
-router.put(`/:userID`, async (req, res) => {
-    const user = req.body;
-    // grab and destructure userID property
-    // this can also be const userID = req.params.userID;
-    const { userID } = req.params;
-    user.userID = userID;
-    try {
-        const updatedUser = await addOrUpdateItem(user, TABLE_NAME);
-        res.json(updatedUser);
-    } catch (error) {
-        console.error(err);
-        res.status(500).json({err:'something went wrong'});
+// Update avatar
+router.put(`/avatar`, async (req, res) => {
+    const params = {
+        TableName: TABLE_NAME,
+        Key: {
+            PK: req.body.PK,
+            SK: 'profile',
+        },
+        // use hash to tell dynamodb that this is a replaceable value, avoid dynamo's reserved keywords
+        UpdateExpression: 'set #data.avatar = :avatar',
+        ExpressionAttributeNames: {
+            '#data': 'data'
+        },
+        ExpressionAttributeValues: {
+            ':avatar': req.body.avatar
+        }
     }
+
+    try {
+        const avatar = await documentClient.update(params).promise();   
+        console.log(avatar) 
+        res.status(200).json({
+            message: "You have successfully updated your avatar",
+            success: true
+            });
+        } catch (err) {
+            console.error(err);
+            res.status(400).send('Avatar could not be updated');
+        }
   })
 
 // delete user
@@ -342,7 +570,6 @@ router.post('/login', async (req, res) => {
                 expiresIn: 168,
                 data: user.Item.data,
                 overall: user.Item.overall,
-                onex: user.Item.onex,
                 twox: user.Item.twox,
                 threex: user.Item.threex,
                 fourx: user.Item.fourx,

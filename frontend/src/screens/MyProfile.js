@@ -1,25 +1,26 @@
 import React, {useEffect, useState} from "react";
-import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView, TouchableHighlight } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView, TouchableHighlight, Button } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import AvatarMenu from '../components/AvatarMenu';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { result } from "lodash";
 import avatarDict from "../components/AvatarDict";
+import SettingsModal from "../components/SettingsModal";
 
 
   
 
 //console.log(user.Item.data.avatar)
 
-export default function MyProfile() {
+export default function MyProfile({navigation}) {
     
     const [profilePic, changePP] = useState({photo: require("../imgs/bee.jpeg")});
     const [user, userLoad] = useState({
         GSI1: "class_2ec278cf-1a35-4746-911b-1a360c83dbb5",
         PK: "user_mathsqueen",
         data:  {
-          "avatar": 4,
-          "firstName": "Andrew",
+          "avatar": 7,
+          "firstName": "Gary",
           "hashPassword": "$2a$10$E71aiun83wdz5/FY374JU.e1abBYyA0VwV/C.unxGKZ2CXaZSXB6i",
           "lastName": "O'Connell",
           "pendingAssignments": 16,
@@ -96,6 +97,9 @@ export default function MyProfile() {
           "timeTaken": 0,
         },
     })
+    const updateAvatar = (avatarNo) =>{
+        changePP({photo: avatarDict[avatarNo]})
+    }
     
     useEffect(()=>{
         async function fetchData (){
@@ -110,8 +114,8 @@ export default function MyProfile() {
         let pic = result.data.avatar
         let pp = avatarDict[pic]
         changePP({photo: pp})
-        console.log(user.data)
         
+        console.log('being called')
         
         
         
@@ -143,7 +147,7 @@ export default function MyProfile() {
                     </View>
                     <View style={styles.active}></View>
                     <View style={styles.add}>
-                        <AvatarMenu></AvatarMenu>
+                        <AvatarMenu func = {updateAvatar}></AvatarMenu>
                     </View>
                 </View>
 

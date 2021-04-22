@@ -8,7 +8,7 @@ import RandomNumber from '../factory/RandomNumber';
 import { Dimensions, TouchableHighlight } from 'react-native';
 import LandingHeader from '../components/LandingHeader';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import AsyncStorage from  '@react-native-community/async-storage';
+import AsyncStorage from  '@react-native-async-storage/async-storage';
 
 
 class TTButton extends Component{

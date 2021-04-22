@@ -17,6 +17,28 @@ const TABLE_NAME = 'UCL-TT-USERS-V2';
 // Submit a test statistic
 router.post(`/`, async (req, res) => {
 
+    // update timestable mastered
+    const paramsTestStats = {
+        TableName: TABLE_NAME,
+        KeyConditionExpression: 'PK = :pk AND begins_with(SK, :sk)',
+        FilterExpression: '#data.#accuracy = :accuracy',
+        ExpressionAttributeNames: {
+            '#data': 'data',
+            '#accuracy': 'accuracy'
+        },
+        ExpressionAttributeValues: {
+            ':pk': req.body.PK,
+            ':sk': `testStatistic_${req.body.SK}`,
+            ':accuracy': 100, 
+        }
+    };
+    const testStats = await documentClient.query
+    (paramsTestStats).promise()
+    console.log(testStats)
+
+    
+
+
     const date = new Date();
     console.log(date.toISOString())
     dateISO = date.toISOString()
@@ -34,16 +56,14 @@ router.post(`/`, async (req, res) => {
         }
     }
     }
-
-    const profile = await documentClient.get(params3).promise(); 
-    console.log(profile)
+    
 
     timestable = req.body.timestable
     const params2 = {
         TableName: TABLE_NAME,
         Key: {
             PK: req.body.PK, //user_id
-            SK: 'profile', // teststatistic_timestable_randomid
+            SK: 'profile',
         },
         UpdateExpression: 'ADD overall.testsTaken :testsinc, overall.accuracy :accuracyinc, overall.timeTaken :timeinc, #data.experience :experienceinc',
         ExpressionAttributeNames: {
@@ -57,23 +77,41 @@ router.post(`/`, async (req, res) => {
             
         }
     }
+    if (req.body.data.accuracy == 100 && testStats.Items.length == 0) {
+        
+        
+        params2.UpdateExpression = `ADD overall.testsTaken :testsinc, overall.accuracy :accuracyinc, overall.timeTaken :timeinc, #data.experience :experienceinc, ${req.body.timestable} :testsinc`
+         
+        if (req.body.SK.slice(-1) == 'A') {
+            params2.UpdateExpression = `ADD overall.testsTaken :testsinc, overall.accuracy :accuracyinc, overall.timeTaken :timeinc, #data.experience :experienceinc, ${req.body.timestable} :testsinc, overall.timestableMastered :testsinc`
+        } 
 
-    if (req.body.data.accuracy == 100 & profile.timestable == 2) {
-        params2.UpdateExpression = `ADD overall.testsTaken :testsinc, overall.accuracy :accuracyinc, overall.timeTaken :timeinc, #data.experience :experienceinc, ${req.body.timestable} :testsinc, overall.timestableMastered :testsinc`
     }
     console.log(params2);
 
 
     try {
-        const testStat = await documentClient.put(params).promise();   
-        const stat = await documentClient.update(params2).promise();     
+        await documentClient.put(params).promise();   
+        await documentClient.update(params2).promise();  
+        if (req.body.data.accuracy == 100 && testStats.Items.length == 0 && req.body.SK.slice(-1) == 'A') {
+            res.status(200).json({
+                message: "Congratulations you have mastered this timestable",
+                success: true
+                });
+        }
+        else if (req.body.data.accuracy == 100 && testStats.Items.length == 0) {
+            res.status(200).json({
+                message: "You have unlocked a new level!",
+                success: true
+                });
+        } else {
         res.status(200).json({
             message: "You have successfully inserted a test stat.",
             success: true
-            });
+            });}
         } catch (err) {
             console.error(err);
-            res.status(400).send('Test stat could not be inserted');
+            res.status(400).send('Congratulations. You have finished the test');
         }
 }
 )

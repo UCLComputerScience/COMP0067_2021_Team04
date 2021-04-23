@@ -17,31 +17,31 @@ const TABLE_NAME = 'UCL-TT-USERS-V2';
 // Submit a test statistic
 router.post(`/`, async (req, res) => {
 
-    // update timestable mastered
+    // check for 100% tests
     const paramsTestStats = {
         TableName: TABLE_NAME,
         KeyConditionExpression: 'PK = :pk AND begins_with(SK, :sk)',
-        FilterExpression: '#data.#accuracy = :accuracy',
+        FilterExpression: '#data.#correctQuestions = :correctQuestions',
         ExpressionAttributeNames: {
             '#data': 'data',
-            '#accuracy': 'accuracy'
+            '#correctQuestions': 'correctQuestions'
         },
         ExpressionAttributeValues: {
             ':pk': req.body.PK,
             ':sk': `testStatistic_${req.body.SK}`,
-            ':accuracy': 100, 
+            ':correctQuestions': 24, 
         }
     };
     const testStats = await documentClient.query
     (paramsTestStats).promise()
     console.log(testStats)
 
-    
-
-
     const date = new Date();
     console.log(date.toISOString())
     dateISO = date.toISOString()
+    // posting test statistic
+    const experience = parseInt(req.body.data.correctQuestions) * 10 + 0.5 * 240 - parseInt(req.body.data.timeTaken)
+    console.log(experience)
     const params = {
         TableName: TABLE_NAME,
         Item: {
@@ -51,13 +51,14 @@ router.post(`/`, async (req, res) => {
         data: {
             date: `${dateISO}`,
             timeTaken: req.body.data.timeTaken,
-            accuracy: req.body.data.accuracy,
-            experience: req.body.data.experience,
+            questions: req.body.data.questions,
+            correctQuestions: req.body.data.correctQuestions,
+            experience: experience
         }
     }
     }
-    
 
+    // Updating profile stats
     timestable = req.body.timestable
     const params2 = {
         TableName: TABLE_NAME,
@@ -65,53 +66,84 @@ router.post(`/`, async (req, res) => {
             PK: req.body.PK, //user_id
             SK: 'profile',
         },
-        UpdateExpression: 'ADD overall.testsTaken :testsinc, overall.accuracy :accuracyinc, overall.timeTaken :timeinc, #data.experience :experienceinc',
+        UpdateExpression: 'ADD overall.testsTaken :testsinc, overall.questions :questionsinc, overall.correctQuestions :correctquestionsinc, overall.timeTaken :timeinc, #data.experience :experienceinc',
         ExpressionAttributeNames: {
             '#data': 'data'
         },
         ExpressionAttributeValues: {
             ':testsinc': 1,
-            ':accuracyinc': req.body.data.accuracy,
+            ':questionsinc': req.body.data.questions,
+            ':correctquestionsinc': req.body.data.correctQuestions,
             ':timeinc': req.body.data.timeTaken,
-            ':experienceinc': req.body.data.experience
+            ':experienceinc': experience
             
         }
     }
-    if (req.body.data.accuracy == 100 && testStats.Items.length == 0) {
+    if (req.body.data.correctQuestions == 24 && testStats.Items.length == 0) {
         
-        
-        params2.UpdateExpression = `ADD overall.testsTaken :testsinc, overall.accuracy :accuracyinc, overall.timeTaken :timeinc, #data.experience :experienceinc, ${req.body.timestable} :testsinc`
+        params2.UpdateExpression.concat(`ADD overall.testsTaken :testsinc, overall.questions :questionsinc, overall.correctQuestions :correctquestionsinc, overall.timeTaken :timeinc, #data.experience :experienceinc, #data.score :testsinc, ${req.body.timestable} :testsinc`)
          
         if (req.body.SK.slice(-1) == 'A') {
-            params2.UpdateExpression = `ADD overall.testsTaken :testsinc, overall.accuracy :accuracyinc, overall.timeTaken :timeinc, #data.experience :experienceinc, ${req.body.timestable} :testsinc, overall.timestableMastered :testsinc`
+            params2.UpdateExpression = `ADD overall.testsTaken :testsinc, overall.questions :questionsinc, overall.correctQuestions :correctquestionsinc, overall.timeTaken :timeinc, #data.experience :experienceinc, #data.score :testsinc, ${req.body.timestable} :testsinc, overall.timestableMastered :testsinc`
         } 
 
     }
-    console.log(params2);
+    // console.log(params2);
+
+    // Updating user indepth stats
+    let difficulty;
+    if (req.body.SK.slice(-1) == 'A') {
+        difficulty = 'advanced'
+    } else if (req.body.SK.slice(-1) == 'I') {
+        difficulty = 'intermediate'
+    } else if (req.body.SK.slice(-1) == 'B') {
+        difficulty = 'beginner'
+    }
+    const params3 = {
+        TableName: TABLE_NAME,
+        Key: {
+            PK: req.body.PK, //user_id
+            SK: 'statistics',
+        },
+        UpdateExpression: `ADD #data.${timestable}.${difficulty}.testsTaken :testsinc, #data.${timestable}.${difficulty}.questions :questionsinc, #data.${timestable}.${difficulty}.correctQuestions :correctquestionsinc, #data.${timestable}.${difficulty}.timeTaken :timeinc`,
+        ExpressionAttributeNames: {
+            '#data': 'data'
+        },
+        ExpressionAttributeValues: {
+            ':testsinc': 1,
+            ':questionsinc': req.body.data.questions,
+            ':correctquestionsinc': req.body.data.correctQuestions,
+            ':timeinc': req.body.data.timeTaken,
+            
+        }
+    }
+    // console.log("params3:")
+    // console.log(params3)
 
 
     try {
         await documentClient.put(params).promise();   
         await documentClient.update(params2).promise();  
-        if (req.body.data.accuracy == 100 && testStats.Items.length == 0 && req.body.SK.slice(-1) == 'A') {
+        await documentClient.update(params3).promise();  
+        if (req.body.data.correctQuestions == 24 && testStats.Items.length == 0 && req.body.SK.slice(-1) == 'A') {
             res.status(200).json({
                 message: "Congratulations you have mastered this timestable",
                 success: true
                 });
         }
-        else if (req.body.data.accuracy == 100 && testStats.Items.length == 0) {
+        else if (req.body.data.correctQuestions == 24 && testStats.Items.length == 0) {
             res.status(200).json({
                 message: "You have unlocked a new level!",
                 success: true
                 });
         } else {
         res.status(200).json({
-            message: "You have successfully inserted a test stat.",
+            message: 'Congratulations. You have finished the test',
             success: true
             });}
         } catch (err) {
             console.error(err);
-            res.status(400).send('Congratulations. You have finished the test');
+            res.status(400).send('Test error.');
         }
 }
 )
@@ -272,41 +304,6 @@ router.get(`/classStatistics/:GSI1/`, async (req, res) => {
     } 
 })
 
-
-
-
-//update user statistic (need alteration and may not be necessary)
-router.put(`/:userID`, async (req, res) => {
-
-    const params = {
-        TableName: TABLE_NAME,
-        Item: req.body
-    };
-
-    // let responseData;
-
-    if (req.params.userID) {
-        params.Key = {
-            userID: req.params.userID,
-            dateFinished: req.body.dateFinished
-        }
-        params.UpdateExpression = 'set timeTaken = :newTime, accuracy = :newAccuracy, experience = :newExperience'
-        params.ExpressionAttributeValues = {
-            ":newTime": req.body.timeTaken,
-            ":newAccuracy": req.body.accuracy,
-            ":newExperience": req.body.experience
-        }
-        params.ReturnValues = "UPDATED_NEW"
-    }
-    try {
-        updatedtestStatistic = await documentClient.update(params).promise();
-        res.status(200).json({success: true, message: 'the test statistic is updated'});
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({success: false, message: 'the test statistic could not be updated', error: err});
-    }
-
-})
 
 // delete user statistics (needs modification)
 router.delete('/:PK', async (req, res) => {

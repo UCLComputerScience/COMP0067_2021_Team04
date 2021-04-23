@@ -1,2 +1,2 @@
 var date = new Date();
-console.log(date.toISOString())
+console.log(date.toISOString().slice(0,10))

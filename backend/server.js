@@ -45,6 +45,7 @@ const assignmentsRoutes = require('./routers/assignments');
 const questionsRoutes = require('./routers/questions');
 const schoolsRoutes = require('./routers/schools');
 const challengesRoutes = require('./routers/challenges');
+const videosRoutes = require('./routers/videos');
 
 
 // api url environment variable
@@ -67,6 +68,7 @@ app.use(`${api}/assignments`, assignmentsRoutes)
 app.use(`${api}/questions`, questionsRoutes)
 app.use(`${api}/schools`, schoolsRoutes)
 app.use(`${api}/challenges`, challengesRoutes)
+app.use(`${api}/videos`, videosRoutes)
 
 // database connection
 // dynamoose.aws.sdk.config.update({region: 'us-east-2'});
@@ -77,7 +79,7 @@ AWS.config.update({
 })
 
 // run express server on initial port 3000 or environment variables
-const port = 3000;
+const port = process.env.PORT | 3000;
 app.listen(port, () =>{
     success({ message: `Server is running on port ${port}`, badge: true})
 })

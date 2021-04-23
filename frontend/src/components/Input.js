@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     inputContainer: {
-        marginTop: 20,
+        // marginTop: 20,
         marginBottom: 40,
         justifyContent: 'center',
         alignItems: 'center',
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     input: {
         borderColor: 'black',
         borderWidth: 1,
-        width: screenWidth/3,
+        width: screenWidth/2.8,
         padding: 30,
         borderRadius: 20,
         fontSize: 50,

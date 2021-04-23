@@ -104,13 +104,17 @@ router.post(`/register/student`, [ ...validators.postStudentValidators], async (
                         secret: "studentSecret",
                         avatar: "bug pic",
                         pendingAssignments: 0,
-                        experience: 0
+                        experience: 0,
+                        streak: 0,
+                        score: 0,
+                        lastLogin: ""
                         },
                     overall: {
                         timestableMastered: 0,
                         testsTaken: 0,
                         timeTaken: 0,
-                        accuracy: 0, 
+                        questions: 0, 
+                        correctQuestions: 0
                     },
                     // {
                     //     testsTaken: 0,
@@ -208,187 +212,220 @@ router.post(`/register/student`, [ ...validators.postStudentValidators], async (
                         beginner: {
                             testsTaken: 0,
                             timeTaken: 0,
-                            accuracy: 0
+                            questions: 0,
+                            correctQuestions: 0
                         },
                         intermediate: {
                             testsTaken: 0,
                             timeTaken: 0,
-                            accuracy: 0
+                            questions: 0,
+                            correctQuestions: 0
                         },
                         advanced: {
                             testsTaken: 0,
                             timeTaken: 0,
-                            accuracy: 0
+                            questions: 0,
+                            correctQuestions: 0
                         }
                     },
                     threex: {
                         beginner: {
                             testsTaken: 0,
                             timeTaken: 0,
-                            accuracy: 0
+                            questions: 0,
+                            correctQuestions: 0
                         },
                         intermediate: {
                             testsTaken: 0,
                             timeTaken: 0,
-                            accuracy: 0
+                            questions: 0,
+                            correctQuestions: 0
                         },
                         advanced: {
                             testsTaken: 0,
                             timeTaken: 0,
-                            accuracy: 0
+                            questions: 0,
+                            correctQuestions: 0
                         }
                     },
                     fourx: {
                         beginner: {
                             testsTaken: 0,
                             timeTaken: 0,
-                            accuracy: 0
+                            questions: 0,
+                            correctQuestions: 0
                         },
                         intermediate: {
                             testsTaken: 0,
                             timeTaken: 0,
-                            accuracy: 0
+                            questions: 0,
+                            correctQuestions: 0
                         },
                         advanced: {
                             testsTaken: 0,
                             timeTaken: 0,
-                            accuracy: 0
+                            questions: 0,
+                            correctQuestions: 0
                         }
                     },
                     fivex: {
                         beginner: {
                             testsTaken: 0,
                             timeTaken: 0,
-                            accuracy: 0
+                            questions: 0,
+                            correctQuestions: 0
                         },
                         intermediate: {
                             testsTaken: 0,
                             timeTaken: 0,
-                            accuracy: 0
+                            questions: 0,
+                            correctQuestions: 0
                         },
                         advanced: {
                             testsTaken: 0,
                             timeTaken: 0,
-                            accuracy: 0
+                            questions: 0,
+                            correctQuestions: 0
                         }
                     },
                     sixx: {
                         beginner: {
                             testsTaken: 0,
                             timeTaken: 0,
-                            accuracy: 0
+                            questions: 0,
+                            correctQuestions: 0
                         },
                         intermediate: {
                             testsTaken: 0,
                             timeTaken: 0,
-                            accuracy: 0
+                            questions: 0,
+                            correctQuestions: 0
                         },
                         advanced: {
                             testsTaken: 0,
                             timeTaken: 0,
-                            accuracy: 0
+                            questions: 0,
+                            correctQuestions: 0
                         }
                     },
                     sevenx: {
                         beginner: {
                             testsTaken: 0,
                             timeTaken: 0,
-                            accuracy: 0
+                            questions: 0,
+                            correctQuestions: 0
                         },
                         intermediate: {
                             testsTaken: 0,
                             timeTaken: 0,
-                            accuracy: 0
+                            questions: 0,
+                            correctQuestions: 0
                         },
                         advanced: {
                             testsTaken: 0,
                             timeTaken: 0,
-                            accuracy: 0
+                            questions: 0,
+                            correctQuestions: 0
                         }
                     },
                     eightx: {
                         beginner: {
                             testsTaken: 0,
                             timeTaken: 0,
-                            accuracy: 0
+                            questions: 0,
+                            correctQuestions: 0
                         },
                         intermediate: {
                             testsTaken: 0,
                             timeTaken: 0,
-                            accuracy: 0
+                            questions: 0,
+                            correctQuestions: 0
                         },
                         advanced: {
                             testsTaken: 0,
                             timeTaken: 0,
-                            accuracy: 0
+                            questions: 0,
+                            correctQuestions: 0
                         }
                     },
                     ninex: {
                         beginner: {
                             testsTaken: 0,
                             timeTaken: 0,
-                            accuracy: 0
+                            questions: 0,
+                            correctQuestions: 0
                         },
                         intermediate: {
                             testsTaken: 0,
                             timeTaken: 0,
-                            accuracy: 0
+                            questions: 0,
+                            correctQuestions: 0
                         },
                         advanced: {
                             testsTaken: 0,
                             timeTaken: 0,
-                            accuracy: 0
+                            questions: 0,
+                            correctQuestions: 0
                         }
                     },
                     tenx: {
                         beginner: {
                             testsTaken: 0,
                             timeTaken: 0,
-                            accuracy: 0
+                            questions: 0,
+                            correctQuestions: 0
                         },
                         intermediate: {
                             testsTaken: 0,
                             timeTaken: 0,
-                            accuracy: 0
+                            questions: 0,
+                            correctQuestions: 0
                         },
                         advanced: {
                             testsTaken: 0,
                             timeTaken: 0,
-                            accuracy: 0
+                            questions: 0,
+                            correctQuestions: 0
                         }
                     },
                     elevenx: {
                         beginner: {
                             testsTaken: 0,
                             timeTaken: 0,
-                            accuracy: 0
+                            questions: 0,
+                            correctQuestions: 0
                         },
                         intermediate: {
                             testsTaken: 0,
                             timeTaken: 0,
-                            accuracy: 0
+                            questions: 0,
+                            correctQuestions: 0
                         },
                         advanced: {
                             testsTaken: 0,
                             timeTaken: 0,
-                            accuracy: 0
+                            questions: 0,
+                            correctQuestions: 0
                         }
                     },
                     twelvex: {
                         beginner: {
                             testsTaken: 0,
                             timeTaken: 0,
-                            accuracy: 0
+                            questions: 0,
+                            correctQuestions: 0
                         },
                         intermediate: {
                             testsTaken: 0,
                             timeTaken: 0,
-                            accuracy: 0
+                            questions: 0,
+                            correctQuestions: 0
                         },
                         advanced: {
                             testsTaken: 0,
                             timeTaken: 0,
-                            accuracy: 0
+                            questions: 0,
+                            correctQuestions: 0
                         }
                     }
                     }
@@ -540,7 +577,6 @@ router.post('/login', async (req, res) => {
             "PK": `user_${req.body.PK}`,
             "SK": "profile"
         }
-
         } 
     const secret = process.env.SECRET;
     const password = req.body.password
@@ -551,6 +587,30 @@ router.post('/login', async (req, res) => {
             success: false})
     } else {
         if(user.Item && bcrypt.compareSync(password, user.Item.data.hashPassword)){
+            if(user.Item.data.role == 'student'){
+                var date = new Date();
+                const paramsLastLogin = {
+                    TableName: TABLE_NAME,
+                    Key: {
+                        "PK": `user_${req.body.PK}`,
+                        "SK": "profile"
+                    },
+                    UpdateExpression: 'set #data.lastLogin = :lastLogin',
+                    ExpressionAttributeNames: {
+                        '#data': 'data'
+                    },
+                    ExpressionAttributeValues: {
+                        ':lastLogin': date.toISOString().slice(0,10)
+                    }
+                }
+                try {
+                    await documentClient.update(paramsLastLogin).promise();   
+                    } catch (err) {
+                        console.error(err);
+                        res.status(400).send('Last login could not be updated');
+                    }
+
+        }
             let token = jwt.sign({
                 PK: user.Item.PK,
                 role: user.Item.data.role,

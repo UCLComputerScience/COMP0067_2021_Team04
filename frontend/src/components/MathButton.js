@@ -7,7 +7,7 @@ export default class MathButton extends React.Component{
        const answer = ' '
        const label = ' '
     return(
-        <TouchableOpacity onPress={this.props.onPress}>
+        <TouchableOpacity onPress={this.props.onPress} disabled={this.props.disabled} >
             <View style={styles.button}>
             <Ionicons name="send" size={48} color="black" style={{ marginTop: 6, marginLeft: 2 }}></Ionicons>
             </View>

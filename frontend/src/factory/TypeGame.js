@@ -27,6 +27,9 @@ import {ten} from '../screens/LandingPage';
 import {eleven} from '../screens/LandingPage';
 import {twelve} from '../screens/LandingPage';
 import {ChangeChoice} from '../screens/LandingPage';
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import TestOverModal from '../components/TestOverModal';
+import { Alert } from "react-native";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -44,19 +47,6 @@ function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
 }
 
-function Typing() {
-    const [answer, setAnswer] = useState(' ');
-    return (
-        <View style={styles.typeContainer}>
-        <Text>Enter your answer:</Text>
-        <TextInput 
-        style={styles.input}
-        placeholder='e.g. JohnDoe'
-        onChangeText={(val) => setAnswer(val)}
-        keyboardType='numeric' />
-        <Text>answer: {answer}</Text></View>
-    );
-}
 
 
 function multiplesOf(numbers, number) { // add second argument
@@ -93,6 +83,17 @@ function multiplesOf(numbers, number) { // add second argument
 
 // const [text, setText] = useState('');
 
+const twomultiplier = 2 
+const threemultiplier = 3
+const fourmultiplier = 4
+const fivemultiplier = 5
+const sixmultiplier = 6
+const sevenmultiplier = 7
+const eightmultiplier = 8
+const ninemultiplier = 9
+const tenmultiplier = 10
+const elevenmultiplier = 11
+const twelvemultiplier = 12
 
 class TypeGame extends React.Component {
     
@@ -100,19 +101,22 @@ class TypeGame extends React.Component {
         selectedIds: [],
         remainingSeconds: this.props.initialSeconds,
         num1: isInteger,
-        // num2: 0,
-        operator: "",
-        result: isInteger
+        result: isInteger,
+        testScore: 0,
+        disabled: false,
+        isPlaying: true,
+        emptyText: " ",
+        questionsAnswered: 0,
+        multiplier: 2
     }
     static propTypes = {
         randomNumberCount: PropTypes.number.isRequired,
         initialSeconds: PropTypes.number.isRequired,
         onPlayAgain: PropTypes.func.isRequired,
         onPress: PropTypes.func.isRequired,
-        ttSelection: PropTypes.number.isRequired,
+        nextQuestion: PropTypes.func.isRequired,
     };
  
-    
     handleText = (text, inputNumber) => {
         if(Number.isInteger(+text)) {
             inputNumber == 1 
@@ -121,15 +125,66 @@ class TypeGame extends React.Component {
         };
     };
 
+    testQuestions = [[String(global.TT) + " x " + String(twomultiplier)],
+    [String(global.TT) + " x " + String(threemultiplier)],
+    [String(global.TT) + " x " + String(fourmultiplier)],
+    [String(global.TT) + " x " + String(fivemultiplier)],
+    [String(global.TT) + " x " + String(sixmultiplier)],
+    [String(global.TT) + " x " + String(sevenmultiplier)],
+    [String(global.TT) + " x " + String(eightmultiplier)],
+    [String(global.TT) + " x " + String(ninemultiplier)],
+    [String(global.TT) + " x " + String(tenmultiplier)],
+    [String(global.TT) + " x " + String(elevenmultiplier)],
+    [String(global.TT) + " x " + String(twelvemultiplier)],
+]
+
     gameStatus = 'PLAYING';
-    target = global.TT * Math.floor(getRandomIntInclusive(1,12))
+    target = global.TT * this.state.multiplier
     goal = [this.target]
     randomNumbers = Array
         .from({ length: this.props.randomNumberCount })
         .map(() => 4 + Math.floor(20 * Math.random())) 
         .concat(this.goal);
 
-    shuffledRandomNumbers = shuffle(this.randomNumbers)
+
+
+
+
+    handleTimer = () => {
+        if(this.gameStatus !== 'PLAYING' ) {
+            this.state.isPlaying = false
+        };
+    };
+
+    qgenerator = () => {
+        while(this.state.multiplier <= 11) {
+            return this.state.multiplier + 1
+        }
+    }
+
+    generateNextQuestion = () => {
+        this.state.multiplier = this.qgenerator()
+        this.target = global.TT * this.state.multiplier 
+        this.goal = [this.target]
+        this.gameStatus = 'PLAYING'
+        this.state.disabled = false
+        this.state.isPlaying = true
+    };
+
+    pauseTimer = () => {
+        console.warn(this.gameStatus)
+        if (this.state.isPlaying === false) {
+            clearInterval(this.intervalId);
+        }}
+
+    calcAccuracy = () => {
+        var accuracy = (this.state.testScore / this.state.questionsAnswered) * 100
+        if (accuracy > 0) {
+        return Math.round(accuracy);
+    }
+    else {
+        return 0;
+    }}
 
     componentDidMount() {
         this.intervalId = setInterval(() => {
@@ -145,6 +200,21 @@ class TypeGame extends React.Component {
             );
         }, 1000);
     }
+    // componentDidUpdate(prevProps) {
+    //             if (this.gameStatus !== prevProps.gameStatus) {
+    //                 clearInterval(this.intervalId);
+    //             }
+    //         }
+    // componentWillUpdate() {
+    //             if (this.gameStatus !== 'PLAYING') {
+    //                 clearInterval(this.intervalId);
+    //             }
+    //             if (this.gameStatus !== 'PLAYING') {
+    //                 clearInterval(this.intervalId);
+    //             }
+
+    //     }
+    
     componentWillUnmount() {
         clearInterval(this.intervalId);
     }
@@ -156,24 +226,17 @@ class TypeGame extends React.Component {
             selectedIds: [...prevState.selectedIds, numberIndex],
         }));
     };
-    componentWillUpdate() {
-                this.gameStatus = this.compareAnswer();
-                }
             
         compareAnswer = () => {
         const answer = this.state.num1
-        // console.warn(this.gameStatus)      
         if (answer === this.target) {
+            this.state.testScore = this.state.testScore + 1
             return 'WON';
         }
-        if (answer > this.target) {
-            return 'LOST';
-        }
-        if (answer < this.target) {
+        if (answer !== this.target) {
             return 'LOST';
         }
     }
-
 
     static navigationOptions = ({navigation}) => {
         return{
@@ -183,35 +246,41 @@ class TypeGame extends React.Component {
 
     render() {
         const gameStatus = this.gameStatus;
-        // const [Score, setScore] = useState(0)
-
-//         function incrementScore(){
-//             setScore(prevScore => prevScore + 1)
-// }
         return (
             <View style={styles.container}>
                   <GameHeader></GameHeader>
                     <Text style = {styles.titleText}>  </Text>
 
-                <Text style = {styles.titleText}>Select the correct answer for this multiplication:</Text>
-                <Text style = {styles.titleText}>Score: 1/10</Text>
-                
-                <Text style={[styles.target, styles['STATUS_' + gameStatus]]}> {global.TT} x {this.target/global.TT}
+                <Text style = {styles.titleText}>Type the correct answer for this multiplication:</Text>
+                {/* <Text style = {styles.titleText}>{this.gameStatus}</Text>    */}
+                {/* <Text style = {styles.titleText}>{this.state.remainingSeconds}</Text>    */}
+                <Text style={[styles.target, styles['STATUS_' + gameStatus]]}> {global.TT} x {this.state.multiplier}
                 </Text>
+                
+                {this.state.remainingSeconds === 0 && (
+             <TestOverModal score={this.state.testScore}
+                            accuracy={this.calcAccuracy()}
+                            total={this.state.questionsAnswered}
+                            onPress={() => Alert.alert('Hello Mate')}   />)}
 
 
                 <Input onChangeText={(text) => this.handleText(text, 1)} 
                 placeholder="....."
                 label="Type answer here..."
                 />
-                                <View style={styles.timerContainer}><TestTimer isPlaying ={true} />
-                                <MathButton onPress={this.props.onPlayAgain} />
-    
+                                <View style={styles.timerContainer}><TestTimer isPlaying={this.state.isPlaying} />
+                                <MathButton onPress={() => {this.gameStatus = this.compareAnswer();
+                                                            this.handleTimer();
+                                                            this.state.questionsAnswered = this.state.questionsAnswered + 1;
+                                                            this.calcAccuracy();
+                                                            // this.pauseTimer();
+                                                            this.state.disabled = true;}}
+                                            disabled={this.state.disabled}/>
+
                                 </View>
-                                <Button title='Play again' onPress={this.props.onPlayAgain}></Button>
-
-
-            
+                                {this.gameStatus !== 'PLAYING' && (
+            <Button title="Continue"  onPress={() => {this.generateNextQuestion();
+                                                this.state.disabled === false}} />)}
         </View>
         );
     }
@@ -232,7 +301,8 @@ class TypeGame extends React.Component {
             height: 50,
             justifyContent: 'space-around',
             flex: 1,
-            flexDirection: 'row'
+            flexDirection: 'row',
+            marginVertical: -10
 
         },
         titleText: {

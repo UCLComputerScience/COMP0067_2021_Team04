@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
 
-const TestOverModal = ({message}) => {
+const TestOverModal = ({score, accuracy, total, onPress}) => {
   const [modalVisible, setModalVisible] = useState(true);
   return (
       <Modal
@@ -15,8 +15,9 @@ const TestOverModal = ({message}) => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>Test Over!</Text>
-            <Text style={styles.modalText}>{message}</Text>
+            <Text style={styles.titleText}>Test Over!</Text>
+            <Text style={styles.modalText}>Well done you scored: {score}/{total}</Text>
+            <Text style={styles.modalText}>You had an accuracy of: {accuracy}%</Text>
 
             {/* <Pressable
               style={[styles.button, styles.buttonClose]}
@@ -26,7 +27,7 @@ const TestOverModal = ({message}) => {
             </Pressable> */}
                      <Pressable
               style={[styles.button, styles.buttonClose]}
-              onPress={() => Alert.alert('Hello')}
+              onPress={onPress}
             >
               <Text style={styles.textStyle}>Do something</Text>
             </Pressable>
@@ -47,14 +48,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 3,
+    marginTop: 20,
     // marginEnd: -50
   },
   modalView: {
-    margin: 20,
-    backgroundColor: "white",
+    margin: 30,
+    backgroundColor: "lightgrey",
     borderRadius: 20,
-    padding: 120,
+    padding: 85,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -68,7 +69,8 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 20,
     padding: 5,
-    elevation: 2
+    elevation: 2,
+    marginVertical:10
   },
   buttonOpen: {
     backgroundColor: "blue",
@@ -82,9 +84,15 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   modalText: {
-    marginBottom: 15,
-    textAlign: "center"
-  }
+    marginBottom: 20,
+    textAlign: "center",
+    fontSize: 20
+  },
+  titleText: {
+    marginBottom: 20,
+    textAlign: "center",
+    fontSize: 40,
+  },
 });
 
 export default TestOverModal;

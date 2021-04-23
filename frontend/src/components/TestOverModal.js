@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
 
-const TestOverModal = ({score, accuracy, total, onPress}) => {
+const TestOverModal = ({score, accuracy, total, onPress, sendData}) => {
   const [modalVisible, setModalVisible] = useState(true);
   return (
       <Modal

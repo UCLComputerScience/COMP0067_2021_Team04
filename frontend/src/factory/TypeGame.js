@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import PropTypes from 'prop-types';
 import { View, Text, Button, StyleSheet, TextInput} from 'react-native';
 import RandomNumber from './RandomNumber';
-import { result, shuffle } from "lodash";
+import { isInteger, result, shuffle } from "lodash";
 // import {dos} from './LandingPage';
 import Timer from '../components/Timer';
 // import AppBar from './AppBar';
@@ -13,6 +13,25 @@ import TestTimer from '../components/TestTimer';
 import EndGame from '../components/EndGameModal';
 import Input from '../components/Input';
 import MathButton from '../components/MathButton';
+import { Dimensions } from "react-native";
+import LandingPage from '../screens/LandingPage';
+import {two} from '../screens/LandingPage';
+import {three} from '../screens/LandingPage';
+import {four} from '../screens/LandingPage';
+import {five} from '../screens/LandingPage';
+import {six} from '../screens/LandingPage';
+import {seven} from '../screens/LandingPage';
+import {eight} from '../screens/LandingPage';
+import {nine} from '../screens/LandingPage';
+import {ten} from '../screens/LandingPage';
+import {eleven} from '../screens/LandingPage';
+import {twelve} from '../screens/LandingPage';
+import {ChangeChoice} from '../screens/LandingPage';
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import TestOverModal from '../components/TestOverModal';
+import { Alert } from "react-native";
+
+const screenWidth = Dimensions.get("window").width;
 
 
 // import Typing from '../screens/Typing';
@@ -28,19 +47,6 @@ function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
 }
 
-function Typing() {
-    const [answer, setAnswer] = useState(' ');
-    return (
-        <View style={styles.typeContainer}>
-        <Text>Enter your answer:</Text>
-        <TextInput 
-        style={styles.input}
-        placeholder='e.g. JohnDoe'
-        onChangeText={(val) => setAnswer(val)}
-        keyboardType='numeric' />
-        <Text>answer: {answer}</Text></View>
-    );
-}
 
 
 function multiplesOf(numbers, number) { // add second argument
@@ -77,25 +83,40 @@ function multiplesOf(numbers, number) { // add second argument
 
 // const [text, setText] = useState('');
 
+const twomultiplier = 2 
+const threemultiplier = 3
+const fourmultiplier = 4
+const fivemultiplier = 5
+const sixmultiplier = 6
+const sevenmultiplier = 7
+const eightmultiplier = 8
+const ninemultiplier = 9
+const tenmultiplier = 10
+const elevenmultiplier = 11
+const twelvemultiplier = 12
 
 class TypeGame extends React.Component {
     
-
+    state = {
+        selectedIds: [],
+        remainingSeconds: this.props.initialSeconds,
+        num1: isInteger,
+        result: isInteger,
+        testScore: 0,
+        disabled: false,
+        isPlaying: true,
+        emptyText: " ",
+        questionsAnswered: 0,
+        multiplier: 2,
+    }
     static propTypes = {
         randomNumberCount: PropTypes.number.isRequired,
         initialSeconds: PropTypes.number.isRequired,
         onPlayAgain: PropTypes.func.isRequired,
         onPress: PropTypes.func.isRequired,
+        nextQuestion: PropTypes.func.isRequired,
     };
-    state = {
-        selectedIds: [],
-        remainingSeconds: this.props.initialSeconds,
-        num1: 0,
-        // num2: 0,
-        operator: "",
-        result: 0
-    };
-    
+ 
     handleText = (text, inputNumber) => {
         if(Number.isInteger(+text)) {
             inputNumber == 1 
@@ -104,15 +125,73 @@ class TypeGame extends React.Component {
         };
     };
 
+    testQuestions = [[String(global.TT) + " x " + String(twomultiplier)],
+    [String(global.TT) + " x " + String(threemultiplier)],
+    [String(global.TT) + " x " + String(fourmultiplier)],
+    [String(global.TT) + " x " + String(fivemultiplier)],
+    [String(global.TT) + " x " + String(sixmultiplier)],
+    [String(global.TT) + " x " + String(sevenmultiplier)],
+    [String(global.TT) + " x " + String(eightmultiplier)],
+    [String(global.TT) + " x " + String(ninemultiplier)],
+    [String(global.TT) + " x " + String(tenmultiplier)],
+    [String(global.TT) + " x " + String(elevenmultiplier)],
+    [String(global.TT) + " x " + String(twelvemultiplier)],
+]
+
     gameStatus = 'PLAYING';
-    target = 2 * Math.floor(getRandomIntInclusive(1,12))
+    gameOver = 'GAME_IN_PLAY';
+
+    target = global.TT * this.state.multiplier
     goal = [this.target]
     randomNumbers = Array
         .from({ length: this.props.randomNumberCount })
         .map(() => 4 + Math.floor(20 * Math.random())) 
         .concat(this.goal);
 
-    shuffledRandomNumbers = shuffle(this.randomNumbers)
+    handleTimer = () => {
+        if(this.gameStatus !== 'PLAYING' ) {
+            this.state.isPlaying = false
+        };
+    };
+
+    qgenerator = () => {
+        while(this.state.multiplier <= 11) {
+            return this.state.multiplier + 1
+        }
+    }
+
+    generateNextQuestion = () => {
+        this.state.multiplier = this.qgenerator()
+        this.target = global.TT * this.state.multiplier 
+        this.goal = [this.target]
+        this.gameStatus = 'PLAYING'
+        this.state.disabled = false
+        this.state.isPlaying = true
+    };
+
+    pauseTimer = () => {
+        if (this.state.isPlaying === false) {
+            clearInterval(this.intervalId);
+        }}
+
+    terminateGame = () => {
+        if (this.state.questionsAnswered === 11) {
+            return this.state.remainingSeconds = 0;
+        }}
+    
+
+    calcAccuracy = () => {
+        var accuracy = (this.state.testScore / this.state.questionsAnswered) * 100
+        if (accuracy > 0) {
+        return Math.round(accuracy);
+    }
+    else {
+        return 0;
+    }}
+
+        calcAccuracy = () => {
+    (this.gameOver === 'GAME_OVER') 
+        }
 
     componentDidMount() {
         this.intervalId = setInterval(() => {
@@ -122,12 +201,28 @@ class TypeGame extends React.Component {
             },
             () => {
                 if (this.state.remainingSeconds === 0) {
-                    clearInterval(this.intervalId);
+                    // clearInterval(this.intervalId);
+                    this.gameOver = 'GAME_OVER';
                 }
             },
             );
-        }, 5000);
+        }, 1000);
     }
+    // componentDidUpdate(prevProps) {
+    //             if (this.gameStatus !== prevProps.gameStatus) {
+    //                 clearInterval(this.intervalId);
+    //             }
+    //         }
+    // componentWillUpdate() {
+    //             if (this.gameStatus !== 'PLAYING') {
+    //                 clearInterval(this.intervalId);
+    //             }
+    //             if (this.gameStatus !== 'PLAYING') {
+    //                 clearInterval(this.intervalId);
+    //             }
+
+    //     }
+    
     componentWillUnmount() {
         clearInterval(this.intervalId);
     }
@@ -139,50 +234,24 @@ class TypeGame extends React.Component {
             selectedIds: [...prevState.selectedIds, numberIndex],
         }));
     };
-    componentWillUpdate(nextProps, nextState) {
-        if (
-            nextState.selectedIds !== this.state.selectedIds ||
-            nextState.remainingSeconds === 0
-            ) {
-                this.gameStatus = this.calcGameStatus(nextState);
-                // this.gameStatus=this.compareAnswer(nextState)
-                if (this.gameStatus !== 'PLAYING') {
-                    clearInterval(this.intervalId);
-                }
-            }
-    }
-
+            
         compareAnswer = () => {
         const answer = this.state.num1
-        // console.warn(answer)
-        console.warn(this.gameStatus)
-        if (answer < this.target) {
-            return 'LOST';
-        }
         if (answer === this.target) {
+            this.state.testScore = this.state.testScore + 1
             return 'WON';
         }
-        if (answer > this.target) {
+        if (answer !== this.target) {
             return 'LOST';
         }
     }
 
-    calcGameStatus = (nextState) => {
-        console.log('calcGameStatus')
-        const sumSelected = nextState.selectedIds.reduce((acc, curr) => {
-            return acc + this.shuffledRandomNumbers[curr];
-        }, 0);
-        if (nextState.remainingSeconds === 0) {
-            return 'LOST';
-        }
-        if (sumSelected < this.target) {
-            return 'PLAYING';
-        }
-        if (sumSelected === this.target) {
-            return 'WON';
-        }
-        if (sumSelected > this.target) {
-            return 'LOST';
+    checkGameOver = () => {
+        const totalQuestions = this.state.questionsAnswered
+        if (totalQuestions === 11) {
+            return 'GAME_OVER';
+        }else{
+            return 'GAME_IN_PLAY'
         }
     }
 
@@ -194,29 +263,47 @@ class TypeGame extends React.Component {
 
     render() {
         const gameStatus = this.gameStatus;
-        // const [Score, setScore] = useState(0)
-
-//         function incrementScore(){
-//             setScore(prevScore => prevScore + 1)
-// }
+        const gameOver = this.gameOver;
         return (
             <View style={styles.container}>
                   <GameHeader></GameHeader>
                     <Text style = {styles.titleText}>  </Text>
 
-                <Text style = {styles.titleText}>Select the correct answer for this multiplication:</Text>
-                <Text style = {styles.titleText}>Score: 1/10</Text>
-                
-            {/* <Button title="Play Again" onPress={this.props.onPlayAgain} /> */}
-                <Text style={[styles.target, styles['STATUS_' + gameStatus]]}> 2 x {this.target / 2}
+                <Text style = {styles.titleText}>Type the correct answer for this multiplication:</Text>
+                {/* <Text style = {styles.titleText}>{this.gameStatus}</Text>    */}
+                {/* <Text style = {styles.titleText}>{this.state.remainingSeconds}</Text>    */}
+                <Text style={[styles.target, styles['STATUS_' + gameStatus]]}> {global.TT} x {this.state.multiplier}
                 </Text>
+                
+                {this.gameOver === 'GAME_OVER' && (
+                <TestOverModal score={this.state.testScore}
+                                accuracy={this.calcAccuracy()}
+                                total={this.state.questionsAnswered}
+                                onPress={() => Alert.alert('Hello')}   />)}
+
                 <Input onChangeText={(text) => this.handleText(text, 1)} 
                 placeholder="....."
                 label="Type answer here..."
                 />
-                <Text>The Result is : {this.state.num1}</Text>
-                {/* <TestTimer isPlaying ={true} /> */}
-                <MathButton onPress={this.compareAnswer} />
+                {/* this.state.isPlaying */}
+                                <View style={styles.timerContainer}><TestTimer isPlaying={true} />
+                                <MathButton onPress={() => {this.gameStatus = this.compareAnswer();
+                                                            this.gameOver = this.checkGameOver();
+                                                            this.handleTimer();
+                                                            this.state.questionsAnswered = this.state.questionsAnswered + 1;
+                                                            this.calcAccuracy();
+                                                            // this.state.remainingSeconds = this.terminateGame()
+                                                            // this.pauseTimer();
+                                                            // this.terminateGame();
+                                                            this.state.disabled = true;}}
+                                            disabled={this.state.disabled}/>
+                                            
+
+                                </View>
+                                {this.gameStatus !== 'PLAYING' && (
+            <Button title="Continue"  onPress={() => {this.generateNextQuestion();
+                                                this.state.disabled === false}} />)}
+                                                {/* <Button title="Move"  onPress={() => this.props.navigation.navigate('Challenge')}/> */}
 
 
         </View>
@@ -231,21 +318,23 @@ class TypeGame extends React.Component {
             alignItems: "center"
         },
         container: {
-            color: 'white',
+            backgroundColor: 'white',
             flex: 1,
         },
-        timercontainer: {
-            color: 'white',
+        timerContainer: {
+            width: screenWidth,
+            height: 50,
+            justifyContent: 'space-around',
             flex: 1,
-            alignItems: 'flex-start',
-            justifyContent: 'flex-end',
-            marginVertical: 20,
-            marginHorizontal: 30,
+            flexDirection: 'row',
+            marginVertical: -10
+
         },
         titleText: {
             fontSize: 20,
             fontWeight: "bold",
             textAlign: 'center',
+            marginTop: 5
         },
         target: {
             fontSize: 50,

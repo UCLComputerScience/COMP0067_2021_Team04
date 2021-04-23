@@ -1,15 +1,44 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 import SocialButton from '../components/SocialButton';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const _storeData = async (userStr) => {
+    try {
+      
+      await AsyncStorage.setItem(
+        'user',
+        userStr
+      )
+      ;
+    } catch (error) {
+      
+    }
+  };
+  const userLogin = async()=>{
+    navigation.navigate('numberFit');
+    
+    const {data: user} = await axios.post('http://54.171.167.5/api/v1/users/login',{
+      "PK": "mathsqueen",
+      "password": "test123"
+  })
+    
+    const userString = JSON.stringify(user)
+    _storeData(userString)
+    
+    
+    
+  }
     return (
         <View style={styles.container}>
+          <Text>{email}</Text>
             <Image 
               style = {styles.logo} 
               source={require('../imgs/logo.png')}
@@ -48,14 +77,15 @@ const LoginScreen = ({navigation}) => {
               backgroundColor="#f5e7ea"
               onPress={() => {}}
             />
-            <TouchableOpacity style={styles.forgotButton} onPress={() => navigation.navigate('Signup')}>
+            <TouchableOpacity style={styles.forgotButton} onPress={() => navigation.navigate('UserSelect')}>
                 <Text style={styles.navButtonText}>NEW TO NUMBERFIT? JOIN HERE.</Text>
             </TouchableOpacity>
         </View>
       );
 };
 
-export default LoginScreen;
+exports.LoginScreen = LoginScreen;
+
 
 const styles = StyleSheet.create({
     container: {

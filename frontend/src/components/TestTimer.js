@@ -4,13 +4,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 
-const TestTimer = () => {
+const TestTimer = ({isPlaying}) => {
     return (
-      <View style={styles.centeredView}>
   <CountdownCircleTimer
-    size={80}
-    isPlaying
-    duration={60}
+    size={70}
+    isPlaying={isPlaying}
+    duration={120}
     colors={[
       ['#004777', 0.4],
       ['#F7B801', 0.4],
@@ -23,14 +22,14 @@ const TestTimer = () => {
       </Animated.Text>
     )}
   </CountdownCircleTimer>
-  </View>
     );
     };
 
     const styles = StyleSheet.create({
       centeredView: {
-        justifyContent: "center",
-        alignItems: "center",
+        marginHorizontal: 30
+        // justifyContent: 'space-evenly',
+        // alignItems: 'space-evenly',
         // marginEnd: -50
       }
     })

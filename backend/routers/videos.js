@@ -10,19 +10,41 @@ AWS.config.update({
 })
 
 const documentClient = new AWS.DynamoDB.DocumentClient();
+const bucketName = 'ucl-tt-videos'
 
-
-router.get('/floormat/:timestable/:difficulty', async (req, res) => {
-    const s3 = new AWS.s3();
-        const params = {
+router.get('/floormat', async (req, res) => {
+    const s3 = new AWS.S3();
+    try {
+        response = await s3.listObjectsV2({
             Bucket: 'ucl-tt-videos',
-            Key: '10x-adv-floor-mat.m4v'
-        }
+            Prefix: 'Floor-Mat'
 
-        try {
-            response = await s3.getOject(params).promise
-        console.log(promise)
-            res.status(200).json({
+        }).promise();
+        console.log(response)
+        res.status(200).json({ 
+            message: "You have retrieved your videos ", 
+            success: true, 
+            response
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(400).json({
+            message: 'Videos could not be retrieved',
+            success: false});
+    }
+
+    
+})
+
+router.get('/nofloormat', async (req, res) => {
+    const s3 = new AWS.S3();
+    try {
+        const response = await s3.listObjectsV2({
+            Bucket: 'ucl-tt-videos',
+            Prefix: 'No-Floor-Mat'
+        }).promise();
+        console.log(response)
+        res.status(200).json({
             message: "You have retrieved your videos ",
             success: true,
             response
@@ -36,18 +58,23 @@ router.get('/floormat/:timestable/:difficulty', async (req, res) => {
 
     
 })
-router.get('/nofloormat/:timestable/:difficulty', async (req, res) => {
-    const s3 = new aws.S3();
+router.get('/:key', async (req, res) => {
+    const s3 = new AWS.S3();
+
+    const downloadParams = {
+        Key: `No-Floor-Mat/${req.params.key}`,
+        Bucket: bucketName
+    }
     try {
-        const response = await s3.listObjectsV2({
-            Bucket: 'ucl-tt-videos',
-            Prefix: 'No-FLoor-Mat', 
-        }).promise();
-        console.log(response)
+        const readStream = await s3.getObject(downloadParams).createReadStream()
+        console.log('readStream:')
+        console.log(readStream)
+        readStream.pipe(res)
+        console.log('readStream.pipe(res):')
+        console.log(readStream.pipe(res))
         res.status(200).json({
             message: "You have retrieved your videos ",
             success: true,
-            response
             });
         } catch (err) {
             console.error(err);

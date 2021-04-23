@@ -8,9 +8,17 @@ export default class TestSettings extends Component {
     state = {
         gameId: 1,
     };
+    inTest = {
+        testId: 1,
+    };
     resetGame = () => {
         this.setState((prevState) => {
             return { gameId: prevState.gameId + 1};
+        });
+    };
+    nextQuestion = () => {
+        this.inTest((prevState) => {
+            return { testId: prevState.testId + 1};
         });
     };
     render() {
@@ -18,10 +26,9 @@ export default class TestSettings extends Component {
             <View style={styles.container}>
                 <TypeGame
                 key={this.state.gameId}
+                nextQuestion={this.nextQuestion}
                 onPlayAgain={this.resetGame} 
-                randomNumberCount={5} 
-                initialSeconds={60} 
-                ttSelection={this.props.ttSelection}
+                initialSeconds={120} 
                 />
             </View>
         );

@@ -22,7 +22,7 @@ export default class LeaderBoardScreen extends Component {
           "https://www.shareicon.net/data/128x128/2016/09/15/829473_man_512x512.png"
       };
       this.setState({ data: this.state.data.concat(newData) });
-    }, 500000);
+    }, 5000);
   }
 
   alert = (title, body) => {

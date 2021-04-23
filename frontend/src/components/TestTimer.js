@@ -4,12 +4,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 
-const TestTimer = () => {
+const TestTimer = ({isPlaying}) => {
     return (
   <CountdownCircleTimer
     size={70}
-    isPlaying
-    duration={60}
+    isPlaying={isPlaying}
+    duration={120}
     colors={[
       ['#004777', 0.4],
       ['#F7B801', 0.4],

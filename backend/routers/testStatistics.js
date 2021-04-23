@@ -14,89 +14,230 @@ AWS.config.update({
 const documentClient = new AWS.DynamoDB.DocumentClient();
 const TABLE_NAME = 'UCL-TT-USERS-V2';
 
-// get user's test statistics
-router.get(`userStatistics/:PK`, async (req, res) => {
+// Submit a test statistic
+router.post(`/`, async (req, res) => {
 
-    const params = {
-        TableName: TABLE_NAME
-    };
-
-    // create an empty object to hold the response
-    let responseData;
-
-    // check if URI parameters exists
-    if (req.params.PK) {
-        params.KeyConditionExpression = 'PK = :pk AND begins_with(SK, :sk)',
-        params.ExpressionAttributeValues = {
-            ':pk': req.params.PK,
-            ':sk': "test_statistic"
+    // update timestable mastered
+    const paramsTestStats = {
+        TableName: TABLE_NAME,
+        KeyConditionExpression: 'PK = :pk AND begins_with(SK, :sk)',
+        FilterExpression: '#data.#accuracy = :accuracy',
+        ExpressionAttributeNames: {
+            '#data': 'data',
+            '#accuracy': 'accuracy'
+        },
+        ExpressionAttributeValues: {
+            ':pk': req.body.PK,
+            ':sk': `testStatistic_${req.body.SK}`,
+            ':accuracy': 100, 
         }
-        
-    } else {
-        // check if query parameter exists
-        if(req.query.PK) {
-            params.Key = {
-                PK: req.query.PK,
-            }
-            params.KeyConditionExpression = 'PK = :pk AND begins_with(SK, :sk)',
-            params.ExpressionAttributeValues = {
-                ':pk': req.params.PK,
-                ':sk': req.params.SK
-            }
+    };
+    const testStats = await documentClient.query
+    (paramsTestStats).promise()
+    console.log(testStats)
+
+    
+
+
+    const date = new Date();
+    console.log(date.toISOString())
+    dateISO = date.toISOString()
+    const params = {
+        TableName: TABLE_NAME,
+        Item: {
+        PK: req.body.PK, //user_id
+        SK: `testStatistic_${req.body.SK}_${uuid.v4()}`, // teststatistic_timestable_randomid
+        GSI1: req.body.GSI1, //class_id
+        data: {
+            date: `${dateISO}`,
+            timeTaken: req.body.data.timeTaken,
+            accuracy: req.body.data.accuracy,
+            experience: req.body.data.experience,
         }
     }
-    try {
-        responseData = await documentClient.query(params).promise()
-        res.json(responseData)
-    } catch (error) {
-        res.status(500).send("Unable to collect record: " + error)
-    } 
-})
+    }
+    
 
-// get user's test statistics (specific timestable)
-router.get(`/userStatistics/:PK/:timestable?`, async (req, res) => {
-
-    const timestable = req.params.timestable ? req.params.timestable : ""
-    //eventual filter
-    // const days = req.params.days ? req.params.days : 7
-    const params = {
-        TableName: TABLE_NAME
-    };
-
-    // create an empty object to hold the response
-    let responseData;
-
-    // check if URI parameters exists
-    if (req.params.PK) {
-        params.KeyConditionExpression = 'PK = :pk AND begins_with(SK, :sk)',
-        params.ExpressionAttributeValues = {
-            ':pk': req.params.PK,
-            ':sk': `test_statistic_${timestable}`
-        }
-        
-    } else {
-        // check if query parameter exists
-        if(req.query.PK) {
-            params.Key = {
-                PK: req.query.PK,
-            }
-            params.KeyConditionExpression = 'PK = :pk AND begins_with(SK, :sk)',
-            params.ExpressionAttributeValues = {
-                ':pk': req.params.PK,
-                ':sk': req.params.SK
-            }
+    timestable = req.body.timestable
+    const params2 = {
+        TableName: TABLE_NAME,
+        Key: {
+            PK: req.body.PK, //user_id
+            SK: 'profile',
+        },
+        UpdateExpression: 'ADD overall.testsTaken :testsinc, overall.accuracy :accuracyinc, overall.timeTaken :timeinc, #data.experience :experienceinc',
+        ExpressionAttributeNames: {
+            '#data': 'data'
+        },
+        ExpressionAttributeValues: {
+            ':testsinc': 1,
+            ':accuracyinc': req.body.data.accuracy,
+            ':timeinc': req.body.data.timeTaken,
+            ':experienceinc': req.body.data.experience
+            
         }
     }
-    try {
-        responseData = await documentClient.query(params).promise()
-        res.json(responseData)
-    } catch (error) {
-        res.status(500).send("Unable to collect record: " + error)
-    } 
+    if (req.body.data.accuracy == 100 && testStats.Items.length == 0) {
+        
+        
+        params2.UpdateExpression = `ADD overall.testsTaken :testsinc, overall.accuracy :accuracyinc, overall.timeTaken :timeinc, #data.experience :experienceinc, ${req.body.timestable} :testsinc`
+         
+        if (req.body.SK.slice(-1) == 'A') {
+            params2.UpdateExpression = `ADD overall.testsTaken :testsinc, overall.accuracy :accuracyinc, overall.timeTaken :timeinc, #data.experience :experienceinc, ${req.body.timestable} :testsinc, overall.timestableMastered :testsinc`
+        } 
 
-    // filter by day 
-    // const filteredResults = responseData.Items.filter(item => dateNow - item.Data.dateFinished > x)
+    }
+    console.log(params2);
+
+
+    try {
+        await documentClient.put(params).promise();   
+        await documentClient.update(params2).promise();  
+        if (req.body.data.accuracy == 100 && testStats.Items.length == 0 && req.body.SK.slice(-1) == 'A') {
+            res.status(200).json({
+                message: "Congratulations you have mastered this timestable",
+                success: true
+                });
+        }
+        else if (req.body.data.accuracy == 100 && testStats.Items.length == 0) {
+            res.status(200).json({
+                message: "You have unlocked a new level!",
+                success: true
+                });
+        } else {
+        res.status(200).json({
+            message: "You have successfully inserted a test stat.",
+            success: true
+            });}
+        } catch (err) {
+            console.error(err);
+            res.status(400).send('Congratulations. You have finished the test');
+        }
+}
+)
+
+// Update user's profile stats
+// router.put(`/profile/`, async (req, res) => {
+
+//     timestable = req.body.timestable
+//     const params = {
+//         TableName: TABLE_NAME,
+//         Key: {
+//             PK: req.body.PK, //user_id
+//             SK: 'profile', // teststatistic_timestable_randomid
+//         },
+//         UpdateExpression: `SET ${req.body.timestable.testsTaken} + :qinc, SET `,
+//         ExpressionAttributeValues: {
+//             'qinc': 1,
+            
+//         }
+//         data: {
+//             date: `${dateISO}`,
+//             timeTaken: req.body.data.timeTaken,
+//             accuracy: req.body.data.accuracy,
+//             experience: req.body.data.experience,
+//         }
+//     }
+//     }
+
+
+//     try {
+//         const testStat = await documentClient.update(params).promise();   
+//         console.log(testStat) 
+//         res.status(200).json({
+//             message: "You have successfully inserted a test stat.",
+//             success: true
+//             });
+//         } catch (err) {
+//             console.error(err);
+//             res.status(400).send('Test stat could not be inserted');
+//         }
+// }
+// )
+
+// get user's test statistics for a specific timestable and difficulty (and within the last week)
+// userStatistics/user_mathsqueen/2B?starttime=2021-04-22T00:40:57.817Z&endtime=2021-04-22T03:00:57.817Z
+router.get(`/userStatistics/:PK/:SK`, async (req, res) => {
+    
+    starttime = req.query.starttime ? req.query.starttime : '2020-04-22T00:40:57.817Z'
+    endtime = req.query.endtime ? req.query.endtime : new Date().toISOString()
+
+    const params = {
+        TableName: TABLE_NAME,
+        KeyConditionExpression: 'PK = :pk AND begins_with(SK, :sk)',
+        FilterExpression: '#data.#date BETWEEN :starttime AND :endtime',
+        ExpressionAttributeNames: {
+            '#data': 'data',
+            '#date': 'date'
+        },
+        ExpressionAttributeValues: {
+            ':pk': req.params.PK,
+            ':sk': `testStatistic_${req.params.SK}`,
+            ':starttime': starttime, 
+            ':endtime': endtime,
+        }
+    };
+
+    try {
+        const testStats = await documentClient.query(params).promise()
+        console.log(testStats) 
+        res.status(200).json({
+            message: "You have retrieved your test stats",
+            success: true,
+            testStats
+            });
+        } catch (err) {
+            console.error(err);
+            res.status(400).json({
+                message: 'Test stats could not be retrieved',
+                success: false});
+        }
 })
+
+// // get user's test statistics (specific timestable)
+// router.get(`/userStatistics/:PK/:timestable?`, async (req, res) => {
+
+//     const timestable = req.params.timestable ? req.params.timestable : ""
+//     //eventual filter
+//     // const days = req.params.days ? req.params.days : 7
+//     const params = {
+//         TableName: TABLE_NAME
+//     };
+
+//     // create an empty object to hold the response
+//     let responseData;
+
+//     // check if URI parameters exists
+//     if (req.params.PK) {
+//         params.KeyConditionExpression = 'PK = :pk AND begins_with(SK, :sk)',
+//         params.ExpressionAttributeValues = {
+//             ':pk': req.params.PK,
+//             ':sk': `test_statistic_${timestable}`
+//         }
+        
+//     } else {
+//         // check if query parameter exists
+//         if(req.query.PK) {
+//             params.Key = {
+//                 PK: req.query.PK,
+//             }
+//             params.KeyConditionExpression = 'PK = :pk AND begins_with(SK, :sk)',
+//             params.ExpressionAttributeValues = {
+//                 ':pk': req.params.PK,
+//                 ':sk': req.params.SK
+//             }
+//         }
+//     }
+//     try {
+//         responseData = await documentClient.query(params).promise()
+//         res.json(responseData)
+//     } catch (error) {
+//         res.status(500).send("Unable to collect record: " + error)
+//     } 
+
+//     // filter by day 
+//     // const filteredResults = responseData.Items.filter(item => dateNow - item.Data.dateFinished > x)
+// })
 
 // get class' test statistics
 router.get(`/classStatistics/:GSI1/`, async (req, res) => {
@@ -133,40 +274,6 @@ router.get(`/classStatistics/:GSI1/`, async (req, res) => {
 
 
 
-router.post(`/`, [ ...validators.postTestStatisticsValidators], async (req, res) => {
-
-    const errors = validationResult(req)
-    if(!errors.isEmpty()) {
-        // 400 code equals bad request
-        // send back a response with a json
-        res.status(400).json({
-            errors: errors.array()
-        })
-    }  
-
-    const params = {
-        TableName: TABLE_NAME,
-        Item: {
-        PK: req.body.PK, //user_id
-        SK: req.body.SK, //testStatistic_timestableDifficulty_id
-        GSI1: req.body.GSI1, //class_id
-        dateFinished: req.body.dateFinished,
-        timetaken: req.body.timeTaken,
-        accuracy: req.body.accuracy,
-        difficulty: req.body.difficulty,
-        experience: req.body.experience,
-        timestable: req.body.timestable
-    }
-    }
-
-  try {
-    const testStatistic = await documentClient.put(params).promise();    
-    res.status(201).send(testStatistic);
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Something went wrong');
-    }
-})
 
 //update user statistic (need alteration and may not be necessary)
 router.put(`/:userID`, async (req, res) => {

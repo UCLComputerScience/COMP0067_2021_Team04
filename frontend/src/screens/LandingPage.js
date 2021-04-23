@@ -202,63 +202,63 @@ fetchData()
                  <View style={styles.randomContainer}>
                   <TTButton 
                   number={two}
-                  colour={beginner}
+                  colour={difficultyColours[user.twox.state]}
                   isDisabled = {false}
                   onPress={() => {setTesting(2)
-                                  navigation.navigate('Difficulty', {paramKey: testing})}}
+                                  navigation.navigate('Difficulty', {difficulty: user.twox.state})}}
                    />
        <TTButton number={three}
-                  colour={intermediate}
+                  colour={difficultyColours[user.threex.state]}
                   isDisabled = {false}
                   onPress={() => {setTesting(3)
-                                  navigation.navigate('Difficulty', {paramKey: testing})}}
+                                  navigation.navigate('Difficulty', {difficulty: user.threex.state})}}
                    />
        <TTButton number={four}
-                  colour={intermediate}
+                  colour={difficultyColours[user.fourx.state]}
                   isDisabled = {false}
                   onPress={() => {setTesting(4)
-                                  navigation.navigate('Difficulty', {paramKey: testing})}}
+                                  navigation.navigate('Difficulty', {difficulty: user.fourx.state})}}
                    />
        <TTButton number={five}
-                  colour={advanced}
+                  colour={difficultyColours[user.fivex.state]}
                   isDisabled = {false}
                   onPress={() => {setTesting(5)
-                                  navigation.navigate('Difficulty', {paramKey: testing})}}                   />
+                                  navigation.navigate('Difficulty', {difficulty: user.fivex.state})}}                   />
        <TTButton number={six}
-                  colour={intermediate}
+                  colour={difficultyColours[user.sixx.state]}
                   isDisabled = {false}
                   onPress={() => {setTesting(6)
-                                  navigation.navigate('Difficulty', {paramKey: testing})}}                   />
+                                  navigation.navigate('Difficulty', {difficulty: user.sixx.state})}}                   />
        <TTButton number={seven}
-                  colour={intermediate}
+                  colour={difficultyColours[user.sevenx.state]}
                   isDisabled = {false}
                   onPress={() => {setTesting(7)
-                                  navigation.navigate('Difficulty', {paramKey: testing})}}                   />
+                                  navigation.navigate('Difficulty', {difficulty: user.sevenx.state})}}                   />
        <TTButton number={eight}
-                  colour={advanced}
+                  colour={difficultyColours[user.eightx.state]}
                   isDisabled = {false}
                   onPress={() => {setTesting(8)
-                                  navigation.navigate('Difficulty', {paramKey: testing})}}                   />
+                                  navigation.navigate('Difficulty', {difficulty: user.eightx.state})}}                   />
        <TTButton number={nine}
-                  colour={intermediate}
+                  colour={difficultyColours[user.ninex.state]}
                   isDisabled = {false}
                   onPress={() => {setTesting(9)
-                                  navigation.navigate('Difficulty', {paramKey: testing})}}                   />
+                                  navigation.navigate('Difficulty', {difficulty: user.ninex.state})}}                   />
        <TTButton number={ten}
-                  colour={advanced}
+                  colour={difficultyColours[user.tenx.state]}
                   isDisabled = {false}
                   onPress={() => {setTesting(10)
-                                  navigation.navigate('Difficulty', {paramKey: testing})}}                   />
+                                  navigation.navigate('Difficulty', {difficulty: user.tenx.state})}}                   />
        <TTButton number={eleven}
-                  colour={beginner}
+                  colour={difficultyColours[user.elevenx.state]}
                   isDisabled = {false}
                   onPress={() => {setTesting(11)
-                                  navigation.navigate('Difficulty', {paramKey: testing})}}                   />
+                                  navigation.navigate('Difficulty', {difficulty: user.elevenx.state})}}                   />
        <TTButton number={twelve}
-                  colour={beginner}
+                  colour={difficultyColours[user.twelvex.state]}
                   isDisabled = {false}
                   onPress={() => {setTesting(12)
-                                  navigation.navigate('Difficulty', {paramKey: testing})}}                   />
+                                  navigation.navigate('Difficulty', {difficulty: user.twelvex.state})}}                   />
     </View>
     <View style = {styles.extrabuttons}>
     <TouchableHighlight 

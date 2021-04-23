@@ -226,50 +226,31 @@ router.get(`/userStatistics/:PK/:SK`, async (req, res) => {
         }
 })
 
-// // get user's test statistics (specific timestable)
-// router.get(`/userStatistics/:PK/:timestable?`, async (req, res) => {
+router.get(`/indepth/:PK`, async (req, res) => {
 
-//     const timestable = req.params.timestable ? req.params.timestable : ""
-//     //eventual filter
-//     // const days = req.params.days ? req.params.days : 7
-//     const params = {
-//         TableName: TABLE_NAME
-//     };
+    const params = {
+        TableName: TABLE_NAME, 
+        Key: {
+            PK: req.params.PK,
+            SK: 'statistics'
+        }
+    };
 
-//     // create an empty object to hold the response
-//     let responseData;
-
-//     // check if URI parameters exists
-//     if (req.params.PK) {
-//         params.KeyConditionExpression = 'PK = :pk AND begins_with(SK, :sk)',
-//         params.ExpressionAttributeValues = {
-//             ':pk': req.params.PK,
-//             ':sk': `test_statistic_${timestable}`
-//         }
-        
-//     } else {
-//         // check if query parameter exists
-//         if(req.query.PK) {
-//             params.Key = {
-//                 PK: req.query.PK,
-//             }
-//             params.KeyConditionExpression = 'PK = :pk AND begins_with(SK, :sk)',
-//             params.ExpressionAttributeValues = {
-//                 ':pk': req.params.PK,
-//                 ':sk': req.params.SK
-//             }
-//         }
-//     }
-//     try {
-//         responseData = await documentClient.query(params).promise()
-//         res.json(responseData)
-//     } catch (error) {
-//         res.status(500).send("Unable to collect record: " + error)
-//     } 
-
-//     // filter by day 
-//     // const filteredResults = responseData.Items.filter(item => dateNow - item.Data.dateFinished > x)
-// })
+    try {
+        const testStats = await documentClient.get(params).promise()
+        console.log(testStats) 
+        res.status(200).json({
+            message: "You have retrieved indepth test stats",
+            success: true,
+            testStats
+            });
+        } catch (err) {
+            console.error(err);
+            res.status(400).json({
+                message: 'Test stats could not be retrieved',
+                success: false});
+        }
+})
 
 // get class' test statistics
 router.get(`/classStatistics/:GSI1/`, async (req, res) => {

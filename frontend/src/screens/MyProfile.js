@@ -66,6 +66,7 @@ export default function MyProfile({navigation}) {
           "timeTaken": 0,
         },
         "overall":  {
+          "score": 0,
           "accuracy": 0,
           "testsTaken": 0,
           "timeTaken": 0,
@@ -147,7 +148,7 @@ export default function MyProfile({navigation}) {
                     </View>
                     <View style={styles.active}></View>
                     <View style={styles.add}>
-                        <AvatarMenu func = {updateAvatar}></AvatarMenu>
+                        <AvatarMenu func = {updateAvatar} person = {user}></AvatarMenu>
                     </View>
                 </View>
 

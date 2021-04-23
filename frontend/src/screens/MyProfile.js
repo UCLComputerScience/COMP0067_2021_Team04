@@ -161,7 +161,7 @@ export default function MyProfile({navigation}) {
 
                 <View style={styles.statsContainer}>
                     <View style={styles.statsBox}>
-                        <Text style={[styles.text, { fontSize: 24 }]}>75%</Text>
+                        <Text style={[styles.text, { fontSize: 24 }]}>{(user.data.score*100)/33}</Text>
                         <Text style={[styles.text, styles.subText, {fontSize: 12}]}>App Completion</Text>
                     </View>
                     <View style={[styles.statsBox, { borderColor: "#DFD8C8", borderLeftWidth: 1, borderRightWidth: 1 }]}>

@@ -226,6 +226,7 @@ router.get(`/userStatistics/:PK/:SK`, async (req, res) => {
         }
 })
 
+// Get indepth statistics of a students timestables
 router.get(`/indepth/:PK`, async (req, res) => {
 
     const params = {

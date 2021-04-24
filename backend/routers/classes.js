@@ -71,7 +71,7 @@ router.get(`/getClassProfiles/:GSI1`, async (req, res) => {
         params.IndexName = 'GSI1-SK-index'
         params.KeyConditionExpression = 'GSI1 = :gsi1 AND begins_with(SK, :sk)',
         params.ExpressionAttributeValues = {
-            ':gsi1': `class_${req.params.GSI1}`, //class_id
+            ':gsi1': '${req.params.GSI1}', //class_id
             ':sk': "profile" 
         }
         

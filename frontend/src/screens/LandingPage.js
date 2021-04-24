@@ -6,6 +6,7 @@ import { Dimensions, TouchableHighlight } from 'react-native';
 import LandingHeader from '../components/LandingHeader';
 import TTButton from '../components/TTButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
 const beginner="#cd7f32"
 const intermediate="#c0c0c0"
@@ -166,15 +167,8 @@ try {
     let result = JSON.parse(value)
     
     userLoad(result)
-    
-    
-    
-    
-
-    
   }
 } catch (error) {
-  
   console.log("error")
 }
 }
@@ -193,9 +187,8 @@ fetchData()
       underlayColor = '#ccc'
       onPress = { () => alert('Help!') }
     >
-      <Image style={styles.qmark}
-          source={require('../imgs/qmark2.png')}
-      />
+                    <Ionicons name="help-circle" size={40} color="black"></Ionicons>
+
     </TouchableHighlight>
     </View>
                 

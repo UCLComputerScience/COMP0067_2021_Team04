@@ -11,7 +11,7 @@ export default class Rocket extends React.Component {
   componentDidMount() {
     this.animation.play();
     // Or set a specific startFrame and endFrame with:
-    this.animation.play(30, 120);
+    this.animation.play(0, 5000);
   }
 
   resetAnimation = () => {
@@ -27,9 +27,9 @@ export default class Rocket extends React.Component {
             this.animation = animation;
           }}
           style={{
-            width: screenWidth,
-            height: 370,
-            backgroundColor: '#eee',
+            width: 300,
+            height: 125,
+            backgroundColor: 'lightgray',
           }}
           source={require('../../assets/50486-rocket.json')}
           // OR find more Lottie files @ https://lottiefiles.com/featured
@@ -45,11 +45,11 @@ export default class Rocket extends React.Component {
 
 const styles = StyleSheet.create({
   animationContainer: {
-    backgroundColor: '#E8EAED',
     alignItems: 'center',
     justifyContent: 'center',
   },
   buttonContainer: {
     paddingTop: 20,
+    marginBottom: 10
   },
 });

@@ -39,11 +39,11 @@ export default class TestLoader extends Component {
                 ]}  
             />  
             <Animated.Text style={styles.label}>  
-                    {this.state.progressStatus }%  
+                    {this.state.progressStatus}%  
             </Animated.Text>
       </View>  
       <View style={styles.animation}>
-        {/* <Runner /> */}
+        <Runner />
         </View>
       </View>
     );  

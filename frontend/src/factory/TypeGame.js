@@ -107,7 +107,6 @@ class TypeGame extends React.Component {
 
     gameStatus = 'PLAYING';
     gameOver = 'GAME_IN_PLAY';
-    testTime = this.state.initialTime-this.state.efficiency
 
 
     target = global.TT * this.state.multiplier
@@ -248,6 +247,7 @@ class TypeGame extends React.Component {
                                 total={this.state.questionsAnswered}
                                 onPress={() => this.props.navigation.navigate('Landing')} 
                                 gameEnd={this.gameOver}
+                                timeTaken={this.state.efficiency}
                                 timestable = {global.TT}   />)}
 
                 <Input onChangeText={(text) => this.handleText(text, 1)} 

@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
 import Rocket from '../animations/Rocket';
 
 
-const TestOverModal = ({score, accuracy, total, onPress, gameEnd, timestable, navigation}) => {
+const TestOverModal = ({score, accuracy, total, onPress, gameEnd, timestable, navigation, timeTaken}) => {
   const [modalVisible, setModalVisible] = useState(true);
   const [statisticsSent, sendStatistics] = useState(0)
 
@@ -44,6 +44,7 @@ const TestOverModal = ({score, accuracy, total, onPress, gameEnd, timestable, na
             <Text style={styles.titleText}>Test Over!</Text>
             <Text style={styles.modalText}>Well done you scored: {score}/{total}</Text>
             <Text style={styles.modalText}>You had an accuracy of: {accuracy}%</Text>
+            <Text style={styles.modalText}>It took you: {timeTaken} seconds</Text>
 
             {/* <Pressable
               style={[styles.button, styles.buttonClose]}

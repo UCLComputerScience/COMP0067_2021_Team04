@@ -1,10 +1,12 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState } from "react";
 import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
+import Rocket from '../animations/Rocket';
 
-const TestOverModal = ({score, accuracy, total, onPress, sendData, gameEnd, timestable}) => {
+
+const TestOverModal = ({score, accuracy, total, onPress, gameEnd, timestable, navigation}) => {
   const [modalVisible, setModalVisible] = useState(true);
   const [statisticsSent, sendStatistics] = useState(0)
-  
+
   useEffect(()=>{
     if(gameEnd === 'GAME_OVER' && statisticsSent == 0){
       try{axios.post('http://34.247.47.193/api/v1/testStatistics',
@@ -27,6 +29,7 @@ const TestOverModal = ({score, accuracy, total, onPress, sendData, gameEnd, time
   })
 
   return (
+
       <Modal
         animationType="slide"
         transparent={true}
@@ -60,6 +63,7 @@ const TestOverModal = ({score, accuracy, total, onPress, sendData, gameEnd, time
             >
               <Text style={styles.textStyle}>Close</Text>
             </Pressable>
+            {/* <Rocket /> */}
           </View>
         </View>
       </Modal>
@@ -75,10 +79,10 @@ const styles = StyleSheet.create({
     // marginEnd: -50
   },
   modalView: {
-    margin: 30,
+    margin: 10,
     backgroundColor: "lightgrey",
     borderRadius: 20,
-    padding: 85,
+    padding: 45,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {

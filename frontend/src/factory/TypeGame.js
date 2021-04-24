@@ -30,15 +30,10 @@ import {ChangeChoice} from '../screens/LandingPage';
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import TestOverModal from '../components/TestOverModal';
 import { Alert } from "react-native";
+import Rocket from '../animations/Rocket';
+
 
 const screenWidth = Dimensions.get("window").width;
-
-
-// import Typing from '../screens/Typing';
-// import { useState }  from 'react';
-// import { useReducer } from 'react';
-// import { TouchableOpacity } from 'react-native-gesture-handler';
-// import Task from '../components/Task';
 
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
@@ -46,8 +41,6 @@ function getRandomIntInclusive(min, max) {
   
   return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
 }
-
-
 
 function multiplesOf(numbers, number) { // add second argument
     var multiples = []; // change to array (so that we can store multiple numbers - not just one multiple)
@@ -66,22 +59,6 @@ function multiplesOf(numbers, number) { // add second argument
   if(arr.indexOf(r) === -1) arr.push(r);
 }}
 
-// const [task, setTask] = useState();
-// const [taskItems, setTaskItems] = useState([]);
-
-// const handleAddTask = () => {
-//     Keyboard.dismiss();
-//     setTaskItems([...taskItems, task])
-//     setTask(null);
-// }
-
-// const completeTask = (index) => {
-//     let itemsCopy = [...taskItems];
-//     itemsCopy.splice(index, 1);
-//     setTaskItems(itemsCopy)
-// }
-
-// const [text, setText] = useState('');
 
 const twomultiplier = 2 
 const threemultiplier = 3
@@ -100,6 +77,7 @@ class TypeGame extends React.Component {
     state = {
         selectedIds: [],
         remainingSeconds: this.props.initialSeconds,
+        efficiency: this.props.initialSeconds-this.props.initialSeconds,
         num1: isInteger,
         result: isInteger,
         testScore: 0,
@@ -108,6 +86,7 @@ class TypeGame extends React.Component {
         emptyText: " ",
         questionsAnswered: 0,
         multiplier: 2,
+        initialTime: this.props.initialSeconds,
     }
     static propTypes = {
         randomNumberCount: PropTypes.number.isRequired,
@@ -125,33 +104,21 @@ class TypeGame extends React.Component {
         };
     };
 
-    testQuestions = [[String(global.TT) + " x " + String(twomultiplier)],
-    [String(global.TT) + " x " + String(threemultiplier)],
-    [String(global.TT) + " x " + String(fourmultiplier)],
-    [String(global.TT) + " x " + String(fivemultiplier)],
-    [String(global.TT) + " x " + String(sixmultiplier)],
-    [String(global.TT) + " x " + String(sevenmultiplier)],
-    [String(global.TT) + " x " + String(eightmultiplier)],
-    [String(global.TT) + " x " + String(ninemultiplier)],
-    [String(global.TT) + " x " + String(tenmultiplier)],
-    [String(global.TT) + " x " + String(elevenmultiplier)],
-    [String(global.TT) + " x " + String(twelvemultiplier)],
-]
 
     gameStatus = 'PLAYING';
     gameOver = 'GAME_IN_PLAY';
+    testTime = this.state.initialTime-this.state.efficiency
+
 
     target = global.TT * this.state.multiplier
     goal = [this.target]
-    randomNumbers = Array
-        .from({ length: this.props.randomNumberCount })
-        .map(() => 4 + Math.floor(20 * Math.random())) 
-        .concat(this.goal);
 
     handleTimer = () => {
-        if(this.gameStatus !== 'PLAYING' ) {
-            this.state.isPlaying = false
-        };
+        if(this.gameOver === 'GAME_OVER' ) {
+            return false
+        }else{
+            return true
+        }
     };
 
     qgenerator = () => {
@@ -173,13 +140,7 @@ class TypeGame extends React.Component {
         if (this.state.isPlaying === false) {
             clearInterval(this.intervalId);
         }}
-
-    terminateGame = () => {
-        if (this.state.questionsAnswered === 11) {
-            return this.state.remainingSeconds = 0;
-        }}
     
-
     calcAccuracy = () => {
         var accuracy = (this.state.testScore / this.state.questionsAnswered) * 100
         if (accuracy > 0) {
@@ -189,39 +150,37 @@ class TypeGame extends React.Component {
         return 0;
     }}
 
-        calcAccuracy = () => {
-    (this.gameOver === 'GAME_OVER') 
-        }
+    pauseTimer = () => {
+        if (this.state.isPlaying === false) {
+            clearInterval(this.intervalId);
+        }}
 
     componentDidMount() {
+        this.intervalId2 = setInterval(() => {
+            this.setState(
+                (prevState) => {
+                return { efficiency: prevState.efficiency + 1 };
+            },
+            () => {
+                if (this.gameOver === 'GAME_OVER') {
+                    clearInterval(this.intervalId2);
+                }
+            },
+            );
+        }, 1000);
         this.intervalId = setInterval(() => {
             this.setState(
                 (prevState) => {
                 return { remainingSeconds: prevState.remainingSeconds - 1 };
             },
             () => {
-                if (this.state.remainingSeconds === 0) {
-                    // clearInterval(this.intervalId);
+                if (this.state.remainingSeconds === 0) {                    
                     this.gameOver = 'GAME_OVER';
                 }
             },
             );
         }, 1000);
     }
-    // componentDidUpdate(prevProps) {
-    //             if (this.gameStatus !== prevProps.gameStatus) {
-    //                 clearInterval(this.intervalId);
-    //             }
-    //         }
-    // componentWillUpdate() {
-    //             if (this.gameStatus !== 'PLAYING') {
-    //                 clearInterval(this.intervalId);
-    //             }
-    //             if (this.gameStatus !== 'PLAYING') {
-    //                 clearInterval(this.intervalId);
-    //             }
-
-    //     }
     
     componentWillUnmount() {
         clearInterval(this.intervalId);
@@ -248,10 +207,20 @@ class TypeGame extends React.Component {
 
     checkGameOver = () => {
         const totalQuestions = this.state.questionsAnswered
-        if (totalQuestions === 11) {
+        if (totalQuestions === 10) {
             return 'GAME_OVER';
         }else{
             return 'GAME_IN_PLAY'
+        }
+    }
+
+    collectTime = () => {
+        const timeTaken = this.state.efficiency
+        const isGameOver = this.gameOver
+        // console.warn(timeTaken)
+        if (isGameOver === 'GAME_OVER') {
+            clearInterval(this.intervalId);
+            return timeTaken;
         }
     }
 
@@ -263,15 +232,13 @@ class TypeGame extends React.Component {
 
     render() {
         const gameStatus = this.gameStatus;
-        const gameOver = this.gameOver;
+        const testTime = this.testTime
         return (
             <View style={styles.container}>
                   <GameHeader></GameHeader>
                     <Text style = {styles.titleText}>  </Text>
 
                 <Text style = {styles.titleText}>Type the correct answer for this multiplication:</Text>
-                {/* <Text style = {styles.titleText}>{this.gameStatus}</Text>    */}
-                {/* <Text style = {styles.titleText}>{this.state.remainingSeconds}</Text>    */}
                 <Text style={[styles.target, styles['STATUS_' + gameStatus]]}> {global.TT} x {this.state.multiplier}
                 </Text>
                 
@@ -279,7 +246,7 @@ class TypeGame extends React.Component {
                 <TestOverModal score={this.state.testScore}
                                 accuracy={this.calcAccuracy()}
                                 total={this.state.questionsAnswered}
-                                onPress={() => Alert.alert('Hello')}
+                                onPress={() => this.props.navigation.navigate('Landing')} 
                                 gameEnd={this.gameOver}
                                 timestable = {global.TT}   />)}
 
@@ -288,17 +255,15 @@ class TypeGame extends React.Component {
                 label="Type answer here..."
                 />
                 {/* this.state.isPlaying */}
-                                <View style={styles.timerContainer}><TestTimer isPlaying={true} />
+                                <View style={styles.timerContainer}><TestTimer isPlaying={this.handleTimer()} />
                                 <MathButton onPress={() => {this.gameStatus = this.compareAnswer();
                                                             this.gameOver = this.checkGameOver();
+                                                            this.collectTime();
                                                             this.handleTimer();
                                                             this.state.questionsAnswered = this.state.questionsAnswered + 1;
                                                             this.calcAccuracy();
-                                                            // this.state.remainingSeconds = this.terminateGame()
-                                                            // this.pauseTimer();
-                                                            // this.terminateGame();
                                                             this.state.disabled = true;}}
-                                            disabled={this.state.disabled}/>
+                                                            disabled={this.state.disabled}/>
                                             
 
                                 </View>

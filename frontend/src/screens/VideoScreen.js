@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, StyleSheet, Button } from 'react-native';
+import { View, StyleSheet, Button, Text } from 'react-native';
 import { Video, AVPlaybackStatus } from 'expo-av';
 
 export default function PlayVideo() {
@@ -11,7 +11,7 @@ export default function PlayVideo() {
         ref={video}
         style={styles.video}
         source={{
-          uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
+          uri: 'https://ucl-tt-videos.s3-eu-west-1.amazonaws.com/No-Floor-Mat/' + String(global.TT) + 'x-' + global.difficultyLevel + '-no-floor-mat.m4v',
         }}
         useNativeControls
         resizeMode="contain"

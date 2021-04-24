@@ -35,8 +35,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flex: 0.5,
     flexDirection: 'row',
-    marginBottom: 20,
-    marginTop: -40
+    marginBottom: 10,
+    marginTop: -30
   },
 text: {
     fontSize: 20,

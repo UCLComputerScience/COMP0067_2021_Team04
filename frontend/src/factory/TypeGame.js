@@ -279,7 +279,9 @@ class TypeGame extends React.Component {
                 <TestOverModal score={this.state.testScore}
                                 accuracy={this.calcAccuracy()}
                                 total={this.state.questionsAnswered}
-                                onPress={() => Alert.alert('Hello')}   />)}
+                                onPress={() => Alert.alert('Hello')}
+                                gameEnd={this.gameOver}
+                                timestable = {global.TT}   />)}
 
                 <Input onChangeText={(text) => this.handleText(text, 1)} 
                 placeholder="....."

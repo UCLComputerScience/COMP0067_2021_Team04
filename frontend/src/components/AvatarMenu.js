@@ -41,18 +41,17 @@ fetchData()
   }
   
   
- const setAvatar = (avatarNo) =>{
+ const setAvatar = async (avatarNo) =>{
   func(avatarNo)
-    var userToUpdate = 'http://34.247.47.193/api/v1/users/avatar'; 
-    axios.put(userToUpdate,{
-      PK: user.PK,
-      Avatar: avatarNo
+  console.log(typeof(user.PK))
+  console.log(typeof(avatarNo))
 
-}).then(res => {
-  console.log(res);
-  console.log(res.data);
+  const res = await axios.put('http://34.247.47.193/api/v1/users/avatar',{
+      "PK": user.PK,
+      "avatar": avatarNo
+
 });
-
+console.log(res)
   
   
   const newAvatar = () => {
@@ -67,8 +66,8 @@ fetchData()
     
   }
   const renderAvatar = (cost, avatar) =>{
-    console.log(user)
-    if(18 >= cost){
+    
+    if(user.overall.score >= cost){
       return ( <TouchableOpacity style={styles.profileImage} onPress={()=>{setAvatar(avatar)}}>
       {/* <Image source={require("../imgs/bee.jpeg")} style={styles.image} resizeMode="center"></Image> */}
                 <Image source={avatarDict[avatar]} style={styles.image} resizeMode="center"></Image>

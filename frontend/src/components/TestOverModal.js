@@ -1,8 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
 
-const TestOverModal = ({score, accuracy, total, onPress, sendData}) => {
+const TestOverModal = ({score, accuracy, total, onPress, sendData, gameEnd, timestable}) => {
   const [modalVisible, setModalVisible] = useState(true);
+  const [statisticsSent, sendStatistics] = useState(0)
+  
+  useEffect(()=>{
+    if(gameEnd === 'GAME_OVER' && statisticsSent == 0){
+      try{axios.post('http://34.247.47.193/api/v1/testStatistics',
+      {"PK": user.PK,
+      "timestable": timestable,
+      "SK": user.SK,
+      "GSI1": user.GSI1,
+      data:{
+        "timeTaken": 100,
+        "questions": total,
+        "correctQuestions": score
+      }
+    }
+      )
+    sendStatistics(1)}
+  catch {
+    console.log('Statistics not sent')
+  }
+  }
+  })
+
   return (
       <Modal
         animationType="slide"

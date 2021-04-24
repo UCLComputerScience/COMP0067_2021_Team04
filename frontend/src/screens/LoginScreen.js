@@ -32,7 +32,7 @@ const LoginScreen = ({navigation}) => {
       "password": pword
   })
   console.log(user.PK)
-    if(user.PK == userName){
+    if(user.PK != undefined){
     const userString = JSON.stringify(user)
     _storeData(userString)
     navigation.navigate('numberFit');

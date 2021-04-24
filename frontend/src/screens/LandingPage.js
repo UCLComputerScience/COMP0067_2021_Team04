@@ -65,7 +65,7 @@ const IconNav = ({navigation}) => {
     GSI1: "class_2ec278cf-1a35-4746-911b-1a360c83dbb5",
     PK: "user_mathsqueen",
     data:  {
-      "avatar": 4,
+      "avatar": 7,
       "firstName": "Andrew",
       "hashPassword": "$2a$10$E71aiun83wdz5/FY374JU.e1abBYyA0VwV/C.unxGKZ2CXaZSXB6i",
       "lastName": "O'Connell",

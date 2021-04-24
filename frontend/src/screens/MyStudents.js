@@ -1,29 +1,50 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect, useReducer } from "react";
 import { Alert, StyleSheet, Text, View, SafeAreaView, Image, ScrollView, TouchableHighlight, Pressable } from "react-native";
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell }  from 'react-native-table-component';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from "axios";
 
+// call students by class
+// make a array of basic student objects
+// make link to my stats page
 
+const MyStudents =({navigation}) => { 
+    const [form, changeForm] = useState('4B');
+    const [forms, getForms] = useState()
+    const tableHead = ['Student', 'Timestables Mastered', 'Pending Assignments'];
+    const widthArr = [133,133,133]
+    useEffect(()=>{async function getClasses(){
+        try{
+            let result = await axios.get('http://localhost:3000/api/v1/classes/getClasses/user_gavinteacher')
+            console.log(result)
+            getForms(result)
 
-class MyStudents extends Component{
-    constructor(props){
-        super(props);
-        this.state = {form: '4B',
-            tableHead: ['Student', 'Timestables Mastered', 'Pending Assignments'],
-            widthArr: [133,133,133]
-            
-          }
-}
-    changeClass = (students)=>{
-        Alert.alert(
-            "Alert Title",
-            "Class changed",)
-        this.setState({
-            form: students
-          })
+        }
+        catch{
+            console.log('no classes found for this teacher')
+        }
+        }
+        getClasses()
     }
-    render(){
-        const state = this.state;
+    )
+        
+
+
+    const changeClass = (students)=>{
+        changeForm(students)
+    }
+
+    const classButton = (set) => {
+        return (<Pressable
+                    style={styles.classOptionButton}
+                    onPress={() => changeClass(set)}
+                    >
+                        <Text style = {styles.buttonText}>{set}</Text>
+
+                    </Pressable>
+        )}
+
+    
     const data = [];
     for (let i = 0; i < 30; i += 1) {
       const dataRow = [];
@@ -31,44 +52,27 @@ class MyStudents extends Component{
         dataRow.push(`${i}${j}`);
       }
       data.push(dataRow);
-    }
+    
         return(
             <View style = {styles.container}>
                 <View style = {styles.classOptionsContainer}>
-                    <Pressable
-                    style={styles.classOptionButton}
-                    onPress={() => this.changeClass('4B')}
-                    >
-                        <Text style = {styles.buttonText}>4B</Text>
-
-                    </Pressable>
-                    <Pressable
-                    style={styles.classOptionButton}
-                    onPress={() => this.changeClass('5B')}
-                    >
-                        <Text style = {styles.buttonText}>5B</Text>
-
-                    </Pressable>
-                    <Pressable
-                    style={styles.classOptionButton}
-                    onPress={() => this.changeClass('6B')}
-                    >
-                        <Text style = {styles.buttonText}>6B</Text>
-
-                    </Pressable>
+                    {classButton('4B')}
+                    {classButton('5B')}
+                    {classButton('6B')}
                 </View>
                 <View style = {styles.stats}>
                     <Text style={styles.statsText}>Class Stats</Text>
                     <View style = {{bottom:  60, left: 20}}>
+                        <Text>Class Key: </Text>
+                        <Text>Class Size: </Text>
                         <Text>Pending Assignments: 10 from 4 students</Text>
-                        <Text>Weeks Average Time: 65 minutes</Text>
                     </View>
                 </View>
                 <View style={styles.tableView}>
                     <ScrollView horizontal={true}>
                         <View style = {styles.table}>
                             <Table borderStyle={{borderColor: '#C1C0B9'}}>
-                            <Row data={state.tableHead} widthArr={state.widthArr} style={styles.head} textStyle={styles.text}/>
+                            <Row data={tableHead} widthArr={widthArr} style={styles.head} textStyle={styles.text}/>
                             </Table>
                             <ScrollView style={styles.dataWrapper}>
                             <Table borderStyle={{borderColor: '#C1C0B9'}}>
@@ -76,9 +80,9 @@ class MyStudents extends Component{
                                 data.map((dataRow, index) => (
                                     <Row
                                     key={index}
-                                    onPress={() => this.changeClass('5B')}
+                                    onPress={() => changeClass('5B')}
                                     data={dataRow}
-                                    widthArr={state.widthArr}
+                                    widthArr={widthArr}
                                     style={[styles.row, index%2 && {backgroundColor: '#ffffff'}]}
                                     textStyle={styles.text}
                                     />
@@ -93,6 +97,7 @@ class MyStudents extends Component{
         )
     }
 }
+
 
 const styles = StyleSheet.create({
 
@@ -116,6 +121,7 @@ const styles = StyleSheet.create({
         position: 'relative',
         flexDirection: 'row',
         justifyContent: 'center',
+       
         
         
         

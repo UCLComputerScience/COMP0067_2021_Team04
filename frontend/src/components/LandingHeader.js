@@ -3,7 +3,29 @@ import { Appbar } from 'react-native-paper';
 import { StyleSheet, Image, View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
-const LandingHeader = () => (
+const LandingHeader = ({user}) => {
+   [streak, updateStreak] = useEffect(user.data.streak);
+  const lastLogin = new Date(user.data.lastLogin);
+  const lLogin = math.floor((new Date(lastLogin)).getTime()/(1000*3600*24));
+  const streakCheck = ()=>{
+  var today = new Date()
+    let date = math.floor(today.getTime()/(1000*3600*24));
+    var loginDifference = date - lLogin;
+    if(loginDifference < 24){
+      updateStreak(streak + 1)
+    } else{
+      updateStreak(0)
+    }
+  };
+  useEffect(()=>{
+    async function newStreak (){
+      const res = await axios.put(streakURL,{
+        "PK": user.PK,
+        "streak": streak
+      })
+    }
+  });
+  return(
     <View style={styles.center}>
  <Appbar style={styles.top}>
    <View style={{justifyContent: 'space-evenly', flexDirection: 'row'}}>
@@ -19,7 +41,8 @@ const LandingHeader = () => (
     </View>
   </Appbar>
   </View>
- );
+  )
+};
 
 const styles = StyleSheet.create({
   top: {

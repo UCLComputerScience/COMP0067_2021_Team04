@@ -5,23 +5,31 @@ import Rocket from '../animations/Rocket';
 
 const TestOverModal = ({score, accuracy, total, onPress, gameEnd, timestable, navigation, timeTaken}) => {
   const [modalVisible, setModalVisible] = useState(true);
-  const [statisticsSent, sendStatistics] = useState(0)
+  const [statisticsSent, sendStatistics] = useState(0);
+  const [user, userLoad] = useState();
 
-  useEffect(()=>{
+  useEffect(async()=>{
     if(gameEnd === 'GAME_OVER' && statisticsSent == 0){
-      try{axios.post('http://34.247.47.193/api/v1/testStatistics',
+      try{
+        const value = await AsyncStorage.getItem('user');
+        if (value !== null) {
+          // We have data!!
+          let result = JSON.parse(value)
+          
+          userLoad(result)
+      axios.post('http://34.247.47.193/api/v1/testStatistics',
       {"PK": user.PK,
       "timestable": timestable,
       "SK": user.SK,
       "GSI1": user.GSI1,
       data:{
-        "timeTaken": 100,
+        "timeTaken": timeTaken,
         "questions": total,
         "correctQuestions": score
       }
     }
       )
-    sendStatistics(1)}
+    sendStatistics(1)}}
   catch {
     console.log('Statistics not sent')
   }

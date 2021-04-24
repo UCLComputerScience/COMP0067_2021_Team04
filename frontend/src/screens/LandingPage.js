@@ -187,7 +187,7 @@ fetchData()
         return(
             <View style={styles.container}>
 
-              <LandingHeader />
+              <LandingHeader person = {user} />
                 <View style={styles.iconContainer}>
                             <TouchableHighlight 
       underlayColor = '#ccc'

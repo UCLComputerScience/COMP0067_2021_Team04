@@ -125,7 +125,7 @@ export default function MyProfile({navigation}) {
       }
     } catch (error) {
       
-      console.log("errorasf")
+      console.log("error")
     }
   }
   

@@ -11,7 +11,7 @@ export default class Rocket extends React.Component {
   componentDidMount() {
     this.animation.play();
     // Or set a specific startFrame and endFrame with:
-    this.animation.play(30, 120);
+    this.animation.play(0, 5000);
   }
 
   resetAnimation = () => {
@@ -21,14 +21,14 @@ export default class Rocket extends React.Component {
 
   render() {
     return (
-      <View style={styles.animationContainer}>
+      <View >
         <LottieView
           ref={animation => {
             this.animation = animation;
           }}
           style={{
-            width: screenWidth,
-            height: 370,
+            width: 300,
+            height: 200,
             backgroundColor: '#eee',
           }}
           source={require('../../assets/50486-rocket.json')}
@@ -45,7 +45,7 @@ export default class Rocket extends React.Component {
 
 const styles = StyleSheet.create({
   animationContainer: {
-    backgroundColor: '#E8EAED',
+    backgroundColor: 'lightgrey',
     alignItems: 'center',
     justifyContent: 'center',
   },

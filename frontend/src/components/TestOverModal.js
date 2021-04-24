@@ -64,7 +64,7 @@ const TestOverModal = ({score, accuracy, total, onPress, gameEnd, timestable, na
             >
               <Text style={styles.textStyle}>Close</Text>
             </Pressable>
-            {/* <Rocket /> */}
+            <Rocket />
           </View>
         </View>
       </Modal>

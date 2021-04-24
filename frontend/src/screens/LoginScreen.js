@@ -98,7 +98,7 @@ const LoginScreen = ({navigation}) => {
       );
 };
 
-exports.LoginScreen = LoginScreen;
+export default LoginScreen;
 
 
 const styles = StyleSheet.create({

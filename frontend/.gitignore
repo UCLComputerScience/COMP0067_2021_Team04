@@ -1,5 +1,5 @@
-node_modules/**/*
-.expo/*
+node_modules/
+.expo/
 npm-debug.*
 *.jks
 *.p8
@@ -8,13 +8,6 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
-node_modules/
-app.json
-babel.config.js
-package-lock.json
-yarn.lock
-android/
-.vscode/
-.expo-shared
+
 # macOS
 .DS_Store

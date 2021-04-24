@@ -62,64 +62,22 @@ router.get(`/school/:PK`, async (req, res) => {
 
     const params = {
         TableName: TABLE_NAME,
-        KeyConditionExpression: 'PK = :PK AND begins_with(SK, :sk)',
-        ExpressionAttributeValues: {
-            ':PK': req.params.PK, //class_id
-            ':sk': "meta" 
+        FilterExpression: 'SK = :sk AND #data.school = :schoolId',
+        ExpressionAttributeNames: {
+            '#data': 'data'
+        },
+        ExpressionAttributeValues : {
+            ':sk' : 'profile',
+            ':schoolId': req.params.PK
         }
-    };
-
-    let school;
-        
-
-    try {
-        // Get school_id of the student
-        school = await documentClient.query(params).promise()
-    } catch (error) {
-        res.status(500).send("Unable to collect school record: " + error)
-    } 
-    schoolId = school.Items[0].GSI1
-
-    const params2 = {
-        TableName: TABLE_NAME,
-        KeyConditionExpression: 'GSI1 = :gsi1 AND begins_with(SK, :sk)',
-        IndexName: 'GSI1-SK-index',
-        ExpressionAttributeValues: {
-             ':gsi1': schoolId, //school_id
-             ':sk': "meta" 
-    }
     }
 
     try {
-        // Get all class ids in the school
-        classIds = await documentClient.query(params2).promise()
+        profiles = await documentClient.scan(params).promise()
+        res.status(200).json(profiles)
     } catch (error) {
-        res.status(500).send("Unable to collect class records: " + error)
+        res.status(500).send("Unable to collect profiles: " + error)
     } 
-    console.log(classIds.Items)
-    let schoolProfiles;
-    for (item in classIds.Items) {
-        try {
-            const params3 = {
-                TableName: TABLE_NAME,
-                KeyConditionExpression: 'GSI1 = :gsi1 AND begins_with(SK, :sk)',
-                IndexName: 'GSI1-SK-index',
-                ExpressionAttributeValues: {
-                     ':gsi1': item.PK, // class_id
-                     ':sk': "profile" 
-            }
-            }
-            classProfiles = await documentClient.query(params3).promise()
-            for (profile in classProfiles.Items){
-                schoolProfiles += profile
-            }
-        } catch (error) {
-            res.status(500).send("Unable to collect profiles: " + error)
-        }
-        
-
-    };
-    res.status(200).json(schoolProfiles)
 
 })
 

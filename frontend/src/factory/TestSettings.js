@@ -28,7 +28,7 @@ export default class TestSettings extends Component {
                 key={this.state.gameId}
                 nextQuestion={this.nextQuestion}
                 onPlayAgain={this.resetGame} 
-                initialSeconds={10} 
+                initialSeconds={120} 
                 />
             </View>
         );

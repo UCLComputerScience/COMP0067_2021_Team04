@@ -10,6 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [loginFailed, attemptUpdate] = useState(false);
   const _storeData = async (userStr) => {
     try {
       
@@ -22,18 +23,29 @@ const LoginScreen = ({navigation}) => {
       
     }
   };
-  const userLogin = async()=>{
-    navigation.navigate('numberFit');
+  const userLogin = async(userName, pword) => {
     
-    const {data: user} = await axios.post('http://54.171.167.5/api/v1/users/login',{
-      "PK": "mathsqueen",
-      "password": "test123"
+    console.log('login function runs')
+    try{
+    const {data: user} = await axios.post('http://34.247.47.193/api/v1/users/login',{
+      "PK": userName,
+      "password": pword
   })
-    
+  console.log(user.PK)
+    if(user.PK == userName){
     const userString = JSON.stringify(user)
     _storeData(userString)
+    navigation.navigate('numberFit');
+    } else{
+      attemptUpdate(true)
+      console.log('should be updating')
+    }
+  }
+  catch{
+    console.log('axios error')
+    attemptUpdate(true)
     
-    
+  }
     
   }
     return (
@@ -51,6 +63,7 @@ const LoginScreen = ({navigation}) => {
               keyboardType="email-address"
               autoCapitalize="none"
               autoCorrect={false}
+              loginFail = {loginFailed}
             />
             <FormInput
               labelValue={password}
@@ -58,10 +71,11 @@ const LoginScreen = ({navigation}) => {
               placeholderText="Password"
               iconType="lock"
               secureTextEntry={true}
+              loginFail = {loginFailed}
             />
             <FormButton
               buttonTitle="SIGN IN"
-              onPress={() => navigation.navigate('numberFit')}
+              onPress={() => userLogin(email, password)}
             />
 
             <TouchableOpacity style={styles.forgotButton} onPress={() => {}}>

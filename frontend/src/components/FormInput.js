@@ -1,8 +1,20 @@
 import React from 'react';
-import { View, TextInput, StyleSheet, } from 'react-native';
+import { View, TextInput, StyleSheet, Text } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-const FormInput = ({labelValue, placeholderText, iconType, ...rest}) => {
+const FormInput = ({labelValue, placeholderText, iconType, loginFail, ...rest}) => {
+    // [userNotFound, loginUpdate] = useState(loginFail)
+    wrongDetails = () =>{
+      
+      if (loginFail){
+        console.log('loginfailed')
+        return (
+        <View >
+        <View style={styles.circle}>
+          <Text style={styles.cross}>x</Text>
+        </View>
+      </View>)
+    }}
     return (
         <View style={styles.inputContainer}>
             <View style={styles.iconStyle}>
@@ -16,6 +28,7 @@ const FormInput = ({labelValue, placeholderText, iconType, ...rest}) => {
                 placeholderTextColor="#666"
                 {...rest}
             />
+           {wrongDetails()}
         </View>
     );
 };
@@ -62,4 +75,22 @@ const styles = StyleSheet.create({
       borderRadius: 8,
       borderWidth: 1,
     },
+    circle: {
+      backgroundColor: '#FF0000',
+      justifyContent: 'center',
+      alignContent: 'center',
+      borderWidth: 0,
+      borderRadius: (40),
+      width: 20,
+      height: 20,
+      right: 20,
+     
+    },
+    cross: {
+      justifyContent: 'center',
+      alignContent: 'center',
+      flex:1,
+      color: '#FFFFFF',
+      left: 5.5
+    }
   });

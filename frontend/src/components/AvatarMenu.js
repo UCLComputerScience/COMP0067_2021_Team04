@@ -43,7 +43,7 @@ fetchData()
   
  const setAvatar = (avatarNo) =>{
   func(avatarNo)
-    var userToUpdate = 'http://54.171.167.5/api/v1/users/avatar'; 
+    var userToUpdate = 'http://34.247.47.193/api/v1/users/avatar'; 
     axios.put(userToUpdate,{
       PK: user.PK,
       Avatar: avatarNo

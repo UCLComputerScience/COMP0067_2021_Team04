@@ -1,11 +1,14 @@
-import React, {useState, useEffect} from 'react';
-import PropTypes from 'prop-types';
+import React, {useState} from 'react';
+import PropTypes, { number } from 'prop-types';
 import { View, Text, Image, StyleSheet, Animated, ScrollView, ImageBackground} from 'react-native';
 import RandomNumber from '../factory/RandomNumber';
 import { Dimensions, TouchableHighlight } from 'react-native';
 import LandingHeader from '../components/LandingHeader';
 import TTButton from '../components/TTButton';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from  '@react-native-community/async-storage';
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+
+
 
 const beginner="#cd7f32"
 const intermediate="#c0c0c0"
@@ -23,242 +26,124 @@ const ten = 10
 const eleven = 11
 const twelve = 12
 
+
+
 export function ChangeChoice(number) {
   var selection = number
   console.warn(selection)
       return selection;
 }
 
+// export const [testing, setTesting] = useState();
+// export const gell = ChangeChoice()
+// console.warn(gell)
+
+// export const test_variable = this.changeChoice
 
 class LandingPage extends React.Component {
-    // static propTypes = {
-    //     iconNumberCount: PropTypes.number.isRequired,
-    // };
     
-    state = {
-        selectedIds: [],
-    }
-    isNumberSelected = (numberIndex) => {
-        return this.state.selectedIds.indexOf(numberIndex) >= 0;
-    };
-    // beginner="#cd7f32"
-    // intermediate="#c0c0c0"
-    // advanced="ffd700"
-    selectNumber = (numberIndex) => {
-        this.setState((prevState) => ({ 
-            selectedIds: [...prevState.selectedIds, numberIndex],
-        }));
-    };
+  // state = {
+  //   ttSelected: "",
+  //   username: ""
+  // }
+
+  // constructor(props) {
+  //   super(props);
+  //   this.getData();
+  // }
+
+  // onSumbmit = async () => {
+  //   try{
+  //     this.setState({token: 'abc123'})
+  //     await Asynctorage.setItem('username', this.state.username)
+  //     await Asynctorage.setItem('ttSelected', 'abc123')
+  //   }
+  //   catch (err) {
+  //     console.log(err)
+  //   }
+  // }
+    
+  
+  // render() {
 }
 
 
-const IconNav = ({navigation}) => {
-  const [testing, setTesting] = useState();
+   const IconNav = ({navigation}) => {
+   const [testing, setTesting] = useState();
    global.TT = testing;
-  const difficultyColours = 
-{
-  "beginner":"#cd7f32",
-  "intermediat":"#c0c0c0",
-  "advanced":"#ffd700"
-}
-  const [user, userLoad] = useState({
-    GSI1: "class_2ec278cf-1a35-4746-911b-1a360c83dbb5",
-    PK: "user_mathsqueen",
-    data:  {
-      "avatar": 7,
-      "firstName": "Andrew",
-      "hashPassword": "$2a$10$E71aiun83wdz5/FY374JU.e1abBYyA0VwV/C.unxGKZ2CXaZSXB6i",
-      "lastName": "O'Connell",
-      "pendingAssignments": 16,
-      "role": "student",
-      "secret": "studentSecret",
-    },
-    eightx:  {
-      "accuracy": 0,
-      "state": "beginner",
-      "testsTaken": 0,
-      "timeTaken": 0,
-    },
-    elevenx:  {
-      "accuracy": 0,
-      "state": "beginner",
-      "testsTaken": 0,
-      "timeTaken": 0,
-    },
-    "expiresIn": 168,
-    fivex:  {
-      "accuracy": 0,
-      "state": "beginner",
-      "testsTaken": 0,
-      "timeTaken": 0,
-    },
-    fourx: {
-      "accuracy": 0,
-      "state": "beginner",
-      "testsTaken": 0,
-      "timeTaken": 0,
-    },
-    "message": "You have successfully logged in.",
-    ninex:  {
-      "accuracy": 0,
-      "state": "beginner",
-      "testsTaken": 0,
-      "timeTaken": 0,
-    },
-    onex:  {
-      "accuracy": 0,
-      "state": "beginner",
-      "testsTaken": 0,
-      "timeTaken": 0,
-    },
-    "overall":  {
-      "accuracy": 0,
-      "testsTaken": 0,
-      "timeTaken": 0,
-    },
-    "role": "student",
-    sevenx:  {
-      "accuracy": 0,
-      "state": "beginner",
-      "testsTaken": 0,
-      "timeTaken": 0,
-    },
-    sixx:  {
-      "accuracy": 0,
-      "state": "beginner",
-      "testsTaken": 0,
-      "timeTaken": 0,
-    },
-    "success": true,
-    tenx:  {
-      "accuracy": 0,
-      "state": "beginner",
-      "testsTaken": 0,
-      "timeTaken": 0,
-    },
-    threex:  {
-      "accuracy": 0,
-      "state": "beginner",
-      "testsTaken": 0,
-      "timeTaken": 0,
-    },
-    twox:  {
-      "accuracy": 0,
-      "state": "beginner",
-      "testsTaken": 0,
-      "timeTaken": 0,
-    },
-    twelvex:  {
-      "accuracy": 0,
-      "state": "beginner",
-      "testsTaken": 0,
-      "timeTaken": 0,
-    },
-})
-
-useEffect(()=>{
-    async function fetchData (){
-
-try {
-  const value = await AsyncStorage.getItem('user');
-  if (value !== null) {
-    // We have data!!
-    let result = JSON.parse(value)
-    
-    userLoad(result)
-    
-    
-    
-    
-
-    
-  }
-} catch (error) {
-  
-  console.log("error")
-}
-}
-
-fetchData()
-
-},[]);
-  
-  var dos = 2;
         return(
             <View style={styles.container}>
-
-              {/* <LandingHeader /> */}
+          <LandingHeader />
                 <View style={styles.iconContainer}>
                             <TouchableHighlight 
       underlayColor = '#ccc'
       onPress = { () => alert('Help!') }
     >
-      <Image style={styles.qmark}
-          source={require('../imgs/qmark2.png')}
-      />
+           <Ionicons name="help-circle" size={40} color="#52575D"></Ionicons>
+
     </TouchableHighlight>
     </View>
                 
-                 <View style={styles.randomContainer}>
+                <View style={styles.randomContainer}>
                   <TTButton 
                   number={two}
-                  colour={difficultyColours[user.twox.state]}
+                  colour={beginner}
                   isDisabled = {false}
                   onPress={() => {setTesting(2)
-                                  navigation.navigate('Difficulty', {difficulty: user.twox.state})}}
+                                  navigation.navigate('Difficulty', {paramKey: testing})}}
                    />
        <TTButton number={three}
-                  colour={difficultyColours[user.threex.state]}
+                  colour={intermediate}
                   isDisabled = {false}
                   onPress={() => {setTesting(3)
-                                  navigation.navigate('Difficulty', {difficulty: user.threex.state})}}
+                                  navigation.navigate('Difficulty', {paramKey: testing})}}
                    />
        <TTButton number={four}
-                  colour={difficultyColours[user.fourx.state]}
+                  colour={intermediate}
                   isDisabled = {false}
                   onPress={() => {setTesting(4)
-                                  navigation.navigate('Difficulty', {difficulty: user.fourx.state})}}
+                                  navigation.navigate('Difficulty', {paramKey: testing})}}
                    />
        <TTButton number={five}
-                  colour={difficultyColours[user.fivex.state]}
+                  colour={advanced}
                   isDisabled = {false}
                   onPress={() => {setTesting(5)
-                                  navigation.navigate('Difficulty', {difficulty: user.fivex.state})}}                   />
+                                  navigation.navigate('Difficulty', {paramKey: testing})}}                   />
        <TTButton number={six}
-                  colour={difficultyColours[user.sixx.state]}
+                  colour={intermediate}
                   isDisabled = {false}
                   onPress={() => {setTesting(6)
-                                  navigation.navigate('Difficulty', {difficulty: user.sixx.state})}}                   />
+                                  navigation.navigate('Difficulty', {paramKey: testing})}}                   />
        <TTButton number={seven}
-                  colour={difficultyColours[user.sevenx.state]}
+                  colour={intermediate}
                   isDisabled = {false}
                   onPress={() => {setTesting(7)
-                                  navigation.navigate('Difficulty', {difficulty: user.sevenx.state})}}                   />
+                                  navigation.navigate('Difficulty', {paramKey: testing})}}                   />
        <TTButton number={eight}
-                  colour={difficultyColours[user.eightx.state]}
+                  colour={advanced}
                   isDisabled = {false}
                   onPress={() => {setTesting(8)
-                                  navigation.navigate('Difficulty', {difficulty: user.eightx.state})}}                   />
+                                  navigation.navigate('Difficulty', {paramKey: testing})}}                   />
        <TTButton number={nine}
-                  colour={difficultyColours[user.ninex.state]}
+                  colour={intermediate}
                   isDisabled = {false}
                   onPress={() => {setTesting(9)
-                                  navigation.navigate('Difficulty', {difficulty: user.ninex.state})}}                   />
+                                  navigation.navigate('Difficulty', {paramKey: testing})}}                   />
        <TTButton number={ten}
-                  colour={difficultyColours[user.tenx.state]}
+                  colour={advanced}
                   isDisabled = {false}
                   onPress={() => {setTesting(10)
-                                  navigation.navigate('Difficulty', {difficulty: user.tenx.state})}}                   />
+                                  navigation.navigate('Difficulty', {paramKey: testing})}}                   />
        <TTButton number={eleven}
-                  colour={difficultyColours[user.elevenx.state]}
+                  colour={beginner}
                   isDisabled = {false}
                   onPress={() => {setTesting(11)
-                                  navigation.navigate('Difficulty', {difficulty: user.elevenx.state})}}                   />
+                                  navigation.navigate('Difficulty', {paramKey: testing})}}                   />
        <TTButton number={twelve}
-                  colour={difficultyColours[user.twelvex.state]}
+                  colour={beginner}
                   isDisabled = {false}
                   onPress={() => {setTesting(12)
-                                  navigation.navigate('Difficulty', {difficulty: user.twelvex.state})}}                   />
+                                  navigation.navigate('Difficulty', {paramKey: testing})}}                   />
     </View>
     <View style = {styles.extrabuttons}>
     <TouchableHighlight 
@@ -281,9 +166,9 @@ fetchData()
      {/* <AppBar></AppBar> */}
      
           </View> 
-        )
-    }
-
+        )  ;
+}
+  
 
 const styles = StyleSheet.create({
     background: {

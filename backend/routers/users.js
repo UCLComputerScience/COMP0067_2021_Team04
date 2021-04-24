@@ -89,6 +89,19 @@ router.post(`/register/student`, [ ...validators.postStudentValidators], async (
             errors: errors.array()
         })
     } else {
+    const schoolParams = {
+        TableName: TABLE_NAME,
+        Key: {
+            "PK": `class_${req.body.GSI1}`,
+            "SK": 'meta'
+        }
+    }
+    try { 
+        schoolId = await documentClient.get(schoolParams).promise()
+    } catch (err) {
+        console.error(err);
+        res.status(400).send('School not found');
+    }
     const params = {
         TableName: TABLE_NAME,
         Item: {
@@ -107,7 +120,8 @@ router.post(`/register/student`, [ ...validators.postStudentValidators], async (
                         experience: 0,
                         streak: 0,
                         score: 0,
-                        lastLogin: ""
+                        lastLogin: "",
+                        school: schoolId.Item.GSI1
                         },
                     overall: {
                         timestableMastered: 0,
@@ -434,10 +448,7 @@ router.post(`/register/student`, [ ...validators.postStudentValidators], async (
 
       console.log(params)
   try {
-    const user = await documentClient.put(params).promise();    
-    const stat = await documentClient.put(params2).promise();    
-    console.log(user)
-    console.log(stat)
+    await documentClient.put(params).promise();    
     res.status(201).json({
         message: "You have successfully registered as a student. Please now login.",
         success: true

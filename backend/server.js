@@ -46,6 +46,7 @@ const questionsRoutes = require('./routers/questions');
 const schoolsRoutes = require('./routers/schools');
 const challengesRoutes = require('./routers/challenges');
 const videosRoutes = require('./routers/videos');
+const leaderboardsRoutes = require('./routers/leaderboards');
 
 
 // api url environment variable
@@ -69,6 +70,7 @@ app.use(`${api}/questions`, questionsRoutes)
 app.use(`${api}/schools`, schoolsRoutes)
 app.use(`${api}/challenges`, challengesRoutes)
 app.use(`${api}/videos`, videosRoutes)
+app.use(`${api}/leaderboards`, leaderboardsRoutes)
 
 // database connection
 // dynamoose.aws.sdk.config.update({region: 'us-east-2'});

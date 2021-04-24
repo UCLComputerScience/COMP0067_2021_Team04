@@ -6,6 +6,7 @@ const { addOrUpdateItem, deleteItem } = require('../dynamoFunctions.js');
 const { validationResult } = require('express-validator');
 const validators = require('./validators/testStatisticsValidators');
 const {validateAuth} = require('../auth');
+const { restart } = require('nodemon');
 
 AWS.config.update({
     region: process.env.AWS_DEFAULT_REGION,
@@ -30,7 +31,7 @@ router.get(`/class/:GSI1`, async (req, res) => {
         params.IndexName = 'GSI1-SK-index'
         params.KeyConditionExpression = 'GSI1 = :gsi1 AND begins_with(SK, :sk)',
         params.ExpressionAttributeValues = {
-            ':gsi1': '${req.params.GSI1}', //class_id
+            ':gsi1': req.params.GSI1, //class_id
             ':sk': "profile" 
         }
         
@@ -50,7 +51,7 @@ router.get(`/class/:GSI1`, async (req, res) => {
     // check if the parameter has NOT been passed in
     try {
         responseData = await documentClient.query(params).promise()
-        res.status.json(responseData)
+        res.status(200).json(responseData)
     } catch (error) {
         res.status(500).send("Unable to collect record: " + error)
     } 
@@ -60,58 +61,42 @@ router.get(`/class/:GSI1`, async (req, res) => {
 router.get(`/school/:PK`, async (req, res) => {
 
     const params = {
-        TableName: TABLE_NAME
-    };
-
-    // create an empty object to hold the response
-    let responseData;
-
-    // check if URI parameters exists
-    if (req.params.GSI1) {
-        params.KeyConditionExpression = 'PK = :PK AND begins_with(SK, :sk)',
-        params.ExpressionAttributeValues = {
-            ':PK': '${req.params.PK}', //class_id
+        TableName: TABLE_NAME,
+        KeyConditionExpression: 'PK = :PK AND begins_with(SK, :sk)',
+        ExpressionAttributeValues: {
+            ':PK': req.params.PK, //class_id
             ':sk': "meta" 
         }
-        
-    } else {
-        // check if query parameter exists
-        if(req.query.GSI1) {
-            params.Key = {
-                PK: req.query.PK,
-            }
-            params.KeyConditionExpression = 'PK = :pk',
-            params.ExpressionAttributeValues = {
-                ':pk': req.params.PK,
-            }
-        }
-    }
+    };
 
+    let school;
+        
 
     try {
-        // get school_id
-        responseData = await documentClient.query(params).promise()
+        // Get school_id of the student
+        school = await documentClient.query(params).promise()
     } catch (error) {
-        res.status(500).send("Unable to collect record: " + error)
+        res.status(500).send("Unable to collect school record: " + error)
     } 
+    schoolId = school.Items[0].GSI1
 
     const params2 = {
         TableName: TABLE_NAME,
         KeyConditionExpression: 'GSI1 = :gsi1 AND begins_with(SK, :sk)',
         IndexName: 'GSI1-SK-index',
         ExpressionAttributeValues: {
-             ':gsi1': '${req.params.PK}', //school_id
+             ':gsi1': schoolId, //school_id
              ':sk': "meta" 
     }
     }
 
     try {
-        // get class_id
+        // Get all class ids in the school
         classIds = await documentClient.query(params2).promise()
     } catch (error) {
-        res.status(500).send("Unable to collect record: " + error)
+        res.status(500).send("Unable to collect class records: " + error)
     } 
-
+    console.log(classIds.Items)
     let schoolProfiles;
     for (item in classIds.Items) {
         try {
@@ -129,12 +114,12 @@ router.get(`/school/:PK`, async (req, res) => {
                 schoolProfiles += profile
             }
         } catch (error) {
-            res.status(500).send("Unable to collect record: " + error)
+            res.status(500).send("Unable to collect profiles: " + error)
         }
         
 
     };
-    res.status.json(schoolProfiles)
+    res.status(200).json(schoolProfiles)
 
 })
 

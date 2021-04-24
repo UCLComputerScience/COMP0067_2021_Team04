@@ -587,30 +587,6 @@ router.post('/login', async (req, res) => {
             success: false})
     } else {
         if(user.Item && bcrypt.compareSync(password, user.Item.data.hashPassword)){
-            if(user.Item.data.role == 'student'){
-                var date = new Date();
-                const paramsLastLogin = {
-                    TableName: TABLE_NAME,
-                    Key: {
-                        "PK": `user_${req.body.PK}`,
-                        "SK": "profile"
-                    },
-                    UpdateExpression: 'set #data.lastLogin = :lastLogin',
-                    ExpressionAttributeNames: {
-                        '#data': 'data'
-                    },
-                    ExpressionAttributeValues: {
-                        ':lastLogin': date.toISOString().slice(0,10)
-                    }
-                }
-                try {
-                    await documentClient.update(paramsLastLogin).promise();   
-                    } catch (err) {
-                        console.error(err);
-                        res.status(400).send('Last login could not be updated');
-                    }
-
-        }
             let token = jwt.sign({
                 PK: user.Item.PK,
                 role: user.Item.data.role,
@@ -652,6 +628,65 @@ router.post('/login', async (req, res) => {
                 success: false})
         }
     }
+})
+
+
+// Updating last login
+router.put('/lastLogin', async (req, res) => {
+    const paramsLastLogin = {
+        TableName: TABLE_NAME,
+        Key: {
+            "PK": req.body.PK,
+            "SK": "profile"
+        },
+        UpdateExpression: 'set #data.lastLogin = :lastLogin',
+        ExpressionAttributeNames: {
+            '#data': 'data'
+        },
+        ExpressionAttributeValues: {
+            ':lastLogin': req.body.lastLogin
+        }
+    }
+    try {
+        lastLogin = await documentClient.update(paramsLastLogin).promise();   
+        console.log(lastLogin);
+        res.status(200).json({
+            message: "You have successfully updated your login",
+            success: true
+            });
+        } catch (err) {
+            console.error(err);
+            res.status(400).send('Last login could not be updated');
+        }
+})
+
+// Updating streak
+router.put('/streak', async (req, res) => {
+    const paramsStreak = {
+        TableName: TABLE_NAME,
+        Key: {
+            "PK": req.body.PK,
+            "SK": "profile"
+        },
+        UpdateExpression: 'set #data.streak = :streak',
+        ExpressionAttributeNames: {
+            '#data': 'data'
+        },
+        ExpressionAttributeValues: {
+            ':streak': req.body.streak
+        }
+    }
+    try {
+        streak = await documentClient.update(paramsStreak).promise();   
+        console.log(streak);
+        res.status(200).json({
+            message: "You have successfully updated your streak",
+            success: true
+            });
+        } catch (err) {
+            console.error(err);
+            res.status(400).send('streak could not be updated');
+        }
 })
 
 //export a module

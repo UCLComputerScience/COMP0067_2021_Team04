@@ -21,15 +21,15 @@ export default class Rocket extends React.Component {
 
   render() {
     return (
-      <View >
+      <View style={styles.animationContainer}>
         <LottieView
           ref={animation => {
             this.animation = animation;
           }}
           style={{
             width: 300,
-            height: 200,
-            backgroundColor: '#eee',
+            height: 125,
+            backgroundColor: 'lightgray',
           }}
           source={require('../../assets/50486-rocket.json')}
           // OR find more Lottie files @ https://lottiefiles.com/featured
@@ -45,11 +45,11 @@ export default class Rocket extends React.Component {
 
 const styles = StyleSheet.create({
   animationContainer: {
-    backgroundColor: 'lightgrey',
     alignItems: 'center',
     justifyContent: 'center',
   },
   buttonContainer: {
     paddingTop: 20,
+    marginBottom: 10
   },
 });

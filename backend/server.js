@@ -12,7 +12,7 @@ const dynamoose = require('dynamoose');
 // when sending requests from the frontend to the backend, the backend will not respond to me the same data
 // that i want, because it is forbidden, so we use cors to enable any application to request api from my server
 const cors = require('cors');
-const authJwt = require('./helpers/jwt');
+// const authJwt = require('./helpers/jwt');
 const errorHandler = require('./helpers/error-handler');
 const {success, error } = require('consola');
 
@@ -52,7 +52,7 @@ const videosRoutes = require('./routers/videos');
 const api = process.env.API_URL;
 
 // returns if user can access API based on his token
-app.use(authJwt());
+// app.use(authJwt());
 
 // everytime there's an API error
 app.use(errorHandler)

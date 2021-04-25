@@ -31,17 +31,18 @@ const LoginScreen = ({navigation}) => {
       "PK": userName,
       "password": pword
   })
-  console.log(user.PK)
+  console.log(user)
     if(user.PK != undefined){
     const userString = JSON.stringify(user)
     _storeData(userString)
-    if(global.userType === 'student'){
+    console.log(global.userType)
+    if(user.role === 'student'){
     navigation.navigate('numberFit');
     }
-    if(global.userType === 'parent'){
+    if(user.role === 'parent'){
       navigation.navigate('numberFitParent');
       }
-    if(global.userType === 'teacher'){
+    if(user.role === 'teacher'){
       navigation.navigate('numberFitTeacher');
       }
     }else{

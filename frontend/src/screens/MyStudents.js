@@ -9,35 +9,88 @@ import axios from "axios";
 // make link to my stats page
 
 const MyStudents =({navigation}) => { 
-    const [form, changeForm] = useState('4B');
-    const [forms, getForms] = useState()
-    const tableHead = ['Student', 'Timestables Mastered', 'Pending Assignments'];
+    const [formData, changeForm] = useState([]);
+    const [formIdsbyName, getFormIds] = useState();
+    const [studentNames, updateStudentsNames] = useState();
+    const [pendingAssignments, updatePendingAssignments] = useState();
+    const [studentScores, updateStudentsScores] = useState()
+    const [forms, getForms] = useState([])
+    const tableHead = ['Student', 'Pending Assignments', 'Score'];
     const widthArr = [133,133,133]
     useEffect(()=>{async function getClasses(){
         try{
             let result = await axios.get('http://localhost:3000/api/v1/classes/getClasses/user_gavinteacher')
-            console.log(result)
-            getForms(result)
-
+            let classArray = result.data.Items;
+            let info = [];
+            let sets = [];
+            let classIdbyName = {};
+            let noOfClasses = classArray.length;
+    
+            for (var i = 0; i < noOfClasses; i++) {
+                info.push(classArray[i].PK)
+                sets.push(classArray[i].data.name)
+                classIdbyName[classArray[i].data.name] = classArray[i].PK;
+            }
+            getForms(sets)
+            // getStudents(info[0])
+            getFormIds(classIdbyName)
+            if(classIdbyName[sets[0]]){
+            changeClass(classIdbyName[sets[0]])
+            }
         }
         catch{
             console.log('no classes found for this teacher')
         }
         }
         getClasses()
-    }
+    },[]
     )
         
 
 
-    const changeClass = (students)=>{
-        changeForm(students)
+    const changeClass = async (classID)=>{
+        try{
+        let address = 'http://34.247.47.193/api/v1/users/' + classID;
+        console.log(address)
+        let students = await axios.get(address);
+        
+         let result = students;
+         console.log(result)
+         
+        let sNames = [];
+        let sScores = [];
+        let sPending = [];
+        
+        for (var i =0; i < result.length; i++){
+            let fullName = result[i].data.firstName + ' ' + result[i].data.lastName
+            sNames.push(fullName);
+            sScores.push(result[i].data.score);
+            sPending.push(result[i].data.pendingAssignments);
+        }
+        console.log('here')
+        console.log(sNames)
+        updateStudentsNames(sNames)
+        updatePendingAssignments(sScores)
+        updateStudentsScores(sPending)
+        var data = [];
+    for (let i = 0; i < studentNames.length; i += 1) {
+      const dataRow = [];
+      
+      dataRow.push(studentNames[i], pendingAssignments[i], studentScores[i]);
+      
+      data.push(dataRow);
+
     }
+    changeForm(data)
+    }catch{
+        console.log("Couldn't load students")
+    }}
 
     const classButton = (set) => {
+        
         return (<Pressable
                     style={styles.classOptionButton}
-                    onPress={() => changeClass(set)}
+                    onPress={() => changeClass(formIdsbyName[set])}
                     >
                         <Text style = {styles.buttonText}>{set}</Text>
 
@@ -45,20 +98,11 @@ const MyStudents =({navigation}) => {
         )}
 
     
-    const data = [];
-    for (let i = 0; i < 30; i += 1) {
-      const dataRow = [];
-      for (let j = 0; j < 9; j += 1) {
-        dataRow.push(`${i}${j}`);
-      }
-      data.push(dataRow);
     
         return(
             <View style = {styles.container}>
                 <View style = {styles.classOptionsContainer}>
-                    {classButton('4B')}
-                    {classButton('5B')}
-                    {classButton('6B')}
+                    {forms.map(classButton)}
                 </View>
                 <View style = {styles.stats}>
                     <Text style={styles.statsText}>Class Stats</Text>
@@ -77,11 +121,11 @@ const MyStudents =({navigation}) => {
                             <ScrollView style={styles.dataWrapper}>
                             <Table borderStyle={{borderColor: '#C1C0B9'}}>
                                 {
-                                data.map((dataRow, index) => (
+                                formData.map((datarow, index) => (
                                     <Row
                                     key={index}
-                                    onPress={() => changeClass('5B')}
-                                    data={dataRow}
+                                    onPress={() => console.log('being pressed')}
+                                    data={datarow}
                                     widthArr={widthArr}
                                     style={[styles.row, index%2 && {backgroundColor: '#ffffff'}]}
                                     textStyle={styles.text}
@@ -96,7 +140,7 @@ const MyStudents =({navigation}) => {
             </View>
         )
     }
-}
+
 
 
 const styles = StyleSheet.create({

@@ -59,6 +59,7 @@ class LandingPage extends React.Component {
 
 const IconNav = ({navigation}) => {
   const [testing, setTesting] = useState();
+  const [loggedIn, setLogin] = useState(0);
    global.TT = testing;
   const difficultyColours = 
 {
@@ -77,6 +78,8 @@ const IconNav = ({navigation}) => {
       "pendingAssignments": 16,
       "role": "student",
       "secret": "studentSecret",
+      "streak": 0,
+      "lastLogin": "2021-04-10"
     },
     eightx:  {
       "accuracy": 0,
@@ -171,6 +174,7 @@ try {
     let result = JSON.parse(value)
     
     userLoad(result)
+    setLogin(1)
   }
 } catch (error) {
   console.log("error")
@@ -180,12 +184,16 @@ try {
 fetchData()
 
 },[]);
-  
+  const renderLandingHeader = ()=>{
+    if (loggedIn){
+      return(<LandingHeader person = {user} />)
+    }
+  }
   var dos = 2;
         return(
             <View style={styles.container}>
-
-              <LandingHeader person = {user} />
+                {renderLandingHeader()}
+              
                 <View style={styles.iconContainer}>
                             <TouchableHighlight 
       underlayColor = '#ccc'

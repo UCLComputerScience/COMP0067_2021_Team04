@@ -15,195 +15,372 @@ AWS.config.update({
 const documentClient = new AWS.DynamoDB.DocumentClient();
 const TABLE_NAME = 'UCL-TT-USERS-V2';
 
-// get all informtation about a class
-router.get(`/:PK`, async (req, res) => {
+// User creates a challenge
+router.post('/', async (req, res) => {
+    const challengeId = uuid.v4()
+    const date = new Date()
+    const challengeParams = {
 
-    const params = {
-        TableName: TABLE_NAME
-    };
-
-    // create an empty object to hold the response
-    let responseData;
-
-    // check if URI parameters exists
-    if (req.params.PK) {
-        params.KeyConditionExpression = 'PK = :pk',
-        params.ExpressionAttributeValues = {
-            ':pk': req.params.PK, //class_id
-        }
-        
-    } else {
-        // check if query parameter exists
-        if(req.query.PK) {
-            params.Key = {
-                PK: req.query.PK,
-            }
-            params.KeyConditionExpression = 'PK = :pk',
-            params.ExpressionAttributeValues = {
-                ':pk': req.params.PK,
-            }
-        }
-    }
-    console.log(params)
-    // check if the parameter has NOT been passed in
-    try {
-        responseData = await documentClient.query(params).promise()
-        res.json(responseData)
-    } catch (error) {
-        res.status(500).send("Unable to collect record: " + error)
-    } 
-})
-
-// get all information about the classes a user is within
-router.get(`/getClasses/:GSI1`, async (req, res) => {
-
-    const params = {
-        TableName: TABLE_NAME
-    };
-
-    // create an empty object to hold the response
-    let responseData;
-
-    // check if URI parameters exists
-    if (req.params.GSI1) {
-        params.IndexName = 'GSI1-SK-index'
-        params.KeyConditionExpression = 'GSI1 = :gsi1 AND begins_with(SK, :sk)',
-        params.ExpressionAttributeValues = {
-            ':gsi1': req.params.GSI1, //user_id
-            ':sk': "classMember" 
-        }
-        
-    } else {
-        // check if query parameter exists
-        if(req.query.PK) {
-            params.Key = {
-                PK: req.query.PK,
-            }
-            params.KeyConditionExpression = 'PK = :pk',
-            params.ExpressionAttributeValues = {
-                ':pk': req.params.PK,
-            }
-        }
-    }
-    console.log(params)
-    // check if the parameter has NOT been passed in
-    try {
-        responseData = await documentClient.query(params).promise()
-        res.json(responseData)
-    } catch (error) {
-        res.status(500).send("Unable to collect record: " + error)
-    } 
-})
-
-
-
-router.get(`/`, async (req, res) => {
-  const documentClient = new AWS.DynamoDB.DocumentClient();
-
-
-  const params = {
-      TableName: TABLE_NAME
-  };
-
-  const classesList = await documentClient.scan(params).promise()
-  if(!classesList) {
-      res.status(500).json({sucess: false})
-  }
-  res.send(classesList);
-})
-
-router.get(`/:classID`, async (req, res) => {
-    const classID = req.params.classID;
-    const documentClient = new AWS.DynamoDB.DocumentClient();
-  
-    const params = {
-        Key: {
-            "classID": classID
-        },
-        TableName: TABLE_NAME
-    };
-    const classItem = await documentClient.get(params).promise()
-    if(!classItem) {
-        res.status(500).json({sucess: false})
-    }
-    res.send(classItem);
-  })
-
-router.post(`/`,  async (req, res) => {
-
-    const params = {
         TableName: TABLE_NAME,
-        Item: {
-        PK: req.body.PK,
-        SK: 'Challenge',  
-        GSI1: req.body.GSI1,
-        data: {
-            winner: req.body.data.winner,
-             player1Score: req.body.data.player1Score,
-             player2Score: req.body.data.player2Score
-    }
-    }
+        Item : {
+            PK: req.body.PK, // user_id
+            SK: `challenge_${challengeId}`,
+            GSI1: req.body.GSI1, // user_id2
+            data: {
+                player1Score: 0,
+                player2Score: 0,
+                winner: "",
+                state: "pending",
+                datePosted: date.toISOString(),
+                dateFinished: ""
+            }
+        }
     }
 
-  try {
-    const challenge = await documentClient.put(params).promise();    
-    res.status(201).send(challenge);
+    try {
+        await documentClient.put(challengeParams).promise()
+        res.status(200).json({
+            message: "Successful challenge",
+            success: true
+            });
     } catch (err) {
-        console.error(err);
-        res.status(500).send('Something went wrong');
-    }
-})
-
-router.post(`/newMember/`, [validateAuth, ...validators.postMembersValidators], async (req, res) => {
-
-    const errors = validationResult(req)
-    if(!errors.isEmpty()) {
+        console.log(err);
         res.status(400).json({
-            errors: errors.array()
+            message: "Challenge failed",
+            success: false
         })
-    }  
-
-    const params = {
-        TableName: TABLE_NAME,
-        Item: {
-        PK: req.body.PK,
-        SK: req.body.SK,  
-        GSI1: req.body.GSI1,
-        role: req.body.role  
-    }
-    }
-
-  try {
-    const schoolClass = await documentClient.put(params).promise();    
-    res.status(201).send(schoolClass);
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Something went wrong');
     }
 })
 
-router.put(`/:classID`, async (req, res) => {
-    const classItem = req.body;
-    const { classID } = req.params;
-    classItem.classID = classID;
-    try {
-        const updatedClass = await addOrUpdateItem(classItem, TABLE_NAME);
-        res.json(updatedClass);
-    } catch (error) {
-        console.error(err);
-        res.status(500).json({err:'something went wrong'});
-    }
-  })
+// Get all pending challenges within the last month
+router.get('/pending/:PK', async (req, res) => {
+    const date = new Date()
+    makeDate = new Date(date.setMonth(date.getMonth() - 1));
+    console.log(makeDate.toISOString())
+    const yourChallengeParams = {
+        TableName: TABLE_NAME,
+        KeyConditionExpression: 'PK = :pk AND begins_with(SK, :sk)',
+        FilterExpression: '#data.#state = :state AND #data.datePosted  > :lastmonth',
+        ExpressionAttributeNames: {
+            '#data': 'data',
+            '#state': 'state'
+        },
+        ExpressionAttributeValues: {
+            ':pk': req.params.PK,
+            ':sk': 'challenge',
+            ':state': 'pending',
+            ':lastmonth': makeDate.toISOString()
+        }
+        }
+    const theirChallengeParams = {
+        TableName: TABLE_NAME,
+        IndexName: 'GSI1-SK-index',
+        KeyConditionExpression: 'GSI1 = :gsi1 AND begins_with(SK, :sk)',
+        FilterExpression: '#data.#state = :state AND #data.datePosted  > :lastmonth',
+        ExpressionAttributeNames: {
+            '#data': 'data',
+            '#state': 'state'
+        },
+        ExpressionAttributeValues: {
+            ':gsi1': req.params.PK,
+            ':sk': 'challenge',
+            ':state': 'pending',
+            ':lastmonth': makeDate.toISOString()
+        }
+        }
 
-router.delete('/:classID', async (req, res) => {
-    const { classID } = req.params;
     try {
-        res.json(await deleteItem(classID, TABLE_NAME));
+        let allChallenges = []
+        const yourChallenges = await documentClient.query(yourChallengeParams).promise()
+        const theirChallenges = await documentClient.query(theirChallengeParams).promise()
+        if ((yourChallenges.Items.length + theirChallenges.Items.length) == 0) {
+            res.status(200).json({
+                message: "You have no challenges",
+                success: true,
+                });
+        } else {
+
+        for (i = 0; i < yourChallenges.Items.length; i++) {
+            allChallenges.push(yourChallenges.Items[i])
+        }
+        for (i = 0; i < theirChallenges.Items.length; i++) {
+            allChallenges.push(yourChallenges.Items[i])
+        }
+        res.status(200).json({
+            message: "Successful challenge query",
+            success: true,
+            allChallenges
+            // yourChallenges,
+            // theirChallenges
+            });}
     } catch (err) {
-        console.error(err);
-        res.status(500).json({err: 'something went wrong'})
+        console.log(err);
+        res.status(400).json({
+            message: "Challenge query failed",
+            success: false
+        })
     }
-});
+})
 
-//export a module
-module.exports=router;
+// User finishes a challenge
+router.put('/', async (req, res) => {
+    const challengeId = uuid.v4()
+    const date = new Date()
+    // const challengeParams = {
+
+    //     TableName: TABLE_NAME,
+    //     Item : {
+    //         PK: req.body.PK, // user_id
+    //         SK: `challenge_${challengeId}`,
+    //         GSI1: req.body.GSI1, // user_id2
+    //         data: {
+    //             player1Score: 0,
+    //             player2Score: 0,
+    //             winner: "",
+    //             state: "pending",
+    //             datePosted: date.toISOString(),
+    //             dateFinished: ""
+    //         }
+    //     }
+    // }
+    let updateParams;
+    if (req.body.userId == req.body.PK) {
+        if (req.body.player2Score == 0) {
+            const updateParams = {
+                TableName: TABLE_NAME,
+                Key: {
+                    PK: req.body.userId,
+                    SK: req.body.challengeId,
+                },
+                UpdateExpression: 'SET #data.player1Score = :score',
+                ExpressionAttributeNames: {
+                    '#data': 'data'
+                },
+                ExpressionAttributeValues: {
+                    ':score': req.body.score
+                }}
+    } else {
+        if (req.body.player1Score > req.body.player2Score) {
+        const updateParams = {
+            TableName: TABLE_NAME,
+            Key: {
+                PK: req.body.userId,
+                SK: req.body.challengeId,
+            },
+            // use hash to tell dynamodb that this is a replaceable value, avoid dynamo's reserved keywords
+            UpdateExpression: 'SET #data.player1Score = :score AND SET #data.state = :state AND SET #data.winner = :winner',
+            ExpressionAttributeNames: {
+                '#data': 'data'
+            },
+            ExpressionAttributeValues: {
+                ':score': req.body.score,
+                ':state': "completed",
+                ':winner': req.body.userId
+            }}} else if (req.body.player1Score < req.body.player2Score) {
+                const updateParams = {
+                    TableName: TABLE_NAME,
+                    Key: {
+                        PK: req.body.userId,
+                        SK: req.body.challengeId,
+                    },
+                    // use hash to tell dynamodb that this is a replaceable value, avoid dynamo's reserved keywords
+                    UpdateExpression: 'SET #data.player1Score = :score AND SET #data.state = :state AND SET #data.winner = :winner',
+                    ExpressionAttributeNames: {
+                        '#data': 'data'
+                    },
+                    ExpressionAttributeValues: {
+                        ':score': req.body.score,
+                        ':state': "completed",
+                        ':winner': req.body.opponentId
+                
+            }
+        }
+    } else {
+        const updateParams = {
+            TableName: TABLE_NAME,
+            Key: {
+                PK: req.body.userId,
+                SK: req.body.challengeId,
+            },
+            // use hash to tell dynamodb that this is a replaceable value, avoid dynamo's reserved keywords
+            UpdateExpression: 'SET #data.player1Score = :score AND SET #data.state = :state AND SET #data.winner = :winner',
+            ExpressionAttributeNames: {
+                '#data': 'data'
+            },
+            ExpressionAttributeValues: {
+                ':score': req.body.score,
+                ':state': "completed",
+                ':winner': "draw"
+    }
+}}}
+} else {
+        const updateParams = {
+            TableName: TABLE_NAME,
+            Key: {
+                PK: req.body.userId,
+                SK: req.body.challengeId,
+            },
+            // use hash to tell dynamodb that this is a replaceable value, avoid dynamo's reserved keywords
+            UpdateExpression: 'SET #data.player2Score = :score',
+            ExpressionAttributeNames: {
+                '#data': 'data'
+            },
+            ExpressionAttributeValues: {
+                ':score': req.body.score
+            }
+    }
+    if (req.body.player1Score == 0) {
+        const updateParams = {
+            TableName: TABLE_NAME,
+            Key: {
+                PK: req.body.userId,
+                SK: req.body.challengeId,
+            },
+            UpdateExpression: 'SET #data.player2Score = :score',
+            ExpressionAttributeNames: {
+                '#data': 'data'
+            },
+            ExpressionAttributeValues: {
+                ':score': req.body.score
+            }}
+} else {
+    if (req.body.player1Score > req.body.player2Score) {
+    const updateParams = {
+        TableName: TABLE_NAME,
+        Key: {
+            PK: req.body.userId,
+            SK: req.body.challengeId,
+        },
+        // use hash to tell dynamodb that this is a replaceable value, avoid dynamo's reserved keywords
+        UpdateExpression: 'SET #data.player2Score = :score AND SET #data.state = :state AND SET #data.winner = :winner',
+        ExpressionAttributeNames: {
+            '#data': 'data'
+        },
+        ExpressionAttributeValues: {
+            ':score': req.body.score,
+            ':state': "completed",
+            ':winner': req.body.userId
+        }}} else if (req.body.player1Score < req.body.player2Score) {
+            const updateParams = {
+                TableName: TABLE_NAME,
+                Key: {
+                    PK: req.body.userId,
+                    SK: req.body.challengeId,
+                },
+                // use hash to tell dynamodb that this is a replaceable value, avoid dynamo's reserved keywords
+                UpdateExpression: 'SET #data.player2Score = :score AND SET #data.state = :state AND SET #data.winner = :winner',
+                ExpressionAttributeNames: {
+                    '#data': 'data'
+                },
+                ExpressionAttributeValues: {
+                    ':score': req.body.score,
+                    ':state': "completed",
+                    ':winner': req.body.opponentId
+            
+        }
+    }
+} else {
+    const updateParams = {
+        TableName: TABLE_NAME,
+        Key: {
+            PK: req.body.userId,
+            SK: req.body.challengeId,
+        },
+        // use hash to tell dynamodb that this is a replaceable value, avoid dynamo's reserved keywords
+        UpdateExpression: 'SET #data.player1Score = :score AND SET #data.state = :state AND SET #data.winner = :winner',
+        ExpressionAttributeNames: {
+            '#data': 'data'
+        },
+        ExpressionAttributeValues: {
+            ':score': req.body.score,
+            ':state': "completed",
+            ':winner': "draw"
+}
+    }}}}
+
+    try {
+        await documentClient.update(updateParams).promise()
+        res.status(200).json({
+            message: "Successful update",
+            success: true
+            });
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            message: "Update failed",
+            success: false
+        })
+    }
+})
+
+// Get all pending challenges within the last month
+router.get('/completed/:PK', async (req, res) => {
+    const date = new Date()
+    makeDate = new Date(date.setMonth(date.getMonth() - 1));
+    console.log(makeDate.toISOString())
+    const yourChallengeParams = {
+        TableName: TABLE_NAME,
+        KeyConditionExpression: 'PK = :pk AND begins_with(SK, :sk)',
+        FilterExpression: '#data.#state = :state AND #data.datePosted  > :lastmonth',
+        ExpressionAttributeNames: {
+            '#data': 'data',
+            '#state': 'state'
+        },
+        ExpressionAttributeValues: {
+            ':pk': req.params.PK,
+            ':sk': 'challenge',
+            ':state': 'completed',
+            ':lastmonth': makeDate.toISOString()
+        }
+        }
+    const theirChallengeParams = {
+        TableName: TABLE_NAME,
+        IndexName: 'GSI1-SK-index',
+        KeyConditionExpression: 'GSI1 = :gsi1 AND begins_with(SK, :sk)',
+        FilterExpression: '#data.#state = :state AND #data.datePosted  > :lastmonth',
+        ExpressionAttributeNames: {
+            '#data': 'data',
+            '#state': 'state'
+        },
+        ExpressionAttributeValues: {
+            ':gsi1': req.params.PK,
+            ':sk': 'challenge',
+            ':state': 'completed',
+            ':lastmonth': makeDate.toISOString()
+        }
+        }
+
+    try {
+        let allChallenges = []
+        const yourChallenges = await documentClient.query(yourChallengeParams).promise()
+        const theirChallenges = await documentClient.query(theirChallengeParams).promise()
+        if ((yourChallenges.Items.length + theirChallenges.Items.length) == 0) {
+            res.status(200).json({
+                message: "You have no challenges",
+                success: true,
+                });
+        } else {
+
+        for (i = 0; i < yourChallenges.Items.length; i++) {
+            allChallenges.push(yourChallenges.Items[i])
+        }
+        for (i = 0; i < theirChallenges.Items.length; i++) {
+            allChallenges.push(yourChallenges.Items[i])
+        }
+        res.status(200).json({
+            message: "Successful challenge query",
+            success: true,
+            allChallenges
+            // yourChallenges,
+            // theirChallenges
+            });}
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            message: "Challenge query failed",
+            success: false
+        })
+    }
+})
+
+module.exports = router;

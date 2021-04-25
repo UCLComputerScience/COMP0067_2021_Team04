@@ -8,22 +8,22 @@ const LandingHeader = ({person}) => {
 
   const [streak, updateStreak] = useState(person.data.streak);
   console.log(streak)
-  const incrementStreak = async()=>{
+  const incrementStreak = async(todayISO)=>{
     let newStreak = streak + 1;
     updateStreak(newStreak)
-    inputLoginStats(newStreak)
+    inputLoginStats(newStreak,todayISO)
   }
-  const resetStreak = async()=>{
+  const resetStreak = async(todayISO)=>{
     let newStreak = 0;
     updateStreak(0)
-    inputLoginStats(newStreak)
+    inputLoginStats(newStreak,todayISO)
   }
-  const inputLoginStats = async(noOfDays)=>{
+  const inputLoginStats = async(noOfDays,lastLoginISO)=>{
     console.log(noOfDays)
     try{
   const lastL = await axios.put('http://34.247.47.193/api/v1/users/lastLogin',{
       "PK": person.PK,
-      "lastLogin": "2021-04-24"
+      "lastLogin": lastLoginISO
     })
   const res = await axios.put('http://34.247.47.193/api/v1/users/streak',{
       "PK": person.PK,
@@ -41,7 +41,7 @@ const LandingHeader = ({person}) => {
     const lLogin = Math.floor((new Date(lastLogin)).getTime()/(1000*3600*24))*24;
     
     var today = new Date();
-    
+    var loginISO = today.toISOString()
     let date = Math.floor(today.getTime()/(1000*3600*24))*24;
     
     var loginDifference = date - lLogin;
@@ -50,12 +50,12 @@ const LandingHeader = ({person}) => {
     // console.log(check)
     if(loginDifference == 24){
       
-      incrementStreak()
+      incrementStreak(loginISO)
       // updateStreak(streak+1)
       console.log('incrementing streak')
     } else if(loginDifference > 24){
       console.log("resetting streak")
-      resetStreak()
+      resetStreak(loginISO)
     }
     
     } newStreak()

@@ -31,7 +31,6 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import TestOverModal from '../components/TestOverModal';
 import { Alert } from "react-native";
 import Rocket from '../animations/Rocket';
-import SliderExample from '../components/ProgressSlider';
 import * as Progress from 'react-native-progress';
 
 

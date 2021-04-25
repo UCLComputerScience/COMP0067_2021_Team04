@@ -7,7 +7,7 @@ import axios from 'axios';
 const LandingHeader = ({person}) => {
 
   const [streak, updateStreak] = useState(person.data.streak);
-  console.log(streak)
+  
   const incrementStreak = async(todayISO)=>{
     let newStreak = streak + 1;
     updateStreak(newStreak)
@@ -19,7 +19,6 @@ const LandingHeader = ({person}) => {
     inputLoginStats(newStreak,todayISO)
   }
   const inputLoginStats = async(noOfDays,lastLoginISO)=>{
-    console.log(noOfDays)
     try{
   const lastL = await axios.put('http://34.247.47.193/api/v1/users/lastLogin',{
       "PK": person.PK,

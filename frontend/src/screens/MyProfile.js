@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { result } from "lodash";
 import avatarDict from "../components/AvatarDict";
 import SettingsModal from "../components/SettingsModal";
+import AchievementModal from '../components/AchievementModal';
 
 
   
@@ -201,6 +202,7 @@ export default function MyProfile({navigation}) {
                 <Ionicons name="star" size={60} color="silver"></Ionicons>
                 </TouchableHighlight>
                 </View>  
+                <AchievementModal />
                 <Text style={[styles.subText, styles.recent]}>Recent Activity</Text>
                 <View style={{ alignItems: "center" }}>
                     <View style={styles.recentItem}>

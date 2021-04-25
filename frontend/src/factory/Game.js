@@ -123,7 +123,6 @@ class Game extends React.Component {
         const gameStatus = this.gameStatus;
         return (
             <View style={styles.container}>
-                  <GameHeader></GameHeader>
                   
                 {/* {/* <Text style = {styles.titleText}>  </Text> */}
                 <Text style = {styles.titleText}>  </Text>

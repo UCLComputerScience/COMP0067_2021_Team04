@@ -31,11 +31,11 @@ const LoginScreen = ({navigation}) => {
       "PK": userName,
       "password": pword
   })
-  console.log(user)
+    
     if(user.PK != undefined){
     const userString = JSON.stringify(user)
     _storeData(userString)
-    console.log(global.userType)
+    
     if(user.role === 'student'){
     navigation.navigate('numberFit');
     }

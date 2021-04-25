@@ -9,81 +9,117 @@ import Rocket from '../animations/Rocket';
 import PropTypes from 'prop-types';
 import  {Component} from 'react';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const Stats = ({navigation, userID}) => {
+const StatsScreen = ({navigation, userID}) => {
     const [studentsData, getStudentData] = useState();
     const [user, userLoad] = useState();
-    
+
     useEffect(()=>{
         async function getStats(){
         if(userID){
             try{
-                let studentData = await axios.get('http://localhost:3000/api/v1/testStatistics/indepth/' + userID);
+                let studentData = await axios.get('http://34.247.47.193/api/v1/testStatistics/indepth/' + userID);
+                let student = await axios.get('http://34.247.47.193/api/v1/users/individual/' + userID);
                 getStudentData(studentData);
-                console.log(studentsData)
+                userLoad(student);
+                console.log('student id passed')
             } catch{
                 console.log('Error Loading Students Stats')
             }
         }else{
             try {
                 const value = await AsyncStorage.getItem('user');
-                if (value !== null) {
+                if (value) {
                   // We have data!!
                   let result = JSON.parse(value)
-                  let studentDetails = 'http://localhost:3000/api/v1/testStatistics/indepth/' + result.PK;
-                  let studentData = await axios.get(studentDetails);
-                getStudentData(studentData);
-                console.log(studentsData);
+                  
+                  let statAddress  = 'http://34.247.47.193/api/v1/testStatistics/inDepth/' + result.PK;
+                  
+                  let studentAddress = 'http://34.247.47.193/api/v1/users/individual/' + result.PK;
+                  
+                  let studentStats = await axios.get(statAddress);
+                  let student = await axios.get(studentAddress);
+                  
+                //   console.log(student)
+                // console.log(student.data.Item)
+                // console.log(studentStats.data.testStats.Item.data)
+                  userLoad(student.data.Item)
+                  getStudentData(studentStats.data.testStats.Item.data);
+                //   console.log(studentStats.data.testStats.Item.data)
+
+                    
+                
                 }
               } catch (error) {
-                console.log("error")
+                console.log("this error")
               }
               }
-        }
+            }
         getStats()},[])
-    return (
+    const progressionFraction = (difficultyLevel)=>{
+        let result = difficultyLevel/3;
+        return(result.toFixed(2))
+    }
+    const displayStats = () => {
+        
+        if(studentsData != undefined && user != undefined){
+        return (
       <View style={styles.container}>
       <ScrollView>
       {/* <Rocket /> */}
     <Text style={styles.statisticTitle}>2x timestable</Text>
-    <Progress completion={0.3}/>
-    <LineGraph />
-    <Table />
+    <Progress completion={progressionFraction(user['twox'])}/>
+    {/* <LineGraph /> */}
+    <Table userDetails = {studentsData.twox} level = {user['twox']}/>
     <Text style={styles.statisticTitle}>3x timestable</Text>
-    <Progress completion={0.65}/>
+    <Progress completion={progressionFraction(user['threex'])}/>
+    {/* <LineGraph /> */}
+    <Table userDetails = {studentsData.threex} level = {user['threex']}/>
     <Text style={styles.statisticTitle}>4x timestable</Text>
-    <Progress completion={0.3}/>
-    <ProgressRing />
+    <Progress completion={progressionFraction(user['fourx'])}/>
+    {/* <LineGraph /> */}
+    <Table userDetails = {studentsData.fourx} level = {user['fourx']}/>
     <Text style={styles.statisticTitle}>5x timestable</Text>
-    <Progress completion={1}/>
+    <Progress completion={progressionFraction(user['fivex'])}/>
+    {/* <LineGraph /> */}
+    <Table userDetails = {studentsData.fivex} level = {user['fivex']}/>
     <Text style={styles.statisticTitle}>6x timestable</Text>
-    <Table />
-    <Progress completion={0.2}/>
+    <Progress completion={progressionFraction(user['sixx'])}/>
+    <Table userDetails = {studentsData.sixx} level = {user['sixx']}/>
     {/* <Pie /> */}
     <Text style={styles.statisticTitle}>7x timestable</Text>
-    <Progress completion={0.5}/>
-    <Text> </Text>
-    <Text> </Text>
-    <Text> </Text>
+    <Progress completion={progressionFraction(user['sevenx'])}/>
+    <Table userDetails = {studentsData.sevenx} level = {user['sevenx']}/>
+    <Text style={styles.statisticTitle}>8x timestable</Text>
+    <Progress completion={progressionFraction(user['eightx'])}/>
+    <Table userDetails = {studentsData.eightx} level = {user['eightx']}/>
+    <Text style={styles.statisticTitle}>9x timestable</Text>
+    <Progress completion={progressionFraction(user['ninex'])}/>
+    <Table userDetails = {studentsData.ninex} level = {user['ninex']}/>
+    <Text style={styles.statisticTitle}>10x timestable</Text>
+    <Progress completion={progressionFraction(user['tenx'])}/>
+    <Table userDetails = {studentsData.tenx} level = {user['tenx']}/>
+    <Text style={styles.statisticTitle}>11x timestable</Text>
+    <Progress completion={progressionFraction(user['elevenx'])}/>
+    <Table userDetails = {studentsData.elevenx} level = {user['elevenx']}/>
+    <Text style={styles.statisticTitle}>12x timestable</Text>
+    <Progress completion={progressionFraction(user['twelvex'])}/>
+    <Table userDetails = {studentsData.twelvex} level = {user['twelvex']}/>
     <Button
     title="Leaderboards"
     onPress = { () => navigation.navigate('Load') } />
     </ScrollView>
       </View> 
       );
+}else{
+    return(<Text>Error: No user stats found</Text>)
 };
-
-class StatsScreen extends Component{
-    static propTypes = {
-        CompletionPercentage: PropTypes.number.isRequired,
-    };
-    render(){
-        return( 
-            <Stats />
-          )
-        } 
-        }
+};       return(
+    displayStats()
+)
+}
 
 
 const styles = StyleSheet.create ({
@@ -134,4 +170,4 @@ const styles = StyleSheet.create ({
     addText: {}
 });
 
-export default Stats;
+export default StatsScreen;

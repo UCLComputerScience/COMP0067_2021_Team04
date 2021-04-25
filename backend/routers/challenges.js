@@ -122,182 +122,220 @@ router.get('/pending/:PK', async (req, res) => {
     }
 })
 
-// User finishes a challenge
-router.put('/', async (req, res) => {
+// User rejects a challenge he received
+router.delete('/', async (req, res) => {
+    const deleteParams = {
+        TableName: TABLE_NAME,
+        Key: {
+            PK: req.body.PK,
+            SK: req.body.SK
+        },
+    };
+
+    try {
+        await documentClient.delete(deleteParams).promise()
+        res.status(200).json({
+            message: "Successful rejection",
+            success: true
+            });
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            message: "Rejection failed",
+            success: false
+        })
+    }
+
+})
+
+// User finishes a challenge he initiated
+router.put('/challengerUpdate', async (req, res) => {
     const challengeId = uuid.v4()
-    const date = new Date()
-    // const challengeParams = {
+    date = new Date().toISOString()
 
-    //     TableName: TABLE_NAME,
-    //     Item : {
-    //         PK: req.body.PK, // user_id
-    //         SK: `challenge_${challengeId}`,
-    //         GSI1: req.body.GSI1, // user_id2
-    //         data: {
-    //             player1Score: 0,
-    //             player2Score: 0,
-    //             winner: "",
-    //             state: "pending",
-    //             datePosted: date.toISOString(),
-    //             dateFinished: ""
-    //         }
-    //     }
-    // }
-    let updateParams;
-    if (req.body.userId == req.body.PK) {
-        if (req.body.player2Score == 0) {
-            const updateParams = {
-                TableName: TABLE_NAME,
-                Key: {
-                    PK: req.body.userId,
-                    SK: req.body.challengeId,
-                },
-                UpdateExpression: 'SET #data.player1Score = :score',
-                ExpressionAttributeNames: {
-                    '#data': 'data'
-                },
-                ExpressionAttributeValues: {
-                    ':score': req.body.score
-                }}
-    } else {
-        if (req.body.player1Score > req.body.player2Score) {
-        const updateParams = {
-            TableName: TABLE_NAME,
-            Key: {
-                PK: req.body.userId,
-                SK: req.body.challengeId,
-            },
-            // use hash to tell dynamodb that this is a replaceable value, avoid dynamo's reserved keywords
-            UpdateExpression: 'SET #data.player1Score = :score AND SET #data.state = :state AND SET #data.winner = :winner',
-            ExpressionAttributeNames: {
-                '#data': 'data'
-            },
-            ExpressionAttributeValues: {
-                ':score': req.body.score,
-                ':state': "completed",
-                ':winner': req.body.userId
-            }}} else if (req.body.player1Score < req.body.player2Score) {
-                const updateParams = {
-                    TableName: TABLE_NAME,
-                    Key: {
-                        PK: req.body.userId,
-                        SK: req.body.challengeId,
-                    },
-                    // use hash to tell dynamodb that this is a replaceable value, avoid dynamo's reserved keywords
-                    UpdateExpression: 'SET #data.player1Score = :score AND SET #data.state = :state AND SET #data.winner = :winner',
-                    ExpressionAttributeNames: {
-                        '#data': 'data'
-                    },
-                    ExpressionAttributeValues: {
-                        ':score': req.body.score,
-                        ':state': "completed",
-                        ':winner': req.body.opponentId
-                
-            }
+    const getChallengeParams = {
+        TableName: TABLE_NAME,
+        Key: {
+            PK: req.body.PK,
+            SK: req.body.SK
         }
-    } else {
-        const updateParams = {
-            TableName: TABLE_NAME,
-            Key: {
-                PK: req.body.userId,
-                SK: req.body.challengeId,
-            },
-            // use hash to tell dynamodb that this is a replaceable value, avoid dynamo's reserved keywords
-            UpdateExpression: 'SET #data.player1Score = :score AND SET #data.state = :state AND SET #data.winner = :winner',
-            ExpressionAttributeNames: {
-                '#data': 'data'
-            },
-            ExpressionAttributeValues: {
-                ':score': req.body.score,
-                ':state': "completed",
-                ':winner': "draw"
     }
-}}}
-} else {
-        const updateParams = {
-            TableName: TABLE_NAME,
-            Key: {
-                PK: req.body.userId,
-                SK: req.body.challengeId,
-            },
-            // use hash to tell dynamodb that this is a replaceable value, avoid dynamo's reserved keywords
-            UpdateExpression: 'SET #data.player2Score = :score',
-            ExpressionAttributeNames: {
-                '#data': 'data'
-            },
-            ExpressionAttributeValues: {
-                ':score': req.body.score
-            }
+
+    try {
+        challengeObject = await documentClient.get(getChallengeParams).promise()
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            message: "Get request failed",
+            success: false
+        })
     }
-    if (req.body.player1Score == 0) {
-        const updateParams = {
-            TableName: TABLE_NAME,
-            Key: {
-                PK: req.body.userId,
-                SK: req.body.challengeId,
-            },
-            UpdateExpression: 'SET #data.player2Score = :score',
-            ExpressionAttributeNames: {
-                '#data': 'data'
-            },
-            ExpressionAttributeValues: {
-                ':score': req.body.score
-            }}
-} else {
-    if (req.body.player1Score > req.body.player2Score) {
+
+    challenge = challengeObject.Item
+
+
     const updateParams = {
         TableName: TABLE_NAME,
         Key: {
-            PK: req.body.userId,
-            SK: req.body.challengeId,
+            PK: req.body.PK,
+            SK: req.body.SK
         },
-        // use hash to tell dynamodb that this is a replaceable value, avoid dynamo's reserved keywords
-        UpdateExpression: 'SET #data.player2Score = :score AND SET #data.state = :state AND SET #data.winner = :winner',
+        UpdateExpression: 'SET #data.player1Score = :score',
         ExpressionAttributeNames: {
             '#data': 'data'
         },
         ExpressionAttributeValues: {
+            ':score': req.body.score
+        }
+
+    }
+    // if opponent has not completed a test, ignore state updates (stays pending)
+    if (challenge.data.player2Score == 0) {
+        
+    }
+    // if challenger gets a better score, challenger is winner
+    else if (req.body.score > challenge.data.player2Score) {
+        updateParams.UpdateExpression = 'SET #data.player1Score = :score, #data.#state = :state, #data.winner = :winner, #data.dateFinished = :date',
+        updateParams.ExpressionAttributeNames = {
+            '#data': 'data',
+            '#state': 'state'
+        },
+        updateParams.ExpressionAttributeValues = {
             ':score': req.body.score,
             ':state': "completed",
-            ':winner': req.body.userId
-        }}} else if (req.body.player1Score < req.body.player2Score) {
-            const updateParams = {
-                TableName: TABLE_NAME,
-                Key: {
-                    PK: req.body.userId,
-                    SK: req.body.challengeId,
-                },
-                // use hash to tell dynamodb that this is a replaceable value, avoid dynamo's reserved keywords
-                UpdateExpression: 'SET #data.player2Score = :score AND SET #data.state = :state AND SET #data.winner = :winner',
-                ExpressionAttributeNames: {
-                    '#data': 'data'
-                },
-                ExpressionAttributeValues: {
-                    ':score': req.body.score,
-                    ':state': "completed",
-                    ':winner': req.body.opponentId
-            
+            ':winner': req.body.PK,
+            ':date': date
+        }
+    // if scores are even, results in a draw 
+    } else if (req.body.score == challenge.data.player2Score) {
+        updateParams.UpdateExpression = 'SET #data.player1Score = :score, #data.#state = :state, #data.winner = :winner, #data.dateFinished = :date',
+        updateParams.ExpressionAttributeNames = {
+            '#data': 'data',
+            '#state': 'state'
+        },
+        updateParams.ExpressionAttributeValues = {
+            ':score': req.body.score,
+            ':state': "completed",
+            ':winner': "draw",
+            ':date': date
+        }
+    // if challenger gets lower score, opponent is the winner
+    } else {
+        updateParams.UpdateExpression = 'SET #data.player1Score = :score, #data.#state = :state, #data.winner = :winner, #data.dateFinished = :date',
+        updateParams.ExpressionAttributeNames = {
+            '#data': 'data',
+            '#state': 'state'
+        },
+        updateParams.ExpressionAttributeValues = {
+            ':score': req.body.score,
+            ':state': "completed",
+            ':winner': challenge.GSI1,
+            ':date': date
         }
     }
-} else {
+
+ 
+    try {
+        await documentClient.update(updateParams).promise()
+        res.status(200).json({
+            message: "Successful update",
+            success: true
+            });
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            message: "Update failed",
+            success: false
+        })
+    }
+})
+// User finishes a challenge he received
+router.put('/challengeReceiverUpdate', async (req, res) => {
+    const date = new Date().toISOString()
+
+    const getChallengeParams = {
+        TableName: TABLE_NAME,
+        Key: {
+            PK: req.body.PK,
+            SK: req.body.SK
+        }
+    }
+
+    try {
+        challengeObject = await documentClient.get(getChallengeParams).promise()
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            message: "Get request failed",
+            success: false
+        })
+    }
+
+    challenge = challengeObject.Item
+    console.log(challenge)
     const updateParams = {
         TableName: TABLE_NAME,
         Key: {
-            PK: req.body.userId,
-            SK: req.body.challengeId,
+            PK: req.body.PK,
+            SK: req.body.SK
         },
-        // use hash to tell dynamodb that this is a replaceable value, avoid dynamo's reserved keywords
-        UpdateExpression: 'SET #data.player1Score = :score AND SET #data.state = :state AND SET #data.winner = :winner',
+        UpdateExpression: 'SET #data.player2Score = :score',
         ExpressionAttributeNames: {
             '#data': 'data'
         },
         ExpressionAttributeValues: {
+            ':score': req.body.score
+        }
+
+    }
+    console.log(challenge.data.player1Score)
+    // if challenger has not completed a test, ignore state updates (stays pending)
+    if (challenge.data.player1Score == 0) {
+        
+    }
+    // if challenge receiver gets a better score, challenger receiver is winner
+    else if (req.body.score > challenge.data.player1Score) {
+        updateParams.UpdateExpression = 'SET #data.player2Score = :score, #data.#state = :state, #data.winner = :winner, #data.dateFinished = :date',
+        updateParams.ExpressionAttributeNames = {
+            '#data': 'data',
+            '#state': 'state'
+        },
+        updateParams.ExpressionAttributeValues = {
             ':score': req.body.score,
             ':state': "completed",
-            ':winner': "draw"
-}
-    }}}}
+            ':winner': challenge.GSI1,
+            ':date': date
+        }
+    // if scores are even, results in a draw 
+    } else if (req.body.score == challenge.data.player1Score) {
+        updateParams.UpdateExpression = 'SET #data.player2Score = :score, #data.#state = :state, #data.winner = :winner, #data.dateFinished = :date' ,
+        updateParams.ExpressionAttributeNames = {
+            '#data': 'data',
+            '#state': 'state'
+        },
+        updateParams.ExpressionAttributeValues = {
+            ':score': req.body.score,
+            ':state': "completed",
+            ':winner': "draw",
+            ':date': date
 
+        }
+    // if challenger receiver gets lower score, challenger is the winner
+    } else {
+        updateParams.UpdateExpression = 'SET #data.player2Score = :score, #data.#state = :state, #data.winner = :winner, #data.dateFinished = :date',
+        updateParams.ExpressionAttributeNames = {
+            '#data': 'data',
+            '#state': 'state'
+        },
+        updateParams.ExpressionAttributeValues = {
+            ':score': req.body.score,
+            ':state': "completed",
+            ':winner': req.body.PK,
+            ':date': date
+        }
+    }
+
+ 
     try {
         await documentClient.update(updateParams).promise()
         res.status(200).json({

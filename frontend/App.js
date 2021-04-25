@@ -43,6 +43,7 @@ import TargetSumSettings from './src/factory/TargetSumSettings';
 import TargetSumLoader from './src/screens/TargetSumLoading'; 
 
 
+
 const LoginStack = createStackNavigator();
 
 global.userType = 'student';
@@ -161,7 +162,7 @@ return (
           )} 
         />),})}/>
     <PlayStack.Screen name="Load Test" component={TestLoader} options={{headerShown: false}} />
-    <PlayStack.Screen name="Test" component={TestSettings} options={({navigation}) => ({
+    <PlayStack.Screen name="Test" component={TestSettings}   options={({navigation}) => ({
       //  headerStyle: {
       //     backgroundColor: 'lightblue',
       //   },
@@ -171,7 +172,7 @@ return (
           label='Quit?'
           onPress={() => Alert.alert(
   "Exit Game",
-  "Are you sure that you would like to exit the test - your progress will not be saved?",
+  "Are you sure that you would like to exit the test? Your score will still be recorded",
   [
     {
       text: "Cancel",
@@ -182,6 +183,7 @@ return (
   ]
 )} 
 />),})}/>
+<PlayStack.Screen name="TypeGame" component={TypeGame} options={{headerShown: false}} />
 <PlayStack.Screen name="EndGame" component={TestOverModal} />
     <PlayStack.Screen name="Load" component={Loader} options={{headerShown: false}} />
     <PlayStack.Screen name="Quit" component={Quit} options={{headerShown: false}} />

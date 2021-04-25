@@ -17,6 +17,26 @@ import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 const user = require('./LoginScreen').user
 
+const bee = "../imgs/bee.jpeg"
+const butterfly = "../imgs/butterfly.jpeg"
+const butterfly2 = "../imgs/butterfly2.jpeg"
+const centipede = "../imgs/centipede.jpeg"
+const grasshopper = "../imgs/grasshopper.jpeg"
+const ladybird = "../imgs/ladybird.jpeg"
+const worm = "../imgs/worm.jpeg"
+const worm2 = "../imgs/worm2.jpeg"
+const scorpion = "../imgs/scorpion.jpeg"
+const snail = "../imgs/snail.jpeg"
+const spider = "../imgs/spider.jpeg"
+
+
+
+
+
+
+
+
+
 export default class Challenger extends Component {
 
   constructor(props) {
@@ -25,7 +45,7 @@ export default class Challenger extends Component {
       modalVisible:false,
       userSelected:[],
       data: [
-        {id:1,  name: "Mark Doe",   position:"CEO",               image:"https://bootdey.com/img/Content/avatar/avatar7.png", about:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo."},
+        {id:1,  name: "Mark Doe",   position:"CEO",               image:"https://ibb.co/FKJJ6xG", about:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo."},
         {id:2,  name: "John Doe",   position:"CTO",               image:"https://bootdey.com/img/Content/avatar/avatar1.png", about:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo."},
         {id:3,  name: "Clark Man",  position:"Creative designer", image:"https://bootdey.com/img/Content/avatar/avatar6.png", about:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo."} ,
         {id:4,  name: "Jaden Boor", position:"Front-end dev",     image:"https://bootdey.com/img/Content/avatar/avatar5.png", about:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo."} ,
@@ -81,7 +101,6 @@ this.props.navigation.navigate('Game')
               <Image style={styles.image} source={{uri: item.image}}/>
               <View style={styles.cardContent}>
                 <Text style={styles.name}>{item.name}</Text>
-                <Text style={styles.position}>{item.position}</Text>
                 <TouchableOpacity style={styles.followButton} onPress={() => {this.makeChallenge('user', item.name)}}>
                   <Text style={styles.followButtonText}>Challenge</Text>  
                 </TouchableOpacity>

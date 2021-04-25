@@ -36,10 +36,6 @@ export function ChangeChoice(number) {
 
 
 class LandingPage extends React.Component {
-    // static propTypes = {
-    //     iconNumberCount: PropTypes.number.isRequired,
-    // };
-    
     state = {
         selectedIds: [],
     }
@@ -189,7 +185,6 @@ fetchData()
       return(<LandingHeader person = {user} />)
     }
   }
-  var dos = 2;
         return(
             <View style={styles.container}>
                 {renderLandingHeader()}

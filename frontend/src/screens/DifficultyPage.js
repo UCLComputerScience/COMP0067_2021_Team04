@@ -54,6 +54,7 @@ const DifficultyPage = ({route,navigation})=>{
     const { difficulty, otherParam } = route.params;
     console.log(difficulty)
     global.difficultyLevel = difficultyLevel;
+    // global.gameMode = '';
     return(
         <View style = {styles.container}>
             <Text style = {styles.title}>Choose Your Difficulty!</Text>
@@ -75,7 +76,9 @@ const DifficultyPage = ({route,navigation})=>{
                         { text: "Start Test!", onPress: () => navigation.navigate('Load Test', {paramKey: route.params.paramKey}) }
                     ]
                     )
-                    setDifficultyLevel('beg')}
+                    setDifficultyLevel('beg')
+                    // global.gameMode = 'beginner'
+                    ;}
                         }    >
             </DifficultyButton>
             <DifficultyButton
@@ -96,7 +99,9 @@ const DifficultyPage = ({route,navigation})=>{
                         { text: "Start Test!", onPress: () => navigation.navigate('Load Test') }
                     ]
                     )
-                    setDifficultyLevel('int')}
+                    setDifficultyLevel('int')
+                    // global.gameMode = 'medium'
+                }
                  } >
             </DifficultyButton>
             <DifficultyButton
@@ -117,7 +122,9 @@ const DifficultyPage = ({route,navigation})=>{
                         { text: "Start Test!", onPress: () => navigation.navigate('Load Test') }
                     ]
                     )
-                    setDifficultyLevel('adv')}} >
+                    setDifficultyLevel('adv')
+                    // global.gameMode = 'advanced'
+}} >
             </DifficultyButton>
         </View>
     )}

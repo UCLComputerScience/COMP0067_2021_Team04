@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
 import TypeGame from './TypeGame';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 export default class TestSettings extends Component {
 

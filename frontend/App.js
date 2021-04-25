@@ -39,6 +39,10 @@ import UserSelect from './src/screens/UserSelect';
 import ParentSignUp from './src/screens/RegPageParent';
 import TeacherSignUp from './src/screens/RegPageTeacher';
 import TestOverModal from './src/components/TestOverModal';
+import TargetSumSettings from './src/factory/TargetSumSettings';
+import TargetSumLoader from './src/screens/TargetSumLoading'; 
+
+
 
 const LoginStack = createStackNavigator();
 
@@ -158,7 +162,7 @@ return (
           )} 
         />),})}/>
     <PlayStack.Screen name="Load Test" component={TestLoader} options={{headerShown: false}} />
-    <PlayStack.Screen name="Test" component={TestSettings} options={({navigation}) => ({
+    <PlayStack.Screen name="Test" component={TestSettings}   options={({navigation}) => ({
       //  headerStyle: {
       //     backgroundColor: 'lightblue',
       //   },
@@ -168,7 +172,7 @@ return (
           label='Quit?'
           onPress={() => Alert.alert(
   "Exit Game",
-  "Are you sure that you would like to exit the test - your progress will not be saved?",
+  "Are you sure that you would like to exit the test? Your score will still be recorded",
   [
     {
       text: "Cancel",
@@ -179,6 +183,7 @@ return (
   ]
 )} 
 />),})}/>
+<PlayStack.Screen name="TypeGame" component={TypeGame} options={{headerShown: false}} />
 <PlayStack.Screen name="EndGame" component={TestOverModal} />
     <PlayStack.Screen name="Load" component={Loader} options={{headerShown: false}} />
     <PlayStack.Screen name="Quit" component={Quit} options={{headerShown: false}} />
@@ -201,7 +206,29 @@ return (
       { text: "Yes", onPress: () => navigation.navigate('Landing') }
     ]
   )} />
+  
           
+        ),
+    })}
+/> 
+<PlayStack.Screen name="TargetSumLoad" component={TargetSumLoader} options={{headerShown: false}} />
+<PlayStack.Screen name="TargetSum" component={TargetSumSettings}  options={({navigation}) => ({
+        headerLeft: (props) => (
+          <HeaderBackButton
+            {...props}
+            label='Quit?'
+            onPress={() => Alert.alert(
+    "Exit Game",
+    "Are you sure that you would like to exit the game?",
+    [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel"
+      },
+      { text: "Yes", onPress: () => navigation.navigate('Landing') }
+    ]
+  )} />
         ),
     })}
 /> 

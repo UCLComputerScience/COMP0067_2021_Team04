@@ -7,6 +7,10 @@ import LandingHeader from '../components/LandingHeader';
 import TTButton from '../components/TTButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import BonusDifficultyModal from '../components/BonusDifficultyModal';
+import TestOverModal from '../components/TestOverModal';
+import AchievementModal from '../components/AchievementModal';
+
 
 const beginner="#cd7f32"
 const intermediate="#c0c0c0"
@@ -32,10 +36,6 @@ export function ChangeChoice(number) {
 
 
 class LandingPage extends React.Component {
-    // static propTypes = {
-    //     iconNumberCount: PropTypes.number.isRequired,
-    // };
-    
     state = {
         selectedIds: [],
     }
@@ -185,7 +185,6 @@ fetchData()
       return(<LandingHeader person = {user} />)
     }
   }
-  var dos = 2;
         return(
             <View style={styles.container}>
                 {renderLandingHeader()}
@@ -270,6 +269,16 @@ fetchData()
           
       />
     </TouchableHighlight>
+    <BonusDifficultyModal onPress1={() => navigation.navigate('TargetSumLoad')} 
+    onPress2={() => navigation.navigate('TargetSumLoad')}
+    onPress3={() => {navigation.navigate('TargetSumLoad')}}
+    />
+    {/* <TouchableHighlight 
+    onPress={() => TestOverModal}
+      onPress={() => navigation.navigate('TargetSumLoad')}
+    >
+      <Text style={styles.bonus}>Bonus</Text>
+    </TouchableHighlight> */}
     <TouchableHighlight 
       underlayColor = '#ccc'
       onPress={() => navigation.navigate('Challenge')}
@@ -355,6 +364,13 @@ const styles = StyleSheet.create({
         marginHorizontal: 40,
         marginVertical: 5,
         fontSize: 30,
+      },
+      bonus: {
+        alignItems: 'center',
+        textAlign: 'center',
+        marginHorizontal: 40,
+        marginBottom: 15,
+        fontSize: 20,
       },
   });
       

@@ -1,4 +1,4 @@
-import React, { useState }  from 'react';
+import React, { useEffect, useState }  from 'react';
 import { Alert, Button, Platform, SafeAreaView, StatusBar, StyleSheet, Text, View, ScrollView } from 'react-native';
 import Progress from '../components/ProgressBar';
 import Table from '../components/Datatable';
@@ -8,10 +8,40 @@ import ProgressRing from '../components/ProgressRing';
 import Rocket from '../animations/Rocket';
 import PropTypes from 'prop-types';
 import  {Component} from 'react';
+import axios from 'axios';
 
 
-const Stats = ({navigation}) => {
+const Stats = ({navigation, userID}) => {
+    const [studentsData, getStudentData] = useState();
+    const [user, userLoad] = useState();
     
+    useEffect(()=>{
+        async function getStats(){
+        if(userID){
+            try{
+                let studentData = await axios.get('http://localhost:3000/api/v1/testStatistics/indepth/' + userID);
+                getStudentData(studentData);
+                console.log(studentsData)
+            } catch{
+                console.log('Error Loading Students Stats')
+            }
+        }else{
+            try {
+                const value = await AsyncStorage.getItem('user');
+                if (value !== null) {
+                  // We have data!!
+                  let result = JSON.parse(value)
+                  let studentDetails = 'http://localhost:3000/api/v1/testStatistics/indepth/' + result.PK;
+                  let studentData = await axios.get(studentDetails);
+                getStudentData(studentData);
+                console.log(studentsData);
+                }
+              } catch (error) {
+                console.log("error")
+              }
+              }
+        }
+        getStats()},[])
     return (
       <View style={styles.container}>
       <ScrollView>

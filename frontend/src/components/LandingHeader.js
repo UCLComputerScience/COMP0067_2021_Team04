@@ -1,30 +1,65 @@
-import * as React from 'react';
+import React, {useEffect, useState}  from 'react';
 import { Appbar } from 'react-native-paper';
 import { StyleSheet, Image, View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import axios from 'axios';
 
-const LandingHeader = ({user}) => {
-   [streak, updateStreak] = useEffect(user.data.streak);
-  const lastLogin = new Date(user.data.lastLogin);
-  const lLogin = math.floor((new Date(lastLogin)).getTime()/(1000*3600*24));
-  const streakCheck = ()=>{
-  var today = new Date()
-    let date = math.floor(today.getTime()/(1000*3600*24));
-    var loginDifference = date - lLogin;
-    if(loginDifference < 24){
-      updateStreak(streak + 1)
-    } else{
-      updateStreak(0)
+const LandingHeader = ({person}) => {
+
+  const [streak, updateStreak] = useState(person.data.streak);
+  console.log(streak)
+  const incrementStreak = async()=>{
+    let newStreak = streak + 1;
+    updateStreak(newStreak)
+    inputLoginStats(newStreak)
+  }
+  const resetStreak = async()=>{
+    let newStreak = 0;
+    updateStreak(0)
+    inputLoginStats(newStreak)
+  }
+  const inputLoginStats = async(noOfDays)=>{
+    console.log(noOfDays)
+    try{
+  const lastL = await axios.put('http://34.247.47.193/api/v1/users/lastLogin',{
+      "PK": person.PK,
+      "lastLogin": "2021-04-24"
+    })
+  const res = await axios.put('http://34.247.47.193/api/v1/users/streak',{
+      "PK": person.PK,
+      "streak": noOfDays
+    });
+  }catch{
+      console.log("Error Loading Streaks")
     }
-  };
+  }
   useEffect(()=>{
     async function newStreak (){
-      const res = await axios.put(streakURL,{
-        "PK": user.PK,
-        "streak": streak
-      })
+
+    const lastLogin = new Date(person.data.lastLogin);
+    
+    const lLogin = Math.floor((new Date(lastLogin)).getTime()/(1000*3600*24))*24;
+    
+    var today = new Date();
+    
+    let date = Math.floor(today.getTime()/(1000*3600*24))*24;
+    
+    var loginDifference = date - lLogin;
+    
+    // let check = Math.floor(today.getTime()/(24*3600*1000))-Math.floor(lastLogin.getTime()/(24*3600*1000))
+    // console.log(check)
+    if(loginDifference == 24){
+      
+      incrementStreak()
+      // updateStreak(streak+1)
+      console.log('incrementing streak')
+    } else if(loginDifference > 24){
+      console.log("resetting streak")
+      resetStreak()
     }
-  });
+    
+    } newStreak()
+  },[]);
   return(
     <View style={styles.center}>
  <Appbar style={styles.top}>
@@ -33,11 +68,11 @@ const LandingHeader = ({user}) => {
 
     <Ionicons style={{marginHorizontal: 10}} name="medal" size={50} color="black"></Ionicons>
     </TouchableOpacity>
-        <Text style={styles.text}>LVL 26</Text>
+        <Text style={styles.text}>LVL {person.overall.score}</Text>
         <TouchableOpacity onPress = { () => alert('Streak!') } >
     <Ionicons name="flame-outline" size={50} color="red"></Ionicons>
     </TouchableOpacity>
-    <Text style={styles.text}>5 DAY STREAK</Text>
+    <Text style={styles.text}>STREAK: {streak}</Text>
     </View>
   </Appbar>
   </View>

@@ -5,6 +5,7 @@ const uuid = require('uuid');
 const { validationResult } = require('express-validator');
 const validators = require('./validators/assignmentsValidators');
 const {validateAuth} = require('../auth');
+const { restart } = require('nodemon');
 
 AWS.config.update({
     region: process.env.AWS_DEFAULT_REGION,
@@ -94,7 +95,11 @@ router.get(`/classAssignments/:GSI1`, async (req, res) => {
 
 
 // Post an assignment for an individual student
-router.post(`/`, [ ...validators.postAssignmentsValidators], async (req, res) => {
+router.post(`/`, 
+// [ ...validators.postAssignmentsValidators], 
+async (req, res) => {
+
+
     const assignmentID = uuid.v4()
     const errors = validationResult(req)
     if(!errors.isEmpty()) {
@@ -122,76 +127,162 @@ router.post(`/`, [ ...validators.postAssignmentsValidators], async (req, res) =>
 }
 })
 
-//update user assignment (need alteration and may not be necessary)
-router.put(`/:userID`, async (req, res) => {
 
+router.post(`/postsClass/`, 
+// [ ...validators.postAssignmentsValidators], 
+async (req, res) => {
+    const assignmentID = uuid.v4()
+    // Get all profiles within a certain class
     const params = {
         TableName: TABLE_NAME,
-        Item: req.body
-    };
-
-    // let responseData;
-
-    if (req.params.userID) {
-        params.Key = {
-            userID: req.params.userID,
-            dateFinished: req.body.dateFinished
-        }
-        params.UpdateExpression = 'set timeTaken = :newTime, accuracy = :newAccuracy, experience = :newExperience'
-        params.ExpressionAttributeValues = {
-            ":newTime": req.body.timeTaken,
-            ":newAccuracy": req.body.accuracy,
-            ":newExperience": req.body.experience
-        }
-        params.ReturnValues = "UPDATED_NEW"
+        IndexName:'GSI1-SK-index',
+        KeyConditionExpression: 'GSI1 = :gsi1 and SK =:sk',
+        ExpressionAttributeValues: {
+            ':gsi1': req.body.GSI1, // potentially change class_id => school_id_class_id
+            ':sk': "profile"
+        } 
+  
     }
     try {
-        updatedassignment = await documentClient.update(params).promise();
-        res.status(200).json({success: true, message: 'the test assignment is updated'});
+        classProfiles = await documentClient.query(params).promise()
+        
+    } catch (error) {
+        res.status(500).send("Unable to collect class profiles: " + error)
+    } 
+    
+    console.log(classProfiles);
+    const batchWriteParams = {
+        RequestItems: {
+          [TABLE_NAME]: [{
+            PutRequest: {
+              Item: {
+                  PK: 'test', //class_id
+                  SK: 'meta', 
+                  GSI1: "Lol", //school_id?
+                  data: {
+                      name: "test",
+                      year: "lol",
+                      secret: "classkey"  // class name, year group, secret
+                  }
+              }
+          },
+      }, {
+              PutRequest: {
+                  Item: {
+                      PK: `lol`, //class_id
+                      SK: `sk`, //teacher_id
+                      GSI1: `hhhh`, //user_id 
+                      data: {
+                          name: "lol",
+                          year: "lol",
+                          secret: "classkey"  // class name, year group, secret
+                      }  // class name, year group
+                  }
+              }
+            }
+]
+        }
+      };
+
+      console.log(batchWriteParams.RequestItems.TABLE_NAME)
+
+    for (i = 0; i < classProfiles.Items.length; i++) {
+        batchWriteParams.RequestItems.push( {
+            PutRequest: {
+              Item: {
+                  "PK": classProfiles.Items[i].PK,
+                  "SK": `assignment_${assignmentID}`,
+                  "GSI1": req.body.GSI1,
+                  "data": {
+                    "timestable": req.body.data.timestable, 
+                    "difficulty": req.body.data.difficulty, 
+                    "due": req.body.data.due,  //iso string
+                    "status": "uncompleted", 
+                    "repetitions": req.body.data.repetitions
+                  }
+              }
+          }
+      });
+
+      try {
+        await documentClient.batchWrite(batchWriteParams).promise()
+        res.status(200).json({
+            message: "Successful assignment upload",
+            success: true
+            });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({success: false, message: 'the test assignment could not be updated', error: err});
-    }
+        console.log(err);
+        res.status(400).json({
+            message: "Assignment upload failed",
+            success: false
+        })
+    };
+    
+    }});
 
-})
 
-// delete user assignments (needs modification)
-router.delete('/:PK', async (req, res) => {
-
-    let responseData;
-
+router.post(`/postClass/`, 
+// [ ...validators.postAssignmentsValidators], 
+async (req, res) => {
+    const assignmentID = uuid.v4()
+    // Get all profiles within a certain class
     const params = {
         TableName: TABLE_NAME,
-        Key: {
-            PK: req.params.PK,
-            SK: "assignment"
-        },
-        KeyConditionExpression: 'PK = :pk AND begins_with(SK, :sk)',
+        IndexName:'GSI1-SK-index',
+        KeyConditionExpression: 'GSI1 = :gsi1 and SK =:sk',
         ExpressionAttributeValues: {
-            ':pk': req.params.PK, //user_id
-            ':sk': "assignment"
-        }
-    };
-    responseData = await documentClient.query(params).promise()
-    for (item in responseData['Items']){
-        console.log("item")
-        console.log(item)
-        params = {
+            ':gsi1': req.body.GSI1, // potentially change class_id => school_id_class_id
+            ':sk': "profile"
+        } 
+    
+    }
+    try {
+        classProfiles = await documentClient.query(params).promise()
+        
+    } catch (error) {
+        res.status(500).send("Unable to collect class profiles: " + error)
+    } 
+    
+    console.log(classProfiles);
+
+    
+    for (i = 0; i < classProfiles.Items.length; i++) {
+        try {
+        const putParams = {
             TableName: TABLE_NAME,
-            Key: {
-                PK: item.PK,
-                SK: item.SK
+            Item: {
+                "PK": classProfiles.Items[i].PK,
+                "SK": `assignment_${assignmentID}`,
+                "GSI1": req.body.GSI1,
+                "data": {
+                "timestable": req.body.data.timestable, 
+                "difficulty": req.body.data.difficulty, 
+                "due": req.body.data.due,  //iso string
+                "status": "uncompleted", 
+                "repetitions": req.body.data.repetitions
+                }
             }
         }
-        console.log(params)
-        try {
-            res.json(await documentClient.delete(params).promise());
-        } catch (err) {
-            console.error(err);
-            res.status(500).json({err: 'Something went wrong deleting the record'})
-        }
-    }
+        await documentClient.put(putParams).promise()
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            message: "Assignment upload failed",
+            success: false
+        })
+    };
+
+    
+}
+res.status(200).json({
+    message: "Successful assignment upload",
+    success: true
+    });
 });
 
+
+
+
+
 //export a module
-module.exports=router;
+module.exports = router;

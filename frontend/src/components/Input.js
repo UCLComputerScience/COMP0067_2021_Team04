@@ -33,15 +33,15 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     inputContainer: {
-        // marginTop: 20,
-        marginBottom: 40,
+        marginTop: 40,
+        marginBottom: 100,
         justifyContent: 'center',
         alignItems: 'center',
     },
     input: {
         borderColor: 'black',
         borderWidth: 1,
-        width: screenWidth/2.8,
+        width: screenWidth/2.5,
         padding: 30,
         borderRadius: 20,
         fontSize: 50,

@@ -31,6 +31,9 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import TestOverModal from '../components/TestOverModal';
 import { Alert } from "react-native";
 import Rocket from '../animations/Rocket';
+import SliderExample from '../components/ProgressSlider';
+import * as Progress from 'react-native-progress';
+
 
 
 const screenWidth = Dimensions.get("window").width;
@@ -87,6 +90,7 @@ class TypeGame extends React.Component {
         questionsAnswered: 0,
         multiplier: 2,
         initialTime: this.props.initialSeconds,
+        progress: 0
     }
     static propTypes = {
         randomNumberCount: PropTypes.number.isRequired,
@@ -234,7 +238,9 @@ class TypeGame extends React.Component {
         const testTime = this.testTime
         return (
             <View style={styles.container}>
-                  <GameHeader></GameHeader>
+                  {/* <GameHeader></GameHeader> */}
+                  {/* <SliderExample /> */}
+                  <Progress.Bar progress={this.state.progress} width={screenWidth} height={10} unfilledColor={'gray'} />
                     <Text style = {styles.titleText}>  </Text>
 
                 <Text style = {styles.titleText}>Type the correct answer for this multiplication:</Text>
@@ -261,6 +267,7 @@ class TypeGame extends React.Component {
                                                             this.collectTime();
                                                             this.handleTimer();
                                                             this.state.questionsAnswered = this.state.questionsAnswered + 1;
+                                                            this.state.progress = this.state.progress + 1/11;
                                                             this.calcAccuracy();
                                                             this.state.disabled = true;}}
                                                             disabled={this.state.disabled}/>

@@ -35,8 +35,16 @@ const LoginScreen = ({navigation}) => {
     if(user.PK != undefined){
     const userString = JSON.stringify(user)
     _storeData(userString)
+    if(global.userType === 'student'){
     navigation.navigate('numberFit');
-    } else{
+    }
+    if(global.userType === 'parent'){
+      navigation.navigate('numberFitParent');
+      }
+    if(global.userType === 'teacher'){
+      navigation.navigate('numberFitTeacher');
+      }
+    }else{
       attemptUpdate(true)
       console.log('should be updating')
     }
@@ -50,7 +58,6 @@ const LoginScreen = ({navigation}) => {
   }
     return (
         <View style={styles.container}>
-          <Text>{email}</Text>
             <Image 
               style = {styles.logo} 
               source={require('../imgs/logo.png')}

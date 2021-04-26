@@ -72,7 +72,7 @@ export default class Challenger extends Component {
   console.log(res.data);
 });
 this.setModalVisible(false)
-this.props.navigation.navigate('Game')
+this.props.navigation.navigate('Game',{challenge: 1})
 
   }
   clickEventListener = (item) => {

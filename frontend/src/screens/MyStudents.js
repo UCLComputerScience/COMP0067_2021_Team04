@@ -41,6 +41,7 @@ const MyStudents =({navigation}) => {
             getForms(sets)
             // getStudents(info[0])
             getFormIds(classIdbyName)
+            console.log(classIdbyName['Class 6B'])
             if(classIdbyName[sets[0]]){
             changeClass(classIdbyName[sets[0]])
             }
@@ -50,17 +51,34 @@ const MyStudents =({navigation}) => {
         }
         }
         getClasses()
+        
     },[]
     )
         
+    const changeData = async ()=>{
+        var data = [];
 
+    for (let i = 0; i < studentNames.length; i += 1) {
+      var dataRow = [];
+      
+      dataRow.push(studentNames[i])
+      dataRow.push(pendingAssignments[i])
+      dataRow.push(studentScores[i]);
+      
+      data.push(dataRow);
+
+    }
+    
+    await changeForm(data)
+    }
 
     const changeClass = async (classID)=>{
         try{
-        // let address = 'http://34.247.47.193/api/v1/users/' + classID;
-        let address = 'http://34.247.47.193/api/v1/users/class_2ec278cf-1a35-4746-911b-1a360c83dbb5'
-        let students = await axios.get(address);
+        let address = 'http://34.247.47.193/api/v1/users/' + classID;
         
+        // let address = 'http://34.247.47.193/api/v1/users/class_a04478e9-b9de-4bdd-8927-0691aa397720'
+        let students = await axios.get(address);
+        console.log(students)
         let result = students.data.Items;
         let sNames = [];
         let sScores = [];
@@ -78,7 +96,11 @@ const MyStudents =({navigation}) => {
         updateStudentsNames(sNames)
         updatePendingAssignments(sScores)
         updateStudentsScores(sPending)
-        getClassSize(sNames.length)
+        // console.log(updateStudentsIds(sIdsByNames),
+        // updateStudentsNames(sNames),
+        // updatePendingAssignments(sScores),
+        // updateStudentsScores(sPending))
+        // getClassSize(sNames.length)
         
         var sum = sPending.reduce((a, b)=>{
             return a + b;
@@ -87,21 +109,8 @@ const MyStudents =({navigation}) => {
         
         getClassPA(sum)
         
-        getClassKey('asdf')
-        var data = [];
-
-    for (let i = 0; i < studentNames.length; i += 1) {
-      var dataRow = [];
-      
-      dataRow.push(studentNames[i])
-      dataRow.push(pendingAssignments[i])
-      dataRow.push(studentScores[i]);
-      
-      data.push(dataRow);
-
-    }
-    
-    changeForm(data)
+        getClassKey()
+        changeData()
     
     }catch{
         console.log("Couldn't load students")
@@ -116,10 +125,10 @@ const MyStudents =({navigation}) => {
         }
     }
     const classButton = (set) => {
-        
+        let classID = formIdsbyName[set]
         return (<TouchableOpacity
                     style={styles.classOptionButton}
-                    onPress={() => changeClass(formIdsbyName[set])}
+                    onPress={() => changeClass(classID)}
                     >
                         <Text style = {styles.buttonText}>{set}</Text>
 

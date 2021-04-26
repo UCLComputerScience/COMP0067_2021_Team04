@@ -59,9 +59,17 @@ const IconNav = ({navigation}) => {
    global.TT = testing;
   const difficultyColours = 
 {
-  "beginner":"#cd7f32",
-  "intermediat":"#c0c0c0",
-  "advanced":"#ffd700"
+  0:"#cd7f32",
+  1:"#c0c0c0",
+  2:"#ffd700",
+  3:"#00FF00"
+}
+const difficultyDict = 
+{
+  0:"beg",
+  1:"int",
+  2:"adv",
+  3:"adv"
 }
   const [user, userLoad] = useState({
     GSI1: "class_2ec278cf-1a35-4746-911b-1a360c83dbb5",
@@ -202,63 +210,63 @@ fetchData()
                  <View style={styles.randomContainer}>
                   <TTButton 
                   number={two}
-                  colour={difficultyColours[user.twox.state]}
+                  colour={difficultyColours[user.twox]}
                   isDisabled = {false}
                   onPress={() => {setTesting(2)
-                                  navigation.navigate('Difficulty', {difficulty: user.twox.state})}}
+                                  navigation.navigate('Difficulty', {difficulty: difficultyDict[user.twox]})}}
                    />
        <TTButton number={three}
-                  colour={difficultyColours[user.threex.state]}
+                  colour={difficultyColours[user.threex]}
                   isDisabled = {false}
                   onPress={() => {setTesting(3)
-                                  navigation.navigate('Difficulty', {difficulty: user.threex.state})}}
+                                  navigation.navigate('Difficulty', {difficulty: difficultyDict[user.threex]})}}
                    />
        <TTButton number={four}
-                  colour={difficultyColours[user.fourx.state]}
+                  colour={difficultyColours[user.fourx]}
                   isDisabled = {false}
                   onPress={() => {setTesting(4)
-                                  navigation.navigate('Difficulty', {difficulty: user.fourx.state})}}
+                                  navigation.navigate('Difficulty', {difficulty: difficultyDict[user.fourx]})}}
                    />
        <TTButton number={five}
-                  colour={difficultyColours[user.fivex.state]}
+                  colour={difficultyColours[user.fivex]}
                   isDisabled = {false}
                   onPress={() => {setTesting(5)
-                                  navigation.navigate('Difficulty', {difficulty: user.fivex.state})}}                   />
+                                  navigation.navigate('Difficulty', {difficulty: difficultyDict[user.fivex]})}}                   />
        <TTButton number={six}
-                  colour={difficultyColours[user.sixx.state]}
+                  colour={difficultyColours[user.sixx]}
                   isDisabled = {false}
                   onPress={() => {setTesting(6)
-                                  navigation.navigate('Difficulty', {difficulty: user.sixx.state})}}                   />
+                                  navigation.navigate('Difficulty', {difficulty: difficultyDict[user.sixx]})}}                   />
        <TTButton number={seven}
-                  colour={difficultyColours[user.sevenx.state]}
+                  colour={difficultyColours[user.sevenx]}
                   isDisabled = {false}
                   onPress={() => {setTesting(7)
-                                  navigation.navigate('Difficulty', {difficulty: user.sevenx.state})}}                   />
+                                  navigation.navigate('Difficulty', {difficulty: difficultyDict[user.sevenx]})}}                   />
        <TTButton number={eight}
-                  colour={difficultyColours[user.eightx.state]}
+                  colour={difficultyColours[user.eightx]}
                   isDisabled = {false}
                   onPress={() => {setTesting(8)
-                                  navigation.navigate('Difficulty', {difficulty: user.eightx.state})}}                   />
+                                  navigation.navigate('Difficulty', {difficulty: difficultyDict[user.eightx]})}}                   />
        <TTButton number={nine}
-                  colour={difficultyColours[user.ninex.state]}
+                  colour={difficultyColours[user.ninex]}
                   isDisabled = {false}
                   onPress={() => {setTesting(9)
-                                  navigation.navigate('Difficulty', {difficulty: user.ninex.state})}}                   />
+                                  navigation.navigate('Difficulty', {difficulty: difficultyDict[user.ninex]})}}                   />
        <TTButton number={ten}
-                  colour={difficultyColours[user.tenx.state]}
+                  colour={difficultyColours[user.tenx]}
                   isDisabled = {false}
                   onPress={() => {setTesting(10)
-                                  navigation.navigate('Difficulty', {difficulty: user.tenx.state})}}                   />
+                                  navigation.navigate('Difficulty', {difficulty: difficultyDict[user.tenx]})}}                   />
        <TTButton number={eleven}
-                  colour={difficultyColours[user.elevenx.state]}
+                  colour={difficultyColours[user.elevenx]}
                   isDisabled = {false}
                   onPress={() => {setTesting(11)
-                                  navigation.navigate('Difficulty', {difficulty: user.elevenx.state})}}                   />
+                                  navigation.navigate('Difficulty', {difficulty: difficultyDict[user.elevenx]})}}                   />
        <TTButton number={twelve}
-                  colour={difficultyColours[user.twelvex.state]}
+                  colour={difficultyColours[user.twelvex]}
                   isDisabled = {false}
                   onPress={() => {setTesting(12)
-                                  navigation.navigate('Difficulty', {difficulty: user.twelvex.state})}}                   />
+                                  navigation.navigate('Difficulty', {difficulty: difficultyDict[user.twelvex]})}}                   />
     </View>
     <View style = {styles.extrabuttons}>
     <TouchableHighlight 

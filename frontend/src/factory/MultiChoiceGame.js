@@ -2,17 +2,27 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import Game from './Game';
 import { StyleSheet } from 'react-native';
+import { TabRouter } from 'react-navigation';
 
 
 export default class MultiChoiceGame extends Component {
     state = {
         gameId: 1,
+        challenge: 0,
+    
     };
+    challengeKey = this.props.navigation.state.params
     resetGame = () => {
         this.setState((prevState) => {
             return { gameId: prevState.gameId + 1};
         });
     };
+    checkChallenge = ()=>{
+        if(this.challengeKey){
+            this.setState((prevState) => {
+                return { challenge: 1};
+        })
+    }}
     render() {
         return (
             <View style={styles.container}>
@@ -21,6 +31,7 @@ export default class MultiChoiceGame extends Component {
                 onPlayAgain={this.resetGame} 
                 randomNumberCount={5} 
                 initialSeconds={10} 
+                challenge={this.challenge}
                 />
             </View>
         );

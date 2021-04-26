@@ -3,7 +3,8 @@ import {
   View,
   Button,
   TextInput,
-  StyleSheet
+  StyleSheet,
+  Alert
 } from 'react-native'
 import { Dimensions } from "react-native";
 import axios from 'axios';
@@ -13,19 +14,34 @@ const screenWidth = Dimensions.get("window").width;
 
 export default class SignUp extends React.Component {
   state = {
-    username: '', password: '', email: '', phone_number: ''
+    username: '', password: '', Class_Id: '', Child_Key: '', firstName:'', lastName:''
   }
   onChangeText = (key, val) => {
     this.setState({ [key]: val })
   }
-  signUp = async () => {
-    const { username, password, email, phone_number } = this.state
+  
+    
+  
+   signUp = async () => {
+    const { username, password, Class_Id, Child_Key, firstName, lastName } = this.state
     try {
       // here place your signup logic
-      
-      console.log('user successfully signed up!: ', success)
+      console.log(username, password, Class_Id, Child_Key, firstName, lastName)
+      let registrationRes = await axios.post('http://34.247.47.193/api/v1/users/register/student',{
+          "PK": username,
+          "GSI1": Child_Key,
+          "classKey": Class_Id,
+          "data":{
+            "firstName": firstName,
+            "lastName": lastName, 
+            "password": password
+          }
+      })
+      console.log('user successfully signed up!: ')
+      this.props.navigation.navigate('LoginStackScreen')
     } catch (err) {
       console.log('error signing up: ', err)
+      Alert.alert("Error: please check registration details are valid")
     }
   }
  
@@ -42,7 +58,7 @@ export default class SignUp extends React.Component {
           <TextInput
           style={styles.input}
           placeholder='First Name'
-          secureTextEntry={true}
+          secureTextEntry={false}
           autoCapitalize="none"
           placeholderTextColor='white'
           onChangeText={val => this.onChangeText('firstName', val)}
@@ -50,11 +66,12 @@ export default class SignUp extends React.Component {
           <TextInput
           style={styles.input}
           placeholder='Last Name'
-          secureTextEntry={true}
+          secureTextEntry={false}
           autoCapitalize="none"
           placeholderTextColor='white'
           onChangeText={val => this.onChangeText('lastName', val)}
         />
+        
         <TextInput
           style={styles.input}
           placeholder='Password'
@@ -80,7 +97,7 @@ export default class SignUp extends React.Component {
         />
         <Button
           title="Let's Go"
-          onPress={() => this.props.navigation.navigate('numberFit')}
+          onPress={() => this.signUp()}
         />
       </View>
     )

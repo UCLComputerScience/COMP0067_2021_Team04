@@ -41,6 +41,7 @@ class Game extends React.Component {
         randomNumberCount: PropTypes.number.isRequired,
         initialSeconds: PropTypes.number.isRequired,
         onPlayAgain: PropTypes.func.isRequired,
+        challenge: PropTypes.func.isRequired,
     };
     state = {
         selectedIds: [],

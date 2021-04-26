@@ -225,7 +225,8 @@ setMultiplier = () => {
                                 onPress={() => navigation('Landing')} 
                                 gameEnd={this.gameOver}
                                 timeTaken={this.state.efficiency}
-                                timestable = {global.TT}   />)}
+                                timestable = {global.TT}
+                                  />)}
 
                 <Input onChangeText={(text) => this.handleText(text, 1)} 
                 placeholder="....."

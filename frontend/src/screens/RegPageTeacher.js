@@ -6,24 +6,38 @@ import {
   StyleSheet
 } from 'react-native'
 import { Dimensions } from "react-native";
+import axios from 'axios';
 
 
 const screenWidth = Dimensions.get("window").width;
 
 export default class TeacherSignUp extends React.Component {
   state = {
-    username: '', password: '', email: '', phone_number: ''
+    username: '', password: '', email: '', SchoolId: '', SchoolKey: '', firstName:'', lastName:''
   }
   onChangeText = (key, val) => {
     this.setState({ [key]: val })
   }
   signUp = async () => {
-    const { username, password, email, phone_number } = this.state
+    const { username, password, email, SchoolId, SchoolKey, firstName, lastName } = this.state
     try {
       // here place your signup logic
+      let registrationRes = await axios.post('http://34.247.47.193/api/v1/users/register/teacher',{
+          "PK": username,
+          "GSI1": SchoolId,
+          "schoolKey": SchoolKey,
+          "data":{
+            "firstName": firstName,
+            "lastName": lastName, 
+            "email": email,
+            "password": password
+          }
+      })
       console.log('user successfully signed up!: ', success)
+      this.props.navigation.navigate('LoginStackScreen')
     } catch (err) {
       console.log('error signing up: ', err)
+      Alert.alert("Error: please check registration details are valid")
     }
   }
  
@@ -40,18 +54,18 @@ export default class TeacherSignUp extends React.Component {
           <TextInput
           style={styles.input}
           placeholder='First Name'
-          secureTextEntry={true}
+          secureTextEntry={false}
           autoCapitalize="none"
           placeholderTextColor='white'
-          onChangeText={val => this.onChangeText('password', val)}
+          onChangeText={val => this.onChangeText('firstName', val)}
         />
           <TextInput
           style={styles.input}
           placeholder='Last Name'
-          secureTextEntry={true}
+          secureTextEntry={false}
           autoCapitalize="none"
           placeholderTextColor='white'
-          onChangeText={val => this.onChangeText('password', val)}
+          onChangeText={val => this.onChangeText('lastName', val)}
         />
         <TextInput
           style={styles.input}
@@ -74,18 +88,18 @@ export default class TeacherSignUp extends React.Component {
           placeholder='School Id'
           autoCapitalize="none"
           placeholderTextColor='white'
-          onChangeText={val => this.onChangeText('School_Id', val)}
+          onChangeText={val => this.onChangeText('SchoolId', val)}
         />
         <TextInput
           style={styles.input}
           placeholder='School Key'
           autoCapitalize="none"
           placeholderTextColor='white'
-          onChangeText={val => this.onChangeText('School_Key', val)}
+          onChangeText={val => this.onChangeText('SchoolKey', val)}
         />
         <Button
           title="Let's Go"
-          onPress={() => this.props.navigation.navigate('numberFit')}
+          onPress={() => this.signUp()}
         />
       </View>
     )

@@ -3,10 +3,11 @@ import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
 import Rocket from '../animations/Rocket';
 
 
-const TestOverModal = ({score, accuracy, total, onPress, gameEnd, timestable, navigation, timeTaken}) => {
+const TestOverModal = ({score, accuracy, total, onPress, gameEnd, timestable, navigation, timeTaken, difficulty}) => {
   const [modalVisible, setModalVisible] = useState(true);
   const [statisticsSent, sendStatistics] = useState(0);
   const [user, userLoad] = useState();
+  
 
   useEffect(async()=>{
     if(gameEnd === 'GAME_OVER' && statisticsSent == 0){
@@ -17,7 +18,7 @@ const TestOverModal = ({score, accuracy, total, onPress, gameEnd, timestable, na
           let result = JSON.parse(value)
           
           userLoad(result)
-      axios.post('http://34.247.47.193/api/v1/testStatistics',
+      let res = axios.post('http://34.247.47.193/api/v1/testStatistics',
       {"PK": user.PK,
       "timestable": timestable,
       "SK": user.SK,

@@ -4,57 +4,47 @@ import { Dimensions } from "react-native";
 import { Alert, Button, Platform, SafeAreaView, StatusBar, StyleSheet, Text, View, ScrollView } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Progress from '../components/ProgressBar';
-// import * as Progresser from 'react-native-progress';
 import Table from '../components/Datatable';
 import LineGraph from '../components/LineGraph';
 import ProgressRing from '../components/ProgressRing';
-// import Pie from '../src/components/PieChart';
 import TaskModal from '../components/TasksModal';
 import PropTypes from 'prop-types';
-
+import Task from '../components/Task';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const screenWidth = Dimensions.get("window").width;
 
-
-const Tasks = ({navigation}) => {
-      return (
-        <View style={styles.container}>
-        <ScrollView>
-      <Text style={styles.statisticTitle}>Your teacher has set you the following tasks:</Text>
-      <Text style={styles.ttTitle}>Complete 8 levels of indermediate 6x tables</Text>
-      <Progress  completion={0.3}/>
+const TaskComp = (assignment, progress, timeLeft) => {
+        
+    return (<View>
+      <Text style={styles.ttTitle}>{assignment}</Text>
+      <Progress  completion={progress}/>
       <View style={styles.stretch}>
       <MaterialCommunityIcons name="timer-sand-full" color={'gray'} size={30} style={styles.tinyLogo} />
-      <Text style={styles.timeRemainingText}>(5d 2h left)</Text>
+      <Text style={styles.timeRemainingText}>{timeLeft}</Text>
       < TaskModal />
       </View>
-      <Text style={styles.ttTitle}>Complete 5 levels of advanced 5x tables</Text>
-      <Progress completion={0.5} /><View style={styles.stretch}>
-      <MaterialCommunityIcons name="timer-sand-full" color={'gray'} size={30} style={styles.tinyLogo} />
-      <Text style={styles.timeRemainingText}>(2d 18h left)</Text>
-      < TaskModal />
-      </View>
-      <Text style={styles.ttTitle}>Score 100% on one level of beginner 4x tables</Text>
-      <Progress  completion={0.8}/><View style={styles.stretch}>
-      <MaterialCommunityIcons name="timer-sand-full" color={'gray'} size={30} style={styles.tinyLogo} />
-      <Text style={styles.timeRemainingText}>(6h left)</Text>
-      < TaskModal />
-      </View>
+                </View>
+    )}
+    
+const Tasks = ({navigation}) => {
+
+      return (
+        <ScrollView>
+      <Text style={styles.statisticTitle}>Your teacher has set you the following tasks:</Text>
+      {TaskComp('Complete 8 levels of indermediate 6x tables', 0.3, '5d 2hrs')}
+      {TaskComp('Complete 5 levels of advanced 5x tables', 0.8, '3d 10hrs')}
+      {TaskComp('Score 100% on one level of beginner 4x tables', 0.5, '2hrs')}
+      {TaskComp('Score 100% on one level of beginner 4x tables', 0.5, '2hrs')}
+
+      {TaskComp('Score 100% on one level of beginner 4x tables', 0.5, '2hrs')}
+      {TaskComp('Score 100% on one level of beginner 4x tables', 0.5, '2hrs')}
+      {TaskComp('Score 100% on one level of beginner 4x tables', 0.5, '2hrs')}
+      {TaskComp('Score 100% on one level of beginner 4x tables', 0.5, '2hrs')}
       </ScrollView>
-        </View> 
 );
 }
-
-class TasksScreen extends Component{
-    static propTypes = {
-        CompletionPercentage: PropTypes.number.isRequired,
-    };
-    render(){
-        return( 
-            <Tasks />
-          )
-        } 
-        }
 
 const styles = StyleSheet.create ({
     container: {

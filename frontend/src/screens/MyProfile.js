@@ -140,7 +140,7 @@ export default function MyProfile({navigation}) {
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.titleBar}>
                     {/* <SettingsModal /> */}
-                    <Button onPress={() => navigation.popToTop()}  title={'Log out'}/>
+                    <Button onPress={() => navigation.navigate('Login')}  title={'Log out'}/>
                 </View>
 
                 <View style={{ alignSelf: "center" }}>

@@ -15,7 +15,7 @@ class Loading extends Component {
     componentDidMount() {
         const {LogoAnime, LogoText} = this.state;
         this.timeoutHandle = setTimeout(()=>{
-            this.props.navigation.navigate('Login')
+            this.props.navigation.navigate('UserSelectLogin')
        }, 5000);
         Animated.parallel([
             Animated.spring(LogoAnime, {

@@ -18,7 +18,8 @@ class Cal extends React.Component {
   onDateChange(date) {
     this.setState({
       selectedStartDate: date,
-    });
+    })
+    this.props.updateDate(date);
   }
   render() {
     const { selectedStartDate } = this.state;
@@ -40,7 +41,7 @@ class Cal extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  calContainer: {
     flex: 1,
     backgroundColor: '#FFFFFF',
     marginTop: 100,

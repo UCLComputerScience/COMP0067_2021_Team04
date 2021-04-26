@@ -6,6 +6,7 @@ import {
   StyleSheet
 } from 'react-native'
 import { Dimensions } from "react-native";
+import axios from 'axios';
 
 
 const screenWidth = Dimensions.get("window").width;
@@ -21,6 +22,7 @@ export default class SignUp extends React.Component {
     const { username, password, email, phone_number } = this.state
     try {
       // here place your signup logic
+      
       console.log('user successfully signed up!: ', success)
     } catch (err) {
       console.log('error signing up: ', err)
@@ -43,7 +45,7 @@ export default class SignUp extends React.Component {
           secureTextEntry={true}
           autoCapitalize="none"
           placeholderTextColor='white'
-          onChangeText={val => this.onChangeText('password', val)}
+          onChangeText={val => this.onChangeText('firstName', val)}
         />
           <TextInput
           style={styles.input}
@@ -51,7 +53,7 @@ export default class SignUp extends React.Component {
           secureTextEntry={true}
           autoCapitalize="none"
           placeholderTextColor='white'
-          onChangeText={val => this.onChangeText('password', val)}
+          onChangeText={val => this.onChangeText('lastName', val)}
         />
         <TextInput
           style={styles.input}

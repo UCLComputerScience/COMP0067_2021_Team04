@@ -351,7 +351,7 @@ router.put('/challengeReceiverUpdate', async (req, res) => {
     }
 })
 
-// Get all pending challenges within the last month
+// Get all completed challenges within the last month
 router.get('/completed/:PK', async (req, res) => {
     const date = new Date()
     makeDate = new Date(date.setMonth(date.getMonth() - 1));

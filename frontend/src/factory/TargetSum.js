@@ -141,7 +141,7 @@ class TargetSum extends React.Component {
 
     const styles = StyleSheet.create({
         container: {
-            color: 'white',
+            backgroundColor: 'white',
             flex: 1,
         },
         titleText: {

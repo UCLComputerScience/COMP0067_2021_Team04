@@ -190,6 +190,14 @@ return (
     <PlayStack.Screen name="Challenge" component={Challenger} />
 
     <PlayStack.Screen name="Game" component={MultiChoiceGame}  options={({navigation}) => ({
+      title: 'Shuffle Mode',
+        headerStyle: {
+          backgroundColor: 'green',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
         headerLeft: (props) => (
           <HeaderBackButton
             {...props}
@@ -213,6 +221,14 @@ return (
 /> 
 <PlayStack.Screen name="TargetSumLoad" component={TargetSumLoader} options={{headerShown: false}} />
 <PlayStack.Screen name="TargetSum" component={TargetSumSettings}  options={({navigation}) => ({
+   title: 'Target Sum',
+        headerStyle: {
+          backgroundColor: 'blue',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
         headerLeft: (props) => (
           <HeaderBackButton
             {...props}

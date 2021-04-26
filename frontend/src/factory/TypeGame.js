@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import { View, Text, Button, StyleSheet, TextInput} from 'react-native';
 import RandomNumber from './RandomNumber';
 import { isInteger, result, shuffle } from "lodash";
-// import {dos} from './LandingPage';
 import Timer from '../components/Timer';
-// import AppBar from './AppBar';
 import GameHeader from '../components/GameHeader';
 import Quit from '../components/QuitGame';
 import { HeaderBackButton } from 'react-navigation';
@@ -15,25 +13,11 @@ import Input from '../components/Input';
 import MathButton from '../components/MathButton';
 import { Dimensions } from "react-native";
 import LandingPage from '../screens/LandingPage';
-import {two} from '../screens/LandingPage';
-import {three} from '../screens/LandingPage';
-import {four} from '../screens/LandingPage';
-import {five} from '../screens/LandingPage';
-import {six} from '../screens/LandingPage';
-import {seven} from '../screens/LandingPage';
-import {eight} from '../screens/LandingPage';
-import {nine} from '../screens/LandingPage';
-import {ten} from '../screens/LandingPage';
-import {eleven} from '../screens/LandingPage';
-import {twelve} from '../screens/LandingPage';
-import {ChangeChoice} from '../screens/LandingPage';
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import TestOverModal from '../components/TestOverModal';
 import { Alert } from "react-native";
-import Rocket from '../animations/Rocket';
 import * as Progress from 'react-native-progress';
-
-
+import { useNavigation } from '@react-navigation/native';
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -43,36 +27,6 @@ function getRandomIntInclusive(min, max) {
   
   return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
 }
-
-function multiplesOf(numbers, number) { // add second argument
-    var multiples = []; // change to array (so that we can store multiple numbers - not just one multiple)
-    for (var i = 0; i < numbers.length; i++) {
-      if (numbers[i] % number === 0) { // divide by the number
-        multiples.push(numbers[i]); // add the current multiple found to the multiples array
-      }
-    }
-    return multiples;
-  }
-
-  function genNo() { 
-  var arr = [];
-  while(arr.length < 5) {
-  var r = Math.floor(Math.random() * 100) + 1;
-  if(arr.indexOf(r) === -1) arr.push(r);
-}}
-
-
-const twomultiplier = 2 
-const threemultiplier = 3
-const fourmultiplier = 4
-const fivemultiplier = 5
-const sixmultiplier = 6
-const sevenmultiplier = 7
-const eightmultiplier = 8
-const ninemultiplier = 9
-const tenmultiplier = 10
-const elevenmultiplier = 11
-const twelvemultiplier = 12
 
 class TypeGame extends React.Component {
     
@@ -107,12 +61,32 @@ class TypeGame extends React.Component {
         };
     };
 
-
     gameStatus = 'PLAYING';
     gameOver = 'GAME_IN_PLAY';
+    gameMode = global.gameMode
 
+    setGameMode = () => {
+        if (global.difficultyLevel === 'beg') {
+            return global.TT * this.state.multiplier;
+        }
+        if (global.difficultyLevel === 'int') {
+            return global.TT * Math.floor(getRandomIntInclusive(1,12));
+        }
+        if (global.difficultyLevel === 'adv') {
+            return global.TT * Math.floor(getRandomIntInclusive(1,16));
+    }
+}
 
-    target = global.TT * this.state.multiplier
+setMultiplier = () => {
+    if (global.difficultyLevel === 'beg') {
+        return this.state.multiplier;
+    }
+    else{
+        return this.target / global.TT;
+}
+}
+
+    target = this.setGameMode()
     goal = [this.target]
 
     handleTimer = () => {
@@ -122,6 +96,12 @@ class TypeGame extends React.Component {
             return true
         }
     };
+    
+
+
+     GoToButton({ screenName }) {
+        const navigation = useNavigation();
+    }
 
     qgenerator = () => {
         while(this.state.multiplier <= 11) {
@@ -129,20 +109,21 @@ class TypeGame extends React.Component {
         }
     }
 
+    qgeneratorAdvanced = () => {
+        if(this.questionsAnswered < 6) {
+            return this.qgenerator()
+        }
+    }
+
     generateNextQuestion = () => {
         this.state.multiplier = this.qgenerator()
-        this.target = global.TT * this.state.multiplier 
+        this.target = this.setGameMode()
         this.goal = [this.target]
         this.gameStatus = 'PLAYING'
         this.state.disabled = false
         this.state.isPlaying = true
     };
 
-    pauseTimer = () => {
-        if (this.state.isPlaying === false) {
-            clearInterval(this.intervalId);
-        }}
-    
     calcAccuracy = () => {
         var accuracy = (this.state.testScore / this.state.questionsAnswered) * 100
         if (accuracy > 0) {
@@ -152,10 +133,6 @@ class TypeGame extends React.Component {
         return 0;
     }}
 
-    pauseTimer = () => {
-        if (this.state.isPlaying === false) {
-            clearInterval(this.intervalId);
-        }}
 
     componentDidMount() {
         this.intervalId2 = setInterval(() => {
@@ -219,7 +196,6 @@ class TypeGame extends React.Component {
     collectTime = () => {
         const timeTaken = this.state.efficiency
         const isGameOver = this.gameOver
-        // console.warn(timeTaken)
         if (isGameOver === 'GAME_OVER') {
             clearInterval(this.intervalId);
             return timeTaken;
@@ -234,23 +210,19 @@ class TypeGame extends React.Component {
 
     render() {
         const gameStatus = this.gameStatus;
-        const testTime = this.testTime
         return (
             <View style={styles.container}>
-                  {/* <GameHeader></GameHeader> */}
-                  {/* <SliderExample /> */}
                   <Progress.Bar progress={this.state.progress} width={screenWidth} height={10} unfilledColor={'gray'} />
                     <Text style = {styles.titleText}>  </Text>
-
                 <Text style = {styles.titleText}>Type the correct answer for this multiplication:</Text>
-                <Text style={[styles.target, styles['STATUS_' + gameStatus]]}> {global.TT} x {this.state.multiplier}
+                <Text style={[styles.target, styles['STATUS_' + gameStatus]]}> {global.TT} x {this.setMultiplier()}
                 </Text>
                 
                 {this.gameOver === 'GAME_OVER' && (
                 <TestOverModal score={this.state.testScore}
                                 accuracy={this.calcAccuracy()}
                                 total={this.state.questionsAnswered}
-                                onPress={() => this.props.navigation.navigate('Landing')} 
+                                onPress={() => navigation('Landing')} 
                                 gameEnd={this.gameOver}
                                 timeTaken={this.state.efficiency}
                                 timestable = {global.TT}   />)}
@@ -259,7 +231,6 @@ class TypeGame extends React.Component {
                 placeholder="....."
                 label="Type answer here..."
                 />
-                {/* this.state.isPlaying */}
                                 <View style={styles.timerContainer}><TestTimer isPlaying={this.handleTimer()} />
                                 <MathButton onPress={() => {this.gameStatus = this.compareAnswer();
                                                             this.gameOver = this.checkGameOver();
@@ -268,6 +239,7 @@ class TypeGame extends React.Component {
                                                             this.state.questionsAnswered = this.state.questionsAnswered + 1;
                                                             this.state.progress = this.state.progress + 1/11;
                                                             this.calcAccuracy();
+                                                            // this.setGameMode();
                                                             this.state.disabled = true;}}
                                                             disabled={this.state.disabled}/>
                                             
@@ -276,9 +248,6 @@ class TypeGame extends React.Component {
                                 {this.gameStatus !== 'PLAYING' && (
             <Button title="Continue"  onPress={() => {this.generateNextQuestion();
                                                 this.state.disabled === false}} />)}
-                                                {/* <Button title="Move"  onPress={() => this.props.navigation.navigate('Challenge')}/> */}
-
-
         </View>
         );
     }

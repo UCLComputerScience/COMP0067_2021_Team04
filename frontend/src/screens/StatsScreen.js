@@ -118,7 +118,10 @@ const StatsScreen = ({navigation, route}) => {
       </View> 
       );
 }else{
-    return(<Text>Error: No user stats found</Text>)
+    return(<View><Text style={styles.text}>To begin your times table journey and view your progress take a test</Text>
+    <Text style={styles.text2}>Let the games begin!</Text>
+    </View>
+        )
 };
 };       return(
     displayStats()
@@ -130,6 +133,24 @@ const styles = StyleSheet.create ({
     container: {
         flex: 1,
         backgroundColor: 'white',
+        justifyContent: 'center'
+    },
+    text: {
+        fontFamily: "HelveticaNeue",
+        color: "#52575D",
+        alignContent: 'center',
+        fontSize: 40,
+        textAlign: 'center',
+        margin: 80
+    },
+    text2: {
+        fontFamily: "HelveticaNeue",
+        color: "#52575D",
+        alignContent: 'center',
+        fontSize: 30,
+        textAlign: 'center',
+        margin: 10
+
     },
     statistic: {
         alignItems: 'center',

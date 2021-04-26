@@ -10,6 +10,7 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import BonusDifficultyModal from '../components/BonusDifficultyModal';
 import TestOverModal from '../components/TestOverModal';
 import AchievementModal from '../components/AchievementModal';
+import SettingsModal from '../components/SettingsModal';
 
 
 const beginner="#cd7f32"
@@ -33,25 +34,6 @@ export function ChangeChoice(number) {
   console.warn(selection)
       return selection;
 }
-
-
-class LandingPage extends React.Component {
-    state = {
-        selectedIds: [],
-    }
-    isNumberSelected = (numberIndex) => {
-        return this.state.selectedIds.indexOf(numberIndex) >= 0;
-    };
-    // beginner="#cd7f32"
-    // intermediate="#c0c0c0"
-    // advanced="ffd700"
-    selectNumber = (numberIndex) => {
-        this.setState((prevState) => ({ 
-            selectedIds: [...prevState.selectedIds, numberIndex],
-        }));
-    };
-}
-
 
 const IconNav = ({navigation}) => {
   const [testing, setTesting] = useState();
@@ -190,13 +172,7 @@ fetchData()
                 {renderLandingHeader()}
               
                 <View style={styles.iconContainer}>
-                            <TouchableHighlight 
-      underlayColor = '#ccc'
-      onPress = { () => alert('Help!') }
-    >
-                    <Ionicons name="help-circle" size={40} color="black"></Ionicons>
-
-    </TouchableHighlight>
+                <SettingsModal />
     </View>
                 
                  <View style={styles.randomContainer}>

@@ -46,7 +46,7 @@ import TargetSumLoader from './src/screens/TargetSumLoading';
 
 const LoginStack = createStackNavigator();
 
-global.userType = 'student';
+global.userType = 'teacher';
 
 function LoginStackScreen() {
 return (
@@ -187,7 +187,15 @@ return (
 <PlayStack.Screen name="EndGame" component={TestOverModal} />
     <PlayStack.Screen name="Load" component={Loader} options={{headerShown: false}} />
     <PlayStack.Screen name="Quit" component={Quit} options={{headerShown: false}} />
-    <PlayStack.Screen name="Challenge" component={Challenger} />
+    <PlayStack.Screen name="Challenge" component={Challenger} options={() => ({
+          title: 'Challenge',
+        headerStyle: {
+          backgroundColor: 'violet',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },})}/>
 
     <PlayStack.Screen name="Game" component={MultiChoiceGame}  options={({navigation}) => ({
       title: 'Shuffle Mode',
@@ -298,6 +306,16 @@ function MyStudentsStackScreen() {
       <MyStudentsStack.Screen name="My Students" component={MyStudents} options={() => ({
             headerLeft: () => {
       return null}, title: 'MyStudents',
+          headerStyle: {
+            backgroundColor: '#8FBC8F',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },})}/>
+      <MyStudentsStack.Screen name="Student Data" component={StatsScreen} options={() => ({
+            headerLeft: () => {
+      return null}, title: 'Statistics',
           headerStyle: {
             backgroundColor: '#8FBC8F',
           },

@@ -1,5 +1,5 @@
 import React, { Component, useState, useEffect, useReducer } from "react";
-import { Alert, StyleSheet, Text, View, SafeAreaView, Image, ScrollView, TouchableHighlight, Pressable } from "react-native";
+import { Alert, StyleSheet, Text, View, SafeAreaView, Image, ScrollView, TouchableHighlight, Pressable, TouchableOpacity } from "react-native";
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell }  from 'react-native-table-component';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from "axios";
@@ -12,14 +12,21 @@ const MyStudents =({navigation}) => {
     const [formData, changeForm] = useState([]);
     const [formIdsbyName, getFormIds] = useState();
     const [studentNames, updateStudentsNames] = useState();
+    const [studentIdsByName, updateStudentsIds] = useState();
     const [pendingAssignments, updatePendingAssignments] = useState();
     const [studentScores, updateStudentsScores] = useState()
     const [forms, getForms] = useState([])
+    const [classSize, getClassSize] = useState();
+    const [classPA, getClassPA] = useState()
+    const [classKey, getClassKey] = useState()
     const tableHead = ['Student', 'Pending Assignments', 'Score'];
     const widthArr = [133,133,133]
     useEffect(()=>{async function getClasses(){
-        try{
-            let result = await axios.get('http://localhost:3000/api/v1/classes/getClasses/user_gavinteacher')
+        try{const value = await AsyncStorage.getItem('user');
+            if (value !== null) {
+            // We have data!!
+            let teacherUser = JSON.parse(value)
+            let result = await axios.get('http://34.247.47.193/api/v1/classes/getClasses/' + teacherUser.PK)
             let classArray = result.data.Items;
             let info = [];
             let sets = [];
@@ -37,7 +44,7 @@ const MyStudents =({navigation}) => {
             if(classIdbyName[sets[0]]){
             changeClass(classIdbyName[sets[0]])
             }
-        }
+        }}
         catch{
             console.log('no classes found for this teacher')
         }
@@ -50,51 +57,73 @@ const MyStudents =({navigation}) => {
 
     const changeClass = async (classID)=>{
         try{
-        let address = 'http://34.247.47.193/api/v1/users/' + classID;
-        console.log(address)
+        // let address = 'http://34.247.47.193/api/v1/users/' + classID;
+        let address = 'http://34.247.47.193/api/v1/users/class_2ec278cf-1a35-4746-911b-1a360c83dbb5'
         let students = await axios.get(address);
         
-         let result = students;
-         console.log(result)
-         
+        let result = students.data.Items;
         let sNames = [];
         let sScores = [];
         let sPending = [];
+        let sIdsByNames = {};
         
         for (var i =0; i < result.length; i++){
             let fullName = result[i].data.firstName + ' ' + result[i].data.lastName
             sNames.push(fullName);
             sScores.push(result[i].data.score);
             sPending.push(result[i].data.pendingAssignments);
+            sIdsByNames[fullName] = result[i].PK
         }
-        console.log('here')
-        console.log(sNames)
+        updateStudentsIds(sIdsByNames)
         updateStudentsNames(sNames)
         updatePendingAssignments(sScores)
         updateStudentsScores(sPending)
+        getClassSize(sNames.length)
+        
+        var sum = sPending.reduce((a, b)=>{
+            return a + b;
+        }, 0);
+        
+        
+        getClassPA(sum)
+        
+        getClassKey('asdf')
         var data = [];
+
     for (let i = 0; i < studentNames.length; i += 1) {
-      const dataRow = [];
+      var dataRow = [];
       
-      dataRow.push(studentNames[i], pendingAssignments[i], studentScores[i]);
+      dataRow.push(studentNames[i])
+      dataRow.push(pendingAssignments[i])
+      dataRow.push(studentScores[i]);
       
       data.push(dataRow);
 
     }
+    
     changeForm(data)
+    
     }catch{
         console.log("Couldn't load students")
     }}
-
+    const showStudentStats = (studentName)=>{
+        console.log(studentIdsByName[studentName])
+        if(studentName){
+            let studentID = studentIdsByName[studentName]
+            navigation.navigate("Student Data",{
+                userID: studentID
+            })
+        }
+    }
     const classButton = (set) => {
         
-        return (<Pressable
+        return (<TouchableOpacity
                     style={styles.classOptionButton}
                     onPress={() => changeClass(formIdsbyName[set])}
                     >
                         <Text style = {styles.buttonText}>{set}</Text>
 
-                    </Pressable>
+                    </TouchableOpacity>
         )}
 
     
@@ -107,9 +136,9 @@ const MyStudents =({navigation}) => {
                 <View style = {styles.stats}>
                     <Text style={styles.statsText}>Class Stats</Text>
                     <View style = {{bottom:  60, left: 20}}>
-                        <Text>Class Key: </Text>
-                        <Text>Class Size: </Text>
-                        <Text>Pending Assignments: 10 from 4 students</Text>
+                        <Text>Class Key: {classKey}</Text>
+                        <Text>Class Size: {classSize}</Text>
+                        <Text>Pending Assignments: {classPA}</Text>
                     </View>
                 </View>
                 <View style={styles.tableView}>
@@ -129,6 +158,7 @@ const MyStudents =({navigation}) => {
                                     widthArr={widthArr}
                                     style={[styles.row, index%2 && {backgroundColor: '#ffffff'}]}
                                     textStyle={styles.text}
+                                    onPress={()=>{showStudentStats(datarow[0])}}
                                     />
                                 ))
                                 }
@@ -181,7 +211,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         textAlign: 'center',
-        fontSize: 30
+        fontSize: 20
     },
     HeadStyle: { 
         height: 50,

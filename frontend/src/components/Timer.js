@@ -29,7 +29,7 @@ const Timer = () => {
       centeredView: {
         justifyContent: "center",
         alignItems: "center",
-        // marginEnd: -50
+        marginTop: 10
       }
     })
 

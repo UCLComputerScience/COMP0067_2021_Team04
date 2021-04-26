@@ -110,7 +110,7 @@ setMultiplier = () => {
     }
 
     qgeneratorAdvanced = () => {
-        while(this.questionsAnswered < 6) {
+        if(this.questionsAnswered < 6) {
             return this.qgenerator()
         }
     }
@@ -239,7 +239,7 @@ setMultiplier = () => {
                                                             this.state.questionsAnswered = this.state.questionsAnswered + 1;
                                                             this.state.progress = this.state.progress + 1/11;
                                                             this.calcAccuracy();
-                                                            this.setGameMode();
+                                                            // this.setGameMode();
                                                             this.state.disabled = true;}}
                                                             disabled={this.state.disabled}/>
                                             

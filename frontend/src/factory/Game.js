@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, Button, StyleSheet, Animated, ImageBackground } from 'react-native';
 import RandomNumber from './RandomNumber';
-import { shuffle } from "lodash";
+import { first, shuffle } from "lodash";
 // import {dos} from './LandingPage';
 import Timer from '../components/Timer';
 // import AppBar from './AppBar';
@@ -11,13 +11,12 @@ import Quit from '../components/QuitGame';
 import { HeaderBackButton } from 'react-navigation';
 import EndGame from '../components/EndGameModal';
 
+global.gameScorer = 0
 
-function getRandomIntInclusive(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  
-  return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
-}
+function getRndInteger(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) ) + min;
+  }
+
 
 function multiplesOf(numbers, number) { // add second argument
     var multiples = []; // change to array (so that we can store multiple numbers - not just one multiple)
@@ -46,14 +45,27 @@ class Game extends React.Component {
     state = {
         selectedIds: [],
         remainingSeconds: this.props.initialSeconds,
+        gameScore: 0,
     };
+
+    generateQ = () => {
+        return this.first * this.second
+    }
+
+
     gameStatus = 'PLAYING';
-    target = 2 * Math.floor(getRandomIntInclusive(1,12))
+    first = getRndInteger(1,12)
+    second = getRndInteger(1,12)
+    target = this.generateQ()
     goal = [this.target]
     randomNumbers = Array
         .from({ length: this.props.randomNumberCount })
-        .map(() => 4 + Math.floor(20 * Math.random())) 
+        .map(() =>  getRndInteger(1,200))
         .concat(this.goal);
+
+        
+
+  
 
     shuffledRandomNumbers = shuffle(this.randomNumbers)
 
@@ -93,21 +105,35 @@ class Game extends React.Component {
                 }
             }
     }
+
+    generateNextQuestion = () => {
+        this.target = this.generateQ()
+        // this.goal = [this.target]
+        // this.gameStatus = 'PLAYING'
+        // this.state.isPlaying = true
+    };
+
+
+
     calcGameStatus = (nextState) => {
         console.log('calcGameStatus')
         const sumSelected = nextState.selectedIds.reduce((acc, curr) => {
             return acc + this.shuffledRandomNumbers[curr];
         }, 0);
         if (nextState.remainingSeconds === 0) {
+            global.gameScorer = global.gameScorer - 1
             return 'LOST';
         }
         if (sumSelected < this.target) {
+            global.gameScorer = global.gameScorer - 2
             return 'PLAYING';
         }
         if (sumSelected === this.target) {
+            global.gameScorer = global.gameScorer + 5
             return 'WON';
         }
         if (sumSelected > this.target) {
+            global.gameScorer = global.gameScorer - 2
             return 'LOST';
         }
     }
@@ -128,9 +154,10 @@ class Game extends React.Component {
                 <Text style = {styles.titleText}>  </Text>
 
                 <Text style = {styles.titleText}>Select the correct answer for this multiplication:</Text>
-                <Text style={[styles.target, styles['STATUS_' + gameStatus]]}> 2 x {this.target / 2}
+                <Text style={[styles.target, styles['STATUS_' + gameStatus]]}> {this.first} x {this.second}
                 </Text>
-                <Timer isPlaying ={true} />
+                <Text style = {styles.titleText}>Score: {global.gameScorer}</Text>
+
                 <View style={styles.randomContainer}>
                     {this.shuffledRandomNumbers.map((randomNumber, index) => (
                     <RandomNumber 
@@ -141,8 +168,12 @@ class Game extends React.Component {
                     onPress={this.selectNumber}
                     />
                 ))}
+                                <Timer isPlaying ={true} />
+
             </View>
-            <EndGame onPress={this.props.onPlayAgain}/>
+            {this.gameStatus !== 'PLAYING' && (
+            <Button title="Continue"  onPress={this.props.onPlayAgain} />)}
+                                                
             {/* {this.gameStatus !== 'PLAYING' && (
             <Button title="Play Again" onPress={this.props.onPlayAgain} />)}
             {this.gameStatus == 'PLAYING' && (

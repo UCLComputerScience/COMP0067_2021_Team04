@@ -226,7 +226,7 @@ setMultiplier = () => {
                                 gameEnd={this.gameOver}
                                 timeTaken={this.state.efficiency}
                                 timestable = {global.TT}
-                                  />)}
+                                difficulty = {global.difficultyLevel}   />)}
 
                 <Input onChangeText={(text) => this.handleText(text, 1)} 
                 placeholder="....."

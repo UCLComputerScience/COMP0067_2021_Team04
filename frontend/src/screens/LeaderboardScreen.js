@@ -5,30 +5,75 @@ import Leaderboard from 'react-native-leaderboard';
 import React, { Component } from "react";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import ModalDropdown from 'react-native-modal-dropdown';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import avatarDict from '../components/AvatarDict';
 
 
 export default class LeaderBoardScreen extends Component {
+  
   state = {
-    data: DATA
+    data: DATA,
+    user: {},
+    choice: 0
+    
   };
+  getUser = async (school) =>{
+    try {
+      const value = await AsyncStorage.getItem('user');
+      if (value !== null) {
+        // We have data!!
+        let result = JSON.parse(value)
+        this.setState((...prevState)=>{
+          return { ...prevState,
+                  user: result};
+        })
+  }
+}catch{
+  console.log("Couldn't find user")
+
+}if(this.state.user){
+  let choice = {0:'class/' + this.state.user.GSI1,
+                1:'school/'+ this.state.user.data.school}
+  let address = 'http://localhost:3000/api/v1/leaderboards/' + choice[school];
+  let competitors = await axios.get(address);
+  let boardData = competitors.data.Items;
+  let actualData = [];
+  for(let i = 0; i < boardData.length; i++){
+    const dataItem = {};
+    let fullName = boardData[i].data.firstName + " " + boardData[i].data.lastName;
+    dataItem['name'] = fullName
+    dataItem['score'] = boardData[i].data.experience
+    dataItem['iconUrl'] = boardData[i].data.avatar
+    actualData.push(dataItem)
+  }
+  this.setState((...prevState)=>{
+    return {
+            data: actualData};})
+  console.log(address)
+  console.log(actualData)
+
+}
+  }
 
   componentDidMount() {
     // simulate new users being added to leaderboard
-    setInterval(() => {
-      const newData = {
-        name: "New User Data!!",
-        score: Math.floor(Math.random() * 100).toString(),
-        iconUrl:
-          "https://www.shareicon.net/data/128x128/2016/09/15/829473_man_512x512.png"
-      };
-      this.setState({ data: this.state.data.concat(newData) });
-    }, 5000);
-  }
+    this.getUser(0)
+  //   setInterval(() => {
+  //     const newData = {
+  //       name: "New User Data!!",
+  //       score: Math.floor(Math.random() * 100).toString(),
+  //       iconUrl:
+  //         "https://www.shareicon.net/data/128x128/2016/09/15/829473_man_512x512.png"
+  //     };
+  //     this.setState({ data: this.state.data.concat(newData) });
+  //   }, 5000);
+  // }
 
-  alert = (title, body) => {
-    Alert.alert(title, body, [{ text: "OK", onPress: () => {} }], {
-      cancelable: false
-    });
+  // alert = (title, body) => {
+  //   Alert.alert(title, body, [{ text: "OK", onPress: () => {} }], {
+  //     cancelable: false
+  //   });
   };
 
   render() {
@@ -36,7 +81,6 @@ export default class LeaderBoardScreen extends Component {
       labelBy: "name",
       sortBy: "score",
       data: this.state.data,
-      icon: "iconUrl",
       onRowPress: (item, index) => {
         this.alert(item.name + " clicked", item.score + " points, wow!");
       },
@@ -46,17 +90,18 @@ export default class LeaderBoardScreen extends Component {
     return (
       <View style={styles.container}>
           <View style={styles.scaleWrap}>
-              <TouchableHighlight onPress={() => alert('Compare by class')}>
+              <TouchableHighlight onPress={() => {this.setState((...prevState)=>{
+    return {
+            choice: 0};}),this.getUser(0)}}>
               <Text style={styles.scaleText}>Class</Text>
               </TouchableHighlight>
               <View style={styles.line} />
-              <TouchableHighlight onPress={() => alert('Compare by school')}>
+              <TouchableHighlight onPress={() => {this.setState((...prevState)=>{
+    return {
+            choice: 1};}),this.getUser(1)}}>
               <Text style={styles.scaleText}>School</Text>
               </TouchableHighlight>
               <View style={styles.line} />
-              <TouchableHighlight onPress={() => alert('Compare nationally')}>
-              <Text style={styles.scaleText}>National</Text>
-              </TouchableHighlight>
           </View>
         <View
           style={styles.headerWrap}
@@ -67,14 +112,7 @@ export default class LeaderBoardScreen extends Component {
                 </Ionicons><Ionicons name="star" size={30} color="#cd7f32"></Ionicons>
           </Text>
           <View style={styles.formLayout}>
-                <ModalDropdown dropdownTextStyle={{fontWeight:'bold', textAlign: 'center', fontSize: 15}}
-                    textStyle={{fontWeight:'bold', textAlign: 'right',  fontSize: 20}} 
-                    animated={true} 
-                    showsVerticalScrollIndicator={true} 
-                    isFullWidth = {true} 
-                    style = {{marginHorizontal: 100, borderColor: 'black', borderWidth: 2}}
-                    defaultValue = {'Select class...'} 
-                    options={['5A', '4C', '6D']}/>
+                
              </View>
         </View>
         <Leaderboard {...props} />

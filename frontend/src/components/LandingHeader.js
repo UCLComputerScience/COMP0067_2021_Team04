@@ -67,7 +67,7 @@ const LandingHeader = ({person}) => {
 
     <Ionicons style={{marginHorizontal: 10}} name="medal" size={50} color="black"></Ionicons>
     </TouchableOpacity>
-        <Text style={styles.text}>LVL {person.overall.score}</Text>
+        <Text style={styles.text}>LVL {person.data.score}</Text>
         <TouchableOpacity onPress = { () => alert('Streak!') } >
     <Ionicons name="flame-outline" size={50} color="red"></Ionicons>
     </TouchableOpacity>

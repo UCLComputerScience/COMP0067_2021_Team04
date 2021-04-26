@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useReducer } from "react";
 import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
 import Rocket from '../animations/Rocket';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const TestOverModal = ({score, accuracy, total, onPress, gameEnd, timestable, navigation, timeTaken, difficulty}) => {
@@ -9,7 +11,7 @@ const TestOverModal = ({score, accuracy, total, onPress, gameEnd, timestable, na
   const [user, userLoad] = useState();
   
 
-  useEffect(async()=>{
+  useEffect(()=>{async function sendResults(){
     if(gameEnd === 'GAME_OVER' && statisticsSent == 0){
       try{
         const value = await AsyncStorage.getItem('user');
@@ -19,23 +21,27 @@ const TestOverModal = ({score, accuracy, total, onPress, gameEnd, timestable, na
           
           userLoad(result)
       let res = axios.post('http://34.247.47.193/api/v1/testStatistics',
-      {"PK": user.PK,
+      {"PK": result.PK,
       "timestable": timestable,
-      "SK": user.SK,
-      "GSI1": user.GSI1,
+      "SK": result.SK,
+      "GSI1": result.GSI1,
+      "difficulty": difficulty,
       data:{
         "timeTaken": timeTaken,
         "questions": total,
-        "correctQuestions": score
+        "correctQuestions": score,
+        
       }
     }
       )
-    sendStatistics(1)}}
+    sendStatistics(1)
+    console.log('stat sent')}}
+    
   catch {
     console.log('Statistics not sent')
   }
   }
-  })
+  }sendResults()},[])
 
   return (
 

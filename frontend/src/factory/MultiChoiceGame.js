@@ -14,13 +14,16 @@ export default class MultiChoiceGame extends Component {
     challengeKey = this.props.navigation.state.params
     resetGame = () => {
         this.setState((prevState) => {
-            return { gameId: prevState.gameId + 1};
+            return { ...prevState,
+                gameId: prevState.gameId + 1
+                    };
         });
     };
     checkChallenge = ()=>{
         if(this.challengeKey){
             this.setState((prevState) => {
-                return { challenge: 1};
+                return { ...prevState,
+                    challenge: 1};
         })
     }}
     render() {

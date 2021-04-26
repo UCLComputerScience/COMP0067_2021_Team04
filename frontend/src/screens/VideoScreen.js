@@ -1,12 +1,27 @@
 import * as React from 'react';
 import { View, StyleSheet, Button, Text } from 'react-native';
 import { Video, AVPlaybackStatus } from 'expo-av';
+import StopWatch from '../components/StopWatch';
+
 
 export default function PlayVideo() {
+
+//   componentDidMount() {
+//     this.intervalId = setInterval(() => {
+//       this.setState(
+//           (prevState) => {
+//           return { remainingSeconds: prevState.remainingSeconds + 1};
+//       },
+//       );
+//   }, 1000);
+// }}};
   const video = React.useRef(null);
   const [status, setStatus] = React.useState({});
   return (
     <View style={styles.container}>
+      <View style={styles.watchContainer}>
+      <StopWatch />
+      </View>
       <Video
         ref={video}
         style={styles.video}
@@ -35,6 +50,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     backgroundColor: '#ecf0f1',
+  },
+  watchContainer: {
+    flex: 0.5,
+    alignItems: 'center',
   },
   video: {
     alignSelf: 'center',

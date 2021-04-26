@@ -63,14 +63,10 @@ const LandingHeader = ({person}) => {
     <View style={styles.center}>
  <Appbar style={styles.top}>
    <View style={{justifyContent: 'space-evenly', flexDirection: 'row'}}>
-     <TouchableOpacity onPress = { () => alert('Award!') } >
 
     <Ionicons style={{marginHorizontal: 10}} name="medal" size={50} color="black"></Ionicons>
-    </TouchableOpacity>
         <Text style={styles.text}>LVL {person.overall.score}</Text>
-        <TouchableOpacity onPress = { () => alert('Streak!') } >
     <Ionicons name="flame-outline" size={50} color="red"></Ionicons>
-    </TouchableOpacity>
     <Text style={styles.text}>STREAK: {streak}</Text>
     </View>
   </Appbar>

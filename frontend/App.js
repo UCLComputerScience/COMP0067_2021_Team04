@@ -46,7 +46,8 @@ import TargetSumLoader from './src/screens/TargetSumLoading';
 
 const LoginStack = createStackNavigator();
 
-global.userType = 'teacher';
+global.userType = 'student';
+
 
 function LoginStackScreen() {
 return (
@@ -144,7 +145,15 @@ return (
     <PlayStack.Screen name="Load Video" component={VidLoader} options={{headerShown: false}}/>
     {/* <PlayStack.Screen name="Example" component={Example} options={{headerShown: false}}/> */}
     <PlayStack.Screen name="Video" component={PlayVideo} options={({navigation}) => ({
-      headerLeft: (props) => (
+      title: 'Workout',
+        headerStyle: {
+          backgroundColor: 'red',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+        headerLeft: (props) => (
         <HeaderBackButton
           {...props}
           label='Go Back'

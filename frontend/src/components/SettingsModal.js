@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView, TouchableHighl
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import PropTypes from 'prop-types';
 import SettingsButton from '../components/SettingsButton';
+import HelpModal from '../components/HelpModal';
+import TestOverModal from '../components/TestOverModal';
 
 
 const SettingsModal = () => {
@@ -22,28 +24,23 @@ const SettingsModal = () => {
           <View style={styles.modalView}>
         
             <View style={styles.central}>
-            <SettingsButton 
-                  option={'Dark Mode'}
-                  isDisabled = {false}
-                  onPress={() => Alert.alert('Hello')}
-                                  />
-            <SettingsButton 
-            option={'Logout'}
-            isDisabled = {false}
-            onPress={() => Alert.alert(hello)}
-            // onPress={() => navigation.navigate('SignUp')}
-            />
-            <SettingsButton 
-            option={'Cancel'}
-            isDisabled = {false}
-            onPress={() => setModalVisible(!modalVisible)}
-            />
+            <Text style={styles.modalText}>Select any of the timestables to begin your journey.</Text>
+            <Text style={styles.modalText}>Practice your skills in shuffle mode</Text>
+            <Text style={styles.modalText}>Compete with friends to gain award via the blue challenge button</Text>
+            <Text style={styles.modalText}>The green bonus button will start a fun addition game to work on your other  skills and become an all-round maths champion!</Text>
+
             </View>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={styles.textStyle}>Close</Text>
+            </Pressable>
           </View>
         </View>
       </Modal>
       <TouchableHighlight onPress={() => setModalVisible(true)}>
-      <Ionicons name="cog" size={40} color="#52575D"></Ionicons>
+      <Ionicons name="help-circle" size={40} color="black"></Ionicons>
       </TouchableHighlight>
     </View>
   );
@@ -59,15 +56,19 @@ const styles = StyleSheet.create({
     flex:1,
     justifyContent: 'space-evenly'
   },
+  titleText: {
+    textAlign: "center",
+    fontSize: 10,
+  },
   settingButton: {
     marginTop: 100
   },
   modalView: {
-    margin: 40,
-    marginTop: 120,
+    margin: 50,
+    marginTop: 50,
     backgroundColor: "lightgrey",
     borderRadius: 20,
-    padding: 80,
+    padding: 70,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -95,8 +96,11 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   modalText: {
-    marginBottom: 10,
-    textAlign: "center"
+    textAlign: "center",
+    fontSize:13,
+    color: 'red',
+    fontFamily: "HelveticaNeue",
+
   }
 });
 

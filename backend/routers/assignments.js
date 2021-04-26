@@ -179,28 +179,7 @@ async (req, res) => {
             success: false
         })
     };
-        try {
-        const updateParams = {
-            TableName: TABLE_NAME,
-            Key: {
-                'PK': classProfiles.Items[i].PK,
-                'SK': 'statistics',
-            },
-            UpdateExpression: `ADD #data.${req.body.data.timestable}.${req.body.data.difficulty}.pendingAssignments :inc`,
-            ExpressionAttributeNames: {'#data': 'data'},
-            ExpressionAttributeValues: {
-                ':inc': 1
-            }
-        }
-        console.log(updateParams)
-        await documentClient.update(updateParams).promise()
-    } catch (err) {
-        console.log(err);
-        res.status(400).json({
-            message: "Pending assignments update failed",
-            success: false
-        })
-
+        
     try {
         const updateProfileParams = {
             TableName: TABLE_NAME,
@@ -224,7 +203,7 @@ async (req, res) => {
         })
     }
     
-}}
+}
 res.status(200).json({
     message: "Successful assignment upload",
     success: true

@@ -17,37 +17,37 @@ import {testing} from '../screens/LandingPage';
 //     }
 // }
 
-// function callAlert(navigateVideo, navigateTest) {
-//     if(calcMastery() === 'EXPERIENCED') {
-//         Alert.alert(
-//             "Please select an option: ",
-//             "Note: Once you start a test your marks will be visible to teachers and parents",
-//             [
-//                 {
-//                 text: "Cancel",
-//                 onPress: () => console.log("Cancel Pressed"),
-//                 style: "cancel"
-//                 },
-//                 { text: "Watch Video", onPress: {navigateVideo} },
-//                 { text: "Start Test!", onPress: {navigateTest} }
-//             ]
-//             )
-//     }
-//     else{
-//         Alert.alert(
-//             "Please select an option: ",
-//             "Note: Once you start a test your marks will be visible to teachers and parents",
-//             [
-//                 {
-//                 text: "Cancel",
-//                 onPress: () => console.log("Cancel Pressed"),
-//                 style: "cancel"
-//                 },
-//                 { text: "Start Test!", onPress: {navigateTest} }
-//             ]
-//             )
-//     };
-// }
+function callAlert(navigateVideo, navigateTest) {
+    if(calcMastery() === 'EXPERIENCED') {
+        Alert.alert(
+            "Please select an option: ",
+            "Note: Once you start a test your marks will be visible to teachers and parents",
+            [
+                {
+                text: "Cancel",
+                onPress: () => console.log("Cancel Pressed"),
+                style: "cancel"
+                },
+                { text: "Watch Video", onPress: {navigateVideo} },
+                { text: "Start Test!", onPress: {navigateTest} }
+            ]
+            )
+    }
+    else{
+        Alert.alert(
+            "Please select an option: ",
+            "Note: Once you start a test your marks will be visible to teachers and parents",
+            [
+                {
+                text: "Cancel",
+                onPress: () => console.log("Cancel Pressed"),
+                style: "cancel"
+                },
+                { text: "Start Test!", onPress: {navigateTest} }
+            ]
+            )
+    };
+}
 
 const DifficultyPage = ({route,navigation})=>{
     const [difficultyLevel, setDifficultyLevel] = useState();

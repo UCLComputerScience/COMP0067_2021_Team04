@@ -13,7 +13,7 @@ const LoginScreen = ({navigation}) => {
   const [loginFailed, attemptUpdate] = useState(false);
   const _storeData = async (userStr) => {
     try {
-      console.log(userStr)
+      
       await AsyncStorage.setItem(
         'user',
         userStr
@@ -36,13 +36,13 @@ const LoginScreen = ({navigation}) => {
     const userString = JSON.stringify(user)
     _storeData(userString)
     
-    if(user.role === 'student'){
+    if(global.userType === 'student'){
     navigation.navigate('numberFit');
     }
-    if(user.role === 'parent'){
+    if(global.userType === 'parent'){
       navigation.navigate('numberFitParent');
       }
-    if(user.role === 'teacher'){
+    if(global.userType === 'teacher'){
       navigation.navigate('numberFitTeacher');
       }
     }else{

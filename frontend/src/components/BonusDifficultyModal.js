@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { Dimensions, TouchableHighlight } from 'react-native';
 
 global.targetSum = 5
 
@@ -51,7 +52,7 @@ const BonusDifficultyModal = ({onPress1,onPress2,onPress3}) => {
       </Modal>
       {/* <View style={styles.other}></View> */}
       <Pressable
-        style={[styles.button, styles.buttonOpen]}
+        style={[styles.tinyLogo, styles.buttonOpen]}
         onPress={() => setModalVisible(true)}
       >
         <Text style={styles.textStyle}>Bonus</Text>
@@ -81,6 +82,13 @@ const styles = StyleSheet.create({
     width:50,
     height:20,
     backgroundColor: 'blue'
+  },
+  button: {
+    borderRadius: 20,
+    padding: 12,
+    elevation: 2,
+    marginTop: 15,
+    marginBottom: 15,
   },
   text: {
     fontFamily: "HelveticaNeue",
@@ -112,12 +120,18 @@ flexDirection: 'row',
     shadowRadius: 4,
     elevation: 5
   },
-  button: {
-    borderRadius: 20,
-    padding: 12,
-    elevation: 2,
-    marginTop: 15,
-    marginBottom: 15,
+  tinyLogo: {
+    width: 25,
+    height: 25,
+    borderRadius: Math.round(Dimensions.get('window').width + Dimensions.get('window').height) / 2,
+    width: Dimensions.get('window').width * 0.15,
+    height: Dimensions.get('window').width * 0.15,
+    backgroundColor:'lightblue',
+    borderColor: 'black',
+    borderWidth: 4,
+    alignItems: 'center',
+    marginVertical: 10,
+    justifyContent: 'center'
   },
   buttonOpen: {
     backgroundColor: "green",

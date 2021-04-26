@@ -11,7 +11,7 @@ export default class VidLoader extends Component {
     componentDidMount(){  
         this.onAnimate(),
         this.timeoutHandle = setTimeout(()=>{
-            this.props.navigation.navigate('Example')
+            this.props.navigation.navigate('Video')
         }, 2200);
     }  
     onAnimate = () =>{  

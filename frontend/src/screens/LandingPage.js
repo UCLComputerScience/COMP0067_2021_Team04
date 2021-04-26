@@ -10,7 +10,7 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import BonusDifficultyModal from '../components/BonusDifficultyModal';
 import TestOverModal from '../components/TestOverModal';
 import AchievementModal from '../components/AchievementModal';
-
+import SettingsModal from '../components/SettingsModal';
 
 const beginner="#cd7f32"
 const intermediate="#c0c0c0"
@@ -74,6 +74,7 @@ const difficultyDict =
   const [user, userLoad] = useState({
     GSI1: "class_2ec278cf-1a35-4746-911b-1a360c83dbb5",
     PK: "user_mathsqueen",
+    //hardcoded
     data:  {
       "avatar": 7,
       "firstName": "Andrew",
@@ -198,13 +199,7 @@ fetchData()
                 {renderLandingHeader()}
               
                 <View style={styles.iconContainer}>
-                            <TouchableHighlight 
-      underlayColor = '#ccc'
-      onPress = { () => alert('Help!') }
-    >
-                    <Ionicons name="help-circle" size={40} color="black"></Ionicons>
-
-    </TouchableHighlight>
+                <SettingsModal />
     </View>
                 
                  <View style={styles.randomContainer}>
@@ -281,12 +276,6 @@ fetchData()
     onPress2={() => navigation.navigate('TargetSumLoad')}
     onPress3={() => {navigation.navigate('TargetSumLoad')}}
     />
-    {/* <TouchableHighlight 
-    onPress={() => TestOverModal}
-      onPress={() => navigation.navigate('TargetSumLoad')}
-    >
-      <Text style={styles.bonus}>Bonus</Text>
-    </TouchableHighlight> */}
     <TouchableHighlight 
       underlayColor = '#ccc'
       onPress={() => navigation.navigate('Challenge')}
@@ -296,7 +285,6 @@ fetchData()
       />
     </TouchableHighlight>
      </View>
-     {/* <AppBar></AppBar> */}
      
           </View> 
         )

@@ -12,13 +12,13 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const StatsScreen = ({navigation, route}) => {
+const StatsScreen = ({navigation, route, child}) => {
     const [studentsData, getStudentData] = useState();
     const [user, userLoad] = useState();
     
     useEffect(()=>{
         async function getStats(){
-        if(route.params){
+        if(route!=undefined && route.params){
             const {userID} = route.params;
             try{
                 let studentData = await axios.get('http://34.247.47.193/api/v1/testStatistics/inDepth/' + userID);
@@ -31,7 +31,21 @@ const StatsScreen = ({navigation, route}) => {
             } catch{
                 console.log('Error Loading Students Stats')
             }
-        }else{
+        }else if(child!=undefined){
+            const childID = child;
+            try{
+                let studentData = await axios.get('http://34.247.47.193/api/v1/testStatistics/inDepth/' + childID);
+                let student = await axios.get('http://34.247.47.193/api/v1/users/individual/' + childID);
+                
+                getStudentData(studentData.data.testStats.Item.data);
+                userLoad(student.data.Item);
+                
+                console.log('student id passed')
+            } catch{
+                console.log('Error Loading Students Stats')
+            }
+        }
+            else{
             try {
                 const value = await AsyncStorage.getItem('user');
                 if (value) {
@@ -72,6 +86,7 @@ const StatsScreen = ({navigation, route}) => {
       <View style={styles.container}>
       <ScrollView>
       {/* <Rocket /> */}
+      <Text style={styles.statisticTitle}>{user.data.firstName + ' '+user.data.lastName}</Text>
     <Text style={styles.statisticTitle}>2x timestable</Text>
     <Progress completion={progressionFraction(user['twox'])}/>
     {/* <LineGraph /> */}

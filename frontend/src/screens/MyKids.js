@@ -27,12 +27,13 @@ const MyKids =({navigation}) => {
     fetchData()
     
     },[]);
-    const seeKidsStats = (studentID)=>{
-        if(studentID){
-        navigation.navigate("Student Data",{
-            userID: studentID
-        })
+    const dataDisplay = ()=>{
+        if(user!=undefined){
+            return(<StatsScreen child={user.GSI1}/>)
+        }else{
+           return( <Text>No children associate with this account</Text>)
+        }
     }
-}
-    return( seeKidsStats(user.GSI1))
+    return(dataDisplay())
 }   
+export default MyKids;

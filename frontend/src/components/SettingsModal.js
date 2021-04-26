@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView, TouchableHighl
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import PropTypes from 'prop-types';
 import SettingsButton from '../components/SettingsButton';
-import HelpModal from '../components/HelpModal';
+// import HelpModal from '../components/HelpModal';
 import TestOverModal from '../components/TestOverModal';
 
 

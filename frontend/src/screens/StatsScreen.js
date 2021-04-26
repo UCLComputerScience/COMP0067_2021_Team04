@@ -12,18 +12,22 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const StatsScreen = ({navigation, userID}) => {
+const StatsScreen = ({navigation, route}) => {
     const [studentsData, getStudentData] = useState();
     const [user, userLoad] = useState();
-
+    const {userID} = route.params;
+    console.log(userID)
     useEffect(()=>{
         async function getStats(){
         if(userID){
+            
             try{
-                let studentData = await axios.get('http://34.247.47.193/api/v1/testStatistics/indepth/' + userID);
+                let studentData = await axios.get('http://34.247.47.193/api/v1/testStatistics/inDepth/' + userID);
                 let student = await axios.get('http://34.247.47.193/api/v1/users/individual/' + userID);
-                getStudentData(studentData);
-                userLoad(student);
+                
+                getStudentData(studentData.data.testStats.Item.data);
+                userLoad(student.data.Item);
+                
                 console.log('student id passed')
             } catch{
                 console.log('Error Loading Students Stats')

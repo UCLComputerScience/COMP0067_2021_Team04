@@ -46,7 +46,7 @@ import TargetSumLoader from './src/screens/TargetSumLoading';
 
 const LoginStack = createStackNavigator();
 
-global.userType = 'student';
+global.userType = 'teacher';
 
 function LoginStackScreen() {
 return (
@@ -282,6 +282,16 @@ function MyStudentsStackScreen() {
       <MyStudentsStack.Screen name="My Students" component={MyStudents} options={() => ({
             headerLeft: () => {
       return null}, title: 'MyStudents',
+          headerStyle: {
+            backgroundColor: '#8FBC8F',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },})}/>
+      <MyStudentsStack.Screen name="Student Data" component={StatsScreen} options={() => ({
+            headerLeft: () => {
+      return null}, title: 'Statistics',
           headerStyle: {
             backgroundColor: '#8FBC8F',
           },

@@ -22,28 +22,23 @@ const SettingsModal = () => {
           <View style={styles.modalView}>
         
             <View style={styles.central}>
-            <SettingsButton 
-                  option={'Dark Mode'}
-                  isDisabled = {false}
-                  onPress={() => Alert.alert('Hello')}
-                                  />
-            <SettingsButton 
-            option={'Logout'}
-            isDisabled = {false}
-            onPress={() => Alert.alert(hello)}
-            // onPress={() => navigation.navigate('SignUp')}
-            />
-            <SettingsButton 
-            option={'Cancel'}
-            isDisabled = {false}
-            onPress={() => setModalVisible(!modalVisible)}
-            />
+            <Text style={styles.modalText}>Select any of the timestable to begin your journey.</Text>
+            <Text style={styles.modalText}>To get some practice click on the red shuffle button at the bottom before taking any tests</Text>
+            <Text style={styles.modalText}>Compete with friends to gain award by clicking the blue challenge button</Text>
+            <Text style={styles.modalText}>The green bonus button will start a fun addition game to work on your other  skills and become an all-round maths champion!</Text>
+
             </View>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={styles.textStyle}>Close</Text>
+            </Pressable>
           </View>
         </View>
       </Modal>
       <TouchableHighlight onPress={() => setModalVisible(true)}>
-      <Ionicons name="cog" size={40} color="#52575D"></Ionicons>
+      <Ionicons name="help-circle" size={40} color="black"></Ionicons>
       </TouchableHighlight>
     </View>
   );
@@ -64,7 +59,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 40,
-    marginTop: 120,
+    marginTop: 80,
     backgroundColor: "lightgrey",
     borderRadius: 20,
     padding: 80,
@@ -95,8 +90,9 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   modalText: {
-    marginBottom: 10,
-    textAlign: "center"
+    marginBottom: 5,
+    textAlign: "center",
+    fontSize:13
   }
 });
 

@@ -187,7 +187,15 @@ return (
 <PlayStack.Screen name="EndGame" component={TestOverModal} />
     <PlayStack.Screen name="Load" component={Loader} options={{headerShown: false}} />
     <PlayStack.Screen name="Quit" component={Quit} options={{headerShown: false}} />
-    <PlayStack.Screen name="Challenge" component={Challenger} />
+    <PlayStack.Screen name="Challenge" component={Challenger} options={() => ({
+          title: 'Challenge',
+        headerStyle: {
+          backgroundColor: 'violet',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },})}/>
 
     <PlayStack.Screen name="Game" component={MultiChoiceGame}  options={({navigation}) => ({
       title: 'Shuffle Mode',

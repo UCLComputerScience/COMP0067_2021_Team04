@@ -5,22 +5,15 @@ import FormButton from '../components/FormButton';
 import SocialButton from '../components/SocialButton';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import PropTypes from 'prop-types';
 
 
-
-
-const LoginScreen = ({navigation, userData}) => {
-    
-//    propTypes = {
-//     userSettings: PropTypes.object.isrequired,
-// };
+const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [loginFailed, attemptUpdate] = useState(false);
   const _storeData = async (userStr) => {
     try {
-      console.log(userStr)
+      
       await AsyncStorage.setItem(
         'user',
         userStr
@@ -30,9 +23,6 @@ const LoginScreen = ({navigation, userData}) => {
       
     }
   };
-
-  const userPass = useState('student')
-
   const userLogin = async(userName, pword) => {
     
     console.log('login function runs')
@@ -41,24 +31,18 @@ const LoginScreen = ({navigation, userData}) => {
       "PK": userName,
       "password": pword
   })
-  
-  consol.log('postaxios')
-
-
-
-    // propTypes.userSettings = user.role
+    
     if(user.PK != undefined){
-      // userData(user.role)
     const userString = JSON.stringify(user)
     _storeData(userString)
     
-    if(user.role === 'student'){
+    if(global.userType === 'student'){
     navigation.navigate('numberFit');
     }
-    if(user.role === 'parent'){
+    if(global.userType === 'parent'){
       navigation.navigate('numberFitParent');
       }
-    if(user.role === 'teacher'){
+    if(global.userType === 'teacher'){
       navigation.navigate('numberFitTeacher');
       }
     }else{
@@ -73,7 +57,6 @@ const LoginScreen = ({navigation, userData}) => {
   }
     
   }
-  
     return (
         <View style={styles.container}>
             <Image 

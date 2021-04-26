@@ -115,7 +115,7 @@ router.post(`/register/student`, [ ...validators.postStudentValidators], async (
                         hashPassword: bcrypt.hashSync(req.body.data.password, 10),
                         role: "student",
                         secret: "studentSecret",
-                        avatar: "bug pic",
+                        avatar: 0,
                         pendingAssignments: 0,
                         experience: 0,
                         streak: 0,

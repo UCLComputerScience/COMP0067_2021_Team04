@@ -30,7 +30,7 @@ router.post(`/`, async (req, res) => {
         ExpressionAttributeValues: {
             ':pk': req.body.PK,
             ':sk': `testStatistic_${req.body.SK}`,
-            ':correctQuestions': 24, 
+            ':correctQuestions': 14, 
         }
     };
     const testStats = await documentClient.query
@@ -38,29 +38,43 @@ router.post(`/`, async (req, res) => {
     console.log(testStats)
 
 
-    // check for assignments
-    let diff;
-    if (req.body.SK.slice(-1) == 'B') {
-        diff = 'beginner'
-    } else if (req.body.SK.slice(-1) == 'I') {
-        diff = 'intermediate'
-    } else {
-        diff = 'advanced'
-    }
+    // // check for assignments
+    // let diff;
+    // if (req.body.SK.slice(-1) == 'B') {
+    //     diff = 'beginner'
+    // } else if (req.body.SK.slice(-1) == 'I') {
+    //     diff = 'intermediate'
+    // } else {
+    //     diff = 'advanced'
+    // }
+    // checkAssignmentsParams = {
+    //     TableName: TABLE_NAME,
+    //     KeyConditionExpression: 'PK = :pk AND SK = :sk',
+    //     FilterExpression: `#data.${req.body.timestable}.${diff}.pendingAssignments > :zero`,
+    //     ExpressionAttributeNames: {'#data': 'data'},
+    //     ExpressionAttributeValues: {
+    //         ':pk': req.body.PK,
+    //         ':sk': 'statistics',
+    //         ':zero': 0
+    //     }
+    // }
+
     checkAssignmentsParams = {
         TableName: TABLE_NAME,
-        KeyConditionExpression: 'PK = :pk AND SK = :sk',
-        FilterExpression: `#data.${req.body.timestable}.${diff}.pendingAssignments > :zero`,
+        KeyConditionExpression: 'PK = :pk AND begins_with(SK, :sk)',
+        FilterExpression: '#data.difficulty = :difficulty AND #data.timestable = :timestable',
         ExpressionAttributeNames: {'#data': 'data'},
-        ExpressionAttributeValues: {
-            ':pk': req.body.PK,
-            ':sk': 'statistics',
-            ':zero': 0
-        }
+            ExpressionAttributeValues: {
+                ':pk': req.body.PK,
+                ':sk': 'assignment_',
+                ':difficulty': req.body.difficulty,
+                ':timestable': req.body.timestable
+            }
+        
     }
-    let assignment;
+
     try {
-    assignment = await documentClient.query(checkAssignmentsParams).promise()
+    assignments = await documentClient.query(checkAssignmentsParams).promise()
     } catch (err) {
         console.log(err);
         res.status(400).json({
@@ -68,33 +82,52 @@ router.post(`/`, async (req, res) => {
             success: false
         })
     }
+    console.log(assignments)
 
-    // decrease pending assignments within profile
-    // if (assignment.Items.length !== 0) {
-    //     paramsProfile = {
-    //     TableName: TABLE_NAME,
-    //     Key: {
-    //         PK: req.body.PK, //user_id
-    //         SK: 'profile',
-    //     },
-    //     UpdateExpression: 'ADD #data.pendingAssignments :testsinc',
-    //     ExpressionAttributeNames: {
-    //         '#data': 'data'
-    //     },
-    //     ExpressionAttributeValues: {
-    //         ':testsinc': -1,  
-    //     }
-    //     }
-    //     try {
-    //         await documentClient.update(paramsProfile).promise()
-    //         } catch (err) {
-    //             console.log(err);
-    //             res.status(400).json({
-    //                 "message": "Updating pending assignments in profile failed",
-    //                 success: false
-    //             })
-    //         }
-    // }
+    // delete assignment
+    if (assignments.Items.length !== 0) {
+        const deleteParams = {
+            TableName: TABLE_NAME,
+            Key: {
+                PK: req.body.PK,
+                SK: assignments.Items[0].SK
+            }
+        }
+
+        try {
+            await documentClient.delete(deleteParams).promise()
+            } catch (err) {
+                console.log(err);
+                res.status(400).json({
+                    "message": "Deleting assignment failed",
+                    success: false
+                })
+            }
+
+        const updateProfilePending = {
+        TableName: TABLE_NAME,
+        Key: {
+            PK: req.body.PK, //user_id
+            SK: 'profile',
+        },
+        UpdateExpression: 'ADD #data.pendingAssignments :testsinc',
+        ExpressionAttributeNames: {
+            '#data': 'data'
+        },
+        ExpressionAttributeValues: {
+            ':testsinc': -1,  
+        }
+        }    
+        try {
+            await documentClient.update(updateProfilePending).promise()
+            } catch (err) {
+                console.log(err);
+                res.status(400).json({
+                    "message": "Updating assignment failed",
+                    success: false
+                })
+            }
+    }
     
 
 
@@ -102,7 +135,7 @@ router.post(`/`, async (req, res) => {
     console.log(date.toISOString())
     dateISO = date.toISOString()
     // posting test statistic
-    const experience = parseInt(req.body.data.correctQuestions) * 10 + 0.5 * 240 - parseInt(req.body.data.timeTaken)
+    const experience = parseInt(req.body.data.correctQuestions) * 10 + 0.5 * 140 - parseInt(req.body.data.timeTaken)
     console.log(experience)
     const params = {
         TableName: TABLE_NAME,
@@ -141,7 +174,7 @@ router.post(`/`, async (req, res) => {
             
         }
     }
-    if (req.body.data.correctQuestions == 24 && testStats.Items.length == 0) {
+    if (req.body.data.correctQuestions == 14 && testStats.Items.length == 0) {
         
         params2.UpdateExpression = `ADD overall.testsTaken :testsinc, overall.questions :questionsinc, overall.correctQuestions :correctquestionsinc, overall.timeTaken :timeinc, #data.experience :experienceinc, #data.score :testsinc, ${req.body.timestable} :testsinc`
          
@@ -187,13 +220,13 @@ router.post(`/`, async (req, res) => {
         await documentClient.put(params).promise();   
         await documentClient.update(params2).promise();  
         await documentClient.update(params3).promise();  
-        if (req.body.data.correctQuestions == 24 && testStats.Items.length == 0 && req.body.SK.slice(-1) == 'A') {
+        if (req.body.data.correctQuestions == 14 && testStats.Items.length == 0 && req.body.SK.slice(-1) == 'A') {
             res.status(200).json({
                 message: "Congratulations you have mastered this timestable",
                 success: true
                 });
         }
-        else if (req.body.data.correctQuestions == 24 && testStats.Items.length == 0) {
+        else if (req.body.data.correctQuestions == 14 && testStats.Items.length == 0) {
             res.status(200).json({
                 message: "You have unlocked a new level!",
                 success: true

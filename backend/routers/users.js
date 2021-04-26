@@ -130,91 +130,18 @@ router.post(`/register/student`, [ ...validators.postStudentValidators], async (
                         questions: 0, 
                         correctQuestions: 0
                     },
-                    // {
-                    //     testsTaken: 0,
-                    //     timeTaken: 0,
-                    //     accuracy: 0,
-                    //     state: 0
-                    // },
                     twox: 0,
-                    // {
-                    //     testsTaken: 0,
-                    //     timeTaken: 0,
-                    //     accuracy: 0,
-                    //     state: 0
-                    // },
                     threex: 0,
-                    // {
-                    //     testsTaken: 0,
-                    //     timeTaken: 0,
-                    //     accuracy: 0,
-                    //     state: 0
-                    // },
                     fourx: 0,
-                    // {
-                    //     testsTaken: 0,
-                    //     timeTaken: 0,
-                    //     accuracy: 0,
-                    //     state: 0
-                    // },
                     fivex: 0,
-                    // {
-                    //     testsTaken: 0,
-                    //     timeTaken: 0,
-                    //     accuracy: 0,
-                    //     state: 0
-                    // },
                     sixx: 0,
-                    // {
-                    //     testsTaken: 0,
-                    //     timeTaken: 0,
-                    //     accuracy: 0,
-                    //     state: 0
-                    // },
                     sevenx: 0,
-                    // {
-                    //     testsTaken: 0,
-                    //     timeTaken: 0,
-                    //     accuracy: 0,
-                    //     state: 0
-                    // },
                     eightx: 0,
-                    // {
-                    //     testsTaken: 0,
-                    //     timeTaken: 0,
-                    //     accuracy: 0,
-                    //     state: 0
-                    // },
                     ninex: 0,
-                    // {
-                    //     testsTaken: 0,
-                    //     timeTaken: 0,
-                    //     accuracy: 0,
-                    //     state: 0
-                    // },
                     tenx: 0,
-                    // {
-                    //     testsTaken: 0,
-                    //     timeTaken: 0,
-                    //     accuracy: 0,
-                    //     state: 0
-                    // },
                     elevenx: 0,
-                    // {
-                    //     testsTaken: 0,
-                    //     timeTaken: 0,
-                    //     accuracy: 0,
-                    //     state: 0
-                    // },
                     twelvex: 0
-                    // {
-                    //     testsTaken: 0,
-                    //     timeTaken: 0,
-                    //     accuracy: 0,
-                    //     state: 0
-                    // }
-                    }
-                }
+                }}
     const params2 = {
         TableName: TABLE_NAME,
         Item: {
@@ -224,18 +151,21 @@ router.post(`/register/student`, [ ...validators.postStudentValidators], async (
                     data: {
                     twox: {
                         beginner: {
+                            pendingAssignments: 0,
                             testsTaken: 0,
                             timeTaken: 0,
                             questions: 0,
                             correctQuestions: 0
                         },
                         intermediate: {
+                            pendingAssignments: 0,
                             testsTaken: 0,
                             timeTaken: 0,
                             questions: 0,
                             correctQuestions: 0
                         },
                         advanced: {
+                            pendingAssignments: 0,
                             testsTaken: 0,
                             timeTaken: 0,
                             questions: 0,
@@ -244,18 +174,21 @@ router.post(`/register/student`, [ ...validators.postStudentValidators], async (
                     },
                     threex: {
                         beginner: {
+                            pendingAssignments: 0,
                             testsTaken: 0,
                             timeTaken: 0,
                             questions: 0,
                             correctQuestions: 0
                         },
                         intermediate: {
+                            pendingAssignments: 0,
                             testsTaken: 0,
                             timeTaken: 0,
                             questions: 0,
                             correctQuestions: 0
                         },
                         advanced: {
+                            pendingAssignments: 0,
                             testsTaken: 0,
                             timeTaken: 0,
                             questions: 0,
@@ -264,18 +197,21 @@ router.post(`/register/student`, [ ...validators.postStudentValidators], async (
                     },
                     fourx: {
                         beginner: {
+                            pendingAssignments: 0,
                             testsTaken: 0,
                             timeTaken: 0,
                             questions: 0,
                             correctQuestions: 0
                         },
                         intermediate: {
+                            pendingAssignments: 0,
                             testsTaken: 0,
                             timeTaken: 0,
                             questions: 0,
                             correctQuestions: 0
                         },
-                        advanced: {
+                        advanced: {                            
+                            pendingAssignments: 0,
                             testsTaken: 0,
                             timeTaken: 0,
                             questions: 0,
@@ -284,18 +220,21 @@ router.post(`/register/student`, [ ...validators.postStudentValidators], async (
                     },
                     fivex: {
                         beginner: {
+                            pendingAssignments: 0,
                             testsTaken: 0,
                             timeTaken: 0,
                             questions: 0,
                             correctQuestions: 0
                         },
-                        intermediate: {
+                        intermediate: {                            
+                            pendingAssignments: 0,
                             testsTaken: 0,
                             timeTaken: 0,
                             questions: 0,
                             correctQuestions: 0
                         },
                         advanced: {
+                            pendingAssignments: 0,
                             testsTaken: 0,
                             timeTaken: 0,
                             questions: 0,
@@ -304,18 +243,21 @@ router.post(`/register/student`, [ ...validators.postStudentValidators], async (
                     },
                     sixx: {
                         beginner: {
+                            pendingAssignments: 0,
                             testsTaken: 0,
                             timeTaken: 0,
                             questions: 0,
                             correctQuestions: 0
                         },
                         intermediate: {
+                            pendingAssignments: 0,
                             testsTaken: 0,
                             timeTaken: 0,
                             questions: 0,
                             correctQuestions: 0
                         },
                         advanced: {
+                            pendingAssignments: 0,
                             testsTaken: 0,
                             timeTaken: 0,
                             questions: 0,
@@ -324,18 +266,21 @@ router.post(`/register/student`, [ ...validators.postStudentValidators], async (
                     },
                     sevenx: {
                         beginner: {
+                            pendingAssignments: 0,
                             testsTaken: 0,
                             timeTaken: 0,
                             questions: 0,
                             correctQuestions: 0
                         },
                         intermediate: {
+                            pendingAssignments: 0,
                             testsTaken: 0,
                             timeTaken: 0,
                             questions: 0,
                             correctQuestions: 0
                         },
                         advanced: {
+                            pendingAssignments: 0,
                             testsTaken: 0,
                             timeTaken: 0,
                             questions: 0,
@@ -344,18 +289,21 @@ router.post(`/register/student`, [ ...validators.postStudentValidators], async (
                     },
                     eightx: {
                         beginner: {
+                            pendingAssignments: 0,
                             testsTaken: 0,
                             timeTaken: 0,
                             questions: 0,
                             correctQuestions: 0
                         },
                         intermediate: {
+                            pendingAssignments: 0,
                             testsTaken: 0,
                             timeTaken: 0,
                             questions: 0,
                             correctQuestions: 0
                         },
                         advanced: {
+                            pendingAssignments: 0,
                             testsTaken: 0,
                             timeTaken: 0,
                             questions: 0,
@@ -364,18 +312,21 @@ router.post(`/register/student`, [ ...validators.postStudentValidators], async (
                     },
                     ninex: {
                         beginner: {
+                            pendingAssignments: 0,
                             testsTaken: 0,
                             timeTaken: 0,
                             questions: 0,
                             correctQuestions: 0
                         },
                         intermediate: {
+                            pendingAssignments: 0,
                             testsTaken: 0,
                             timeTaken: 0,
                             questions: 0,
                             correctQuestions: 0
                         },
                         advanced: {
+                            pendingAssignments: 0,
                             testsTaken: 0,
                             timeTaken: 0,
                             questions: 0,
@@ -384,18 +335,21 @@ router.post(`/register/student`, [ ...validators.postStudentValidators], async (
                     },
                     tenx: {
                         beginner: {
+                            pendingAssignments: 0,
                             testsTaken: 0,
                             timeTaken: 0,
                             questions: 0,
                             correctQuestions: 0
                         },
                         intermediate: {
+                            pendingAssignments: 0,
                             testsTaken: 0,
                             timeTaken: 0,
                             questions: 0,
                             correctQuestions: 0
                         },
                         advanced: {
+                            pendingAssignments: 0,
                             testsTaken: 0,
                             timeTaken: 0,
                             questions: 0,
@@ -404,18 +358,21 @@ router.post(`/register/student`, [ ...validators.postStudentValidators], async (
                     },
                     elevenx: {
                         beginner: {
+                            pendingAssignments: 0,
                             testsTaken: 0,
                             timeTaken: 0,
                             questions: 0,
                             correctQuestions: 0
                         },
                         intermediate: {
+                            pendingAssignments: 0,
                             testsTaken: 0,
                             timeTaken: 0,
                             questions: 0,
                             correctQuestions: 0
                         },
                         advanced: {
+                            pendingAssignments: 0,
                             testsTaken: 0,
                             timeTaken: 0,
                             questions: 0,
@@ -424,18 +381,21 @@ router.post(`/register/student`, [ ...validators.postStudentValidators], async (
                     },
                     twelvex: {
                         beginner: {
+                            pendingAssignments: 0,
                             testsTaken: 0,
                             timeTaken: 0,
                             questions: 0,
                             correctQuestions: 0
                         },
                         intermediate: {
+                            pendingAssignments: 0,
                             testsTaken: 0,
                             timeTaken: 0,
                             questions: 0,
                             correctQuestions: 0
                         },
                         advanced: {
+                            pendingAssignments: 0,
                             testsTaken: 0,
                             timeTaken: 0,
                             questions: 0,
@@ -449,6 +409,7 @@ router.post(`/register/student`, [ ...validators.postStudentValidators], async (
       console.log(params)
   try {
     await documentClient.put(params).promise();    
+    await documentClient.put(params2).promise();    
     res.status(201).json({
         message: "You have successfully registered as a student. Please now login.",
         success: true

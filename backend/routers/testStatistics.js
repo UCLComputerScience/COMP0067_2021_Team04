@@ -6,6 +6,7 @@ const { addOrUpdateItem, deleteItem } = require('../dynamoFunctions.js');
 const { validationResult } = require('express-validator');
 const validators = require('./validators/testStatisticsValidators');
 const {validateAuth} = require('../auth');
+const { postAssignmentsValidators } = require('./validators/assignmentsValidators.js');
 
 AWS.config.update({
     region: process.env.AWS_DEFAULT_REGION,
@@ -35,6 +36,67 @@ router.post(`/`, async (req, res) => {
     const testStats = await documentClient.query
     (paramsTestStats).promise()
     console.log(testStats)
+
+
+    // check for assignments
+    let diff;
+    if (req.body.SK.slice(-1) == 'B') {
+        diff = 'beginner'
+    } else if (req.body.SK.slice(-1) == 'I') {
+        diff = 'intermediate'
+    } else {
+        diff = 'advanced'
+    }
+    checkAssignmentsParams = {
+        TableName: TABLE_NAME,
+        KeyConditionExpression: 'PK = :pk AND SK = :sk',
+        FilterExpression: `#data.${req.body.timestable}.${diff}.pendingAssignments > :zero`,
+        ExpressionAttributeNames: {'#data': 'data'},
+        ExpressionAttributeValues: {
+            ':pk': req.body.PK,
+            ':sk': 'statistics',
+            ':zero': 0
+        }
+    }
+    let assignment;
+    try {
+    assignment = await documentClient.query(checkAssignmentsParams).promise()
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            "message": "Querying assignments failed",
+            success: false
+        })
+    }
+
+    // decrease pending assignments within profile
+    // if (assignment.Items.length !== 0) {
+    //     paramsProfile = {
+    //     TableName: TABLE_NAME,
+    //     Key: {
+    //         PK: req.body.PK, //user_id
+    //         SK: 'profile',
+    //     },
+    //     UpdateExpression: 'ADD #data.pendingAssignments :testsinc',
+    //     ExpressionAttributeNames: {
+    //         '#data': 'data'
+    //     },
+    //     ExpressionAttributeValues: {
+    //         ':testsinc': -1,  
+    //     }
+    //     }
+    //     try {
+    //         await documentClient.update(paramsProfile).promise()
+    //         } catch (err) {
+    //             console.log(err);
+    //             res.status(400).json({
+    //                 "message": "Updating pending assignments in profile failed",
+    //                 success: false
+    //             })
+    //         }
+    // }
+    
+
 
     const date = new Date();
     console.log(date.toISOString())
@@ -81,14 +143,14 @@ router.post(`/`, async (req, res) => {
     }
     if (req.body.data.correctQuestions == 24 && testStats.Items.length == 0) {
         
-        params2.UpdateExpression.concat(`ADD overall.testsTaken :testsinc, overall.questions :questionsinc, overall.correctQuestions :correctquestionsinc, overall.timeTaken :timeinc, #data.experience :experienceinc, #data.score :testsinc, ${req.body.timestable} :testsinc`)
+        params2.UpdateExpression = `ADD overall.testsTaken :testsinc, overall.questions :questionsinc, overall.correctQuestions :correctquestionsinc, overall.timeTaken :timeinc, #data.experience :experienceinc, #data.score :testsinc, ${req.body.timestable} :testsinc`
          
         if (req.body.SK.slice(-1) == 'A') {
             params2.UpdateExpression = `ADD overall.testsTaken :testsinc, overall.questions :questionsinc, overall.correctQuestions :correctquestionsinc, overall.timeTaken :timeinc, #data.experience :experienceinc, #data.score :testsinc, ${req.body.timestable} :testsinc, overall.timestableMastered :testsinc`
         } 
 
     }
-    // console.log(params2);
+
 
     // Updating user indepth stats
     let difficulty;
@@ -148,44 +210,6 @@ router.post(`/`, async (req, res) => {
 }
 )
 
-// Update user's profile stats
-// router.put(`/profile/`, async (req, res) => {
-
-//     timestable = req.body.timestable
-//     const params = {
-//         TableName: TABLE_NAME,
-//         Key: {
-//             PK: req.body.PK, //user_id
-//             SK: 'profile', // teststatistic_timestable_randomid
-//         },
-//         UpdateExpression: `SET ${req.body.timestable.testsTaken} + :qinc, SET `,
-//         ExpressionAttributeValues: {
-//             'qinc': 1,
-            
-//         }
-//         data: {
-//             date: `${dateISO}`,
-//             timeTaken: req.body.data.timeTaken,
-//             accuracy: req.body.data.accuracy,
-//             experience: req.body.data.experience,
-//         }
-//     }
-//     }
-
-
-//     try {
-//         const testStat = await documentClient.update(params).promise();   
-//         console.log(testStat) 
-//         res.status(200).json({
-//             message: "You have successfully inserted a test stat.",
-//             success: true
-//             });
-//         } catch (err) {
-//             console.error(err);
-//             res.status(400).send('Test stat could not be inserted');
-//         }
-// }
-// )
 
 // get user's test statistics for a specific timestable and difficulty (and within the last week)
 // userStatistics/user_mathsqueen/2B?starttime=2021-04-22T00:40:57.817Z&endtime=2021-04-22T03:00:57.817Z

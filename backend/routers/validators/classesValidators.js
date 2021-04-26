@@ -10,7 +10,30 @@ const TABLE_NAME = 'UCL-TT-USERS-V2';
 
 exports.postClassesValidators = [
     check('data').exists(),
-    check('GSI1').exists()
+    check('GSI1').exists(),
+    check('SK2','data.name').custom(async (value, {req, loc, path}) => {
+        console.log(value)
+        console.log(req)
+        const params = {
+            TableName: TABLE_NAME,
+            IndexName:'GSI1-SK-index',
+            KeyConditionExpression: 'GSI1 = :gsi1 and begins_with(SK, :sk)',
+            FilterExpression: '#data.#name = :name',
+            ExpressionAttributeNames: {
+            '#data': 'data',
+            '#name': 'name'
+            },
+            ExpressionAttributeValues: {
+            ':gsi1': req.body.SK2, // user_id
+            ':sk': 'teacher_',
+            ':name': req.body.data.name //class name
+        } 
+        };   
+        let classes = await documentClient.query(params).promise()
+        console.log(classes)
+        if(classes.Items.length != 0) {
+            return Promise.reject("That name for one of your classes already exists");
+    }})
     
 ]
 exports.postMembersValidators = [

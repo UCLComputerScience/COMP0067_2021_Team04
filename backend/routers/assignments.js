@@ -128,99 +128,6 @@ async (req, res) => {
 })
 
 
-router.post(`/postsClass/`, 
-// [ ...validators.postAssignmentsValidators], 
-async (req, res) => {
-    const assignmentID = uuid.v4()
-    // Get all profiles within a certain class
-    const params = {
-        TableName: TABLE_NAME,
-        IndexName:'GSI1-SK-index',
-        KeyConditionExpression: 'GSI1 = :gsi1 and SK =:sk',
-        ExpressionAttributeValues: {
-            ':gsi1': req.body.GSI1, // potentially change class_id => school_id_class_id
-            ':sk': "profile"
-        } 
-  
-    }
-    try {
-        classProfiles = await documentClient.query(params).promise()
-        
-    } catch (error) {
-        res.status(500).send("Unable to collect class profiles: " + error)
-    } 
-    
-    console.log(classProfiles);
-    const batchWriteParams = {
-        RequestItems: {
-          [TABLE_NAME]: [{
-            PutRequest: {
-              Item: {
-                  PK: 'test', //class_id
-                  SK: 'meta', 
-                  GSI1: "Lol", //school_id?
-                  data: {
-                      name: "test",
-                      year: "lol",
-                      secret: "classkey"  // class name, year group, secret
-                  }
-              }
-          },
-      }, {
-              PutRequest: {
-                  Item: {
-                      PK: `lol`, //class_id
-                      SK: `sk`, //teacher_id
-                      GSI1: `hhhh`, //user_id 
-                      data: {
-                          name: "lol",
-                          year: "lol",
-                          secret: "classkey"  // class name, year group, secret
-                      }  // class name, year group
-                  }
-              }
-            }
-]
-        }
-      };
-
-      console.log(batchWriteParams.RequestItems.TABLE_NAME)
-
-    for (i = 0; i < classProfiles.Items.length; i++) {
-        batchWriteParams.RequestItems.push( {
-            PutRequest: {
-              Item: {
-                  "PK": classProfiles.Items[i].PK,
-                  "SK": `assignment_${assignmentID}`,
-                  "GSI1": req.body.GSI1,
-                  "data": {
-                    "timestable": req.body.data.timestable, 
-                    "difficulty": req.body.data.difficulty, 
-                    "due": req.body.data.due,  //iso string
-                    "status": "uncompleted", 
-                    "repetitions": req.body.data.repetitions
-                  }
-              }
-          }
-      });
-
-      try {
-        await documentClient.batchWrite(batchWriteParams).promise()
-        res.status(200).json({
-            message: "Successful assignment upload",
-            success: true
-            });
-    } catch (err) {
-        console.log(err);
-        res.status(400).json({
-            message: "Assignment upload failed",
-            success: false
-        })
-    };
-    
-    }});
-
-
 router.post(`/postClass/`, 
 // [ ...validators.postAssignmentsValidators], 
 async (req, res) => {
@@ -231,7 +138,7 @@ async (req, res) => {
         IndexName:'GSI1-SK-index',
         KeyConditionExpression: 'GSI1 = :gsi1 and SK =:sk',
         ExpressionAttributeValues: {
-            ':gsi1': req.body.GSI1, // potentially change class_id => school_id_class_id
+            ':gsi1': req.body.GSI1, // class_id
             ':sk': "profile"
         } 
     
@@ -264,6 +171,7 @@ async (req, res) => {
             }
         }
         await documentClient.put(putParams).promise()
+        
     } catch (err) {
         console.log(err);
         res.status(400).json({
@@ -271,9 +179,52 @@ async (req, res) => {
             success: false
         })
     };
+        try {
+        const updateParams = {
+            TableName: TABLE_NAME,
+            Key: {
+                'PK': classProfiles.Items[i].PK,
+                'SK': 'statistics',
+            },
+            UpdateExpression: `ADD #data.${req.body.data.timestable}.${req.body.data.difficulty}.pendingAssignments :inc`,
+            ExpressionAttributeNames: {'#data': 'data'},
+            ExpressionAttributeValues: {
+                ':inc': 1
+            }
+        }
+        console.log(updateParams)
+        await documentClient.update(updateParams).promise()
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            message: "Pending assignments update failed",
+            success: false
+        })
 
+    try {
+        const updateProfileParams = {
+            TableName: TABLE_NAME,
+            Key: {
+                'PK': classProfiles.Items[i].PK,
+                'SK': 'profile',
+            },
+            UpdateExpression: `ADD #data.pendingAssignments :inc`,
+            ExpressionAttributeNames: {'#data': 'data'},
+            ExpressionAttributeValues: {
+                ':inc': 1
+            }
+        }
+        console.log(updateProfileParams)
+        await documentClient.update(updateProfileParams).promise()
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            message: "Profile update failed",
+            success: false
+        })
+    }
     
-}
+}}
 res.status(200).json({
     message: "Successful assignment upload",
     success: true

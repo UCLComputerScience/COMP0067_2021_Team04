@@ -84,7 +84,7 @@ const DifficultyPage = ({route,navigation})=>{
             <DifficultyButton
                 level = 'Intermediate'
                 colour = '#c0c0c0'
-                isDisabled = {difficulty =="beginner" ? true : false }
+                isDisabled = {difficulty =="beg" ? true : false }
                 onPress={() => {
                     Alert.alert(
                     "Please select an option: ",
@@ -107,7 +107,7 @@ const DifficultyPage = ({route,navigation})=>{
             <DifficultyButton
                 level = 'Advanced'
                 colour = '#ffd700'
-                isDisabled = {difficulty ==="advanced" ? false : true }
+                isDisabled = {difficulty ==="adv" ? false : true }
                 onPress={() => {
                     Alert.alert(
                     "Please select an option: ",

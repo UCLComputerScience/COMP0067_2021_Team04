@@ -661,6 +661,58 @@ router.put('/streak', async (req, res) => {
         }
 })
 
+// get teacher profiles 
+router.get(`/parents/:GSI1`, async (req, res) => {
+    
+    try {
+
+        // get student profile
+        params = {
+            TableName:TABLE_NAME,
+            Key: {
+                PK: req.params.GSI1,
+                SK: 'profile'
+            }
+        }
+        student = await documentClient.get(params).promise();
+        console.log(student)
+        
+        // get class 
+        params2 = {
+            TableName: TABLE_NAME,
+            KeyConditionExpression: 'PK = :pk AND begins_with(SK, :sk)',
+            ExpressionAttributeValues: {
+                ':pk': student.Item.GSI1,
+                ':sk': 'teacher_'
+            }
+        }
+        
+        classProfile = await documentClient.query(params2).promise();
+        console.log(classProfile)
+        
+        // get teacher profiles
+        
+        params3 = {
+            TableName: TABLE_NAME,
+            Key: {
+                PK: classProfile.Items[0].GSI1,
+                SK: 'profile'
+            }
+        }
+        
+        teacherProfile = await documentClient.get(params3).promise();
+        
+        res.status(200).json({
+            message: "You have successfully retrieved teacher profile",
+            success: true,
+            teacherProfile
+            });
+        } catch (err) {
+            console.error(err);
+            res.status(400).send('Error');
+        }
+  })
+
 //export a module
 module.exports=router;
 

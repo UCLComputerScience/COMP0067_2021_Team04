@@ -114,13 +114,11 @@ router.get(`/`, async (req, res) => {
   res.send(classesList);
 })
 
-router.get(`/:classID`, async (req, res) => {
-    const classID = req.params.classID;
-    const documentClient = new AWS.DynamoDB.DocumentClient();
-  
+router.get(`/:PK`, async (req, res) => {  
     const params = {
         Key: {
-            "classID": classID
+            PK: req.params.PK,
+            SK: 'meta'
         },
         TableName: TABLE_NAME
     };

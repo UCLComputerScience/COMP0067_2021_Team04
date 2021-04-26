@@ -21,19 +21,18 @@ const AchievementModal = () => {
 
             <Text style={styles.modalText}>
                 
-            <Ionicons name="medal" size={60} color="gold"></Ionicons>
-            <Ionicons name="trophy" size={60} color="#cd7f32"></Ionicons>
-            <Ionicons name="star" size={60} color="gold"></Ionicons>
-            <Ionicons name="medal" size={60} color="gold"></Ionicons>
-            <Ionicons name="medal" size={60} color="#cd7f32"></Ionicons>
-            <Ionicons name="trophy" size={60} color="#cd7f32"></Ionicons>
-            <Ionicons name="trophy" size={60} color="silver"></Ionicons>
-            <Ionicons name="star" size={60} color="gold"></Ionicons>
-            <Ionicons name="trophy" size={60} color="#cd7f32"></Ionicons>
-<Ionicons name="trophy" size={60} color="gold"></Ionicons>
-<Ionicons name="star" size={60} color="silver"></Ionicons>
-<Ionicons name="star" size={60} color="gold"></Ionicons>
-<Ionicons name="medal" size={60} color="silver"></Ionicons>
+            <Ionicons name="medal" size={70} color="gold"></Ionicons>
+            <Ionicons name="trophy" size={70} color="#cd7f32"></Ionicons>
+            <Ionicons name="star" size={70} color="gold"></Ionicons>
+            <Ionicons name="medal" size={70} color="gold"></Ionicons>
+            <Ionicons name="medal" size={70} color="#cd7f32"></Ionicons>
+            <Ionicons name="trophy" size={70} color="#cd7f32"></Ionicons>
+            <Ionicons name="trophy" size={70} color="silver"></Ionicons>
+            <Ionicons name="star" size={70} color="gold"></Ionicons>
+            <Ionicons name="trophy" size={70} color="#cd7f32"></Ionicons>
+<Ionicons name="trophy" size={70} color="gold"></Ionicons>
+<Ionicons name="star" size={70} color="silver"></Ionicons>
+
 
 </Text>
             <Pressable

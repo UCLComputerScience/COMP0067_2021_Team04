@@ -88,7 +88,6 @@ class TargetSum extends React.Component {
 
     calcGameStatus = (nextState) => {
         console.log('calcGameStatus')
-        console.warn(this.state.score)
         const sumSelected = nextState.selectedIds.reduce((acc, curr) => {
             return acc + this.shuffledRandomNumbers[curr];
         }, 0);
@@ -133,7 +132,7 @@ class TargetSum extends React.Component {
                             <TargetSumTimer isPlaying={this.checkGameOver()}  length={this.state.initialSeconds}/>
 
             {this.gameStatus !== 'PLAYING' && (
-            <Button title="Play Again" onPress={this.props.onPlayAgain} />)}
+            <Button title="Next Question" onPress={this.props.onPlayAgain} />)}
                     </View>
         );
     }

@@ -8,6 +8,7 @@ const TestOverModal = ({score, accuracy, total, onPress, gameEnd, timestable, na
   const [statisticsSent, sendStatistics] = useState(0);
   const [user, userLoad] = useState();
   
+  global.engagement = sendStatistics
 
   useEffect(async()=>{
     if(gameEnd === 'GAME_OVER' && statisticsSent == 0){

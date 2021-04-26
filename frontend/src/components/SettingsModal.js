@@ -24,9 +24,9 @@ const SettingsModal = () => {
           <View style={styles.modalView}>
         
             <View style={styles.central}>
-            <Text style={styles.modalText}>Select any of the timestable to begin your journey.</Text>
-            <Text style={styles.modalText}>To get some practice click on the red shuffle button at the bottom before taking any tests</Text>
-            <Text style={styles.modalText}>Compete with friends to gain award by clicking the blue challenge button</Text>
+            <Text style={styles.modalText}>Select any of the timestables to begin your journey.</Text>
+            <Text style={styles.modalText}>Practice your skills in shuffle mode</Text>
+            <Text style={styles.modalText}>Compete with friends to gain award via the blue challenge button</Text>
             <Text style={styles.modalText}>The green bonus button will start a fun addition game to work on your other  skills and become an all-round maths champion!</Text>
 
             </View>

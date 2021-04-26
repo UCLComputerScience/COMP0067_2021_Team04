@@ -74,6 +74,7 @@ const difficultyDict =
   const [user, userLoad] = useState({
     GSI1: "class_2ec278cf-1a35-4746-911b-1a360c83dbb5",
     PK: "user_mathsqueen",
+    //hardcoded
     data:  {
       "avatar": 7,
       "firstName": "Andrew",

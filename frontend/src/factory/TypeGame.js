@@ -28,6 +28,8 @@ function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
 }
 
+global.activity = 1
+
 class TypeGame extends React.Component {
     
     state = {
@@ -184,9 +186,11 @@ setMultiplier = () => {
         }
     }
 
+
     checkGameOver = () => {
         const totalQuestions = this.state.questionsAnswered
         if (totalQuestions === 10) {
+            global.activity = global.activity + 1
             return 'GAME_OVER';
         }else{
             return 'GAME_IN_PLAY'

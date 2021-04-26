@@ -5,9 +5,16 @@ import FormButton from '../components/FormButton';
 import SocialButton from '../components/SocialButton';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import PropTypes from 'prop-types';
 
 
-const LoginScreen = ({navigation}) => {
+
+
+const LoginScreen = ({navigation, userData}) => {
+    
+//    propTypes = {
+//     userSettings: PropTypes.object.isrequired,
+// };
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [loginFailed, attemptUpdate] = useState(false);
@@ -23,6 +30,9 @@ const LoginScreen = ({navigation}) => {
       
     }
   };
+
+  const userPass = useState('student')
+
   const userLogin = async(userName, pword) => {
     
     console.log('login function runs')
@@ -31,8 +41,14 @@ const LoginScreen = ({navigation}) => {
       "PK": userName,
       "password": pword
   })
-    
+  
+  consol.log('postaxios')
+
+
+
+    // propTypes.userSettings = user.role
     if(user.PK != undefined){
+      // userData(user.role)
     const userString = JSON.stringify(user)
     _storeData(userString)
     
@@ -57,6 +73,7 @@ const LoginScreen = ({navigation}) => {
   }
     
   }
+  
     return (
         <View style={styles.container}>
             <Image 

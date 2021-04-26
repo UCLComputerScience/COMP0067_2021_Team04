@@ -10,8 +10,7 @@ import ProgressRing from '../components/ProgressRing';
 import TaskModal from '../components/TasksModal';
 import PropTypes from 'prop-types';
 import Task from '../components/Task';
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const screenWidth = Dimensions.get("window").width;
 

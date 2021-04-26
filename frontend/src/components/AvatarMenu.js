@@ -67,7 +67,7 @@ console.log(res)
   }
   const renderAvatar = (cost, avatar) =>{
     
-    if(user.overall.score >= cost){
+    if(user.data.score >= cost){
       return ( <TouchableOpacity style={styles.profileImage} onPress={()=>{setAvatar(avatar)}}>
       {/* <Image source={require("../imgs/bee.jpeg")} style={styles.image} resizeMode="center"></Image> */}
                 <Image source={avatarDict[avatar]} style={styles.image} resizeMode="center"></Image>

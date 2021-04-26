@@ -36,13 +36,13 @@ const LoginScreen = ({navigation}) => {
     const userString = JSON.stringify(user)
     _storeData(userString)
     
-    if(global.userType === 'student'){
+    if(user.role === 'student'){
     navigation.navigate('numberFit');
     }
-    if(global.userType === 'parent'){
+    if(user.role === 'parent'){
       navigation.navigate('numberFitParent');
       }
-    if(global.userType === 'teacher'){
+    if(user.role === 'teacher'){
       navigation.navigate('numberFitTeacher');
       }
     }else{

@@ -65,7 +65,7 @@ const LandingHeader = ({person}) => {
    <View style={{justifyContent: 'space-evenly', flexDirection: 'row'}}>
 
     <Ionicons style={{marginHorizontal: 10}} name="medal" size={50} color="black"></Ionicons>
-        <Text style={styles.text}>LVL {person.overall.score}</Text>
+        <Text style={styles.text}>LVL {person.data.score}</Text>
     <Ionicons name="flame-outline" size={50} color="red"></Ionicons>
     <Text style={styles.text}>STREAK: {streak}</Text>
     </View>

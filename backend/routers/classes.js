@@ -163,8 +163,8 @@ router.post(`/`, [ ...validators.postClassesValidators], async (req, res) => {
                 PutRequest: {
                     Item: {
                         PK: `class_${classID}`, //class_id
-                        SK: `teacher_${req.body.SK2}`, //teacher_id
-                        GSI1: `user_${req.body.SK2}`, //user_id 
+                        SK: `teacher_${req.body.SK2}`, //teacher_user_id
+                        GSI1: `${req.body.SK2}`, //user_id 
                         data: {
                             name: req.body.data.name,
                             year: req.body.data.year,
@@ -179,11 +179,14 @@ router.post(`/`, [ ...validators.postClassesValidators], async (req, res) => {
       };
 
     try {
-    const schoolClass = await documentClient.batchWrite(params).promise();    
-    res.status(201).send(schoolClass);
+    await documentClient.batchWrite(params).promise();  
+    res.status(200).json({
+        message: "Successful class creation",
+        success: true,
+        })
     } catch (err) {
         console.error(err);
-        res.status(400).send('Class could not be created');
+        res.status(400).send('Class could not be created:' + err);
     }}
 
 })

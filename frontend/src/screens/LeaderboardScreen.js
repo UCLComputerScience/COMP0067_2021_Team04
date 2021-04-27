@@ -35,7 +35,7 @@ export default class LeaderBoardScreen extends Component {
 }if(this.state.user){
   let choice = {0:'class/' + this.state.user.GSI1,
                 1:'school/'+ this.state.user.data.school}
-  let address = 'http://localhost:3000/api/v1/leaderboards/' + choice[school];
+  let address = 'http://34.247.47.193/api/v1/leaderboards/' + choice[school];
   let competitors = await axios.get(address);
   let boardData = competitors.data.Items;
   let actualData = [];

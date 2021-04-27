@@ -151,22 +151,25 @@ const MyStudents =({navigation}) => {
     }
     const classButton = (set) => {
         let classID = formIdsbyName[set]
-        return (<TouchableOpacity
+        return (
+            <View style = {styles.classOptionsContainer}>
+                <TouchableOpacity
                     style={styles.classOptionButton}
                     onPress={() => changeClass(classID)}
                     >
                         <Text style = {styles.buttonText}>{set}</Text>
 
                     </TouchableOpacity>
+                    </View>
         )}
 
     
     
         return(
             <View style = {styles.container}>
-                <View style = {styles.classOptionsContainer}>
+                
                     {forms.map(classButton)}
-                </View>
+                
                 <View style = {styles.stats}>
                     <Text style={styles.statsText}>Class Stats</Text>
                     <View style = {{bottom:  60, left: 20}}>
@@ -243,6 +246,7 @@ const styles = StyleSheet.create({
         flex: 1
         
     },
+
     buttonText: {
         textAlign: 'center',
         fontSize: 20

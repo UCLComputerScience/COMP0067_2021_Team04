@@ -9,6 +9,7 @@ import LandingHeader from '../components/LandingHeader';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 
+
 class UserSelectIcon extends Component{
     
     render(){
@@ -27,10 +28,12 @@ class UserSelectIcon extends Component{
                 )}else{
                 return(<TouchableOpacity
                     activeOpacity= {.7}
-                    style= {buttonStyle.button}
+                    // style= {buttonStyle.button}
                     onPress= {this.props.onPress}
                     disabled= {this.props.isDisabled}
                     >
+                        <Image style={buttonStyle.tinyLogo}
+                               source={this.props.pic}></Image>
                 </TouchableOpacity>)
             }}.bind(this)()}
         </View>
@@ -44,22 +47,33 @@ const styles = (props) => StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-evenly',
         flexDirection: 'column',
+        marginTop: 120
     },
+    tinyLogo: {
+        borderWidth: 3,
+        borderRadius: (50),
+        width: 100,
+        height: 100,
+        marginHorizontal: 10,
+        borderColor: 'black'
+      },
     text: {
-        fontSize: 25,
+        fontSize: 18,
         fontFamily: "HelveticaNeue",
         color: "#52575D",
+        textAlign: 'center'
         // fontFamily: "Cochin"
     },
 
     button: {
-        backgroundColor: 'orange',
+        backgroundColor: props.colour,
         justifyContent: 'center',
         alignContent: 'center',
         borderWidth: 3,
         borderRadius: (50),
         width: 100,
         height: 100,
+        marginHorizontal: 10
       },})
 
 

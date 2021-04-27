@@ -86,7 +86,7 @@ const StatsScreen = ({navigation, route, child}) => {
       <View style={styles.container}>
       <ScrollView>
       {/* <Rocket /> */}
-      <Text style={styles.statisticTitle}>{user.data.firstName + ' '+user.data.lastName}</Text>
+      <Text style={styles.titularText}>{user.data.firstName + ' '+user.data.lastName}</Text>
     <Text style={styles.statisticTitle}>2x timestable</Text>
     <Progress completion={progressionFraction(user['twox'])}/>
     {/* <LineGraph /> */}
@@ -185,6 +185,15 @@ const styles = StyleSheet.create ({
         marginHorizontal: 15,
         fontFamily: "HelveticaNeue",
         color: "#52575D",
+    },
+    titularText: {
+        fontSize: 40,
+        fontWeight: 'bold',
+        marginVertical: 5,
+        marginHorizontal: 15,
+        fontFamily: "HelveticaNeue",
+        color: "navy",
+        textAlign: 'center'
     },
     title: {
         fontSize: 34,

@@ -16,27 +16,38 @@ const UserSelectLogin = ({route,navigation})=>{
     const [modalVisible, setModalVisible] = useState(false);
     const [testing, setTesting] = useState();
     global.userType = testing;
-    console.warn(global.userType)
     return(
         <View style = {styles.container}>
+            <View style={styles.randomContainer}>
             <ChooseUser
                 level = 'Student'
                 colour = 'lightblue'
                 isDisabled = {false}
+                pic = {require('../imgs/gender.png')}
                 onPress={() => {setTesting('student')
                                 navigation.navigate('Login')}} />
             <ChooseUser
                 level = 'Teacher'
                 colour = 'red'
                 isDisabled = {false}
+                pic = {require('../imgs/gender.png')}
                 onPress={() => {setTesting('teacher')
                                 navigation.navigate('Login')}} />
             <ChooseUser
                 level = 'Parent'
                 colour = 'green'
                 isDisabled = {false}
+                pic = {require('../imgs/gender.png')}
                 onPress={() => {setTesting('parent')
                                 navigation.navigate('Login')}} />
+                                  <ChooseUser
+                level = 'Newbie? Click register on the next page'
+                colour = 'teal'
+                isDisabled = {false}
+                pic = {require('../imgs/gender.png')}
+                onPress={() => {setTesting('parent')
+                                navigation.navigate('Login')}} />
+                                </View>
         </View>
     )}
 
@@ -50,9 +61,16 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: 'white'
     },
+    randomContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+    },
     title: {
         fontSize: 30,
-        fontWeight: "bold"
+        fontWeight: "bold",
+        textAlign: 'center'
     },
 })
 

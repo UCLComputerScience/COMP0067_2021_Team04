@@ -48,7 +48,6 @@ import MyAdultProfile from './src/screens/MyAdultProfile';
 
 const LoginStack = createStackNavigator();
 
-global.userType = 'student';
 
 function LoginStackScreen() {
 return (

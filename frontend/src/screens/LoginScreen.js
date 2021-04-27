@@ -66,7 +66,7 @@ const LoginScreen = ({navigation}) => {
             <FormInput
               labelValue={email}
               onChangeText={(userEmail) => setEmail(userEmail)}
-              placeholderText="Email"
+              placeholderText="username"
               iconType="user"
               keyboardType="email-address"
               autoCapitalize="none"
@@ -87,7 +87,7 @@ const LoginScreen = ({navigation}) => {
             />
 
             <TouchableOpacity style={styles.forgotButton} onPress={() => {}}>
-              <Text style={styles.navButtonText}>FORGOT YOUR PASSWORD?</Text>
+              <Text style={styles.navButtonText}>FORGOT YOURPASSWORD?</Text>
               <Text style={styles.navButtonText}>CLICK HERE TO RESET</Text>
             </TouchableOpacity>
 

@@ -115,7 +115,7 @@ router.post(`/register/student`, [ ...validators.postStudentValidators], async (
                         hashPassword: bcrypt.hashSync(req.body.data.password, 10),
                         role: "student",
                         secret: "studentSecret",
-                        avatar: 0,
+                        avatar: 1,
                         pendingAssignments: 0,
                         experience: 0,
                         streak: 0,
@@ -442,7 +442,7 @@ router.post(`/register/teacher`, [ ...validators.postTeacherValidators], async (
             "email": req.body.data.email,
             // hashing user password
             hashPassword: bcrypt.hashSync(req.body.data.password, 10),
-            role: req.body.data.role,
+            role: "teacher"
         }
     }
     }

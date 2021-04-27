@@ -205,8 +205,8 @@ const PlayStack = createStackNavigator();
 function PlayStackScreen() {
 return (
   <PlayStack.Navigator>
-        <PlayStack.Screen name="Sign in" component={LoginLoader}   options={{headerShown: false }}
-    />
+        {/* <PlayStack.Screen name="Sign in" component={LoginLoader}   options={{headerShown: false }}
+    /> */}
     <PlayStack.Screen name="Landing" component={IconNav}   options={{headerShown: false }}
     />
     <PlayStack.Screen name="SignUp" component={SignUp} options={{headerShown: false}}/>
@@ -432,7 +432,7 @@ function SetAssignmentStackScreen() {
 function MyStudentsStackScreen() {
   return (
     <MyStudentsStack.Navigator>
-       <MyStudentsStack.Screen name="TeacherLoad" component={LoginLoaderTeacher} options={{headerShown: false}} />
+       {/* <MyStudentsStack.Screen name="TeacherLoad" component={LoginLoaderTeacher} options={{headerShown: false}} /> */}
       <MyStudentsStack.Screen name="My Students" component={MyStudents} options={() => ({
             headerLeft: () => {
       return null}, title: 'MyStudents',
@@ -481,7 +481,7 @@ function MyStudentsStackScreen() {
     function MyKidsStackScreen() {
       return (
         <MyKidsStack.Navigator>
-              <MyKidsStack.Screen name="ParentLoad" component={LoginLoaderParent} options={{headerShown: false}} />
+              {/* <MyKidsStack.Screen name="ParentLoad" component={LoginLoaderParent} options={{headerShown: false}} /> */}
           <MyKidsStack.Screen name="My Kids" component={MyKids} options={() => ({
                 headerLeft: () => {
           return null}, title: 'My Kids',

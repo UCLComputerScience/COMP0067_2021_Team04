@@ -17,10 +17,6 @@ export default class Contacting extends Component {
     this.state = {
       calls: [
         {id:1,  name: "Mr. Beale",   image:"https://bootdey.com/img/Content/avatar/avatar7.png"},
-        {id:2,  name: "Mrs. James",   image:"https://bootdey.com/img/Content/avatar/avatar6.png"} ,
-        {id:3,  name: "Mr. Michales",   image:"https://bootdey.com/img/Content/avatar/avatar5.png"} ,
-        {id:4,  name: "Mr. Cook",  image:"https://bootdey.com/img/Content/avatar/avatar4.png"} ,
-        {id:5,  name: "Ms. Cooper",    image:"https://bootdey.com/img/Content/avatar/avatar3.png"} ,
       ]
     };
   }
@@ -33,7 +29,7 @@ export default class Contacting extends Component {
           <View>
             <View style={styles.nameContainer}>
               <Text style={styles.nameTxt} numberOfLines={1} ellipsizeMode="tail">{item.name}</Text>
-              <Text style={styles.mblTxt}>EmailL
+              <Text style={styles.mblTxt}>Email
               </Text>
               <Text style={{marginTop:15, marginHorizontal: -90, flex: 1, flexDirection: 'row', flexWrap: 'wrap'}}>testteacher@gmail.com</Text>
             </View>

@@ -44,6 +44,10 @@ import TargetSumLoader from './src/screens/TargetSumLoading';
 import UserSelectLogin from './src/screens/UserSelectLogin';
 import RegSelectLogin from './src/screens/UserRegSelect';
 import MyAdultProfile from './src/screens/MyAdultProfile';
+import LoginLoader from './src/screens/LoginLoader';
+import LoginLoaderParent from './src/screens/LoginLoaderParent';
+import LoginLoaderTeacher from './src/screens/LoginLoaderTeacher';
+
 
 
 const LoginStack = createStackNavigator();
@@ -201,6 +205,8 @@ const PlayStack = createStackNavigator();
 function PlayStackScreen() {
 return (
   <PlayStack.Navigator>
+        {/* <PlayStack.Screen name="Sign in" component={LoginLoader}   options={{headerShown: false }}
+    /> */}
     <PlayStack.Screen name="Landing" component={IconNav}   options={{headerShown: false }}
     />
     <PlayStack.Screen name="SignUp" component={SignUp} options={{headerShown: false}}/>
@@ -426,6 +432,7 @@ function SetAssignmentStackScreen() {
 function MyStudentsStackScreen() {
   return (
     <MyStudentsStack.Navigator>
+       {/* <MyStudentsStack.Screen name="TeacherLoad" component={LoginLoaderTeacher} options={{headerShown: false}} /> */}
       <MyStudentsStack.Screen name="My Students" component={MyStudents} options={() => ({
             headerLeft: () => {
       return null}, title: 'MyStudents',
@@ -474,6 +481,7 @@ function MyStudentsStackScreen() {
     function MyKidsStackScreen() {
       return (
         <MyKidsStack.Navigator>
+              {/* <MyKidsStack.Screen name="ParentLoad" component={LoginLoaderParent} options={{headerShown: false}} /> */}
           <MyKidsStack.Screen name="My Kids" component={MyKids} options={() => ({
                 headerLeft: () => {
           return null}, title: 'My Kids',
@@ -556,7 +564,7 @@ function StackNaviParent() {
           ),
         }}
           />
-                  <TabParent.Screen name="Profile" component={MyAdultProfileStackScreen} 
+                            <TabParent.Screen name="Profile" component={MyAdultProfileStackScreen} 
           options={{
           tabBarLabel: 'Profile',
           tabBarIcon: ({ color, size }) => (

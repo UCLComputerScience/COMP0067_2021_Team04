@@ -2,6 +2,21 @@ import React, { useState } from "react";
 import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
+const difficultyColours = 
+{
+  0:"#cd7f32",
+  1:"#c0c0c0",
+  2:"#ffd700",
+  3:"#00FF00"
+}
+const difficultyDict = 
+{
+  0:"beg",
+  1:"int",
+  2:"adv",
+  3:"adv"
+}
+
 const AchievementModal = () => {
   const [modalVisible, setModalVisible] = useState(false);
   return (

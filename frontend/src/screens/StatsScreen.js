@@ -94,6 +94,7 @@ const StatsScreen = ({navigation, route, child}) => {
     <Text style={styles.statisticTitle}>2x timestable</Text>
     <Progress completion={progressionFraction(user['twox'])}/>
     {/* <LineGraph /> */}
+    {/* <ProgressRing begMastery={0.2} intMastery={0.2} advMastery={0.8}/> */}
     <Table userDetails = {studentsData.twox} level = {user['twox']}/>
     <Text style={styles.statisticTitle}>3x timestable</Text>
     <Progress completion={progressionFraction(user['threex'])}/>

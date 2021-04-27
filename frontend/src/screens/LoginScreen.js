@@ -36,13 +36,13 @@ const LoginScreen = ({navigation}) => {
     const userString = JSON.stringify(user)
     _storeData(userString)
     
-    if(user.role === 'student'){
+    if(global.userType === 'student'){
     navigation.navigate('numberFit');
     }
-    if(user.role === 'parent'){
+    if(global.userType === 'parent'){
       navigation.navigate('numberFitParent');
       }
-    if(user.role === 'teacher'){
+    if(global.userType === 'teacher'){
       navigation.navigate('numberFitTeacher');
       }
     }else{
@@ -87,21 +87,22 @@ const LoginScreen = ({navigation}) => {
             />
 
             <TouchableOpacity style={styles.forgotButton} onPress={() => {}}>
-              <Text style={styles.navButtonText}>FORGOT PASSWORD?</Text>
+              <Text style={styles.navButtonText}>FORGOT YOUR PASSWORD?</Text>
+              <Text style={styles.navButtonText}>CLICK HERE TO RESET</Text>
             </TouchableOpacity>
 
-            <Text style={styles.textRegister}> ────── OR  ──────</Text>
+            {/* <Text style={styles.textRegister}> ────── OR  ──────</Text> */}
 
-            <SocialButton 
+            {/* <SocialButton 
               buttonTitle="SIGN IN USING GOOGLE"
               btnType="google"
               color="#de4d41"
               backgroundColor="#f5e7ea"
               onPress={() => {}}
-            />
-            <TouchableOpacity style={styles.forgotButton} onPress={() => navigation.navigate('UserSelect')}>
+            /> */}
+            {/* <TouchableOpacity style={styles.forgotButton} onPress={() => navigation.navigate('UserSelect')}>
                 <Text style={styles.navButtonText}>NEW TO NUMBERFIT? JOIN HERE.</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
         </View>
       );
 };
@@ -138,14 +139,15 @@ const styles = StyleSheet.create({
       marginTop: 15,
     },
     forgotButton: {
-      marginVertical: 15,
+      marginVertical: 50,
     },
     newAccountButton: {
       marginBottom: 36,
     },
     navButtonText: {
-      fontSize: 18,
+      fontSize: 17,
       fontWeight: '500',
       color: '#2e64e5',
+      textAlign: 'center'
     },
 });

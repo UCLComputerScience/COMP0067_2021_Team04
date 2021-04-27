@@ -41,6 +41,7 @@ import TeacherSignUp from './src/screens/RegPageTeacher';
 import TestOverModal from './src/components/TestOverModal';
 import TargetSumSettings from './src/factory/TargetSumSettings';
 import TargetSumLoader from './src/screens/TargetSumLoading'; 
+import UserSelectLogin from './src/screens/UserSelectLogin';
 
 
 
@@ -48,16 +49,72 @@ const LoginStack = createStackNavigator();
 
 global.userType = 'student';
 
-
 function LoginStackScreen() {
 return (
-  <LoginStack.Navigator headerMode={false}>
+  <LoginStack.Navigator >
     <LoginStack.Screen name="Loading" 
-    component={Loading}
+    component={Loading} options={{headerShown: false}}
     />
+      <LoginStack.Screen name="UserSelectLogin" 
+    component={UserSelectLogin}  options={() => ({
+          headerLeft: () => {
+    return null}, title: 'Select a user type',
+        headerStyle: {
+          backgroundColor: '#8FBC8F',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },})}/>
     <LoginStack.Screen name="Login" 
-    component={LoginScreen}
-     />
+    component={LoginScreen} options={({navigation}) => ({
+        headerLeft: (props) => (
+          <HeaderBackButton
+            {...props}
+            label='Go Back'
+            onPress={() => navigation.navigate('UserSelectLogin')}
+          />
+        ),
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+          
+        },
+        headerStyle: {
+          backgroundColor: 'gray',
+        },
+    })}
+/> 
+<AppStack.Screen name="numberFit" component={StackNavi} options={{headerShown: false}}/>
+<AppStack.Screen name="numberFitTeacher" component={StackNaviTeacher} options={{headerShown: false}}/>
+<AppStack.Screen name="numberFitParent" component={StackNaviParent} options={{headerShown: false}}/>
+<AppStack.Screen name="SignUp" component={SignUp} options={() => ({
+          title: 'Enter your details',
+        headerStyle: {
+          backgroundColor: 'blue',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },})}/>
+    <AppStack.Screen name="ParentSignUp" component={ParentSignUp} options={() => ({
+          title: 'Enter your details',
+        headerStyle: {
+          backgroundColor: 'blue',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },})}/>
+    <AppStack.Screen name="TeacherSignUp" component={TeacherSignUp} options={() => ({
+          title: 'Enter your details',
+        headerStyle: {
+          backgroundColor: 'blue',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },})}/>
   </LoginStack.Navigator>
 );
 }
@@ -491,6 +548,9 @@ return (
         headerTitleStyle: {
           fontWeight: 'bold',
         },})}/>
+            <AppStack.Screen name="numberFit" component={StackNavi} options={{headerShown: false}}/>
+    <AppStack.Screen name="numberFitParent" component={StackNaviParent} options={{headerShown: false}}/>
+    <AppStack.Screen name="numberTeacher" component={StackNaviTeacher} options={{headerShown: false}}/>
     <AppStack.Screen name="SignUp" component={SignUp} options={() => ({
           title: 'Enter your details',
         headerStyle: {
@@ -518,7 +578,6 @@ return (
         headerTitleStyle: {
           fontWeight: 'bold',
         },})}/>
-    <AppStack.Screen name="numberFit" component={StackNavi} options={{headerShown: false}}/>
   </AppStack.Navigator>
 );
 }
@@ -623,31 +682,22 @@ const TabTeacher = createBottomTabNavigator();
 
 
 export default function App() {
-  if (global.userType === 'student')
+  // if (global.userType === 'student')
 return (
   <NavigationContainer>
     <AppStackScreen />
   </NavigationContainer>
 );
-if (global.userType === 'parent')
-return (
-  <NavigationContainer>
-    <AppStackScreenParent />
-  </NavigationContainer>
-);
-if (global.userType === 'teacher')
-return (
-  <NavigationContainer>
-    <AppStackScreenTeacher />
-  </NavigationContainer>
-);
+// if (global.userType === 'parent')
+// return (
+//   <NavigationContainer>
+//     <AppStackScreenParent />
+//   </NavigationContainer>
+// );
+// if (global.userType === 'teacher')
+// return (
+//   <NavigationContainer>
+//     <AppStackScreenTeacher />
+//   </NavigationContainer>
+// );
 }
-
-
-const styles = StyleSheet.create({
-container: {
-    flex: 1,
-    backgroundColor: "#FFF",
-    marginTop: '20%'
-}
-})

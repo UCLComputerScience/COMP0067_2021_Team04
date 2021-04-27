@@ -9,6 +9,8 @@ import TargetSumTimer from '../components/TargetSumTimer';
 
 // import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 
+global.targetSumScorer = 0
+
 class TargetSum extends React.Component {
     static propTypes = {
         randomNumberCount: PropTypes.number.isRequired,
@@ -88,20 +90,24 @@ class TargetSum extends React.Component {
 
     calcGameStatus = (nextState) => {
         console.log('calcGameStatus')
+        console.warn(this.state.score)
         const sumSelected = nextState.selectedIds.reduce((acc, curr) => {
             return acc + this.shuffledRandomNumbers[curr];
         }, 0);
         if (nextState.remainingSeconds === 0) {
+            global.targetSumScorer = global.targetSumScorer - 1
             return 'LOST';
         }
         if (sumSelected < this.target) {
+            global.targetSumScorer = global.targetSumScorer - 2
             return 'PLAYING';
         }
         if (sumSelected === this.target) {
-            this.gameScore = this.gameScore + 5
+            global.targetSumScorer = global.targetSumScorer + 5
             return 'WON';
         }
         if (sumSelected > this.target) {
+            global.targetSumScorer = global.targetSumScorer - 2
             return 'LOST';
         }
     }
@@ -113,7 +119,7 @@ class TargetSum extends React.Component {
             <View style={styles.container}>
                 <Text style = {styles.titleText}>  </Text>
                 <Text style = {styles.titleText}>  </Text>
-
+                <Text>Score: {global.targetSumScorer}</Text>
                 <Text style = {styles.titleText}>Click the numbers that add up to the target:</Text>
                 <Text style={[styles.target, styles['STATUS_' + gameStatus]]}>
                     {this.target}

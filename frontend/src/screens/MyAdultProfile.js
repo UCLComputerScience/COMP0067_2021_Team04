@@ -15,7 +15,6 @@ import AchievementModal from '../components/AchievementModal';
 
 export default function MyProfile({navigation}) {
     
-    const [profilePic, changePP] = useState({photo: require("../imgs/bee.jpeg")});
     const [user, userLoad] = useState({
         GSI1: "class_2ec278cf-1a35-4746-911b-1a360c83dbb5",
         PK: "user_mathsqueen",
@@ -99,9 +98,6 @@ export default function MyProfile({navigation}) {
           "timeTaken": 0,
         },
     })
-    const updateAvatar = (avatarNo) =>{
-        changePP({photo: avatarDict[avatarNo]})
-    }
     
     useEffect(()=>{
         async function fetchData (){
@@ -113,10 +109,6 @@ export default function MyProfile({navigation}) {
         // We have data!!
         let result = JSON.parse(value)
         userLoad(result)
-        let pic = result.data.avatar
-        let pp = avatarDict[pic]
-        changePP({photo: pp})
-        
         console.log('being called')
         
         
@@ -149,18 +141,17 @@ export default function MyProfile({navigation}) {
                     </View>
                     <View style={styles.active}></View>
                     <View style={styles.add}>
-                        <AvatarMenu func = {updateAvatar} person = {user}></AvatarMenu>
                     </View>
                 </View>
 
                 <View style={styles.infoContainer}>
                     <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>{user.data.firstName} {user.data.lastName}</Text>
                     <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}>Teacher: Mr Langley</Text> 
-                    <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}>Class: {user.GSI1}</Text>
+                    <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}>Child: {user.GSI1}</Text>
                     <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}>Date of Birth: 27/01/2012</Text>
                 </View>
 
-                <View style={styles.statsContainer}>
+                {/* <View style={styles.statsContainer}>
                     <View style={styles.statsBox}>
                         <Text style={[styles.text, { fontSize: 24 }]}>{Math.round((user.data.score*100)/33)} %</Text>
                         <Text style={[styles.text, styles.subText, {fontSize: 12}]}>App Completion</Text>
@@ -177,11 +168,11 @@ export default function MyProfile({navigation}) {
                         <Text style={[styles.text, { fontSize: 24 }]}>28</Text>
                         <Text style={[styles.text, styles.subText, {fontSize: 12}]}>Excercises Completed</Text>
                     </View>
-                </View>
+                </View> */}
 
                 <View style={{ marginTop: 32 }}>
                 </View>
-                <Text style={[styles.subText, styles.recent]}>Achievements</Text>
+                {/* <Text style={[styles.subText, styles.recent]}>Achievements</Text>
                 <View style={styles.awardContainer}>
                     <TouchableHighlight onPress = { () => alert('Mastered!') }>
                 <Ionicons name="trophy" size={60} color="gold"></Ionicons>
@@ -202,9 +193,9 @@ export default function MyProfile({navigation}) {
                 <Ionicons name="star" size={60} color="silver"></Ionicons>
                 </TouchableHighlight>
                 </View>  
-                <AchievementModal />
-                <Text style={[styles.subText, styles.recent]}>Recent Activity</Text>
-                <View style={{ alignItems: "center" }}>
+                <AchievementModal /> */}
+                {/* <Text style={[styles.subText, styles.recent]}>Recent Activity</Text> */}
+                {/* <View style={{ alignItems: "center" }}>
                     <View style={styles.recentItem}>
                         <View style={styles.activityIndicator}></View>
                         <View style={{ width: 250 }}>
@@ -222,7 +213,7 @@ export default function MyProfile({navigation}) {
                             </Text>
                         </View>
                     </View>
-                </View>
+                </View> */}
             </ScrollView>
         </SafeAreaView>
     );

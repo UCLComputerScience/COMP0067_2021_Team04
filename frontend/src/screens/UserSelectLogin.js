@@ -28,7 +28,7 @@ const UserSelectLogin = ({route,navigation})=>{
                 iconName = 'school-outline'
                 iconColor = 'red'
                 isDisabled = {false}
-                pic = {require('../imgs/penguin.png')}
+                // pic = {require('../imgs/penguin.png')}
                 onPress={() => {setTesting('student')
                                 navigation.navigate('Login')}} />
             <ChooseUser
@@ -37,7 +37,7 @@ const UserSelectLogin = ({route,navigation})=>{
                 iconName = 'book-outline'
                 iconColor = 'green'
                 isDisabled = {false}
-                pic = {require('../imgs/penguin.png')}
+                // pic = {require('../imgs/penguin.png')}
                 onPress={() => {setTesting('teacher')
                                 navigation.navigate('Login')}} />
             <ChooseUser
@@ -45,7 +45,7 @@ const UserSelectLogin = ({route,navigation})=>{
                 colour = 'green'
                 iconName = 'people-outline'
                 iconColor = 'blue'
-                pic = {require('../imgs/penguin.png')}
+                // pic = {require('../imgs/penguin.png')}
                 onPress={() => {setTesting('parent')
                                 navigation.navigate('Login')}} />
                                 </View>

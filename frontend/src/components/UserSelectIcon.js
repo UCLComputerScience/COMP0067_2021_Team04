@@ -8,6 +8,7 @@ import { Dimensions, TouchableHighlight } from 'react-native';
 import LandingHeader from '../components/LandingHeader';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
 
 class UserSelectIcon extends Component{
@@ -32,8 +33,10 @@ class UserSelectIcon extends Component{
                     onPress= {this.props.onPress}
                     disabled= {this.props.isDisabled}
                     >
-                        <Image style={buttonStyle.tinyLogo}
-                               source={this.props.pic}></Image>
+                        {/* <Image style={buttonStyle.tinyLogo}
+                               source={this.props.pic}></Image> */}
+                                               <Ionicons name={this.props.iconName} size={80} color={this.props.iconColor}></Ionicons>
+
                 </TouchableOpacity>)
             }}.bind(this)()}
         </View>
@@ -47,7 +50,8 @@ const styles = (props) => StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-evenly',
         flexDirection: 'column',
-        marginTop: 120
+        marginTop: 100,
+        marginHorizontal: 50
     },
     tinyLogo: {
         borderWidth: 3,
@@ -58,7 +62,7 @@ const styles = (props) => StyleSheet.create({
         borderColor: 'black'
       },
     text: {
-        fontSize: 18,
+        fontSize: 20,
         fontFamily: "HelveticaNeue",
         color: "#52575D",
         textAlign: 'center'

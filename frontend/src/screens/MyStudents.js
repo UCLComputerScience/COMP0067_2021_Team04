@@ -3,6 +3,8 @@ import { Alert, StyleSheet, Text, View, SafeAreaView, Image, ScrollView, Touchab
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell }  from 'react-native-table-component';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from "axios";
+import { noConflict } from "lodash";
+import { setStatusBarNetworkActivityIndicatorVisible } from "expo-status-bar";
 
 // call students by class
 // make a array of basic student objects
@@ -10,9 +12,9 @@ import axios from "axios";
 
 const MyStudents =({navigation}) => { 
     const [formData, changeForm] = useState([]);
-    const [formIdsbyName, getFormIds] = useState();
-    const [studentNames, updateStudentsNames] = useState();
-    const [studentIdsByName, updateStudentsIds] = useState();
+    const [formIdsbyName, getFormIds] = useState({noClass:"noClass"});
+    const [studentNames, updateStudentsNames] = useState([]);
+    const [studentIdsByName, updateStudentsIds] = useState([]);
     const [pendingAssignments, updatePendingAssignments] = useState();
     const [studentScores, updateStudentsScores] = useState()
     const [forms, getForms] = useState([])
@@ -27,21 +29,29 @@ const MyStudents =({navigation}) => {
             // We have data!!
             let teacherUser = JSON.parse(value)
             let result = await axios.get('http://34.247.47.193/api/v1/classes/getClasses/' + teacherUser.PK)
+            
             let classArray = result.data.Items;
             let info = [];
             let sets = [];
             let classIdbyName = {};
             let noOfClasses = classArray.length;
-    
+            console.log(classArray)
+            console.log(classArray[0].data.name)
+            classArray[0].data.name
+            classArray[0].PK
             for (var i = 0; i < noOfClasses; i++) {
                 info.push(classArray[i].PK)
                 sets.push(classArray[i].data.name)
+                console.log(info)
+                console.log(sets)
                 classIdbyName[classArray[i].data.name] = classArray[i].PK;
+                
             }
+            
             getForms(sets)
             // getStudents(info[0])
             getFormIds(classIdbyName)
-            console.log(classIdbyName['Class 6B'])
+            
             if(classIdbyName[sets[0]]){
             changeClass(classIdbyName[sets[0]])
             }
@@ -55,22 +65,23 @@ const MyStudents =({navigation}) => {
     },[]
     )
         
-    const changeData = async ()=>{
-        var data = [];
+    // const changeData = async ()=>{
+    //     var data = [];
 
-    for (let i = 0; i < studentNames.length; i += 1) {
-      var dataRow = [];
+    // for (let i = 0; i < studentNames.length; i += 1) {
+    //   var dataRow = [];
       
-      dataRow.push(studentNames[i])
-      dataRow.push(pendingAssignments[i])
-      dataRow.push(studentScores[i]);
+    //   dataRow.push(studentNames[i])
+    //   dataRow.push(pendingAssignments[i])
+    //   dataRow.push(studentScores[i]);
       
-      data.push(dataRow);
+    //   data.push(dataRow);
 
-    }
+    // }
     
-    await changeForm(data)
-    }
+    //  changeForm(data)
+    //  changeForm(data)
+    // }
 
     const changeClass = async (classID)=>{
         try{
@@ -78,7 +89,6 @@ const MyStudents =({navigation}) => {
         
         // let address = 'http://34.247.47.193/api/v1/users/class_a04478e9-b9de-4bdd-8927-0691aa397720'
         let students = await axios.get(address);
-        console.log(students)
         let result = students.data.Items;
         let sNames = [];
         let sScores = [];
@@ -92,10 +102,10 @@ const MyStudents =({navigation}) => {
             sPending.push(result[i].data.pendingAssignments);
             sIdsByNames[fullName] = result[i].PK
         }
-        updateStudentsIds(sIdsByNames)
-        updateStudentsNames(sNames)
-        updatePendingAssignments(sScores)
-        updateStudentsScores(sPending)
+        await updateStudentsIds(sIdsByNames)
+        await updateStudentsNames(sNames)
+        await updatePendingAssignments(sScores)
+        await updateStudentsScores(sPending)
         // console.log(updateStudentsIds(sIdsByNames),
         // updateStudentsNames(sNames),
         // updatePendingAssignments(sScores),
@@ -108,9 +118,24 @@ const MyStudents =({navigation}) => {
         
         
         getClassPA(sum)
+        getClassSize(sNames.length)
+        getClassKey(classID)
+        var data = [];
+
+    for (let i = 0; i < sNames.length; i += 1) {
+      var dataRow = [];
+      
+      dataRow.push(sNames[i])
+      dataRow.push(sPending[i])
+      dataRow.push(sScores[i]);
+      
+      data.push(dataRow);
+
+    }
+    console.log(data)
+     
+     changeForm(data)
         
-        getClassKey()
-        changeData()
     
     }catch{
         console.log("Couldn't load students")
@@ -238,7 +263,7 @@ const styles = StyleSheet.create({
     stats:{
         flex:1,
         justifyContent: 'space-evenly',
-        right: 50,
+        left: 10,
         bottom: 45
     },
    

@@ -42,6 +42,7 @@ import TestOverModal from './src/components/TestOverModal';
 import TargetSumSettings from './src/factory/TargetSumSettings';
 import TargetSumLoader from './src/screens/TargetSumLoading'; 
 import UserSelectLogin from './src/screens/UserSelectLogin';
+import RegSelectLogin from './src/screens/UserRegSelect';
 
 
 
@@ -58,7 +59,7 @@ return (
       <LoginStack.Screen name="UserSelectLogin" 
     component={UserSelectLogin}  options={() => ({
           headerLeft: () => {
-    return null}, title: 'Select a user type',
+    return null}, title: 'Who are you?',
         headerStyle: {
           backgroundColor: '#8FBC8F',
         },
@@ -85,13 +86,31 @@ return (
         },
     })}
 /> 
+<AppStack.Screen name="Register as:" component={RegSelectLogin} options={({navigation}) => ({
+        headerLeft: (props) => (
+          <HeaderBackButton
+            {...props}
+            label='Go Back'
+            onPress={() => navigation.navigate('UserSelectLogin')}
+          />
+        ),
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+          
+        },
+        headerStyle: {
+          backgroundColor: 'gray',
+        },
+    })}
+/> 
 <AppStack.Screen name="numberFit" component={StackNavi} options={{headerShown: false}}/>
 <AppStack.Screen name="numberFitTeacher" component={StackNaviTeacher} options={{headerShown: false}}/>
 <AppStack.Screen name="numberFitParent" component={StackNaviParent} options={{headerShown: false}}/>
 <AppStack.Screen name="SignUp" component={SignUp} options={() => ({
           title: 'Enter your details',
         headerStyle: {
-          backgroundColor: 'blue',
+          backgroundColor: 'red',
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
@@ -100,7 +119,7 @@ return (
     <AppStack.Screen name="ParentSignUp" component={ParentSignUp} options={() => ({
           title: 'Enter your details',
         headerStyle: {
-          backgroundColor: 'blue',
+          backgroundColor: 'green',
         },
         headerTintColor: '#fff',
         headerTitleStyle: {

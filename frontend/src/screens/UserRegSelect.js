@@ -15,7 +15,7 @@ const screenWidth = Dimensions.get("window").width;
 
 global.userType = ' ';
 
-const UserSelectLogin = ({route,navigation})=>{
+const RegSelectLogin = ({route,navigation})=>{
     const [modalVisible, setModalVisible] = useState(false);
     const [testing, setTesting] = useState();
     global.userType = testing;
@@ -30,7 +30,7 @@ const UserSelectLogin = ({route,navigation})=>{
                 isDisabled = {false}
                 pic = {require('../imgs/penguin.png')}
                 onPress={() => {setTesting('student')
-                                navigation.navigate('Login')}} />
+                                navigation.navigate('SignUp')}} />
             <ChooseUser
                 level = 'Student'
                 colour = 'lightblue'
@@ -39,7 +39,7 @@ const UserSelectLogin = ({route,navigation})=>{
                 isDisabled = {false}
                 pic = {require('../imgs/penguin.png')}
                 onPress={() => {setTesting('teacher')
-                                navigation.navigate('Login')}} />
+                                navigation.navigate('ParentSignUp')}} />
             <ChooseUser
                 level = 'Parent'
                 colour = 'green'
@@ -47,12 +47,8 @@ const UserSelectLogin = ({route,navigation})=>{
                 iconColor = 'blue'
                 pic = {require('../imgs/penguin.png')}
                 onPress={() => {setTesting('parent')
-                                navigation.navigate('Login')}} />
+                                navigation.navigate('TeacherSignUp')}} />
                                 </View>
-                                <TouchableOpacity onPress={() => {setTesting('teacher')
-                                navigation.navigate('Register as:')}}>
-                                <Text style={styles.text}>New here? Click to Register</Text>
-                                </TouchableOpacity>
                          
         </View>
     )}
@@ -87,4 +83,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default UserSelectLogin;
+export default RegSelectLogin;

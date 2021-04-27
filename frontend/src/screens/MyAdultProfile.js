@@ -131,7 +131,7 @@ export default function MyProfile({navigation}) {
         <SafeAreaView style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.titleBar}>
-                    {/* <SettingsModal /> */}
+                    <SettingsModal />
                     <Button onPress={() => navigation.navigate('Login')}  title={'Log out'}/>
                 </View>
 

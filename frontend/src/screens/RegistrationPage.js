@@ -96,7 +96,7 @@ export default class SignUp extends React.Component {
           onChangeText={val => this.onChangeText('Child_Key', val)}
         />
         <Button
-          title="Let's Go"
+          title="Sign up"
           onPress={() => this.signUp()}
         />
       </View>

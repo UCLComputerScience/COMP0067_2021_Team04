@@ -98,7 +98,7 @@ export default class TeacherSignUp extends React.Component {
           onChangeText={val => this.onChangeText('SchoolKey', val)}
         />
         <Button
-          title="Let's Go"
+          title="Sign up"
           onPress={() => this.signUp()}
         />
       </View>

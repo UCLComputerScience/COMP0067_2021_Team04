@@ -29,7 +29,7 @@ const MyKids =({navigation}) => {
     },[]);
     const dataDisplay = ()=>{
         if(user!=undefined){
-            return(<StatsScreen child={user.GSI1}/>)
+            return(<StatsScreen child={user.GSI1} navigation={navigation}/>)
         }else{
            return( <Text>No children associate with this account</Text>)
         }

@@ -29,7 +29,7 @@ const TaskComp = (allStats) => {
                 </View>
     )}
     
-const Tasks = ({navigation}) => {
+const Tasks = ({navigation, route}) => {
     const [user, userLoad] = useState();
     const [tasks, getTasks] = useState();
     const [allTasks, loadTasks] = useState([])
@@ -64,7 +64,14 @@ const Tasks = ({navigation}) => {
       if (value !== null) {
         // We have data!!
         let result = JSON.parse(value);
-        let address = 'http://34.247.47.193/api/v1/assignments/' + result.PK;
+        if (route && route.params.parentView==1){
+            console.log(route)
+            console.log("if statement")
+        var address = 'http://34.247.47.193/api/v1/assignments/' + result.GSI1;}
+        else{
+            console.log("else entered")
+         address = 'http://34.247.47.193/api/v1/assignments/' + result.PK;}
+        
         let jobs = await axios.get(address);
         console.log(jobs.data.Items)
         getTasks(jobs.data.Items)
@@ -190,6 +197,7 @@ const styles = StyleSheet.create ({
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-evenly',
+        left: 20
     }
 });
 

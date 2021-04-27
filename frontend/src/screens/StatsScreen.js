@@ -87,6 +87,10 @@ const StatsScreen = ({navigation, route, child}) => {
       <ScrollView>
       {/* <Rocket /> */}
       <Text style={styles.titularText}>{user.data.firstName + ' '+user.data.lastName}</Text>
+      {global.userType === 'parent' && (
+             <Button
+    title={user.data.firstName+ "'s" + " Assignments"}
+    onPress = { () => navigation.navigate("Child's Tasks", {parentView: 1}) } /> )}
     <Text style={styles.statisticTitle}>2x timestable</Text>
     <Progress completion={progressionFraction(user['twox'])}/>
     {/* <LineGraph /> */}
@@ -125,9 +129,10 @@ const StatsScreen = ({navigation, route, child}) => {
     <Text style={styles.statisticTitle}>12x timestable</Text>
     <Progress completion={progressionFraction(user['twelvex'])}/>
     <Table userDetails = {studentsData.twelvex} level = {user['twelvex']}/>
-    <Button
+    {global.userType === 'student' && (
+             <Button
     title="Leaderboards"
-    onPress = { () => navigation.navigate('Load') } />
+    onPress = { () => navigation.navigate('Load') } /> )}
     </ScrollView>
       </View> 
       );

@@ -8,7 +8,8 @@ const screenWidth = Dimensions.get("window").width;
 // each value represents a goal ring in Progress chart
 const data = {
     labels: ["Beginner", "Inter", "Advanced"], // optional
-    data: [this.props.begMastery , this.props.intMastery , this.props.intMastery]
+    // data: [this.props.begMastery , this.props.intMastery , this.props.intMastery]
+    data: [0 , 0 ,0]
   };
 
 const chartConfig = {

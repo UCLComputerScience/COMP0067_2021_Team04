@@ -485,6 +485,16 @@ function MyStudentsStackScreen() {
               headerTitleStyle: {
                 fontWeight: 'bold',
               },})}/>
+          <MyKidsStack.Screen name="Child's Tasks" component={Tasks} options={() => ({
+          headerLeft: () => {
+    return null }, title: 'My Tasks',
+        headerStyle: {
+          backgroundColor: '#483D8B',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },})}/>
         </MyKidsStack.Navigator>
       );
       }

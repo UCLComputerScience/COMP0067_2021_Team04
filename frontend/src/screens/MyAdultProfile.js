@@ -13,7 +13,7 @@ import AchievementModal from '../components/AchievementModal';
 
 //console.log(user.Item.data.avatar)
 
-export default function MyProfile({navigation}) {
+export default function MyAdultProfile({navigation}) {
     
     const [user, userLoad] = useState({
         GSI1: "class_2ec278cf-1a35-4746-911b-1a360c83dbb5",
@@ -131,13 +131,15 @@ export default function MyProfile({navigation}) {
         <SafeAreaView style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.titleBar}>
-                    <SettingsModal />
-                    <Button onPress={() => navigation.navigate('Login')}  title={'Log out'}/>
+                    {/* <SettingsModal /> */}
+                    <Button onPress={() => navigation.navigate('UserSelectLogin')}  title={'Log out'}/>
                 </View>
 
                 <View style={{ alignSelf: "center" }}>
                     <View style={styles.profileImage}>
-                        <Image source={profilePic.photo} style={styles.image} resizeMode="center"></Image>
+                                    <Ionicons style={styles.image} name="person-circle-outline" size={200} color="gray"></Ionicons>
+
+                        {/* <Image source={profilePic.photo} style={styles.image} resizeMode="center"></Image> */}
                     </View>
                     <View style={styles.active}></View>
                     <View style={styles.add}>
@@ -145,9 +147,9 @@ export default function MyProfile({navigation}) {
                 </View>
 
                 <View style={styles.infoContainer}>
-                    <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>{user.data.firstName} {user.data.lastName}</Text>
+                    {/* <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>{user.data.firstName} {user.data.lastName}</Text> */}
                     <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}>Teacher: Mr Langley</Text> 
-                    <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}>Child: {user.GSI1}</Text>
+                    {/* <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}>Child: {user.GSI1}</Text> */}
                     <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}>Date of Birth: 27/01/2012</Text>
                 </View>
 

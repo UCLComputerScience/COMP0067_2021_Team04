@@ -1,118 +1,103 @@
-import React, { useState }  from 'react';
-import { useReducer } from 'react';
-import { Keyboard, KeyboardAvoidingView ,Platform,StyleSheet, Text, TextInput, View, ScrollView } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import Task from '../components/Task';
+import React, { Component } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  Alert,
+  ScrollView,
+  FlatList,
+} from 'react-native';
 
+export default class Contacting extends Component {
 
-export default function Contacting() {
-    const [task, setTask] = useState();
-    const [taskItems, setTaskItems] = useState([]);
-  
-    const handleAddTask = () => {
-      Keyboard.dismiss();
-      setTaskItems([...taskItems, task])
-      setTask(null);
-    }
-  
-    const completeTask = (index) => {
-      let itemsCopy = [...taskItems];
-      itemsCopy.splice(index, 1);
-      setTaskItems(itemsCopy)
-    }
-  
+  constructor(props) {
+    super(props);
+    this.state = {
+      calls: [
+        {id:1,  name: "Mr. Beale",   image:"https://bootdey.com/img/Content/avatar/avatar7.png"},
+        {id:2,  name: "Mrs. James",   image:"https://bootdey.com/img/Content/avatar/avatar6.png"} ,
+        {id:3,  name: "Mr. Michales",   image:"https://bootdey.com/img/Content/avatar/avatar5.png"} ,
+        {id:4,  name: "Mr. Cook",  image:"https://bootdey.com/img/Content/avatar/avatar4.png"} ,
+        {id:5,  name: "Ms. Cooper",    image:"https://bootdey.com/img/Content/avatar/avatar3.png"} ,
+      ]
+    };
+  }
+
+  renderItem = ({item}) => {
     return (
-      <View style={styles.container}>
-        {/* Added this scroll view to enable scrolling when list gets longer than the page */}
-        <ScrollView
-          contentContainerStyle={{
-            flexGrow: 1
-          }}
-          keyboardShouldPersistTaps='handled'
-        >
-  
-        {/* Today's Tasks */}
-        <View style={styles.tasksWrapper}>
-          <Text style={styles.sectionTitle}>Contacts</Text>
-          <View style={styles.items}>
-            {/* This is where the tasks will go! */}
-            {
-              taskItems.map((item, index) => {
-                return (
-                  <TouchableOpacity key={index}  onPress={() => completeTask(index)}>
-                    <Task text={item} /> 
-                  </TouchableOpacity>
-                )
-              })
-            }
+      <TouchableOpacity onPress={() => Alert.alert('Email to contact me')}>
+        <View style={styles.row}>
+          <Image source={{ uri: item.image }} style={styles.pic} />
+          <View>
+            <View style={styles.nameContainer}>
+              <Text style={styles.nameTxt} numberOfLines={1} ellipsizeMode="tail">{item.name}</Text>
+              <Text style={styles.mblTxt}>Email
+              </Text>
+            </View>
+            <View style={styles.msgContainer}>
+            </View>
           </View>
         </View>
-          
-        </ScrollView>
-  
-        {/* Write a task */}
-        {/* Uses a keyboard avoiding view which ensures the keyboard does not cover the items on screen */}
-        <KeyboardAvoidingView 
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={styles.writeTaskWrapper}
-        >
-          <TextInput style={styles.input} placeholder={'Add new contact'} value={task} onChangeText={text => setTask(text)} multiline={true} numberOfLines={3} />
-          
-          <TouchableOpacity onPress={() => handleAddTask()}>
-            <View style={styles.addWrapper}>
-              <Text style={styles.addText}>+</Text>
-            </View>
-          </TouchableOpacity>
-        </KeyboardAvoidingView>
-        
-      </View>
+      </TouchableOpacity>
     );
   }
 
+  render() {
+    return(
+      <View style={{ flex: 1 }} >
+        <FlatList 
+          extraData={this.state}
+          data={this.state.calls}
+          keyExtractor = {(item) => {
+            return item.id;
+          }}
+          renderItem={this.renderItem}/>
+      </View>
+    );
+  }
+}
 
-const styles = StyleSheet.create ({
-    container: {
-        flex: 1,
-        backgroundColor: '#E8EAED',
-    },
-    tasksWrapper: {
-        paddingTop: 40,
-        paddingHorizontal: 20,
-    },
-    sectionTitle: {
-        fontSize: 24,
-        fontWeight: 'bold',
-    },
-    items: {
-        margin: 30
-    },
-    writeTaskWrapper: {
-        position: 'absolute',
-        bottom: 60,
-        width: '100%',
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        alignItems: 'center'
-    },
-    input: {
-        paddingVertical: 15,
-        paddingHorizontal: 15,
-        backgroundColor: '#FFF',
-        borderRadius: 60,
-        borderColor: '#C0C0C0C0',
-        borderWidth: 1,
-        width: 250
-    },
-    addWrapper: {
-        width: 60,
-        height: 60,
-        backgroundColor: '#FFF',
-        borderRadius: 60,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderColor: '#C0C0C0C0',
-        borderWidth: 1,
-    },
-    addText: {}
+const styles = StyleSheet.create({
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderColor: '#DCDCDC',
+    backgroundColor: '#fff',
+    borderBottomWidth: 1,
+    padding: 10,
+  },
+  pic: {
+    borderRadius: 30,
+    width: 60,
+    height: 60,
+  },
+  nameContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: 280,
+  },
+  nameTxt: {
+    marginLeft: 15,
+    fontWeight: '600',
+    color: '#222',
+    fontSize: 18,
+    width:170,
+  },
+  mblTxt: {
+    fontWeight: '200',
+    color: '#777',
+    fontSize: 13,
+  },
+  msgContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  msgTxt: {
+    fontWeight: '400',
+    color: '#008B8B',
+    fontSize: 12,
+    marginLeft: 15,
+  },
 });
-

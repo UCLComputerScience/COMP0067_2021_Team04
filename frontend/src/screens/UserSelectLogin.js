@@ -50,8 +50,8 @@ const UserSelectLogin = ({route,navigation})=>{
                                 navigation.navigate('Login')}} />
                                 </View>
                                 <TouchableOpacity onPress={() => {setTesting('teacher')
-                                navigation.navigate('Register as:')}}>
-                                <Text style={styles.text}>New here? Click to Register</Text>
+                                navigation.navigate('Registration')}}>
+                                <Text style={styles.text}>Newbie? Click here to Register</Text>
                                 </TouchableOpacity>
                          
         </View>
@@ -83,7 +83,8 @@ const styles = StyleSheet.create({
         fontFamily: "HelveticaNeue",
         color: "#52575D",
         textAlign: 'center',
-        marginBottom: 75
+        marginBottom: 75,
+        color: '#99ccff'
     },
 })
 

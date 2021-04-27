@@ -21,9 +21,11 @@ const RegSelectLogin = ({route,navigation})=>{
     global.userType = testing;
     return(
         <View style = {styles.container}>
+                                            <Text style={styles.text}>Choose a user to register as:</Text>
+
             <View style={styles.randomContainer}>
             <ChooseUser
-                level = 'Teacher'
+                level = 'Student'
                 colour = 'red'
                 iconName = 'school-outline'
                 iconColor = 'red'
@@ -32,7 +34,7 @@ const RegSelectLogin = ({route,navigation})=>{
                 onPress={() => {setTesting('student')
                                 navigation.navigate('SignUp')}} />
             <ChooseUser
-                level = 'Student'
+                level = 'Teacher'
                 colour = 'lightblue'
                 iconName = 'book-outline'
                 iconColor = 'green'
@@ -79,7 +81,7 @@ const styles = StyleSheet.create({
         fontFamily: "HelveticaNeue",
         color: "#52575D",
         textAlign: 'center',
-        marginBottom: 75
+        marginTop: 40
     },
 })
 

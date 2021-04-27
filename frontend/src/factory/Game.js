@@ -157,7 +157,6 @@ class Game extends React.Component {
                 <Text style = {styles.titleText}>Select the correct answer for this multiplication:</Text>
                 <Text style={[styles.target, styles['STATUS_' + gameStatus]]}> {this.first} x {this.second}
                 </Text>
-                <Text style = {styles.titleText}>Score: {global.gameScorer}</Text>
 
                 <View style={styles.randomContainer}>
                     {this.shuffledRandomNumbers.map((randomNumber, index) => (

@@ -9,11 +9,13 @@ const LandingHeader = ({person}) => {
   const [streak, updateStreak] = useState(person.data.streak);
   
   const incrementStreak = async(todayISO)=>{
+    console.log("incrementing steak")
     let newStreak = streak + 1;
     updateStreak(newStreak)
     inputLoginStats(newStreak,todayISO)
   }
   const resetStreak = async(todayISO)=>{
+    console.log("reset steak")
     let newStreak = 0;
     updateStreak(0)
     inputLoginStats(newStreak,todayISO)
@@ -34,7 +36,7 @@ const LandingHeader = ({person}) => {
   }
   useEffect(()=>{
     async function newStreak (){
-
+    
     const lastLogin = new Date(person.data.lastLogin);
     
     const lLogin = Math.floor((new Date(lastLogin)).getTime()/(1000*3600*24))*24;
@@ -44,19 +46,21 @@ const LandingHeader = ({person}) => {
     let date = Math.floor(today.getTime()/(1000*3600*24))*24;
     
     var loginDifference = date - lLogin;
+    console.log(loginDifference)
     
     // let check = Math.floor(today.getTime()/(24*3600*1000))-Math.floor(lastLogin.getTime()/(24*3600*1000))
     // console.log(check)
-    if(loginDifference == 24){
+    if(loginDifference === 24){
       
       incrementStreak(loginISO)
       // updateStreak(streak+1)
-      console.log('incrementing streak')
-    } else if(loginDifference > 24){
+      console.log('incrementing streak')}
+     else if(person.data.lastLogin === '' || loginDifference > 24){
+     
       console.log("resetting streak")
       resetStreak(loginISO)
     }
-    
+  
     } newStreak()
   },[]);
   return(

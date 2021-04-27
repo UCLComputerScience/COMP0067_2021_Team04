@@ -33,8 +33,9 @@ export default class Contacting extends Component {
           <View>
             <View style={styles.nameContainer}>
               <Text style={styles.nameTxt} numberOfLines={1} ellipsizeMode="tail">{item.name}</Text>
-              <Text style={styles.mblTxt}>Email
+              <Text style={styles.mblTxt}>EmailL
               </Text>
+              <Text style={{marginTop:15, marginHorizontal: -90, flex: 1, flexDirection: 'row', flexWrap: 'wrap'}}>testteacher@gmail.com</Text>
             </View>
             <View style={styles.msgContainer}>
             </View>

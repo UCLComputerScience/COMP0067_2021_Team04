@@ -142,8 +142,6 @@ export default function MyAdultProfile({navigation}) {
                         {/* <Image source={profilePic.photo} style={styles.image} resizeMode="center"></Image> */}
                     </View>
                     <View style={styles.active}></View>
-                    <View style={styles.add}>
-                    </View>
                 </View>
 
                 <View style={styles.infoContainer}>

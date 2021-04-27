@@ -23,7 +23,7 @@ const UserSelectLogin = ({route,navigation})=>{
         <View style = {styles.container}>
             <View style={styles.randomContainer}>
             <ChooseUser
-                level = 'Teacher'
+                level = 'Student'
                 colour = 'red'
                 iconName = 'school-outline'
                 iconColor = 'red'
@@ -32,7 +32,7 @@ const UserSelectLogin = ({route,navigation})=>{
                 onPress={() => {setTesting('student')
                                 navigation.navigate('Login')}} />
             <ChooseUser
-                level = 'Student'
+                level = 'Teacher'
                 colour = 'lightblue'
                 iconName = 'book-outline'
                 iconColor = 'green'

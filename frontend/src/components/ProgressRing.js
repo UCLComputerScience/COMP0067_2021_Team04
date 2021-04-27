@@ -1,13 +1,14 @@
 import { Dimensions } from "react-native";
 import { LineChart, BarChart, PieChart, ProgressChart, ContributionGraph, StackedBarChart } from "react-native-chart-kit";
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const screenWidth = Dimensions.get("window").width;
 
 // each value represents a goal ring in Progress chart
 const data = {
     labels: ["Beginner", "Inter", "Advanced"], // optional
-    data: [0.4, 0.6, 0.8]
+    data: [this.props.begMastery , this.props.intMastery , this.props.intMastery]
   };
 
 const chartConfig = {

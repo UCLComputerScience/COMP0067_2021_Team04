@@ -43,7 +43,7 @@ import TargetSumSettings from './src/factory/TargetSumSettings';
 import TargetSumLoader from './src/screens/TargetSumLoading'; 
 import UserSelectLogin from './src/screens/UserSelectLogin';
 import RegSelectLogin from './src/screens/UserRegSelect';
-
+import MyAdultProfile from './src/screens/MyAdultProfile';
 
 
 const LoginStack = createStackNavigator();
@@ -59,7 +59,7 @@ return (
       <LoginStack.Screen name="UserSelectLogin" 
     component={UserSelectLogin}  options={() => ({
           headerLeft: () => {
-    return null}, title: 'Who are you?',
+    return null}, title: 'Login',
         headerStyle: {
           backgroundColor: '#8FBC8F',
         },
@@ -86,7 +86,7 @@ return (
         },
     })}
 /> 
-<AppStack.Screen name="Register as:" component={RegSelectLogin} options={({navigation}) => ({
+<AppStack.Screen name="Registration" component={RegSelectLogin} options={({navigation}) => ({
         headerLeft: (props) => (
           <HeaderBackButton
             {...props}
@@ -110,7 +110,7 @@ return (
 <AppStack.Screen name="SignUp" component={SignUp} options={() => ({
           title: 'Enter your details',
         headerStyle: {
-          backgroundColor: 'red',
+          backgroundColor: '#99ccff',
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
@@ -119,7 +119,7 @@ return (
     <AppStack.Screen name="ParentSignUp" component={ParentSignUp} options={() => ({
           title: 'Enter your details',
         headerStyle: {
-          backgroundColor: 'green',
+          backgroundColor: '#99ccff',
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
@@ -128,7 +128,7 @@ return (
     <AppStack.Screen name="TeacherSignUp" component={TeacherSignUp} options={() => ({
           title: 'Enter your details',
         headerStyle: {
-          backgroundColor: 'blue',
+          backgroundColor: '#99ccff',
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
@@ -212,7 +212,7 @@ return (
     <PlayStack.Screen name="Difficulty" component={DifficultyPage} options={() => ({
           title: 'Difficulty',
         headerStyle: {
-          backgroundColor: 'blue',
+          backgroundColor: '#ff9933',
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
@@ -364,6 +364,45 @@ return (
 );
 }
 
+const MyAdultProfileStack = createStackNavigator();
+
+function MyAdultProfileStackScreen() {
+return (
+  <MyAdultProfileStack.Navigator>
+    <MyAdultProfileStack.Screen name="My Profile" component={MyAdultProfile} options={() => ({
+          headerLeft: () => {
+    return null}, title: 'My Profile',
+        headerStyle: {
+          backgroundColor: '#B22222',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },})}/>
+    <MyAdultProfileStack.Screen name="Load" component={LeaderLoader} options={{headerShown: false}} />
+    <MyAdultProfileStack.Screen name="Leaderboard" component={LeaderBoardScreen} options={({navigation}) => ({
+        headerLeft: (props) => (
+          <HeaderBackButton
+            {...props}
+            label='Progress'
+            onPress={() => navigation.navigate('Progress')}
+          />
+        ),
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+          
+        },
+        headerStyle: {
+          backgroundColor: 'black',
+        },
+        
+    })}
+/> 
+  </MyAdultProfileStack.Navigator>
+);
+}
+
 const SetAssignmentStack = createStackNavigator();
 
 function SetAssignmentStackScreen() {
@@ -508,7 +547,7 @@ function StackNaviParent() {
           ),
         }}
           />
-                  <TabParent.Screen name="Profile" component={ProfileStackScreen} 
+                  <TabParent.Screen name="Profile" component={MyAdultProfileStackScreen} 
           options={{
           tabBarLabel: 'Profile',
           tabBarIcon: ({ color, size }) => (
@@ -540,7 +579,7 @@ function StackNaviParent() {
             ),
           }}
             />
-                      <TabTeacher.Screen name="Profile" component={ProfileStackScreen} 
+                      <TabTeacher.Screen name="Profile" component={MyAdultProfileStackScreen} 
             options={{
             tabBarLabel: 'Profile',
             tabBarIcon: ({ color, size }) => (
@@ -601,122 +640,15 @@ return (
 );
 }
 
-const AppStackParent = createStackNavigator();
-
-function AppStackScreenParent() {
-return (
-  <AppStackParent.Navigator >
-    <AppStackParent.Screen name="LoginStackScreen" component={LoginStackScreen} options={{headerShown: false}}/>
-    <AppStackParent.Screen name="UserSelect" component={UserSelect} options={() => ({
-          title: 'Choose your User',
-        headerStyle: {
-          backgroundColor: 'blue',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },})}/>
-    <AppStackParent.Screen name="SignUp" component={SignUp} options={() => ({
-          title: 'Enter your details',
-        headerStyle: {
-          backgroundColor: 'blue',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },})}/>
-    <AppStackParent.Screen name="ParentSignUp" component={ParentSignUp} options={() => ({
-          title: 'Enter your details',
-        headerStyle: {
-          backgroundColor: 'blue',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },})}/>
-    <AppStackParent.Screen name="TeacherSignUp" component={TeacherSignUp} options={() => ({
-          title: 'Enter your details',
-        headerStyle: {
-          backgroundColor: 'blue',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },})}/>
-    <AppStackParent.Screen name="numberFitParent" component={StackNaviParent} options={{headerShown: false}}/>
-  </AppStackParent.Navigator>
-);
-}
-
-const AppStackTeacher = createStackNavigator();
-
-function AppStackScreenTeacher() {
-return (
-  <AppStackTeacher.Navigator >
-    <AppStackTeacher.Screen name="LoginStackScreen" component={LoginStackScreen} options={{headerShown: false}}/>
-    <AppStackTeacher.Screen name="UserSelect" component={UserSelect} options={() => ({
-          title: 'Choose your User',
-        headerStyle: {
-          backgroundColor: 'blue',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },})}/>
-    <AppStackTeacher.Screen name="SignUp" component={SignUp} options={() => ({
-          title: 'Enter your details',
-        headerStyle: {
-          backgroundColor: 'blue',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },})}/>
-    <AppStackTeacher.Screen name="ParentSignUp" component={ParentSignUp} options={() => ({
-          title: 'Enter your details',
-        headerStyle: {
-          backgroundColor: 'blue',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },})}/>
-    <AppStackTeacher.Screen name="TeacherSignUp" component={TeacherSignUp} options={() => ({
-          title: 'Enter your details',
-        headerStyle: {
-          backgroundColor: 'blue',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },})}/>
-    <AppStackTeacher.Screen name="numberFitTeacher" component={StackNaviTeacher} options={{headerShown: false}} />
-  </AppStackTeacher.Navigator>
-);
-}
-
 const Tab = createBottomTabNavigator();
 const TabParent = createBottomTabNavigator();
 const TabTeacher = createBottomTabNavigator();
 
 
 export default function App() {
-  // if (global.userType === 'student')
 return (
   <NavigationContainer>
     <AppStackScreen />
   </NavigationContainer>
 );
-// if (global.userType === 'parent')
-// return (
-//   <NavigationContainer>
-//     <AppStackScreenParent />
-//   </NavigationContainer>
-// );
-// if (global.userType === 'teacher')
-// return (
-//   <NavigationContainer>
-//     <AppStackScreenTeacher />
-//   </NavigationContainer>
-// );
 }

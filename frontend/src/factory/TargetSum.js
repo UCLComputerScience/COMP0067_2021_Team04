@@ -21,6 +21,9 @@ class TargetSum extends React.Component {
         selectedIds: [],
         remainingSeconds: this.props.initialSeconds,
         initialSeconds: this.props.initialSeconds,
+        // answer: isInteger,
+        gameScore: 0,
+
         
     };
     gameStatus = 'PLAYING';
@@ -32,6 +35,8 @@ class TargetSum extends React.Component {
         .slice(0, this.props.randomNumberCount - 2)
         .reduce((acc, curr) => acc + curr, 0);
     shuffledRandomNumbers = shuffle(this.randomNumbers)
+
+    targetScore = 0
 
     checkGameOver = () => {
         if (this.gameStatus !== 'PLAYING') {
@@ -88,6 +93,17 @@ class TargetSum extends React.Component {
     }
     gameScore = 0 
 
+    compareAnswer = () => {
+        const answer = this.state.answer
+        if (answer === this.target) {
+            this.state.gameScore = this.state.gameScore + 1
+            return 'WON';
+        }
+        if (answer !== this.target) {
+            return 'LOST';
+        }
+    }
+
     calcGameStatus = (nextState) => {
         console.log('calcGameStatus')
         console.warn(this.state.score)
@@ -96,18 +112,24 @@ class TargetSum extends React.Component {
         }, 0);
         if (nextState.remainingSeconds === 0) {
             global.targetSumScorer = global.targetSumScorer - 1
+            this.targetScore = this.targetScore - 1
             return 'LOST';
         }
         if (sumSelected < this.target) {
             global.targetSumScorer = global.targetSumScorer - 2
+            this.targetScore = this.targetScore - 2
+
             return 'PLAYING';
         }
         if (sumSelected === this.target) {
             global.targetSumScorer = global.targetSumScorer + 5
+            this.targetScore = this.targetScore + 5
+
             return 'WON';
         }
         if (sumSelected > this.target) {
             global.targetSumScorer = global.targetSumScorer - 2
+            this.targetScore = this.targetScore - 2
             return 'LOST';
         }
     }
@@ -119,11 +141,12 @@ class TargetSum extends React.Component {
             <View style={styles.container}>
                 <Text style = {styles.titleText}>  </Text>
                 <Text style = {styles.titleText}>  </Text>
-                <Text>Score: {global.targetSumScorer}</Text>
                 <Text style = {styles.titleText}>Click the numbers that add up to the target:</Text>
                 <Text style={[styles.target, styles['STATUS_' + gameStatus]]}>
                     {this.target}
                 </Text>
+                {/* <Text style={styles.targetSumScorer}>Score: {this.targetScore}</Text> */}
+
                 <View style={styles.randomContainer}>
                     {this.shuffledRandomNumbers.map((randomNumber, index) => (
                     <RandomNumber 
@@ -157,10 +180,16 @@ class TargetSum extends React.Component {
             marginHorizontal: 20
         },
         target: {
-            fontSize: 50,
+            fontSize: 45,
             backgroundColor: '#bbb',
-            margin: 50,
+            margin: 30,
             textAlign: 'center',
+        },
+        targetSumScorer: {
+            fontSize: 20,
+            backgroundColor: '#bbb',
+            textAlign: 'center',
+            marginBottom: 25
         },
         randomContainer: {
             flex: 1,

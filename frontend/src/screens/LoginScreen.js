@@ -25,7 +25,7 @@ const LoginScreen = ({navigation}) => {
   };
   const userLogin = async(userName, pword) => {
     
-    console.log('login function runs')
+    
     try{
     const {data: user} = await axios.post('http://34.247.47.193/api/v1/users/login',{
       "PK": userName,
@@ -36,18 +36,22 @@ const LoginScreen = ({navigation}) => {
     const userString = JSON.stringify(user)
     _storeData(userString)
     
-    if(global.userType === 'student'){
+    if(global.userType === 'student' && user.role ==='student'){
+      console.log(user.role)
     navigation.navigate('numberFit');
     }
-    if(global.userType === 'parent'){
+    else if(global.userType === 'parent' && user.role === 'parent'){
+      console.log(user.role)
       navigation.navigate('numberFitParent');
       }
-    if(global.userType === 'teacher'){
+    else if(global.userType === 'teacher' && user.role === 'teacher'){
+      console.log(user.role)
       navigation.navigate('numberFitTeacher');
       }
     }else{
-      attemptUpdate(true)
       console.log('should be updating')
+      attemptUpdate(true)
+      
     }
   }
   catch{

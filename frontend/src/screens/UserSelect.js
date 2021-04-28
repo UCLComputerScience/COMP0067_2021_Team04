@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {Text,Alert,
   View,
   Button,
@@ -12,6 +12,7 @@ const screenWidth = Dimensions.get("window").width;
 
 const UserSelect = ({route,navigation})=>{
     const [modalVisible, setModalVisible] = useState(false);
+    
     return(
         <View style = {styles.container}>
             <ChooseUser

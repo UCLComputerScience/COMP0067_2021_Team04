@@ -126,13 +126,17 @@ export default function MyAdultProfile({navigation}) {
   
     },[]);
 
-  
+    const logOut= () => {
+        navigation.navigate('UserSelectLogin')
+        AsyncStorage.clear()
+          
+      }
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.titleBar}>
                     {/* <SettingsModal /> */}
-                    <Button onPress={() => navigation.navigate('UserSelectLogin')}  title={'Log out'}/>
+                    <Button onPress={() => logOut()}  title={'Log out'}/>
                 </View>
 
                 <View style={{ alignSelf: "center" }}>

@@ -5,7 +5,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const ChallengeOverModal = ({score, , total, , gameEnd, timestable, navigation, , difficulty}) => {
+const ChallengeOverModal = ({score, total, gameEnd, timestable, navigation, difficulty}) => {
   const [modalVisible, setModalVisible] = useState(true);
   const [statisticsSent, sendStatistics] = useState(0);
   const [user, userLoad] = useState();

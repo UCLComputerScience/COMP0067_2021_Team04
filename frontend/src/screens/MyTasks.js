@@ -64,7 +64,7 @@ const Tasks = ({navigation, route}) => {
       if (value !== null) {
         // We have data!!
         let result = JSON.parse(value);
-        if (route && route.params.parentView==1){
+        if (route.params && route.params.parentView==1){
             console.log(route)
             console.log("if statement")
         var address = 'http://34.247.47.193/api/v1/assignments/' + result.GSI1;}

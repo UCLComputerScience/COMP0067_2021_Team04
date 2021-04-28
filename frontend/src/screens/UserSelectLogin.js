@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {Text,Alert, TouchableOpacity,
   View,
   Button,
@@ -9,6 +9,8 @@ import {Text,Alert, TouchableOpacity,
 import { Dimensions } from "react-native";
 import ChooseUser from '../components/UserSelectIcon'
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 
 const screenWidth = Dimensions.get("window").width;
@@ -19,6 +21,32 @@ const UserSelectLogin = ({route,navigation})=>{
     const [modalVisible, setModalVisible] = useState(false);
     const [testing, setTesting] = useState();
     global.userType = testing;
+    useEffect(()=>{
+        async function fetchData (){
+    
+    try {
+      const value = await AsyncStorage.getItem('user');
+      if (value !== null) {
+        // We have data!!
+        let result = JSON.parse(value)
+        console.log(result)
+        setTesting(result.role)
+        if(result.role === 'student'){
+            navigation.navigate('numberFit');
+            }
+        if(result.role === 'parent'){
+              navigation.navigate('numberFitParent');
+              }
+        if(result.role === 'teacher'){
+              navigation.navigate('numberFitTeacher');
+              }
+        
+        
+      }
+    } catch (error) {
+      console.log("error")
+    }
+    }fetchData()},[])
     return(
         <View style = {styles.container}>
             <View style={styles.randomContainer}>

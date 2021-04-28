@@ -9,6 +9,8 @@ import {
   ScrollView,
   FlatList, Button
 } from 'react-native';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class ChallengeDirectory extends Component {
 
@@ -30,7 +32,36 @@ export default class ChallengeDirectory extends Component {
       ]
     };
   }
-
+  getChallenges = async()=>{
+    try {
+      const value = await AsyncStorage.getItem('user');
+      if (value !== null) {
+        // We have data!!
+        let result = JSON.parse(value)
+        let res = await axios.get('http://34.247.47.193/api/v1/challenges/pending/' + result.PK)
+    console.log(res)
+    this.setState((prevState) => {
+      return { ...prevState,
+        pendingChallenges: res
+              };
+            })
+        let res2 = await axios.get('http://34.247.47.193/api/v1/challenges/completed/' + result.PK)
+    console.log(res2)
+    this.setState((prevState) => {
+      return { ...prevState,
+        completedChallenges: res2
+              };
+            })
+  }
+        
+    } catch (error) {
+      console.log("error")
+    }
+  }
+    
+  componentDidMount() {
+    this.getChallenges()
+  }
   
 
   renderItem = ({item}) => {

@@ -15,7 +15,9 @@ import SparklyThing from '../components/Sparkle';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
+import avatarDict from '../components/AvatarDict'
 const user = require('./LoginScreen').user
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const bee = "../imgs/bee.jpeg"
 const butterfly = "../imgs/butterfly.jpeg"
@@ -45,23 +47,37 @@ export default class Challenger extends Component {
       modalVisible:false,
       userSelected:[],
       data: [
-        {id:1,  name: "Mark Doe",   position:"CEO",               image:"https://bootdey.com/img/Content/avatar/avatar1.png", about:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo."},
-        {id:2,  name: "John Doe",   position:"CTO",               image:"https://bootdey.com/img/Content/avatar/avatar1.png", about:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo."},
-        {id:3,  name: "Clark Man",  position:"Creative designer", image:"https://bootdey.com/img/Content/avatar/avatar6.png", about:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo."} ,
-        {id:4,  name: "Jaden Boor", position:"Front-end dev",     image:"https://bootdey.com/img/Content/avatar/avatar5.png", about:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo."} ,
-        {id:5,  name: "Srick Tree", position:"Backend-end dev",   image:"https://bootdey.com/img/Content/avatar/avatar4.png", about:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo."} ,
-        {id:6,  name: "John Doe",   position:"Creative designer", image:"https://bootdey.com/img/Content/avatar/avatar3.png", about:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo."} ,
-        {id:7,  name: "John Doe",   position:"Manager",           image:"https://bootdey.com/img/Content/avatar/avatar2.png", about:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo."} ,
-        {id:8,  name: "John Doe",   position:"IOS dev",           image:"https://bootdey.com/img/Content/avatar/avatar1.png", about:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo."} ,
-        {id:9,  name: "John Doe",   position:"Web dev",           image:"https://bootdey.com/img/Content/avatar/avatar4.png", about:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo."} ,
-        {id:10, name: "John Doe",   position:"Analyst",           image:"https://bootdey.com/img/Content/avatar/avatar7.png", about:"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo."} ,
       ],
+      user: {}
       
 
     };
   }
-  makeChallenge = (player1, player2) =>{
-    axios.post('http://localhost:3000/api/v1/challenges', {PK: player1, 
+  getClassMates = async()=> {
+    try {
+      const value = await AsyncStorage.getItem('user');
+      if (value !== null) {
+        // We have data!!
+        let result = JSON.parse(value)
+        
+    let classMates = await axios.get('http://34.247.47.193/api/v1/users/'+ result.GSI1)
+    console.log(classMates)
+    let classStudents = classMates.data.Items
+    console.log("here")
+    console.log(classStudents)
+    this.setState((prevState) => {
+      return { ...prevState,
+        data: classStudents,
+        user: result
+              };
+            })
+          
+  }
+}catch{
+  console.log('error getting class')
+}}
+  makeChallenge = async(player1, player2) =>{
+    let res = await axios.post('http://34.247.47.193/api/v1/challenges', {PK: player1, 
     GSI1: player2,
     data: {
         winner: 0,
@@ -84,7 +100,10 @@ this.props.navigation.navigate('Game',{challenge: 1})
   setModalVisible(visible) {
     this.setState({modalVisible: visible});
   }
-
+  componentDidMount() {
+    this.getClassMates()
+  }
+  
   render() {
     return (
       <View style={styles.container}>          
@@ -98,10 +117,10 @@ this.props.navigation.navigate('Game',{challenge: 1})
           renderItem={({item}) => {
           return (
             <TouchableOpacity style={styles.card}>
-              <Image style={styles.image} source={{uri: item.image}}/>
+              <Image style={styles.image} source={avatarDict[item.data.avatar]}/>
               <View style={styles.cardContent}>
-                <Text style={styles.name}>{item.name}</Text>
-                <TouchableOpacity style={styles.followButton} onPress={() => {this.makeChallenge('user', item.name)}}>
+                <Text style={styles.name}>{item.data.firstName + " " + item.data.lastName}</Text>
+                <TouchableOpacity style={styles.followButton} onPress={() => {this.makeChallenge(user.PK, item.PK)}}>
                   <Text style={styles.followButtonText}>Challenge</Text>  
                 </TouchableOpacity>
               </View>
@@ -118,7 +137,7 @@ this.props.navigation.navigate('Game',{challenge: 1})
             <View style={styles.popup}>
               <View style={styles.popupContent}>
                 <ScrollView contentContainerStyle={styles.modalInfo}>
-                    <Image style={styles.image} source={{uri: this.state.userSelected.image}}/>
+                    <Image style={styles.image} source={this.state.userSelected.image}/>
                     <Text style={styles.name}>{this.state.userSelected.name}</Text>
                     <Text style={styles.position}>{this.state.userSelected.position}</Text>
                     <Text style={styles.about}>{this.state.userSelected.about}</Text>

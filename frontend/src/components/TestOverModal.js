@@ -21,13 +21,32 @@ const TestOverModal = ({score, accuracy, total, onPress, gameEnd, timestable, na
           let result = JSON.parse(value)
           
           userLoad(result)
+      timesTableDict = {
+        "onex": 1,
+        "twox": 2,
+        "threex": 3,
+        "fourx": 4,
+        "fivex": 5,
+        "sixx": 6,
+        "sevenx": 7,
+        "eightx": 8,
+        "ninex": 9,
+        "tenx": 10,
+        "elevenx": 11,
+        "twelvex": 12,
+      }
+      difficultyDict = {
+        "beginner": "B",
+        "intermediate": "I",
+        "advanced": "A"
+      }
       let res = axios.post('http://34.247.47.193/api/v1/testStatistics',
       {"PK": result.PK,
       "timestable": timestable,
-      "SK": result.SK,
+      "SK": timesTableDict[timetable]+ difficultyDict[difficultyDict],
       "GSI1": result.GSI1,
       "difficulty": difficulty,
-      data:{
+      "data":{
         "timeTaken": timeTaken,
         "questions": total,
         "correctQuestions": score,

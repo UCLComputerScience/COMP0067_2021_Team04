@@ -4,21 +4,27 @@ import Game from './Game';
 import { StyleSheet } from 'react-native';
 import { TabRouter } from 'react-navigation';
 
+global.scoreTracker = 0
 
 export default class MultiChoiceGame extends Component {
     state = {
         gameId: 1,
         challenge: 0,
+        gamesWon: 0.05
     
-    };
-    challengeKey = this.props.navigation.state.params
+    };  
+    challengeKey = this.props.route.params
     resetGame = () => {
+        global.scoreTracker = this.state.gamesWon
+        console.warn(global.scoreTracker)
         this.setState((prevState) => {
             return { ...prevState,
-                gameId: prevState.gameId + 1
+                gameId: prevState.gameId + 1,
+                gamesWon: prevState.gamesWon + 1/20
                     };
         });
     };
+    
     checkChallenge = ()=>{
         if(this.challengeKey){
             this.setState((prevState) => {
@@ -26,6 +32,7 @@ export default class MultiChoiceGame extends Component {
                     challenge: 1};
         })
     }}
+    
     render() {
         return (
             <View style={styles.container}>
@@ -35,6 +42,7 @@ export default class MultiChoiceGame extends Component {
                 randomNumberCount={5} 
                 initialSeconds={10} 
                 challenge={this.challenge}
+                gamesWon={this.state.gamesWon}
                 />
             </View>
         );

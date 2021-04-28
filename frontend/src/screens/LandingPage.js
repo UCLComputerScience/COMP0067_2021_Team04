@@ -34,25 +34,6 @@ export function ChangeChoice(number) {
       return selection;
 }
 
-
-class LandingPage extends React.Component {
-    state = {
-        selectedIds: [],
-    }
-    isNumberSelected = (numberIndex) => {
-        return this.state.selectedIds.indexOf(numberIndex) >= 0;
-    };
-    // beginner="#cd7f32"
-    // intermediate="#c0c0c0"
-    // advanced="ffd700"
-    selectNumber = (numberIndex) => {
-        this.setState((prevState) => ({ 
-            selectedIds: [...prevState.selectedIds, numberIndex],
-        }));
-    };
-}
-
-
 const IconNav = ({navigation}) => {
   const [testing, setTesting] = useState();
   const [loggedIn, setLogin] = useState(0);
@@ -257,7 +238,8 @@ fetchData()
                   isDisabled = {false}
                   onPress={() => {setTesting(11)
                                   navigation.navigate('Difficulty', {difficulty: difficultyDict[user.elevenx]})}}                   />
-       <TTButton number={twelve}
+       
+                  <TTButton number={twelve}
                   colour={difficultyColours[user.twelvex]}
                   isDisabled = {false}
                   onPress={() => {setTesting(12)
@@ -278,7 +260,8 @@ fetchData()
     />
     <TouchableHighlight 
       underlayColor = '#ccc'
-      onPress={() => navigation.navigate('Challenge')}
+      onPress={() => {navigation.navigate('ChallengeDirectory')
+                      global.scoreTracker = 0}}
     >
       <Image style={styles.tinyLogo}
           source={require('../imgs/multiplayer-icon-mode-isolated-contour-vector-28398206.jpg')}

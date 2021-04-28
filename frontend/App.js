@@ -47,7 +47,7 @@ import MyAdultProfile from './src/screens/MyAdultProfile';
 import LoginLoader from './src/screens/LoginLoader';
 import LoginLoaderParent from './src/screens/LoginLoaderParent';
 import LoginLoaderTeacher from './src/screens/LoginLoaderTeacher';
-
+import ChallengeDirectory from './src/screens/ChallengeDirectory';
 
 
 const LoginStack = createStackNavigator();
@@ -224,7 +224,6 @@ return (
           fontWeight: 'bold',
         },})}/>
     <PlayStack.Screen name="Load Video" component={VidLoader} options={{headerShown: false}}/>
-    {/* <PlayStack.Screen name="Example" component={Example} options={{headerShown: false}}/> */}
     <PlayStack.Screen name="Video" component={PlayVideo} options={({navigation}) => ({
       title: 'Workout',
         headerStyle: {
@@ -277,10 +276,19 @@ return (
 <PlayStack.Screen name="EndGame" component={TestOverModal} />
     <PlayStack.Screen name="Load" component={Loader} options={{headerShown: false}} />
     <PlayStack.Screen name="Quit" component={Quit} options={{headerShown: false}} />
-    <PlayStack.Screen name="Challenge" component={Challenger} options={() => ({
+    <PlayStack.Screen name="ChallengeDirectory" component={ChallengeDirectory}   options={() => ({
           title: 'Challenge',
         headerStyle: {
-          backgroundColor: 'violet',
+          backgroundColor: '#F08080',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },})}/>
+    <PlayStack.Screen name="Challenge" component={Challenger} options={() => ({
+          title: 'Begin new Challenge',
+        headerStyle: {
+          backgroundColor: '#F08080',
         },
         headerTintColor: '#fff',
         headerTitleStyle: {

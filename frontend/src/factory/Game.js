@@ -3,13 +3,11 @@ import PropTypes from 'prop-types';
 import { View, Text, Button, StyleSheet, Animated, ImageBackground } from 'react-native';
 import RandomNumber from './RandomNumber';
 import { first, shuffle } from "lodash";
-// import {dos} from './LandingPage';
 import Timer from '../components/Timer';
-// import AppBar from './AppBar';
-import GameHeader from '../components/GameHeader';
-import Quit from '../components/QuitGame';
 import { HeaderBackButton } from 'react-navigation';
 import EndGame from '../components/EndGameModal';
+import StopWatch from '../components/StopWatch'
+import ChallengeOverModal from '../components/ChallengeOverModal'
 
 global.gameScorer = 0
 
@@ -47,12 +45,20 @@ class Game extends React.Component {
         selectedIds: [],
         remainingSeconds: this.props.initialSeconds,
         gameScore: 0,
+        efficiency: 0
     };
 
     generateQ = () => {
         return this.first * this.second
     }
 
+    gameStatusChecker = () => {
+        if(this.gameStatus !== 'PLAYING') {
+            return 'true'
+        } else {
+            return false
+        }
+    }
 
     gameStatus = 'PLAYING';
     first = getRndInteger(1,12)
@@ -64,13 +70,21 @@ class Game extends React.Component {
         .map(() =>  getRndInteger(1,200))
         .concat(this.goal);
 
-        
-
-  
-
     shuffledRandomNumbers = shuffle(this.randomNumbers)
 
     componentDidMount() {
+        this.intervalId2 = setInterval(() => {
+            this.setState(
+                (prevState) => {
+                return { efficiency: prevState.efficiency + 1 };
+            },
+            () => {
+                if (this.gameOver === 'GAME_OVER') {
+                    clearInterval(this.intervalId2);
+                }
+            },
+            );
+        }, 1000);
         this.intervalId = setInterval(() => {
             this.setState(
                 (prevState) => {
@@ -92,7 +106,7 @@ class Game extends React.Component {
     };
     selectNumber = (numberIndex) => {
         this.setState((prevState) => ({ 
-            selectedIds: [...prevState.selectedIds, numberIndex],
+            selectedIds: [numberIndex],
         }));
     };
     componentWillUpdate(nextProps, nextState) {
@@ -151,12 +165,19 @@ class Game extends React.Component {
         return (
             <View style={styles.container}>
                   
-                {/* {/* <Text style = {styles.titleText}>  </Text> */}
-                <Text style = {styles.titleText}>  </Text>
+                  <Text style = {styles.titleText}> </Text>
+                {/* <StopWatch /> */}
 
                 <Text style = {styles.titleText}>Select the correct answer for this multiplication:</Text>
                 <Text style={[styles.target, styles['STATUS_' + gameStatus]]}> {this.first} x {this.second}
                 </Text>
+                <Text style = {styles.titleText}> Score: {global.gameScorer} </Text>
+
+                {global.scoreTracker = 1  && (
+                <ChallengeOvermOdal score={this.state.testScore}
+                                gameEnd={this.gameOver}
+                             
+                                  />)}
 
                 <View style={styles.randomContainer}>
                     {this.shuffledRandomNumbers.map((randomNumber, index) => (
@@ -168,11 +189,12 @@ class Game extends React.Component {
                     onPress={this.selectNumber}
                     />
                 ))}
-                                <Timer isPlaying ={true} />
+<Timer isPlaying={this.gameStatusChecker()} />
 
             </View>
-            {this.gameStatus !== 'PLAYING' && (
+            {global.scoreTracker !== 1, this.gameStatus !== 'PLAYING' && (
             <Button title="Continue"  onPress={this.props.onPlayAgain} />)}
+
                                                 
             {/* {this.gameStatus !== 'PLAYING' && (
             <Button title="Play Again" onPress={this.props.onPlayAgain} />)}

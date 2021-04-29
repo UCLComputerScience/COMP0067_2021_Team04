@@ -8,7 +8,7 @@ import avatarDict from "../components/AvatarDict";
 import SettingsModal from "../components/SettingsModal";
 import AchievementModal from '../components/AchievementModal';
 
-console.disableYellowBox = true;
+// console.disableYellowBox = true;
 
   
 

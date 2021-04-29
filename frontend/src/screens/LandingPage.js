@@ -12,6 +12,8 @@ import TestOverModal from '../components/TestOverModal';
 import AchievementModal from '../components/AchievementModal';
 import SettingsModal from '../components/SettingsModal';
 
+console.warn(global.scoreTracker)
+
 const beginner="#cd7f32"
 const intermediate="#c0c0c0"
 const advanced="#ffd700"
@@ -37,7 +39,9 @@ export function ChangeChoice(number) {
 const IconNav = ({navigation}) => {
   const [testing, setTesting] = useState();
   const [loggedIn, setLogin] = useState(0);
+  const [challenge, setChallenge] = useState();
    global.TT = testing;
+   global.scoreTracker = challenge;
   const difficultyColours = 
 {
   0:"#cd7f32",
@@ -247,7 +251,8 @@ fetchData()
     </View>
     <View style = {styles.extrabuttons}>
     <TouchableHighlight 
-      onPress={() => navigation.navigate('Countdown3')}
+      onPress={() => {setChallenge(0)
+                      navigation.navigate('Countdown3')}}
     >
       <Image style={styles.tinyLogo}
           source={require('../imgs/vector-shuffle-glyph-black-icon.jpg')}
@@ -260,8 +265,7 @@ fetchData()
     />
     <TouchableHighlight 
       underlayColor = '#ccc'
-      onPress={() => {navigation.navigate('ChallengeDirectory')
-                      global.scoreTracker = 0}}
+      onPress={() => navigation.navigate('ChallengeDirectory')}
     >
       <Image style={styles.tinyLogo}
           source={require('../imgs/multiplayer-icon-mode-isolated-contour-vector-28398206.jpg')}

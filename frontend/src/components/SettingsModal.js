@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView, TouchableHighlight, Pressable, Modal, Button, Alert} from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, Image, TouchableOpacity, ScrollView, TouchableHighlight, Pressable, Modal, Button, Alert} from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import PropTypes from 'prop-types';
 import SettingsButton from '../components/SettingsButton';
@@ -40,9 +40,9 @@ const SettingsModal = () => {
           </View>
         </View>
       </Modal>
-      <TouchableHighlight onPress={() => setModalVisible(true)}>
+      <TouchableOpacity onPress={() => setModalVisible(true)}>
       <Ionicons name="help-circle" size={40} color="black"></Ionicons>
-      </TouchableHighlight>
+      </TouchableOpacity>
     </View>
   );
 };

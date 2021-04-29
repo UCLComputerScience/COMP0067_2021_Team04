@@ -183,12 +183,13 @@ export default function MyProfile({navigation}) {
                         <Text style={[styles.text, styles.subText, {fontSize: 12}]}>Excercises Completed</Text>
                     </View>
                 </View>
-
+                
                 <View style={{ marginTop: 32 }}>
                 </View>
                 <Text style={[styles.subText, styles.recent]}>Achievements</Text>
                 <View style={styles.awardContainer}>
-                    <TouchableHighlight onPress = { () => alert('Mastered!') }>
+                    <Image source={require('../imgs/5446865f2573487f591e212429523e35.jpg')} />
+                    {/* <TouchableHighlight onPress = { () => alert('Mastered!') }>
                 <Ionicons name="trophy" size={60} color="gold"></Ionicons>
                 </TouchableHighlight>
                 <TouchableHighlight onPress = { () => alert('Do better next time!') }
@@ -205,7 +206,7 @@ export default function MyProfile({navigation}) {
                 </TouchableHighlight>
                 <TouchableHighlight onPress = { () => alert('Room for improvement') }>
                 <Ionicons name="star" size={60} color="silver"></Ionicons>
-                </TouchableHighlight>
+                </TouchableHighlight> */}
                 </View>  
                 <AchievementModal />
                 <Text style={[styles.subText, styles.recent]}>Recent Activity</Text>
@@ -246,7 +247,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-evenly',
-        backgroundColor: 'black'
+        backgroundColor: '#006400'
     },
     text: {
         fontFamily: "HelveticaNeue",

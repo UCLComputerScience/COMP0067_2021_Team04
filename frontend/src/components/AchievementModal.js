@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
+import { Alert, Modal, StyleSheet, Text, Pressable, View,TouchableOpacity } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-
+import Award from '../components/Award';
 
 
 const AchievementModal = () => {
@@ -157,27 +157,24 @@ fetchData()
           <View style={styles.textContainer}><Text style={styles.text}>Awards</Text></View>
 
             <Text style={styles.modalText}>
-                
-            <Ionicons name="medal" size={50} color={difficultyColours[0]}></Ionicons>
-            <Ionicons name="trophy" size={50} color={difficultyColours[2]}></Ionicons>
-            <Ionicons name="star" size={50} color={difficultyColours[0]}></Ionicons>
-            <Ionicons name="medal" size={50} color={difficultyColours[2]}></Ionicons>
-            <Ionicons name="medal" size={50} color={difficultyColours[1]}></Ionicons>
-            <Ionicons name="trophy" size={50} color={difficultyColours[1]}></Ionicons>
-            <Ionicons name="trophy" size={50} color={difficultyColours[3]}></Ionicons>
-            <Ionicons name="star" size={50} color={difficultyColours[2]}></Ionicons>
-            <Ionicons name="trophy" size={50} color={difficultyColours[1]}></Ionicons>
-<Ionicons name="trophy" size={50} color={difficultyColours[2]}></Ionicons>
-<Ionicons name="star" size={50} color={difficultyColours[3]}></Ionicons>
-<Ionicons name="medal" size={50} color={difficultyColours[2]}></Ionicons>
-            <Ionicons name="medal" size={50} color={difficultyColours[1]}></Ionicons>
-            <Ionicons name="trophy" size={50} color={difficultyColours[1]}></Ionicons>
-            <Ionicons name="trophy" size={50} color={difficultyColours[3]}></Ionicons>
-            <Ionicons name="trophy" size={50} color={difficultyColours[2]}></Ionicons>
-<Ionicons name="star" size={50} color={difficultyColours[3]}></Ionicons>
-<Ionicons name="medal" size={50} color={difficultyColours[2]}></Ionicons>
-
-
+                <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 2x table'} awardName={'star'} isDisabled={true} awardMessage={'Hello'} />
+                <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 3x table'} awardName={'star'} isDisabled={true} awardMessage={'Hello'} />
+                <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 4x table'} awardName={'star'} isDisabled={true} awardMessage={'Hello'} />
+                <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 5x table'} awardName={'star'} isDisabled={true} awardMessage={'Hello'} />
+                <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 6x table'} awardName={'star'} isDisabled={true} awardMessage={'Hello'} />
+                <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 7x table'} awardName={'star'} isDisabled={true} awardMessage={'Hello'} />
+                <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 8x table'} awardName={'star'} isDisabled={true} awardMessage={'Hello'} />
+                <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 9x table'} awardName={'star'} isDisabled={true} awardMessage={'Hello'} />
+                <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 10x table'} awardName={'star'} isDisabled={true} awardMessage={'Hello'} />
+                <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 11x table'} awardName={'star'} isDisabled={true} awardMessage={'Hello'} />
+                <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 12x table'} awardName={'star'} isDisabled={true} awardMessage={'Hello'} />
+                <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Spend over 20 hours on the app'} awardName={'medal'} isDisabled={true} awardMessage={'Hello'} />
+                <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Win 3 challenges'} awardName={'medal'} isDisabled={true} awardMessage={'Hello'} />
+                <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Top the leaderboard'} awardName={'medal'} isDisabled={true} awardMessage={'Hello'} />
+                <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Build a 3 login streak'} awardName={'medal'} isDisabled={true} awardMessage={'Hello'} />
+                <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Build a 5 login streak'} awardName={'medal'} isDisabled={true} awardMessage={'Hello'} />
+                <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Build a 10 login streak'} awardName={'medal'} isDisabled={true} awardMessage={'Hello'} />
+                <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master every single times table'} awardName={'trophy'} isDisabled={true} awardMessage={'Hello'} />
 </Text>
             <Pressable
               style={[styles.button, styles.buttonClose]}

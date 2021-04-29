@@ -136,7 +136,7 @@ class Game extends React.Component {
             return acc + this.shuffledRandomNumbers[curr];
         }, 0);
         if (nextState.remainingSeconds === 0) {
-            global.gameScorer = global.gameScorer - 1
+            // global.gameScorer = global.gameScorer - 1
             return 'LOST';
         }
         if (sumSelected < this.target) {
@@ -174,7 +174,7 @@ class Game extends React.Component {
                 <Text style = {styles.titleText}> Score: {global.gameScorer} </Text>
 
                 {global.scoreTracker = 1  && (
-                <ChallengeOvermOdal score={this.state.testScore}
+                <ChallengeOverModal score={this.state.testScore}
                                 gameEnd={this.gameOver}
                              
                                   />)}
@@ -194,12 +194,6 @@ class Game extends React.Component {
             </View>
             {global.scoreTracker !== 1, this.gameStatus !== 'PLAYING' && (
             <Button title="Continue"  onPress={this.props.onPlayAgain} />)}
-
-                                                
-            {/* {this.gameStatus !== 'PLAYING' && (
-            <Button title="Play Again" onPress={this.props.onPlayAgain} />)}
-            {this.gameStatus == 'PLAYING' && (
-            <Timer isPlaying ={true} />)} */}
         </View>
         );
     }

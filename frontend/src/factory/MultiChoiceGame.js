@@ -40,7 +40,7 @@ export default class MultiChoiceGame extends Component {
                 key={this.state.gameId}
                 onPlayAgain={this.resetGame} 
                 randomNumberCount={5} 
-                initialSeconds={10} 
+                initialSeconds={120} 
                 challenge={this.challenge}
                 gamesWon={this.state.gamesWon}
                 />

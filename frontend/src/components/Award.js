@@ -19,7 +19,7 @@ class Award extends Component{
             {function(){
                 if(this.props.isLocked){return(
                     <TouchableOpacity onPress = {() => Alert.alert(this.props.lockedMessage, this.props.awardSubMessage)}>
-                    <Ionicons name={this.props.awardName} size={50} color={'#D3D3D3'}></Ionicons>
+                    <Ionicons name={this.props.awardName} size={50} color={'#606060'}></Ionicons>
                     </TouchableOpacity>
                 )}else{
                 return(<TouchableOpacity

@@ -188,27 +188,10 @@ export default function MyProfile({navigation}) {
                 </View>
                 <Text style={[styles.subText, styles.recent]}>Achievements</Text>
                 <View style={styles.awardContainer}>
-                    <Image source={require('../imgs/5446865f2573487f591e212429523e35.jpg')} />
-                    {/* <TouchableHighlight onPress = { () => alert('Mastered!') }>
-                <Ionicons name="trophy" size={60} color="gold"></Ionicons>
-                </TouchableHighlight>
-                <TouchableHighlight onPress = { () => alert('Do better next time!') }
->
-                <Ionicons name="star" size={60} color="#cd7f32"></Ionicons>
-                </TouchableHighlight>
-                <TouchableHighlight onPress = { () => alert('Mastered!') }
->
-                <Ionicons name="medal" size={60} color="gold"></Ionicons>
-                </TouchableHighlight>
-                <TouchableHighlight onPress = { () => alert('Good work - reach 60% for the silver award!') }
->
-                <Ionicons name="trophy" size={60} color="#cd7f32"></Ionicons>
-                </TouchableHighlight>
-                <TouchableHighlight onPress = { () => alert('Room for improvement') }>
-                <Ionicons name="star" size={60} color="silver"></Ionicons>
-                </TouchableHighlight> */}
                 </View>  
                 <AchievementModal />
+                <View style={styles.awardContainer}>
+                </View>  
                 <Text style={[styles.subText, styles.recent]}>Recent Activity</Text>
                 <View style={{ alignItems: "center" }}>
                     <View style={styles.recentItem}>
@@ -241,7 +224,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#FFF"
     },
     awardContainer: {
-        height:60,
+        height:20,
         width: '100%',
         flex: 1,
         flexDirection: 'row',

@@ -177,7 +177,7 @@ fetchData()
                 <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master every single times table'} awardName={'trophy'} isDisabled={true} awardMessage={'Hello'} />
 </Text>
             <Pressable
-              style={[styles.button, styles.buttonClose]}
+              style={[styles.buttonC, styles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}
             >
               <Text style={styles.textStyle}>Close</Text>
@@ -190,7 +190,7 @@ fetchData()
         style={[styles.button, styles.buttonOpen]}
         onPress={() => setModalVisible(true)}
       >
-        <Text style={styles.textStyle}>Show more...</Text>
+        <Text style={styles.textStyle}>Open your trophy cabinet</Text>
       </Pressable>
     </View>
   );
@@ -254,10 +254,20 @@ marginVertical: 30
   button: {
     borderRadius: 20,
     padding: 5,
-    elevation: 2
+    elevation: 2,
+    flex:1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginHorizontal: 80,
+    marginBottom:3
+  },
+  buttonC: {
+    borderRadius: 20,
+    padding: 5,
+    elevation: 2,
   },
   buttonOpen: {
-    backgroundColor: "black",
+    backgroundColor: "gold",
   },
   buttonClose: {
     backgroundColor: "#2196F3",

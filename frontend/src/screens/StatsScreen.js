@@ -91,6 +91,10 @@ const StatsScreen = ({navigation, route, child}) => {
              <Button
     title={user.data.firstName+ "'s" + " Assignments"}
     onPress = { () => navigation.navigate("Child's Tasks", {parentView: 1}) } /> )}
+     {global.userType === 'student' && (
+             <Button
+    title="Leaderboards"
+    onPress = { () => navigation.navigate('Load') } /> )}
     <Text style={styles.statisticTitle}>2x timestable</Text>
     <Progress completion={progressionFraction(user['twox'])}/>
     {/* <LineGraph /> */}
@@ -130,10 +134,7 @@ const StatsScreen = ({navigation, route, child}) => {
     <Text style={styles.statisticTitle}>12x timestable</Text>
     <Progress completion={progressionFraction(user['twelvex'])}/>
     <Table userDetails = {studentsData.twelvex} level = {user['twelvex']}/>
-    {global.userType === 'student' && (
-             <Button
-    title="Leaderboards"
-    onPress = { () => navigation.navigate('Load') } /> )}
+
     </ScrollView>
       </View> 
       );

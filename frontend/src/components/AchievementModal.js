@@ -140,6 +140,7 @@ fetchData()
 
 },[]);
 
+
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <View style={styles.uncenteredView}>
@@ -157,24 +158,24 @@ fetchData()
           <View style={styles.textContainer}><Text style={styles.text}>Awards</Text></View>
 
             <Text style={styles.modalText}>
-                <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 2x table'} awardName={'star'} isDisabled={true} awardMessage={'Hello'} />
-                <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 3x table'} awardName={'star'} isDisabled={true} awardMessage={'Hello'} />
-                <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 4x table'} awardName={'star'} isDisabled={true} awardMessage={'Hello'} />
-                <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 5x table'} awardName={'star'} isDisabled={true} awardMessage={'Hello'} />
-                <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 6x table'} awardName={'star'} isDisabled={true} awardMessage={'Hello'} />
-                <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 7x table'} awardName={'star'} isDisabled={true} awardMessage={'Hello'} />
-                <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 8x table'} awardName={'star'} isDisabled={true} awardMessage={'Hello'} />
-                <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 9x table'} awardName={'star'} isDisabled={true} awardMessage={'Hello'} />
-                <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 10x table'} awardName={'star'} isDisabled={true} awardMessage={'Hello'} />
-                <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 11x table'} awardName={'star'} isDisabled={true} awardMessage={'Hello'} />
-                <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 12x table'} awardName={'star'} isDisabled={true} awardMessage={'Hello'} />
+                <Award isLocked={user.twox != 3} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 2x table'} awardName={'star'} isDisabled={user.twox != 3} awardMessage={'Hello'} />
+                <Award isLocked={user.threex != 3} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 3x table'} awardName={'star'} isDisabled={user.threex != 3} awardMessage={'Hello'} />
+                <Award isLocked={user.fourx != 3} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 4x table'} awardName={'star'} isDisabled={user.fourx != 3} awardMessage={'Hello'} />
+                <Award isLocked={user.fivex != 3} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 5x table'} awardName={'star'} isDisabled={user.fivex != 3} awardMessage={'Hello'} />
+                <Award isLocked={user.sixx != 3} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 6x table'} awardName={'star'} isDisabled={user.sixx != 3} awardMessage={'Hello'} />
+                <Award isLocked={user.sevenx != 3} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 7x table'} awardName={'star'} isDisabled={user.sevenx != 3} awardMessage={'Hello'} />
+                <Award isLocked={user.eightx != 3} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 8x table'} awardName={'star'} isDisabled={user.eightx != 3} awardMessage={'Hello'} />
+                <Award isLocked={user.ninex != 3} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 9x table'} awardName={'star'} isDisabled={user.ninex != 3} awardMessage={'Hello'} />
+                <Award isLocked={user.tenx != 3} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 10x table'} awardName={'star'} isDisabled={user.tenx != 3} awardMessage={'Hello'} />
+                <Award isLocked={user.elevenx != 3} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 11x table'} awardName={'star'} isDisabled={user.elevenx != 3} awardMessage={'Hello'} />
+                <Award isLocked={user.twelvex != 3} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 12x table'} awardName={'star'} isDisabled={user.twelvex != 3} awardMessage={'Hello'} />
                 <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Spend over 20 hours on the app'} awardName={'medal'} isDisabled={true} awardMessage={'Hello'} />
                 <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Win 3 challenges'} awardName={'medal'} isDisabled={true} awardMessage={'Hello'} />
                 <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Top the leaderboard'} awardName={'medal'} isDisabled={true} awardMessage={'Hello'} />
                 <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Build a 3 login streak'} awardName={'medal'} isDisabled={true} awardMessage={'Hello'} />
                 <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Build a 5 login streak'} awardName={'medal'} isDisabled={true} awardMessage={'Hello'} />
                 <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Build a 10 login streak'} awardName={'medal'} isDisabled={true} awardMessage={'Hello'} />
-                <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master every single times table'} awardName={'trophy'} isDisabled={true} awardMessage={'Hello'} />
+                <Award isLocked={user.overall.timetableMastered != 11} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master every single times table'} awardName={'trophy'} isDisabled={true} awardMessage={'Hello'} />
 </Text>
             <Pressable
               style={[styles.buttonC, styles.buttonClose]}

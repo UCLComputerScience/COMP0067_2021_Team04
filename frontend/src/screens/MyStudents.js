@@ -1,5 +1,5 @@
 import React, { Component, useState, useEffect, useReducer } from "react";
-import { Alert, StyleSheet, Text, View, SafeAreaView, Image, ScrollView, TouchableHighlight, Pressable, TouchableOpacity } from "react-native";
+import { Alert, StyleSheet, Text,Button, View, SafeAreaView, Image, ScrollView, TouchableHighlight, Pressable, TouchableOpacity } from "react-native";
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell }  from 'react-native-table-component';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from "axios";
@@ -155,6 +155,7 @@ const MyStudents =({navigation}) => {
             <View style = {styles.classOptionsContainer}>
                 <TouchableOpacity
                     style={styles.classOptionButton}
+                    
                     onPress={() => changeClass(classID)}
                     >
                         <Text style = {styles.buttonText}>{set}</Text>

@@ -293,9 +293,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         alignContent: 'flex-end',
-        marginHorizontal: 10,
+        // marginHorizontal: 10,
         marginVertical: 10,
-        justifyContent: 'space-between',
+        justifyContent: 'space-evenly',
         alignItems: 'flex-end',
     },
     tinyLogo: {

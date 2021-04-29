@@ -101,7 +101,7 @@ export default class LeaderBoardScreen extends Component {
             choice: 1};}),this.getUser(1)}}>
               <Text style={styles.scaleText}>School</Text>
               </TouchableHighlight>
-              <View style={styles.line} />
+              {/* <View style={styles.line} /> */}
           </View>
         <View
           style={styles.headerWrap}
@@ -226,6 +226,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         fontFamily: "HelveticaNeue",
+        textAlign: 'center'
 
     },
     square: {

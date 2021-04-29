@@ -12,8 +12,8 @@ export default class MultiChoiceGame extends Component {
         challenge: 0,
         gamesWon: 0.05
     
-    };  
-    challengeKey = this.props.route.params
+    };
+    
     resetGame = () => {
         global.scoreTracker = this.state.gamesWon
         console.warn(global.scoreTracker)
@@ -24,15 +24,16 @@ export default class MultiChoiceGame extends Component {
                     };
         });
     };
-    
     checkChallenge = ()=>{
-        if(this.challengeKey){
+        if(this.props.route.params.challenge){
             this.setState((prevState) => {
                 return { ...prevState,
                     challenge: 1};
         })
     }}
-    
+    componentDidMount(){
+    this.checkChallenge()
+}
     render() {
         return (
             <View style={styles.container}>

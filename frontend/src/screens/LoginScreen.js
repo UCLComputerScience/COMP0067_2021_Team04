@@ -13,7 +13,7 @@ const LoginScreen = ({navigation}) => {
   const [loginFailed, attemptUpdate] = useState(false);
   const _storeData = async (userStr) => {
     try {
-      
+      console.log(userStr)
       await AsyncStorage.setItem(
         'user',
         userStr

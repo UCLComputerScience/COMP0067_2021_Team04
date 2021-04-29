@@ -54,6 +54,7 @@ const TestOverModal = ({score, accuracy, total, onPress, gameEnd, timestable, na
       }
     }
       )
+      
     sendStatistics(1)
     console.log('stat sent')}}
     

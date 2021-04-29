@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import avatarDict from "../components/AvatarDict";
 
 export default class ChallengeDirectory extends Component {
 
@@ -18,17 +19,11 @@ export default class ChallengeDirectory extends Component {
     super(props);
     this.state = {
       completedChallenges: [
-        {id:1,  name: "You vs Mr Beale",   image:"https://bootdey.com/img/Content/avatar/avatar7.png"},
-        {id:1,  name: "You vs Mr Beale",   image:"https://bootdey.com/img/Content/avatar/avatar7.png"},
-        {id:1,  name: "You vs Mr Beale",   image:"https://bootdey.com/img/Content/avatar/avatar7.png"},
-        {id:1,  name: "You vs Mr Beale",   image:"https://bootdey.com/img/Content/avatar/avatar7.png"},
+        
       ],
 
       pendingChallenges: [
-        {id:1,  name: "You vs Robert",   image:"https://bootdey.com/img/Content/avatar/avatar8.png"},
-        {id:1,  name: "You vs Robert",   image:"https://bootdey.com/img/Content/avatar/avatar8.png"},
-        {id:1,  name: "You vs Robert",   image:"https://bootdey.com/img/Content/avatar/avatar8.png"},
-        {id:1,  name: "You vs Robert",   image:"https://bootdey.com/img/Content/avatar/avatar8.png"},
+        
       ]
     };
   }
@@ -65,15 +60,16 @@ export default class ChallengeDirectory extends Component {
   
 
   renderItem = ({item}) => {
+    if(this.data!=[]){
     return (
         <View>
       <TouchableOpacity onPress={() => Alert.alert('Challenge details')}>
         <View style={styles.row}>
-          <Image source={{ uri: item.image }} style={styles.pic} />
+          <Image source={avatarDict[item.data.avatar]} style={styles.pic} />
           
           <View>
             <View style={styles.nameContainer}>
-              <Text style={styles.nameTxt} numberOfLines={1} ellipsizeMode="tail">{item.name}</Text>
+              <Text style={styles.nameTxt} numberOfLines={1} ellipsizeMode="tail">{item.data.firstName + " " + item.data.lastName}</Text>
               
               <Text style={{marginTop:15, marginHorizontal: -90, flex: 1, flexDirection: 'row', flexWrap: 'wrap'}}>testteacher@gmail.com</Text>
             </View>
@@ -85,19 +81,20 @@ export default class ChallengeDirectory extends Component {
               </View>
               
     );
-  }
+  }}
 
   renderItem = ({item}) => {
+    if(this.data!=[]){
     return (
         <View>
       <TouchableOpacity onPress={() => Alert.alert('Challenge details')}>
         <View style={styles.row}>
-          <Image source={{ uri: item.image }} style={styles.pic} />
+          <Image source={avatarDict[item.data.avatar]} style={styles.pic} />
 
           <View>
             <View style={styles.nameContainer}>
-              <Text style={styles.nameTxt} numberOfLines={1} ellipsizeMode="tail">{item.name}</Text>
-              <Image source={{ uri: item.image }} style={styles.pic} />
+              <Text style={styles.nameTxt} numberOfLines={1} ellipsizeMode="tail">{item.data.firstName + " " + item.data.lastName}</Text>
+              <Image source={avatarDict[item.data.avatar]} style={styles.pic} />
 
             </View>
             <View style={styles.msgContainer}>
@@ -109,7 +106,7 @@ export default class ChallengeDirectory extends Component {
               
     );
   }
-
+  }
   render() {
     return(
       <View style={{ flex: 1 }} >

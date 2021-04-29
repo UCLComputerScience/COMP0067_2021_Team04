@@ -77,13 +77,9 @@ export default class Challenger extends Component {
   console.log('error getting class')
 }}
   makeChallenge = async(player1, player2) =>{
-    let res = await axios.post('http://34.247.47.193/api/v1/challenges', {PK: player1, 
-    GSI1: player2,
-    data: {
-        winner: 0,
-         player1Score: 0,
-         player2Score: 0
-}}).then(res => {
+    let res = await axios.post('http://34.247.47.193/api/v1/challenges', {"PK": player1, 
+    "GSI1": player2
+}).then(res => {
   console.log(res);
   console.log(res.data);
 });
@@ -120,7 +116,7 @@ this.props.navigation.navigate('Game',{challenge: 1})
               <Image style={styles.image} source={avatarDict[item.data.avatar]}/>
               <View style={styles.cardContent}>
                 <Text style={styles.name}>{item.data.firstName + " " + item.data.lastName}</Text>
-                <TouchableOpacity style={styles.followButton} onPress={() => {this.makeChallenge(user.PK, item.PK)}}>
+                <TouchableOpacity style={styles.followButton} onPress={() => {this.makeChallenge(this.state.user.PK, item.PK)}}>
                   <Text style={styles.followButtonText}>Challenge</Text>  
                 </TouchableOpacity>
               </View>

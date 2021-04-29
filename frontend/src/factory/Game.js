@@ -52,14 +52,6 @@ class Game extends React.Component {
         return this.first * this.second
     }
 
-    gameStatusChecker = () => {
-        if(this.gameStatus !== 'PLAYING') {
-            return 'true'
-        } else {
-            return false
-        }
-    }
-
     gameStatus = 'PLAYING';
     first = getRndInteger(1,12)
     second = getRndInteger(1,12)
@@ -128,6 +120,13 @@ class Game extends React.Component {
         // this.state.isPlaying = true
     };
 
+    // gameStatusChecker = () => {
+    //     if(this.calcGameStatus() === 'PLAYING') {
+    //         return true
+    //     } else {
+    //         return false
+    //     };
+    // }
 
 
     calcGameStatus = (nextState) => {
@@ -173,7 +172,7 @@ class Game extends React.Component {
                 </Text>
                 <Text style = {styles.titleText}> Score: {global.gameScorer} </Text>
 
-                {global.scoreTracker = 1  && (
+                {global.scoreTracker === 1  && (
                 <ChallengeOverModal score={this.state.testScore}
                                 gameEnd={this.gameOver}
                              
@@ -189,7 +188,7 @@ class Game extends React.Component {
                     onPress={this.selectNumber}
                     />
                 ))}
-<Timer isPlaying={this.gameStatusChecker()} />
+<Timer isPlaying={true} />
 
             </View>
             {global.scoreTracker !== 1, this.gameStatus !== 'PLAYING' && (

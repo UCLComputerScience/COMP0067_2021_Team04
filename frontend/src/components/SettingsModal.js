@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView, TouchableHighlight, Pressable, Modal, Button, Alert} from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, Image, TouchableOpacity, ScrollView, TouchableHighlight, Pressable, Modal, Button, Alert} from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import PropTypes from 'prop-types';
 import SettingsButton from '../components/SettingsButton';
@@ -24,6 +24,7 @@ const SettingsModal = () => {
           <View style={styles.modalView}>
         
             <View style={styles.central}>
+            <Text style={styles.modalText}>Complete tests to level up, login daily to up your streak!</Text>
             <Text style={styles.modalText}>Select any of the timestables to begin your journey.</Text>
             <Text style={styles.modalText}>Practice your skills in shuffle mode</Text>
             <Text style={styles.modalText}>Compete with friends to gain award via the blue challenge button</Text>
@@ -39,9 +40,9 @@ const SettingsModal = () => {
           </View>
         </View>
       </Modal>
-      <TouchableHighlight onPress={() => setModalVisible(true)}>
+      <TouchableOpacity onPress={() => setModalVisible(true)}>
       <Ionicons name="help-circle" size={40} color="black"></Ionicons>
-      </TouchableHighlight>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
     marginTop: 50,
     backgroundColor: "lightgrey",
     borderRadius: 20,
-    padding: 70,
+    padding: 60,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {

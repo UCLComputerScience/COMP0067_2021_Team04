@@ -2,7 +2,9 @@ import React, {useState, useEffect} from 'react';
 import { Alert, Modal, StyleSheet, Text, Pressable, View,TouchableOpacity } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import Award from '../components/Award';
+import { Dimensions } from "react-native";
 
+const screenWidth = Dimensions.get("window").width;
 
 const AchievementModal = () => {
 
@@ -254,13 +256,13 @@ marginVertical: 30
   },
   button: {
     borderRadius: 20,
-    padding: 5,
+    padding: 10,
     elevation: 2,
     flex:1,
     flexDirection: 'row',
     justifyContent: 'center',
     marginHorizontal: 80,
-    marginBottom:3
+    marginBottom:3,
   },
   buttonC: {
     borderRadius: 20,
@@ -276,7 +278,9 @@ marginVertical: 30
   textStyle: {
     color: "white",
     fontWeight: "bold",
-    textAlign: "center"
+    textAlign: "center",
+    fontSize: 20
+    
   },
   modalText: {
     marginBottom: 15,

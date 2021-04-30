@@ -77,6 +77,7 @@ export default class Challenger extends Component {
   console.log('error getting class')
 }}
   makeChallenge = async(player1, player2) =>{
+    
     let res = await axios.post('http://34.247.47.193/api/v1/challenges', {"PK": player1, 
     "GSI1": player2
 }).then(res => {

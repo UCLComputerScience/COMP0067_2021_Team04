@@ -86,7 +86,7 @@ class Countdown2 extends Component {
                 {/* <Animated.View style={{opacity: this.state.LogoText}}> 
             <Text style={styles.logoText}>HEALTHY CHILDREN LOVE LEARNING</Text>
             </Animated.View> */}
-            {/* <StartSound /> */}
+            <StartSound />
             </View>
         );
         }

@@ -33,7 +33,8 @@ export default class ChallengeDirectory extends Component {
       if (value !== null) {
         // We have data!!
         let result = JSON.parse(value)
-        let res = await axios.get('http://34.247.47.193/api/v1/challenges/pending/' + result.PK)
+        let pendingAddress = 'http://34.247.47.193/api/v1/challenges/pending/' + result.PK
+        let res = await axios.get(pendingAddress)
     console.log(res)
     this.setState((prevState) => {
       return { ...prevState,

@@ -75,7 +75,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: "flex-start",
     marginTop: 3,
-    justifyContent: 'center'
+    marginHorizontal: 55,
+    justifyContent: 'flex-start'
   },
   other: {
     width:50,

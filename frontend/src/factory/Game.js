@@ -8,8 +8,12 @@ import { HeaderBackButton } from 'react-navigation';
 import EndGame from '../components/EndGameModal';
 import StopWatch from '../components/StopWatch'
 import ChallengeOverModal from '../components/ChallengeOverModal'
+import * as Progress from 'react-native-progress';
+import { Dimensions } from "react-native";
 
 global.gameScorer = 0
+
+const screenWidth = Dimensions.get("window").width;
 
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
@@ -45,7 +49,8 @@ class Game extends React.Component {
         selectedIds: [],
         remainingSeconds: this.props.initialSeconds,
         gameScore: 0,
-        efficiency: 0
+        efficiency: 0,
+        progress: 0
     };
 
     generateQ = () => {
@@ -71,7 +76,8 @@ class Game extends React.Component {
         .concat(this.goal);
 
     shuffledRandomNumbers = shuffle(this.randomNumbers)
-
+    
+    
     componentDidMount() {
         this.intervalId2 = setInterval(() => {
             this.setState(
@@ -164,7 +170,9 @@ class Game extends React.Component {
         const gameStatus = this.gameStatus;
         return (
             <View style={styles.container}>
-                  
+                                    <Progress.Bar progress={global.scoreTracker} width={screenWidth} height={10} unfilledColor={'gray'} />
+                                    
+
                   <Text style = {styles.titleText}> </Text>
                 {/* <StopWatch /> */}
 

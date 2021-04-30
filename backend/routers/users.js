@@ -119,6 +119,7 @@ router.post(`/register/student`, [ ...validators.postStudentValidators], async (
                         pendingAssignments: 0,
                         experience: 0,
                         streak: 0,
+                        maxStreak: 0,
                         score: 0,
                         lastLogin: "",
                         school: schoolId.Item.GSI1

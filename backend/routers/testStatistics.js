@@ -220,21 +220,30 @@ router.post(`/`, async (req, res) => {
         await documentClient.put(params).promise();   
         await documentClient.update(params2).promise();  
         await documentClient.update(params3).promise();  
+        updatedProfile = await documentClient.get({
+            TableName: TABLE_NAME,
+            Key: {
+                PK: req.body.PK, 
+                SK: 'profile',
+            }}).promise();
         if (req.body.data.correctQuestions == 14 && testStats.Items.length == 0 && req.body.SK.slice(-1) == 'A') {
             res.status(200).json({
                 message: "Congratulations you have mastered this timestable",
-                success: true
+                success: true,
+                updatedProfile
                 });
         }
         else if (req.body.data.correctQuestions == 14 && testStats.Items.length == 0) {
             res.status(200).json({
                 message: "You have unlocked a new level!",
-                success: true
+                success: true,
+                updatedProfile
                 });
         } else {
         res.status(200).json({
             message: 'Congratulations. You have finished the test',
-            success: true
+            success: true,
+            updatedProfile
             });}
         } catch (err) {
             console.error(err);

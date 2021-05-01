@@ -37,6 +37,8 @@ export function ChangeChoice(number) {
 const IconNav = ({navigation}) => {
   const [testing, setTesting] = useState();
   const [loggedIn, setLogin] = useState(0);
+    const [tracker, setTracker] = useState();
+    global.scoreTracker = tracker;
    global.TT = testing;
   const difficultyColours = 
 {
@@ -248,6 +250,7 @@ fetchData()
     <View style = {styles.extrabuttons}>
     <TouchableHighlight 
       onPress={() => navigation.navigate('Countdown3')}
+                      
     >
       <Image style={styles.tinyLogo}
           source={require('../imgs/vector-shuffle-glyph-black-icon.jpg')}
@@ -261,7 +264,7 @@ fetchData()
     <TouchableHighlight 
       underlayColor = '#ccc'
       onPress={() => {navigation.navigate('ChallengeDirectory')
-                      global.scoreTracker = 0}}
+                      setTracker(0)}}
     >
       <Image style={styles.tinyLogo}
           source={require('../imgs/multiplayer-icon-mode-isolated-contour-vector-28398206.jpg')}

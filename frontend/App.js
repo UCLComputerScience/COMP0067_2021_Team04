@@ -48,7 +48,7 @@ import LoginLoader from './src/screens/LoginLoader';
 import LoginLoaderParent from './src/screens/LoginLoaderParent';
 import LoginLoaderTeacher from './src/screens/LoginLoaderTeacher';
 import ChallengeDirectory from './src/screens/ChallengeDirectory';
-
+import MyTeacherProfile from './src/screens/TeacherProfile';
 
 const LoginStack = createStackNavigator();
 
@@ -358,6 +358,25 @@ return (
 );
 }
 
+const MyTeacherProfileStack = createStackNavigator();
+
+function MyTeacherProfileStackScreen() {
+return (
+  <MyTeacherProfileStack.Navigator>
+    <MyTeacherProfileStack.Screen name="My Profile" component={MyTeacherProfile} options={() => ({
+          headerLeft: () => {
+    return null}, title: 'My Profile',
+        headerStyle: {
+          backgroundColor: '#B22222',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },})}/>
+  </MyTeacherProfileStack.Navigator>
+);
+}
+
 const ProfileStack = createStackNavigator();
 
 function ProfileStackScreen() {
@@ -415,6 +434,8 @@ return (
   </MyAdultProfileStack.Navigator>
 );
 }
+
+
 
 const SetAssignmentStack = createStackNavigator();
 
@@ -564,17 +585,9 @@ function StackNaviParent() {
           ),
         }}
           />
-                    <TabParent.Screen name="Contact" component={ContactStackScreen} 
-          options={{
-          tabBarLabel: 'Contact',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="forum" color={'#483D8B'} size={size} />
-          ),
-        }}
-          />
                             <TabParent.Screen name="Profile" component={MyAdultProfileStackScreen} 
           options={{
-          tabBarLabel: 'Profile',
+          tabBarLabel: 'My Profile',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="account-box" color={'#800000'} size={size} />
           ),
@@ -604,9 +617,9 @@ function StackNaviParent() {
             ),
           }}
             />
-                      <TabTeacher.Screen name="Profile" component={MyAdultProfileStackScreen} 
+                      <TabTeacher.Screen name="Profile" component={MyTeacherProfileStackScreen} 
             options={{
-            tabBarLabel: 'Profile',
+            tabBarLabel: 'My Profile',
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="account-box" color={'#800000'} size={size} />
             ),

@@ -73,12 +73,11 @@ export default class Challenger extends Component {
     
     let res = await axios.post('http://34.247.47.193/api/v1/challenges', {"PK": player1, 
     "GSI1": player2
-}).then(res => {
-  console.log(res);
-  console.log(res.data);
-});
+})
+let chalID = res.data.challengeID
+console.log(challengeID)
 this.setModalVisible(false)
-this.props.navigation.navigate('Game',{challenge: 1})
+this.props.navigation.navigate('Game',{challenge: 1, challengeID: chalID})
 
   }
   clickEventListener = (item) => {

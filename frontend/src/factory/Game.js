@@ -185,6 +185,7 @@ class Game extends React.Component {
                 <ChallengeOverModal score={global.gameScorer}
                                 gameEnd={this.gameOver}
                                 challenge={this.props.challenge}
+                                challengeID = {this.props.challengeID}
 
                              
                                   />)}

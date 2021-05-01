@@ -4,7 +4,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const FormInput = ({labelValue, placeholderText, iconType, loginFail, ...rest}) => {
     // [userNotFound, loginUpdate] = useState(loginFail)
-    wrongDetails = () =>{
+    const wrongDetails = () =>{
       
       if (loginFail){
         console.log('loginfailed')

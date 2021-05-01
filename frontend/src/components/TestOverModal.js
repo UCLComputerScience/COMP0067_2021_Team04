@@ -12,6 +12,7 @@ const TestOverModal = ({score, accuracy, total, onPress, gameEnd, timestable, na
   
   global.engagement = sendStatistics
   const _storeData = async (userStr) => {
+    
     try {
       console.log(userStr)
       await AsyncStorage.setItem(
@@ -65,6 +66,9 @@ const TestOverModal = ({score, accuracy, total, onPress, gameEnd, timestable, na
       console.log(sK)
       console.log(timesTableDict[timestable])
       console.log(getDifficulty[difficulty])
+      console.log(timeTaken)
+      console.log(total)
+      console.log(score)
       let res = await axios.post('http://34.247.47.193/api/v1/testStatistics',
       {"PK": result.PK,
       "timestable": timesTableDict[timestable],

@@ -24,9 +24,35 @@ export default class ChallengeDirectory extends Component {
 
       pendingChallenges: [
         
-      ]
+      ],
+      classDict: {}
     };
   }
+  getClassMates = async()=> {
+    try {
+      const value = await AsyncStorage.getItem('user');
+      if (value !== null) {
+        // We have data!!
+        let result = JSON.parse(value)
+        
+    let classMates = await axios.get('http://34.247.47.193/api/v1/users/'+ result.GSI1)
+    let classStudents = classMates.data.Items
+    console.log("here")
+    let classObj = {}
+    for(let i =0; i< classStudents.length;i++){
+      classObj[classStudents[i].PK] = classStudents[i]
+    }
+    console.log(classObj)
+    this.setState((prevState) => {
+      return { ...prevState,
+        classDict: classObj
+              };
+            })
+          
+  }
+}catch{
+  console.log('error getting class')
+}}
   getChallenges = async()=>{
     try {
       const value = await AsyncStorage.getItem('user');
@@ -35,17 +61,11 @@ export default class ChallengeDirectory extends Component {
         let result = JSON.parse(value)
         let pendingAddress = 'http://34.247.47.193/api/v1/challenges/pending/' + result.PK
         let res = await axios.get(pendingAddress)
-    console.log(res)
-    this.setState((prevState) => {
-      return { ...prevState,
-        pendingChallenges: res
-              };
-            })
         let res2 = await axios.get('http://34.247.47.193/api/v1/challenges/completed/' + result.PK)
-    console.log(res2)
     this.setState((prevState) => {
       return { ...prevState,
-        completedChallenges: res2
+        pendingChallenges: res.data.allChallenges,
+        completedChallenges: res2.data.allChallenges
               };
             })
   }
@@ -57,22 +77,24 @@ export default class ChallengeDirectory extends Component {
     
   componentDidMount() {
     this.getChallenges()
+    this.getClassMates()
   }
   
 
-  renderItem = ({item}) => {
-    if(this.data!=[]){
+  renderItem1 = ({item}) => {
+    let info = this.state.classDict[item.GSI1]
+    if(this.state.completedChallenges!=[]){
     return (
         <View>
-      <TouchableOpacity onPress={() => this.props.navigation.navigate('Game',{challenge: 2})}>
+      <TouchableOpacity >
         <View style={styles.row}>
-          <Image source={avatarDict[item.data.avatar]} style={styles.pic} />
+          <Image source={avatarDict[info.data.avatar]} style={styles.pic} />
           
           <View>
             <View style={styles.nameContainer}>
-              <Text style={styles.nameTxt} numberOfLines={1} ellipsizeMode="tail">{item.data.firstName + " " + item.data.lastName}</Text>
+              <Text style={styles.nameTxt} numberOfLines={1} ellipsizeMode="tail">{info.data.firstName + " " + info.data.lastName}</Text>
               
-              <Text style={{marginTop:15, marginHorizontal: -90, flex: 1, flexDirection: 'row', flexWrap: 'wrap'}}>testteacher@gmail.com</Text>
+              
             </View>
             <View style={styles.msgContainer}>
             </View>
@@ -84,18 +106,21 @@ export default class ChallengeDirectory extends Component {
     );
   }}
 
-  renderItem = ({item}) => {
-    if(this.data!=[]){
+  renderItem2 = ({item}) => {
+    let info = this.state.classDict[item.GSI1]
+    let challID = item.SK
+    
+    if(this.state.pendingChallenges!=[]){
     return (
         <View>
-      <TouchableOpacity onPress={() => this.props.navigation.navigate('Game',{challenge: 2})}>
+      <TouchableOpacity onPress={() => this.props.navigation.navigate('Game',{challenge: 2, challengeID: challID})}>
         <View style={styles.row}>
-          <Image source={avatarDict[item.data.avatar]} style={styles.pic} />
+          <Image source={avatarDict[info.data.avatar]} style={styles.pic} />
 
           <View>
             <View style={styles.nameContainer}>
-              <Text style={styles.nameTxt} numberOfLines={1} ellipsizeMode="tail">{item.data.firstName + " " + item.data.lastName}</Text>
-              <Image source={avatarDict[item.data.avatar]} style={styles.pic} />
+              <Text style={styles.nameTxt} numberOfLines={1} ellipsizeMode="tail">{info.data.firstName + " " + info.data.lastName}</Text>
+              <Image source={avatarDict[info.data.avatar]} style={styles.pic} />
 
             </View>
             <View style={styles.msgContainer}>
@@ -119,7 +144,7 @@ export default class ChallengeDirectory extends Component {
           keyExtractor = {(item) => {
             return item.id;
           }}
-          renderItem={this.renderItem}/>
+          renderItem={this.renderItem1}/>
           <Text style={styles.challengeText}>Challenge Requests</Text>
               <FlatList 
           extraData={this.state}
@@ -127,7 +152,7 @@ export default class ChallengeDirectory extends Component {
           keyExtractor = {(item) => {
             return item.id;
           }}
-          renderItem={this.renderItem}/>
+          renderItem={this.renderItem2}/>
 
       </View>
     );

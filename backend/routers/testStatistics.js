@@ -30,7 +30,7 @@ router.post(`/`, async (req, res) => {
         ExpressionAttributeValues: {
             ':pk': req.body.PK,
             ':sk': `testStatistic_${req.body.SK}`,
-            ':correctQuestions': 14, 
+            ':correctQuestions': 11, 
         }
     };
     const testStats = await documentClient.query
@@ -135,7 +135,7 @@ router.post(`/`, async (req, res) => {
     console.log(date.toISOString())
     dateISO = date.toISOString()
     // posting test statistic
-    const experience = parseInt(req.body.data.correctQuestions) * 10 + 0.5 * 140 - parseInt(req.body.data.timeTaken)
+    const experience = parseInt(req.body.data.correctQuestions) * 10 + 0.5 * 120 - parseInt(req.body.data.timeTaken)
     console.log(experience)
     const params = {
         TableName: TABLE_NAME,
@@ -174,7 +174,7 @@ router.post(`/`, async (req, res) => {
             
         }
     }
-    if (req.body.data.correctQuestions == 14 && testStats.Items.length == 0) {
+    if (req.body.data.correctQuestions == 11 && testStats.Items.length == 0) {
         
         params2.UpdateExpression = `ADD overall.testsTaken :testsinc, overall.questions :questionsinc, overall.correctQuestions :correctquestionsinc, overall.timeTaken :timeinc, #data.experience :experienceinc, #data.score :testsinc, ${req.body.timestable} :testsinc`
          
@@ -226,14 +226,14 @@ router.post(`/`, async (req, res) => {
                 PK: req.body.PK, 
                 SK: 'profile',
             }}).promise();
-        if (req.body.data.correctQuestions == 14 && testStats.Items.length == 0 && req.body.SK.slice(-1) == 'A') {
+        if (req.body.data.correctQuestions == 11 && testStats.Items.length == 0 && req.body.SK.slice(-1) == 'A') {
             res.status(200).json({
                 message: "Congratulations you have mastered this timestable",
                 success: true,
                 updatedProfile
                 });
         }
-        else if (req.body.data.correctQuestions == 14 && testStats.Items.length == 0) {
+        else if (req.body.data.correctQuestions == 11 && testStats.Items.length == 0) {
             res.status(200).json({
                 message: "You have unlocked a new level!",
                 success: true,

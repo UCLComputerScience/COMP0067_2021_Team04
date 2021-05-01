@@ -253,36 +253,55 @@ router.post(`/`, async (req, res) => {
 )
 
 
-// get user's test statistics for a specific timestable and difficulty (and within the last week)
-// userStatistics/user_mathsqueen/2B?starttime=2021-04-22T00:40:57.817Z&endtime=2021-04-22T03:00:57.817Z
-router.get(`/userStatistics/:PK/:SK`, async (req, res) => {
-    
-    starttime = req.query.starttime ? req.query.starttime : '2020-04-22T00:40:57.817Z'
-    endtime = req.query.endtime ? req.query.endtime : new Date().toISOString()
+// get user's test statistics within the past 5 months
+// userStatistics/user_mathsqueen
+router.get(`/monthStatistics/:PK`, async (req, res) => {
+    const date = new Date()
+    thismonth = new Date(date.setMonth(date.getMonth()));
+    lastMonth = new Date(date.setMonth(date.getMonth() - 1))
+    lastMonth2 = new Date(date.setMonth(date.getMonth() - 1))
+    lastMonth3 = new Date(date.setMonth(date.getMonth() - 1))
+    starttime = new Date(date.setMonth(date.getMonth() - 1));
 
+
+    const months = [ "January", "February", "March", "April", "May", "June", 
+    "July", "August", "September", "October", "November", "December" ];
+
+    lastFiveMonths = [thismonth.getMonth(), lastMonth.getMonth(), lastMonth2.getMonth(), lastMonth3.getMonth(), starttime.getMonth()]
+    console.log(lastFiveMonths)
+    
+    monthsDictionary = {}
+
+    // Initialise months
+    for (i=0; i<lastFiveMonths.length; i++){
+    monthsDictionary[months[lastFiveMonths[i]]] = 0
+    }
+    console.log(monthsDictionary)
+    
     const params = {
         TableName: TABLE_NAME,
         KeyConditionExpression: 'PK = :pk AND begins_with(SK, :sk)',
-        FilterExpression: '#data.#date BETWEEN :starttime AND :endtime',
+        FilterExpression: '#data.#date > :starttime',
         ExpressionAttributeNames: {
             '#data': 'data',
             '#date': 'date'
         },
         ExpressionAttributeValues: {
             ':pk': req.params.PK,
-            ':sk': `testStatistic_${req.params.SK}`,
-            ':starttime': starttime, 
-            ':endtime': endtime,
+            ':sk': 'testStatistic_',
+            ':starttime': starttime.toISOString(), 
         }
     };
 
     try {
         const testStats = await documentClient.query(params).promise()
-        console.log(testStats) 
+        for (i=0; i< testStats.Items.length; i++){
+            monthsDictionary[months[parseInt(testStats.Items[i].data.date.slice(5,7))-1]] += testStats.Items[i].data.experience
+        }
         res.status(200).json({
             message: "You have retrieved your test stats",
             success: true,
-            testStats
+            monthsDictionary
             });
         } catch (err) {
             console.error(err);
@@ -290,6 +309,9 @@ router.get(`/userStatistics/:PK/:SK`, async (req, res) => {
                 message: 'Test stats could not be retrieved',
                 success: false});
         }
+    // Populate months withe experience
+
+
 })
 
 // Get indepth statistics of a students timestables
@@ -352,44 +374,8 @@ router.get(`/classStatistics/:GSI1/`, async (req, res) => {
     } 
 })
 
-
-// delete user statistics (needs modification)
-router.delete('/:PK', async (req, res) => {
-
-    let responseData;
-
-    const params = {
-        TableName: TABLE_NAME,
-        Key: {
-            PK: req.params.PK,
-            SK: "test_statistic"
-        },
-        KeyConditionExpression: 'PK = :pk AND begins_with(SK, :sk)',
-        ExpressionAttributeValues: {
-            ':pk': req.params.PK, //user_id
-            ':sk': "test_statistic"
-        }
-    };
-    responseData = await documentClient.query(params).promise()
-    for (item in responseData['Items']){
-        console.log("item")
-        console.log(item)
-        params = {
-            TableName: TABLE_NAME,
-            Key: {
-                PK: item.PK,
-                SK: item.SK
-            }
-        }
-        console.log(params)
-        try {
-            res.json(await documentClient.delete(params).promise());
-        } catch (err) {
-            console.error(err);
-            res.status(500).json({err: 'Something went wrong deleting the record'})
-        }
-    }
-});
+// Get a users experience by month for a specific timestable by month
+router.get('/experience/:')
 
 //export a module
 module.exports=router;

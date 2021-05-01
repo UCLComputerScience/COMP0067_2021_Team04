@@ -8,8 +8,50 @@ function parseISOString(s) {
 // date = parseISOString(date)
 // console.log(parseISOString(date))
 
-var myVariable = "28 Aug 2014"
-var makeDate = new Date();
-makeDate = new Date(makeDate.setMonth(makeDate.getMonth() - 1));
 
-console.log(makeDate.toISOString())
+var makeDate = new Date();
+console.log("makeDate:")
+console.log(makeDate.getMonth())
+lol = new Date(makeDate.setMonth(makeDate.getMonth() - 4));
+console.log("Lol:")
+console.log(lol)
+console.log("lol.getMonth():")
+console.log(lol.getMonth()+1)
+
+var months = [ "January", "February", "March", "April", "May", "June", 
+           "July", "August", "September", "October", "November", "December" ];
+
+lastFiveMonths = [lol.getMonth()]
+console.log(lastFiveMonths)
+monthsDictionary = {
+
+}
+
+testStatistics = [
+  {
+  datePosted: "2011-04-05T14:48:00.000Z",
+  experience: 50
+  },
+  {
+    datePosted: "2011-03-05T14:48:00.000Z",
+    experience: 25
+    },
+    {
+      datePosted: "2011-02-05T14:48:00.000Z",
+      experience: 80
+      },
+  ]
+
+//initialise
+for (i=0; i<lastFiveMonths.length; i++){
+  monthsDictionary[months[lastFiveMonths[i]]] = 0
+}
+// populate
+for (i=0; i<testStatistics.length; i++){
+  monthsDictionary[months[parseInt(testStatistics[i].datePosted.slice(5,7))]] += testStatistics[i].experience
+}
+
+console.log(monthsDictionary)
+
+
+

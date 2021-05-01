@@ -5,7 +5,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const ChallengeOverModal = ({score, total, gameEnd, timestable, navigation, difficulty}) => {
+const ChallengeOverModal = ({score, total, gameEnd, timestable, navigation, difficulty, challenge}) => {
   const [modalVisible, setModalVisible] = useState(true);
   const [statisticsSent, sendStatistics] = useState(0);
   const [user, userLoad] = useState();
@@ -21,21 +21,25 @@ const ChallengeOverModal = ({score, total, gameEnd, timestable, navigation, diff
           let result = JSON.parse(value)
           
           userLoad(result)
+      if(challenge === 1){
       let res = axios.post('http://34.247.47.193/api/v1/testStatistics',
       {"PK": result.PK,
-      "timestable": timestable,
-      "SK": result.SK,
-      "GSI1": result.GSI1,
-      "difficulty": difficulty,
-      data:{
-        "questions": total,
-        "correctQuestions": score,
-        
-      }
+      "SK": "challengeID",
+      "score": score,
+
     }
-      )
+      )} else if (challenge == 2){
+        let res = axios.post('http://34.247.47.193/api/v1/testStatistics',
+      {"GSI1": result.PK,
+      "SK": "challengeID",
+      "score": score,
+
+    }
+      )}
+      }
+      
     sendStatistics(1)
-    console.log('stat sent')}}
+    console.log('stat sent')}
     
   catch {
     console.log('Statistics not sent')

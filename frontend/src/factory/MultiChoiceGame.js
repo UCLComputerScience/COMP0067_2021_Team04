@@ -25,10 +25,11 @@ export default class MultiChoiceGame extends Component {
         });
     };
     checkChallenge = ()=>{
+        console.log(this.props.route.params.challenge)
         if(this.props.route.params.challenge){
             this.setState((prevState) => {
                 return { ...prevState,
-                    challenge: 1};
+                    challenge: this.props.route.params.challenge};
         })
     }}
     componentDidMount(){
@@ -42,10 +43,10 @@ export default class MultiChoiceGame extends Component {
                 onPlayAgain={this.resetGame} 
                 randomNumberCount={5} 
                 initialSeconds={120} 
-                challenge={this.challenge}
+                challenge={this.state.challenge}
                 gamesWon={this.state.gamesWon}
                 />
-            </View>
+            </View> 
         );
     }
 }

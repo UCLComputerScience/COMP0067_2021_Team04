@@ -64,7 +64,7 @@ export default class ChallengeDirectory extends Component {
     if(this.data!=[]){
     return (
         <View>
-      <TouchableOpacity onPress={() => Alert.alert('Challenge details')}>
+      <TouchableOpacity onPress={() => this.props.navigation.navigate('Game',{challenge: 2})}>
         <View style={styles.row}>
           <Image source={avatarDict[item.data.avatar]} style={styles.pic} />
           
@@ -88,7 +88,7 @@ export default class ChallengeDirectory extends Component {
     if(this.data!=[]){
     return (
         <View>
-      <TouchableOpacity onPress={() => Alert.alert('Challenge details')}>
+      <TouchableOpacity onPress={() => this.props.navigation.navigate('Game',{challenge: 2})}>
         <View style={styles.row}>
           <Image source={avatarDict[item.data.avatar]} style={styles.pic} />
 

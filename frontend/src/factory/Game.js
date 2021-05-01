@@ -184,6 +184,8 @@ class Game extends React.Component {
                 {global.scoreTracker = 1  && (
                 <ChallengeOverModal score={this.state.testScore}
                                 gameEnd={this.gameOver}
+                                challenge={this.props.challenge}
+
                              
                                   />)}
 

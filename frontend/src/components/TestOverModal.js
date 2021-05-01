@@ -11,53 +11,87 @@ const TestOverModal = ({score, accuracy, total, onPress, gameEnd, timestable, na
   const [user, userLoad] = useState();
   
   global.engagement = sendStatistics
-
+  const _storeData = async (userStr) => {
+    try {
+      console.log(userStr)
+      await AsyncStorage.setItem(
+        'user',
+        userStr
+      )
+      ;
+    } catch (error) {
+      
+    }
+  };
   useEffect(()=>{async function sendResults(){
     if(gameEnd === 'GAME_OVER' && statisticsSent == 0){
       try{
+        
         const value = await AsyncStorage.getItem('user');
         if (value !== null) {
           // We have data!!
           let result = JSON.parse(value)
           
           userLoad(result)
-      timesTableDict = {
-        "onex": 1,
-        "twox": 2,
-        "threex": 3,
-        "fourx": 4,
-        "fivex": 5,
-        "sixx": 6,
-        "sevenx": 7,
-        "eightx": 8,
-        "ninex": 9,
-        "tenx": 10,
-        "elevenx": 11,
-        "twelvex": 12,
+          
+      const timesTableDict = {
+        1:"onex",
+        2: "twox",
+        3: "threex",
+        4: "fourx",
+        5: "fivex",
+        6: "sixx",
+        7: "sevenx",
+        8: "eightx",
+        9: "ninex",
+        10: "tenx",
+        11: "elevenx",
+        12: "twelvex"
       }
-      difficultyDict = {
-        "beginner": "B",
-        "intermediate": "I",
-        "advanced": "A"
+      
+      const difficultyDict = {
+        "beg": "B",
+        "int": "I",
+        "adv": "A"
       }
-      let res = axios.post('http://34.247.47.193/api/v1/testStatistics',
+      const getDifficulty = {
+        "beg": "beginner",
+        "int": "intermediate",
+        "adv": "advanced"
+      }
+      console.log('pre axios')
+      
+      let sK = timestable.toString() + difficultyDict[difficulty];
+      console.log(sK)
+      console.log(timesTableDict[timestable])
+      console.log(getDifficulty[difficulty])
+      let res = await axios.post('http://34.247.47.193/api/v1/testStatistics',
       {"PK": result.PK,
-      "timestable": timestable,
-      "SK": timesTableDict[timetable]+ difficultyDict[difficultyDict],
+      "timestable": timesTableDict[timestable],
+      "SK": sK,
       "GSI1": result.GSI1,
-      "difficulty": difficulty,
+      "difficulty": getDifficulty[difficulty],
       "data":{
         "timeTaken": timeTaken,
         "questions": total,
-        "correctQuestions": score,
+        "correctQuestions": score
         
       }
     }
       )
+      console.log('post axios')
+    console.log(res.data.updatedProfile.Item)
+    if(res.data.updatedProfile.Item.PK != undefined){
+      const userString = JSON.stringify(res.data.updatedProfile.Item)
+      _storeData(userString)
+
+      // if(res.PK != undefined){
+      //   const userString = JSON.stringify(res)
+      //   _storeData(userString)
       
     sendStatistics(1)
-    console.log('stat sent')}}
-    
+    console.log('stat sent')}}}
+      
   catch {
     console.log('Statistics not sent')
   }

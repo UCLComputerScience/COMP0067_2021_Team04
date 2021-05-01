@@ -11,7 +11,7 @@ import ChallengeOverModal from '../components/ChallengeOverModal'
 import * as Progress from 'react-native-progress';
 import { Dimensions } from "react-native";
 
-global.gameScorer = 0
+
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -64,7 +64,7 @@ class Game extends React.Component {
             return false
         }
     }
-
+    
     gameStatus = 'PLAYING';
     first = getRndInteger(1,12)
     second = getRndInteger(1,12)

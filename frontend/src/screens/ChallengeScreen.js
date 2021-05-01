@@ -32,13 +32,6 @@ const snail = "../imgs/snail.jpeg"
 const spider = "../imgs/spider.jpeg"
 
 
-
-
-
-
-
-
-
 export default class Challenger extends Component {
 
   constructor(props) {

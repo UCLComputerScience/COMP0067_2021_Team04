@@ -14,6 +14,7 @@ import {
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import avatarDict from "../components/AvatarDict";
+import ChallengeButton from '../components/StartChallengeButton';
 
 // const [tracker, setTracker] = useState();
 // global.scoreTracker = tracker;

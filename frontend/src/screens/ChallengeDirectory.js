@@ -1,4 +1,6 @@
-import React, {useState, Component, useEffect} from 'react';
+import React, { Component } from 'react';
+import {useState, useEffect} from 'react';
+
 import {
   StyleSheet,
   Text,
@@ -13,8 +15,8 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import avatarDict from "../components/AvatarDict";
 
-const [tracker, setTracker] = useState();
-global.scoreTracker = tracker;
+// const [tracker, setTracker] = useState();
+// global.scoreTracker = tracker;
 
 export default class ChallengeDirectory extends Component {
  
@@ -102,7 +104,7 @@ export default class ChallengeDirectory extends Component {
                         { text: "Accept", onPress: () => navigation.navigate('Load Video') },
                         { text: "Reject", onPress: () => navigation.navigate('Load Test') }
                     ]
-                    )}>
+            )}>
         <View style={styles.row}>
           <Image source={avatarDict[item.data.avatar]} style={styles.pic} />
 
@@ -125,8 +127,9 @@ export default class ChallengeDirectory extends Component {
   render() {
     return(
       <View style={{ flex: 1 }} >
-          <Button title="BEGIN NEW CHALLENGE"  onPress={() => {this.props.navigation.navigate('Challenge')
-                                                                setTracker(0)}} />
+          <Button title="BEGIN NEW CHALLENGE"  onPress={() => {this.props.navigation.navigate('Challenge')}}
+                                                                // setTracker(0)}} 
+                                                                />
                  <Text style={styles.challengeText}>Completed Challenges</Text>
         <FlatList 
           extraData={this.state}

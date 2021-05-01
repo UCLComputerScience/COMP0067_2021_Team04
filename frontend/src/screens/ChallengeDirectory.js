@@ -62,6 +62,7 @@ export default class ChallengeDirectory extends Component {
         let pendingAddress = 'http://34.247.47.193/api/v1/challenges/pending/' + result.PK
         let res = await axios.get(pendingAddress)
         let res2 = await axios.get('http://34.247.47.193/api/v1/challenges/completed/' + result.PK)
+        console.log(res2,res)
     this.setState((prevState) => {
       return { ...prevState,
         pendingChallenges: res.data.allChallenges,
@@ -82,8 +83,9 @@ export default class ChallengeDirectory extends Component {
   
 
   renderItem1 = ({item}) => {
-    let info = this.state.classDict[item.GSI1]
+    
     if(this.state.completedChallenges!=[]){
+      let info = this.state.classDict[item.GSI1]
     return (
         <View>
       <TouchableOpacity >
@@ -107,10 +109,11 @@ export default class ChallengeDirectory extends Component {
   }}
 
   renderItem2 = ({item}) => {
+    
+    if(this.state.pendingChallenges!=[]){
     let info = this.state.classDict[item.GSI1]
     let challID = item.SK
     
-    if(this.state.pendingChallenges!=[]){
     return (
         <View>
       <TouchableOpacity onPress={() => this.props.navigation.navigate('Game',{challenge: 2, challengeID: challID})}>
@@ -134,6 +137,7 @@ export default class ChallengeDirectory extends Component {
   }
   }
   render() {
+    
     return(
       <View style={{ flex: 1 }} >
           <Button title="BEGIN NEW CHALLENGE"  onPress={() => this.props.navigation.navigate('Challenge')} />

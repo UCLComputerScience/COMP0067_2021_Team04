@@ -172,11 +172,13 @@ const MyStudents =({navigation}) => {
                     {forms.map(classButton)}
                 
                 <View style = {styles.stats}>
-                    <Text style={styles.statsText}>Class Stats</Text>
-                    <View style = {{bottom:  60, left: 20}}>
-                        <Text>Class Key: {classKey}</Text>
-                        <Text>Class Size: {classSize}</Text>
-                        <Text>Pending Assignments: {classPA}</Text>
+                    <Text style={[styles.statsText]}>Class Stats</Text>
+                    <View>
+                                                <Text>                                                                         </Text>
+
+                        {/* <Text>Class Key: {classKey}</Text> */}
+                        <Text style={styles.statisticText}>Class Size: {classSize}</Text>
+                        <Text style={styles.statisticText}>Pending Assignments: {classPA}</Text>
                     </View>
                 </View>
                 <View style={styles.tableView}>
@@ -224,7 +226,12 @@ const styles = StyleSheet.create({
         
     },
     statsText:{
-        fontSize: 25
+        fontSize: 30
+    },
+    statisticText:{
+        fontSize: 25,
+        fontFamily: "HelveticaNeue",
+
     },
 
     classOptionsContainer: {
@@ -267,7 +274,7 @@ const styles = StyleSheet.create({
     },
     stats:{
         flex:1,
-        justifyContent: 'space-evenly',
+        justifyContent: 'center',
         left: 10,
         bottom: 45
     },

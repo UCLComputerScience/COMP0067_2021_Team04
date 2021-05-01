@@ -8,7 +8,7 @@ const Timer = () => {
   <CountdownCircleTimer
     size={80}
     isPlaying
-    duration={10}
+    duration={120}
     colors={[
       ['#004777', 0.4],
       ['#F7B801', 0.4],

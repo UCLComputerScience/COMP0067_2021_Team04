@@ -19,8 +19,7 @@ const screenWidth = Dimensions.get("window").width;
 const TaskComp = (allStats) => {
         
     return (<View>
-      <Text style={styles.ttTitle}>{allStats[1]}: {allStats[0]}</Text>
-      {/* <Progress  completion={progress}/> */}
+      <Text style={styles.ttTitle}>{allStats[0]} {allStats[1]}:  </Text>
       <View style={styles.stretch}>
       <MaterialCommunityIcons name="timer-sand-full" color={'gray'} size={30} style={styles.tinyLogo} />
       <Text style={styles.timeRemainingText}>{allStats[3]}</Text>

@@ -55,7 +55,7 @@ const BonusDifficultyModal = ({onPress1,onPress2,onPress3}) => {
         style={[styles.tinyLogo, styles.buttonOpen]}
         onPress={() => setModalVisible(true)}
       >
-        <Text style={styles.textStyle}>Bonus</Text>
+        <Text style={styles.textStyle}>BONUS</Text>
       </Pressable>
     </View>
   );

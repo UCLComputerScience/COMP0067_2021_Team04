@@ -11,7 +11,7 @@ import ChallengeOverModal from '../components/ChallengeOverModal'
 import * as Progress from 'react-native-progress';
 import { Dimensions } from "react-native";
 
-global.gameScorer = 0
+
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -64,7 +64,7 @@ class Game extends React.Component {
             return false
         }
     }
-
+    
     gameStatus = 'PLAYING';
     first = getRndInteger(1,12)
     second = getRndInteger(1,12)
@@ -181,8 +181,8 @@ class Game extends React.Component {
                 </Text>
                 <Text style = {styles.titleText}> Score: {global.gameScorer} </Text>
 
-                {global.scoreTracker = 1  && (
-                <ChallengeOverModal score={this.state.testScore}
+                {global.scoreTracker >= 1   && (
+                <ChallengeOverModal score={global.gameScorer}
                                 gameEnd={this.gameOver}
                                 challenge={this.props.challenge}
 
@@ -199,9 +199,10 @@ class Game extends React.Component {
                     onPress={this.selectNumber}
                     />
                 ))}
-<Timer isPlaying={this.gameStatusChecker()} />
+{/* <Timer isPlaying={this.gameStatusChecker()} /> */}
 
             </View>
+            {/* <Text>Time: {this.state.efficiency}</Text> */}
             {global.scoreTracker !== 1, this.gameStatus !== 'PLAYING' && (
             <Button title="Continue"  onPress={this.props.onPlayAgain} />)}
         </View>

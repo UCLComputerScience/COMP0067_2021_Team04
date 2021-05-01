@@ -28,6 +28,8 @@ const ten = 10
 const eleven = 11
 const twelve = 12
 
+global.gameScorer = 0
+
 export function ChangeChoice(number) {
   var selection = number
   console.warn(selection)
@@ -37,7 +39,11 @@ export function ChangeChoice(number) {
 const IconNav = ({navigation}) => {
   const [testing, setTesting] = useState();
   const [loggedIn, setLogin] = useState(0);
-   global.TT = testing;
+  const [gameScore, setgameScore] = useState();
+  const [tracker, setTracker] = useState();
+  global.scoreTracker = tracker;
+  global.gameScorer = gameScore;
+  global.TT = testing;
   const difficultyColours = 
 {
   0:"#cd7f32",
@@ -248,6 +254,7 @@ fetchData()
     <View style = {styles.extrabuttons}>
     <TouchableHighlight 
       onPress={() => navigation.navigate('Countdown3')}
+                      
     >
       <Image style={styles.tinyLogo}
           source={require('../imgs/vector-shuffle-glyph-black-icon.jpg')}
@@ -261,7 +268,11 @@ fetchData()
     <TouchableHighlight 
       underlayColor = '#ccc'
       onPress={() => {navigation.navigate('ChallengeDirectory')
-                      global.scoreTracker = 0}}
+                      setTracker(0)
+                      global.scoreTracker = 0
+                      global.gameScorer = 0
+                      console.warn(global.gameScorer)
+                      setgameScore(0)}}
     >
       <Image style={styles.tinyLogo}
           source={require('../imgs/multiplayer-icon-mode-isolated-contour-vector-28398206.jpg')}

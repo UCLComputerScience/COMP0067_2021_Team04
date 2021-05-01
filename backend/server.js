@@ -32,11 +32,6 @@ app.use(bodyParser.json());
 app.use(morgan('tiny'));
 
 
-
-// if time, add models and schemas for data validation
-const User = require('./models/user');
-
-
 const usersRoutes = require('./routers/users');
 const classesRoutes = require('./routers/classes');
 const testsRoutes = require('./routers/tests');

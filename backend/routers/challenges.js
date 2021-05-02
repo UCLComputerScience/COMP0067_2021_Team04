@@ -94,6 +94,10 @@ router.get('/pending/:PK', async (req, res) => {
         let allChallenges = []
         const yourChallenges = await documentClient.query(yourChallengeParams).promise()
         const theirChallenges = await documentClient.query(theirChallengeParams).promise()
+        console.log("yourChallenges")
+        console.log(yourChallenges)
+        console.log("theirChallenges")
+        console.log(theirChallenges)
         if ((yourChallenges.Items.length + theirChallenges.Items.length) == 0) {
             res.status(200).json({
                 message: "You have no challenges",
@@ -105,7 +109,7 @@ router.get('/pending/:PK', async (req, res) => {
             allChallenges.push(yourChallenges.Items[i])
         }
         for (i = 0; i < theirChallenges.Items.length; i++) {
-            allChallenges.push(yourChallenges.Items[i])
+            allChallenges.push(theirChallenges.Items[i])
         }
         res.status(200).json({
             message: "Successful challenge query",
@@ -256,14 +260,16 @@ router.put('/challengeReceiverUpdate', async (req, res) => {
 
     const getChallengeParams = {
         TableName: TABLE_NAME,
-        Key: {
-            PK: req.body.PK,
-            SK: req.body.SK
+        IndexName: 'GSI1-SK-index',
+        KeyConditionExpression: 'GSI1 = :gsi1 AND SK = :sk',
+        ExpressionAttributeValues: {
+            ':gsi1': req.body.PK,
+            ':sk': req.body.SK
         }
     }
 
     try {
-        challengeObject = await documentClient.get(getChallengeParams).promise()
+        challengeObject = await documentClient.query(getChallengeParams).promise()
     } catch (err) {
         console.log(err);
         res.status(400).json({
@@ -272,12 +278,12 @@ router.put('/challengeReceiverUpdate', async (req, res) => {
         })
     }
 
-    challenge = challengeObject.Item
+    challenge = challengeObject.Items[0]
     console.log(challenge)
     const updateParams = {
         TableName: TABLE_NAME,
         Key: {
-            PK: req.body.PK,
+            PK: challenge.PK,
             SK: req.body.SK
         },
         UpdateExpression: 'SET #data.player2Score = :score',
@@ -289,13 +295,13 @@ router.put('/challengeReceiverUpdate', async (req, res) => {
         }
 
     }
-    console.log(challenge.data.player1Score)
+    console.log(updateParams)
     // if challenger has not completed a test, ignore state updates (stays pending)
     if (challenge.data.player1Score == 0) {
-        
     }
     // if challenge receiver gets a better score, challenger receiver is winner
     else if (req.body.score > challenge.data.player1Score) {
+        console.log("hello2")
         updateParams.UpdateExpression = 'SET #data.player2Score = :score, #data.#state = :state, #data.winner = :winner, #data.dateFinished = :date',
         updateParams.ExpressionAttributeNames = {
             '#data': 'data',
@@ -309,6 +315,7 @@ router.put('/challengeReceiverUpdate', async (req, res) => {
         }
     // if scores are even, results in a draw 
     } else if (req.body.score == challenge.data.player1Score) {
+        console.log("hello3")
         updateParams.UpdateExpression = 'SET #data.player2Score = :score, #data.#state = :state, #data.winner = :winner, #data.dateFinished = :date' ,
         updateParams.ExpressionAttributeNames = {
             '#data': 'data',
@@ -323,6 +330,7 @@ router.put('/challengeReceiverUpdate', async (req, res) => {
         }
     // if challenger receiver gets lower score, challenger is the winner
     } else {
+        console.log("hello4")
         updateParams.UpdateExpression = 'SET #data.player2Score = :score, #data.#state = :state, #data.winner = :winner, #data.dateFinished = :date',
         updateParams.ExpressionAttributeNames = {
             '#data': 'data',
@@ -331,7 +339,7 @@ router.put('/challengeReceiverUpdate', async (req, res) => {
         updateParams.ExpressionAttributeValues = {
             ':score': req.body.score,
             ':state': "completed",
-            ':winner': req.body.PK,
+            ':winner': challenge.PK,
             ':date': date
         }
     }
@@ -404,7 +412,7 @@ router.get('/completed/:PK', async (req, res) => {
             allChallenges.push(yourChallenges.Items[i])
         }
         for (i = 0; i < theirChallenges.Items.length; i++) {
-            allChallenges.push(yourChallenges.Items[i])
+            allChallenges.push(theirChallenges.Items[i])
         }
         res.status(200).json({
             message: "Successful challenge query",

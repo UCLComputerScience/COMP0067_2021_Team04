@@ -94,10 +94,7 @@ router.get('/pending/:PK', async (req, res) => {
         let allChallenges = []
         const yourChallenges = await documentClient.query(yourChallengeParams).promise()
         const theirChallenges = await documentClient.query(theirChallengeParams).promise()
-        console.log("yourChallenges")
-        console.log(yourChallenges)
-        console.log("theirChallenges")
-        console.log(theirChallenges)
+
         if ((yourChallenges.Items.length + theirChallenges.Items.length) == 0) {
             res.status(200).json({
                 message: "You have no challenges",
@@ -279,7 +276,7 @@ router.put('/challengeReceiverUpdate', async (req, res) => {
     }
 
     challenge = challengeObject.Items[0]
-    console.log(challenge)
+
     const updateParams = {
         TableName: TABLE_NAME,
         Key: {
@@ -301,7 +298,6 @@ router.put('/challengeReceiverUpdate', async (req, res) => {
     }
     // if challenge receiver gets a better score, challenger receiver is winner
     else if (req.body.score > challenge.data.player1Score) {
-        console.log("hello2")
         updateParams.UpdateExpression = 'SET #data.player2Score = :score, #data.#state = :state, #data.winner = :winner, #data.dateFinished = :date',
         updateParams.ExpressionAttributeNames = {
             '#data': 'data',
@@ -315,7 +311,6 @@ router.put('/challengeReceiverUpdate', async (req, res) => {
         }
     // if scores are even, results in a draw 
     } else if (req.body.score == challenge.data.player1Score) {
-        console.log("hello3")
         updateParams.UpdateExpression = 'SET #data.player2Score = :score, #data.#state = :state, #data.winner = :winner, #data.dateFinished = :date' ,
         updateParams.ExpressionAttributeNames = {
             '#data': 'data',
@@ -330,7 +325,6 @@ router.put('/challengeReceiverUpdate', async (req, res) => {
         }
     // if challenger receiver gets lower score, challenger is the winner
     } else {
-        console.log("hello4")
         updateParams.UpdateExpression = 'SET #data.player2Score = :score, #data.#state = :state, #data.winner = :winner, #data.dateFinished = :date',
         updateParams.ExpressionAttributeNames = {
             '#data': 'data',

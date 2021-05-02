@@ -11,6 +11,7 @@ import BonusDifficultyModal from '../components/BonusDifficultyModal';
 import TestOverModal from '../components/TestOverModal';
 import AchievementModal from '../components/AchievementModal';
 import SettingsModal from '../components/SettingsModal';
+import {useIsFocused} from '@react-navigation/native';
 
 const beginner="#cd7f32"
 const intermediate="#c0c0c0"
@@ -155,7 +156,7 @@ const difficultyDict =
       "timeTaken": 0,
     },
 })
-
+const isFocused = useIsFocused()
 useEffect(()=>{
     async function fetchData (){
 
@@ -164,7 +165,7 @@ try {
   if (value !== null) {
     // We have data!!
     let result = JSON.parse(value)
-    
+    console.log("landing getting user")
     userLoad(result)
     setLogin(1)
   }
@@ -175,7 +176,7 @@ try {
 
 fetchData()
 
-},[]);
+},[isFocused]);
   const renderLandingHeader = ()=>{
     if (loggedIn){
       return(<LandingHeader person = {user} />)

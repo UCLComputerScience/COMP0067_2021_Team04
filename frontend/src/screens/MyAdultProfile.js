@@ -175,8 +175,8 @@ export default function MyAdultProfile({navigation}) {
                 </View>
                 <View style={{ marginTop: 32 }}>
                 </View>
-                <Text style={styles.nameTxt}>Contact Teacher</Text>
-                <Contact />
+                {/* <Text style={styles.nameTxt}>Contact Teacher</Text> */}
+                {/* <Contact /> */}
             </ScrollView>
         </SafeAreaView>
     );

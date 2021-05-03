@@ -33,7 +33,7 @@ const ChallengeOverModal = ({score, total, gameEnd, timestable, navigation, diff
       console.log(res)} else if (challenge == 2){
         console.log("enters else if")
         let res = await axios.put('http://34.247.47.193/api/v1/challenges/challengeReceiverUpdate',
-      {"GSI1": result.PK,
+      {"PK": result.PK,
       "SK": challengeID,
       "score": score,
 

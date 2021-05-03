@@ -69,6 +69,7 @@ const SetHomework =({navigation})=>{
                 "repetitions": 1
             }
         })
+        Alert.alert("Assignment set")
     }else{
         Alert.alert("Please Fill Out All Options")
     }

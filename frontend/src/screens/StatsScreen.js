@@ -11,9 +11,11 @@ import  {Component} from 'react';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+console.disableYellowBox = true
 
 const StatsScreen = ({navigation, route, child}) => {
     const [studentsData, getStudentData] = useState();
+    const [studentsXP, getStudentsXP] = useState();
     const [user, userLoad] = useState();
     
     useEffect(()=>{
@@ -55,15 +57,24 @@ const StatsScreen = ({navigation, route, child}) => {
                   let statAddress  = 'http://34.247.47.193/api/v1/testStatistics/inDepth/' + result.PK;
                   
                   let studentAddress = 'http://34.247.47.193/api/v1/users/individual/' + result.PK;
+
+                  let studentXP = 'http://34.247.47.193/api/v1/testStatistics/monthStatistics/' + result.PK
                   
                   let studentStats = await axios.get(statAddress);
                   let student = await axios.get(studentAddress);
+                  let XP = await axios.get(studentXP);
+                //   console.log(studentStats
+
+                console.log(studentStats.data.item);
+
                   
                 //   console.log(student)
                 // console.log(student.data.Item)
                 // console.log(studentStats.data.testStats.Item.data)
                   userLoad(student.data.Item)
                   getStudentData(studentStats.data.testStats.Item.data);
+                  getStudentsXP(XP.data.testStats.Item.data);
+
                 //   console.log(studentStats.data.testStats.Item.data)
 
                     

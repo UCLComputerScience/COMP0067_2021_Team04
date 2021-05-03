@@ -127,12 +127,12 @@ const TestOverModal = ({score, accuracy, total, onPress, gameEnd, timestable, na
             >
               <Text style={styles.textStyle}>Close</Text>
             </Pressable> */}
-                     <Pressable
+                     {/* <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={onPress}
             >
               <Text style={styles.textStyle}>Do something</Text>
-            </Pressable>
+            </Pressable> */}
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}

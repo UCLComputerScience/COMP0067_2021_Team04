@@ -22,7 +22,7 @@ export default function MyAdultProfile({navigation}) {
               <Image source={{ uri: "https://bootdey.com/img/Content/avatar/avatar7.png" }} style={styles.pic} />
               <View>
                 <View style={styles.nameContainer}>
-                  <Text style={styles.nameTxt} numberOfLines={1} ellipsizeMode="tail">Hello</Text>
+                  <Text style={styles.nameTxt} numberOfLines={1} ellipsizeMode="tail">Mr. Jones</Text>
                   <Text style={styles.mblTxt}>Email
                   </Text>
                   <Text style={{marginTop:15, marginHorizontal: -90, flex: 1, flexDirection: 'row', flexWrap: 'wrap'}}>testteacher@gmail.com</Text>
@@ -170,12 +170,12 @@ export default function MyAdultProfile({navigation}) {
                 </View>
 
                 <View style={styles.infoContainer}>
-                    <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}>Teacher: Mr Langley</Text> 
-                    <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}>Date of Birth: 27/01/2012</Text>
+                    {/* <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}>Teacher: Mr Langley</Text> 
+                    <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}>Date of Birth: 27/01/2012</Text> */}
                 </View>
                 <View style={{ marginTop: 32 }}>
                 </View>
-                <Text>Contact Teacher</Text>
+                <Text style={styles.nameTxt}>Contact Teacher</Text>
                 <Contact />
             </ScrollView>
         </SafeAreaView>
@@ -323,7 +323,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'lightblue',
         borderBottomWidth: 1,
         padding: 30,
-        marginTop:50,
+        marginTop:20,
       },
       pic: {
         borderRadius: 30,

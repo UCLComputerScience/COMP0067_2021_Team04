@@ -38,6 +38,7 @@ export default class SignUp extends React.Component {
           }
       })
       console.log('user successfully signed up!: ')
+      Alert.alert("User successfully signed up")
       this.props.navigation.navigate('LoginStackScreen')
     } catch (err) {
       console.log('error signing up: ', err)

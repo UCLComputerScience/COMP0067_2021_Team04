@@ -160,9 +160,9 @@ export default function MyProfile({navigation}) {
 
                 <View style={styles.infoContainer}>
                     <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>{user.data.firstName} {user.data.lastName}</Text>
-                    <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}>Teacher: Mr Langley</Text> 
+                    {/* <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}>Teacher: Mr Langley</Text>  */}
                     {/* <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}>Class: {user.GSI1}</Text> */}
-                    <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}>Date of Birth: 27/01/2012</Text>
+                    {/* <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}>Date of Birth: 27/01/2012</Text> */}
                 </View>
 
                 <View style={styles.statsContainer}>

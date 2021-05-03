@@ -88,7 +88,13 @@ export default class ChallengeDirectory extends Component {
       let info = this.state.classDict[item.GSI1]
     return (
         <View>
-      <TouchableOpacity >
+      <TouchableOpacity onPress={() => {
+                    Alert.alert(
+                    "Winner is: ",
+                    "You, congratulation!",
+                   
+                    )}}
+        >
         <View style={styles.row}>
           <Image source={avatarDict[info.data.avatar]} style={styles.pic} />
           

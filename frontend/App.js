@@ -286,7 +286,7 @@ return (
           fontWeight: 'bold',
         },})}/>
     <PlayStack.Screen name="Challenge" component={Challenger} options={() => ({
-          title: 'Begin new Challenge',
+          title: 'Begin New Challenge',
         headerStyle: {
           backgroundColor: '#F08080',
         },
@@ -464,7 +464,7 @@ function MyStudentsStackScreen() {
        {/* <MyStudentsStack.Screen name="TeacherLoad" component={LoginLoaderTeacher} options={{headerShown: false}} /> */}
       <MyStudentsStack.Screen name="My Students" component={MyStudents} options={() => ({
             headerLeft: () => {
-      return null}, title: 'MyStudents',
+      return null}, title: 'My Students',
           headerStyle: {
             backgroundColor: '#8FBC8F',
           },

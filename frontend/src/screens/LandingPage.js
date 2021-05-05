@@ -41,7 +41,9 @@ const IconNav = ({navigation}) => {
   const [testing, setTesting] = useState();
   const [loggedIn, setLogin] = useState(0);
   const [gameScore, setgameScore] = useState();
+  const [practiceScore, setPracticeScore] = useState();
   const [tracker, setTracker] = useState();
+  global.practiceScorer = practiceScore
   global.scoreTracker = tracker;
   global.gameScorer = gameScore;
   global.TT = testing;
@@ -254,7 +256,9 @@ fetchData()
     </View>
     <View style = {styles.extrabuttons}>
     <TouchableHighlight 
-      onPress={() => navigation.navigate('Countdown3')}
+      onPress={() => {navigation.navigate('Countdown3')
+                      setPracticeScore(0)
+                      global.practiceScorer = 0}}
                       
     >
       <Image style={styles.tinyLogo}

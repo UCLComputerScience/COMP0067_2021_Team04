@@ -49,6 +49,7 @@ import LoginLoaderParent from './src/screens/LoginLoaderParent';
 import LoginLoaderTeacher from './src/screens/LoginLoaderTeacher';
 import ChallengeDirectory from './src/screens/ChallengeDirectory';
 import MyTeacherProfile from './src/screens/TeacherProfile';
+import Challenge from './src/factory/Challenge';
 
 const LoginStack = createStackNavigator();
 
@@ -294,6 +295,7 @@ return (
         headerTitleStyle: {
           fontWeight: 'bold',
         },})}/>
+        
 
     <PlayStack.Screen name="Game" component={MultiChoiceGame}  options={({navigation}) => ({
       title: 'Shuffle Mode',
@@ -319,13 +321,42 @@ return (
       },
       { text: "Yes", onPress: () => navigation.navigate('Landing') }
     ]
-  )} />
+  )} />  
   
-          
+        ),
+    })}
+/> 
+<PlayStack.Screen name="Practice" component={Challenge}  options={({navigation}) => ({
+      title: 'Shuffle Mode',
+        headerStyle: {
+          backgroundColor: 'green',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+        headerLeft: (props) => (
+          <HeaderBackButton
+            {...props}
+            label='Quit?'
+            onPress={() => Alert.alert(
+    "Exit Game",
+    "Are you sure that you would like to exit the game?",
+    [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel"
+      },
+      { text: "Yes", onPress: () => navigation.navigate('Landing') }
+    ]
+  )} />  
+  
         ),
     })}
 /> 
 <PlayStack.Screen name="TargetSumLoad" component={TargetSumLoader} options={{headerShown: false}} />
+
 <PlayStack.Screen name="TargetSum" component={TargetSumSettings}  options={({navigation}) => ({
    title: 'Target Sum',
         headerStyle: {

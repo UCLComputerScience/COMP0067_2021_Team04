@@ -26,7 +26,6 @@ export default class MultiChoiceGame extends Component {
         });
     };
     checkChallenge = ()=>{
-        if(this.props.route.params) {
         console.log(this.props.route.params.challenge)
         console.log(this.props.route.params.challengeID)
         if(this.props.route.params.challenge){
@@ -34,8 +33,7 @@ export default class MultiChoiceGame extends Component {
                 return { ...prevState,
                     challenge: this.props.route.params.challenge,
                     challengeID: this.props.route.params.challengeID}
-                
-        })}
+        })
     }}
     componentDidMount(){
     this.checkChallenge()

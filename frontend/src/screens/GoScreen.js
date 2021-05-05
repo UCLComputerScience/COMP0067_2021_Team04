@@ -42,7 +42,7 @@ class Go extends Component {
     componentDidMount() {
         const {LogoAnime, LogoText} = this.state;
         this.timeoutHandle = setTimeout(()=>{
-            this.props.navigation.navigate('Game')
+            this.props.navigation.navigate('Practice')
        }, 1000);
         Animated.parallel([
             Animated.spring(LogoAnime, {

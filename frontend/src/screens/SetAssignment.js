@@ -129,7 +129,10 @@ const SetHomework =({navigation})=>{
              
             <View style={styles.buttonContainer}>
             <Button   title="Publish Assignment"
-          onPress = { () => makeAssignment(chosenClass, timestable, difficultyLevel, date, 1) } />
+          onPress = { () => {makeAssignment(chosenClass, timestable, difficultyLevel, date, 1)
+                            Alert.alert('Assignment set!')
+ }} 
+          />
           </View>
           </View>
         )

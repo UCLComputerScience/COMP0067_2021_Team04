@@ -17,9 +17,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const screenWidth = Dimensions.get("window").width;
 
 const TaskComp = (allStats) => {
-        
     return (<View>
-      <Text style={styles.ttTitle}>{allStats[0]} {allStats[1]}:  </Text>
+      <Text style={styles.ttTitle}>{allStats[0]} {allStats[1]}x</Text>
       <View style={styles.stretch}>
       <MaterialCommunityIcons name="timer-sand-full" color={'gray'} size={30} style={styles.tinyLogo} />
       <Text style={styles.timeRemainingText}>{allStats[3]}</Text>
@@ -39,7 +38,8 @@ const Tasks = ({navigation, route}) => {
             const assignments = []
             for(let i =0; i<tasks.length;i++){
                 let assignment = [];
-                let TT = timestableDict[tasks[i].data.timestable]
+                let TT = tasks[i].data.timestable
+                
                 let dueDate = new Date(tasks[i].data.due)
                 let deadLine = dueDate.toISOString().substring(0, 10)
                 console.log(deadLine)
@@ -54,6 +54,8 @@ const Tasks = ({navigation, route}) => {
             return(<Text>No Assignments to Display</Text>)
         }
     }
+    console.log(TT)
+
     
     useEffect(()=>{
         async function fetchData (){

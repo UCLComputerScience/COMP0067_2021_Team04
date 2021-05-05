@@ -34,9 +34,10 @@ export default class TeacherSignUp extends React.Component {
           }
       })
       console.log('user successfully signed up!: ', success)
+      Alert.alert("User successfully signed up")
       this.props.navigation.navigate('LoginStackScreen')
     } catch (err) {
-      console.log('error signing up: ', err)
+      console.log('Error signing up: ', err)
       Alert.alert("Error: please check registration details are valid")
     }
   }

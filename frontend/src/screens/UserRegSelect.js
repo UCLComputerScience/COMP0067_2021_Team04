@@ -41,7 +41,7 @@ const RegSelectLogin = ({route,navigation})=>{
                 isDisabled = {false}
                 pic = {require('../imgs/penguin.png')}
                 onPress={() => {setTesting('teacher')
-                                navigation.navigate('ParentSignUp')}} />
+                                navigation.navigate('TeacherSignUp')}} />
             <ChooseUser
                 level = 'Parent'
                 colour = 'green'
@@ -49,7 +49,7 @@ const RegSelectLogin = ({route,navigation})=>{
                 iconColor = 'blue'
                 pic = {require('../imgs/penguin.png')}
                 onPress={() => {setTesting('parent')
-                                navigation.navigate('TeacherSignUp')}} />
+                                navigation.navigate('ParentSignUp')}} />
                                 </View>
                          
         </View>

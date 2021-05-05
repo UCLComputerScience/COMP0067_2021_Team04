@@ -1,27 +1,7 @@
 # Numberfit-Application
 
-A better way to teach multiplication.
+## Helping students master their timestables and fall in love with mathematics. 
+### A cross-platform mobile app developed with React.JS, React Native, and AWS DynamoDB.
+<img width="515" alt="Screenshot 2021-05-05 at 7 51 37 PM" src="https://user-images.githubusercontent.com/69536010/117193900-56c31280-addb-11eb-83d3-75e47352797a.png">
 
-Proposed Project Description: 
-
-The app must support the following basic requirements: 
-
-• Provide a way for children to learn times tables 1-12. 
-
-• Provide a way for children to practise times tables.Students should master times tables 1-12. 
-
-• The app should be designed to be visually appealing to the target audience of young schoolchildren, e.g. through bright colours, sound effects, animations etc. 
-
-• The application must show scores and times and also show progression. 
-
-• It should also have a teacher login which shows how everyone in their class has done. The teacher login should also link to each student’s parent login, so that a teacher can inform them of their child’s progress in class, perhaps stemming from using the app at home to practice.
-
-Below is a list of features the app could support. This list is not exhaustive. 
-
-• Different exercise types so students can learn more difficult times tables (e.g. 18 times table). Students may use their imagination to achieve this. 
-
-• A way for a student to compete against, say, two of their friends in real-time in different games for practising times tables. 
-
-• It would be a bonus if any learning or practice games incorporated physical activities (e.g. answer a question, do five star jumps). 
-
-• Ability to extend to say include addition and subtraction assessment.
+<img width="524" alt="Screenshot 2021-05-05 at 7 52 58 PM" src="https://user-images.githubusercontent.com/69536010/117194045-8540ed80-addb-11eb-81dc-2b9a08420f51.png">

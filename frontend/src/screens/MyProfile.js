@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView, TouchableHighlight, Button } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView, TouchableHighlight, Button, Alert} from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import AvatarMenu from '../components/AvatarMenu';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -102,6 +102,7 @@ export default function MyProfile({navigation}) {
     })
     const updateAvatar = (avatarNo) =>{
         changePP({photo: avatarDict[avatarNo]})
+        Alert.alert('Avatar updated!', 'Scroll to the bottom and hit close to see your new look!')
     }
     
     useEffect(()=>{

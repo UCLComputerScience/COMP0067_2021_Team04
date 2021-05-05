@@ -13,6 +13,8 @@ import AchievementModal from '../components/AchievementModal';
 import SettingsModal from '../components/SettingsModal';
 import {useIsFocused} from '@react-navigation/native';
 
+
+
 const beginner="#cd7f32"
 const intermediate="#c0c0c0"
 const advanced="#ffd700"
@@ -42,6 +44,7 @@ const IconNav = ({navigation}) => {
   const [loggedIn, setLogin] = useState(0);
   const [gameScore, setgameScore] = useState();
   const [tracker, setTracker] = useState();
+  const [noOfChallenges, getChallengesNo] = useState();
   global.scoreTracker = tracker;
   global.gameScorer = gameScore;
   global.TT = testing;

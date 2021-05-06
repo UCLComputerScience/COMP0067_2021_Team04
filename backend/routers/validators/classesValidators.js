@@ -9,9 +9,8 @@ const documentClient = new AWS.DynamoDB.DocumentClient();
 const TABLE_NAME = 'UCL-TT-USERS-V2';
 
 exports.postClassesValidators = [
-    check('data').exists(),
-    check('GSI1').exists(),
-    check('SK2','data.name').custom(async (value, {req, loc, path}) => {
+    check('schoolID').exists(),
+    check('teacherUsername','name').custom(async (value, {req, loc, path}) => {
         console.log(value)
         console.log(req)
         const params = {
@@ -24,9 +23,9 @@ exports.postClassesValidators = [
             '#name': 'name'
             },
             ExpressionAttributeValues: {
-            ':gsi1': req.body.SK2, // user_id
+            ':gsi1': `user_${req.body.teacherUsername}`, // user_id
             ':sk': 'teacher_',
-            ':name': req.body.data.name //class name
+            ':name': req.body.name //class name
         } 
         };   
         let classes = await documentClient.query(params).promise()

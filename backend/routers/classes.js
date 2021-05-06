@@ -147,27 +147,27 @@ router.post(`/`, [ ...validators.postClassesValidators], async (req, res) => {
             {
               PutRequest: {
                 Item: {
-                    PK: `class_${classID}`, //class_id
+                    PK: `class_${classID}`, 
                     SK: 'meta', 
-                    GSI1: req.body.GSI1, //school_id?
+                    GSI1: `school_${req.body.schoolID}`, 
                     data: {
-                        name: req.body.data.name,
-                        year: req.body.data.year,
-                        secret: "classkey"  // class name, year group, secret
+                        name: req.body.name,
+                        year: req.body.year,
+                        secret: req.body.secretKey
                     }
                 }
             },
         }, {
                 PutRequest: {
                     Item: {
-                        PK: `class_${classID}`, //class_id
-                        SK: `teacher_${req.body.SK2}`, //teacher_user_id
-                        GSI1: `${req.body.SK2}`, //user_id 
+                        PK: `class_${classID}`, 
+                        SK: `teacher_${req.body.teacherUsername}`,
+                        GSI1: `user_${req.body.teacherUsername}`, 
                         data: {
-                            name: req.body.data.name,
-                            year: req.body.data.year,
-                            secret: "classkey"  // class name, year group, secret
-                        }  // class name, year group
+                            name: req.body.name,
+                            year: req.body.year,
+                            secret: req.body.secretKey
+                        }  
                     }
                 }
               }

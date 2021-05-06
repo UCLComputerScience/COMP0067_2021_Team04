@@ -83,7 +83,14 @@ export default class ChallengeDirectory extends Component {
   
 
   renderItem1 = ({item}) => {
-    let info = this.state.classDict[item.PK]
+    const getInfo =()=>{
+    if(this.state.user.PK == item.PK){
+      return (this.state.classDict[item.GSI1])
+    } else {
+      return (this.state.classDict[this.state.user.PK])
+    }}
+        let info = getInfo()
+    
     console.log(item)
     let winner = ()=>{
       if(item.data.winner = this.state.user.PK){
@@ -92,7 +99,7 @@ export default class ChallengeDirectory extends Component {
         return ("You lost!")
       }
     }
-    if(this.state.completedChallenges!=[] && this.state.user.PK !=info.PK){
+    if(this.state.completedChallenges!=[]){
       
     return (
         <View>

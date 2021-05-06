@@ -24,8 +24,6 @@ const SetHomework =({navigation})=>{
             console.log(teacherUser.PK)
             let classAddress = 'http://34.247.47.193/api/v1/classes/getClasses/' + teacherUser.PK
             let result = await axios.get(classAddress)
-            console.log('after axios')
-            console.log(result)
             let classArray = result.data.Items;
             let info = [];
             let sets = [];
@@ -59,7 +57,7 @@ const SetHomework =({navigation})=>{
         console.log(timestable)
         console.log(difficulty)
         console.log(due)
-        if(formChoice!='Select class...' && timestable !='Select timestable...' && difficulty!= 'Select difficulty...'){
+        if(formChoice!='Select class...' && timestable !='Select timestable...' && difficulty!= 'Select difficulty...' && due!= undefined){
         let res = await axios.post('http://34.247.47.193/api/v1/assignments/postClass/',{
             "GSI1": formChoice,
             "data": {
@@ -69,7 +67,7 @@ const SetHomework =({navigation})=>{
                 "repetitions": 1
             }
         })
-        Alert.alert("Assignment set")
+        Alert.alert('Assignment set!')
     }else{
         Alert.alert("Please Fill Out All Options")
     }
@@ -130,7 +128,7 @@ const SetHomework =({navigation})=>{
             <View style={styles.buttonContainer}>
             <Button   title="Publish Assignment"
           onPress = { () => {makeAssignment(chosenClass, timestable, difficultyLevel, date, 1)
-                            Alert.alert('Assignment set!')
+                           
  }} 
           />
           </View>

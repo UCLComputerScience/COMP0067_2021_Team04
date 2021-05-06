@@ -43,8 +43,6 @@ fetchData()
   
  const setAvatar = async (avatarNo) =>{
   func(avatarNo)
-  console.log(typeof(user.PK))
-  console.log(typeof(avatarNo))
 
   const res = await axios.put('http://34.247.47.193/api/v1/users/avatar',{
       "PK": user.PK,
@@ -89,7 +87,6 @@ console.log(res)
           visible={modalVisible}
           style={{height: 300, width: 300}}
           onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
             setModalVisible(!modalVisible);
           }}
         >

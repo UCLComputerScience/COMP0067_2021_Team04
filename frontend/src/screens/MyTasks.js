@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import Task from '../components/Task';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useIsFocused} from '@react-navigation/native';
 
 
 const screenWidth = Dimensions.get("window").width;
@@ -31,15 +32,15 @@ const Tasks = ({navigation, route}) => {
     const [user, userLoad] = useState();
     const [tasks, getTasks] = useState();
     const [allTasks, loadTasks] = useState([])
-    
+    const isFocused = useIsFocused()
     
     const printAssignments = (tasks) =>{
         if(tasks){
-            const assignments = []
+            const assignmentss = []
             for(let i =0; i<tasks.length;i++){
+                console.log(i)
                 let assignment = [];
-                let TT = tasks[i].data.timestable
-                
+                let TT = tasks[i].data.timestable;
                 let dueDate = new Date(tasks[i].data.due)
                 let deadLine = dueDate.toISOString().substring(0, 10)
                 console.log(deadLine)
@@ -47,9 +48,11 @@ const Tasks = ({navigation, route}) => {
                 assignment.push(TT)
                 assignment.push(tasks[i].data.status)
                 assignment.push(deadLine)
-                assignments.push(assignment)
+                assignmentss.push(assignment)
+                console.log("for is working")
 
-            } loadTasks(assignments)
+            } 
+            loadTasks(assignmentss)
         }else{
             return(<Text>No Assignments to Display</Text>)
         }
@@ -66,7 +69,7 @@ const Tasks = ({navigation, route}) => {
         // We have data!!
         let result = JSON.parse(value);
         if (route.params && route.params.parentView==1){
-            console.log(route)
+            
             console.log("if statement")
         var address = 'http://34.247.47.193/api/v1/assignments/' + result.GSI1;}
         else{
@@ -74,7 +77,6 @@ const Tasks = ({navigation, route}) => {
          address = 'http://34.247.47.193/api/v1/assignments/' + result.PK;}
         
         let jobs = await axios.get(address);
-        console.log(jobs.data.Items)
         getTasks(jobs.data.Items)
         
         userLoad(result);
@@ -82,13 +84,13 @@ const Tasks = ({navigation, route}) => {
         
       }
     } catch (error) {
-      console.log("error")
+      console.log("errorr")
     }
     }
     
     fetchData()
     
-    },[]);
+    },[isFocused]);
     const timestableDict = {
         "onex": 1,
         "twox": 2,

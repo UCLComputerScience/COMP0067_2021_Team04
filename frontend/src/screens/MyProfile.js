@@ -7,6 +7,7 @@ import { result } from "lodash";
 import avatarDict from "../components/AvatarDict";
 import SettingsModal from "../components/SettingsModal";
 import AchievementModal from '../components/AchievementModal';
+import {useIsFocused} from '@react-navigation/native';
 
 
 
@@ -104,7 +105,7 @@ export default function MyProfile({navigation}) {
         changePP({photo: avatarDict[avatarNo]})
         Alert.alert('Avatar updated!', 'Scroll to the bottom and hit close to see your new look!')
     }
-    
+    const isFocused = useIsFocused()
     useEffect(()=>{
         async function fetchData (){
 
@@ -176,12 +177,12 @@ export default function MyProfile({navigation}) {
                         <Text style={[styles.text, styles.subText, {fontSize: 12}]}>Time Spent</Text>
                     </View>
                     <View style={styles.statsBox}>
-                        <Text style={[styles.text, { fontSize: 24 }]}>3885</Text>
+                        <Text style={[styles.text, { fontSize: 24 }]}>{user.data.experience}</Text>
                         <Text style={[styles.text, styles.subText, {fontSize: 12}]}>Total XP</Text>
                     </View>
                     <View style={[styles.statsBox, { borderColor: "#DFD8C8", borderLeftWidth: 1, borderRightWidth: 1 }]}>
-                        <Text style={[styles.text, { fontSize: 24 }]}>28</Text>
-                        <Text style={[styles.text, styles.subText, {fontSize: 12}]}>Excercises Completed</Text>
+                        <Text style={[styles.text, { fontSize: 24 }]}>{user.overall.timestableMastered}</Text>
+                        <Text style={[styles.text, styles.subText, {fontSize: 12}]}>Timestables Mastered</Text>
                     </View>
                 </View>
                 

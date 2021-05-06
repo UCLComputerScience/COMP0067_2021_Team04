@@ -74,8 +74,8 @@ export default class Challenger extends Component {
     let res = await axios.post('http://34.247.47.193/api/v1/challenges', {"PK": player1, 
     "GSI1": player2
 })
+
 let chalID = res.data.challengeID
-console.log(challengeID)
 this.setModalVisible(false)
 this.props.navigation.navigate('Game',{challenge: 1, challengeID: chalID})
 
@@ -104,6 +104,7 @@ this.props.navigation.navigate('Game',{challenge: 1, challengeID: chalID})
             return item.id;
           }}
           renderItem={({item}) => {
+            if(this.state.user.PK != item.PK){
           return (
             <TouchableOpacity style={styles.card}>
               <Image style={styles.image} source={avatarDict[item.data.avatar]}/>
@@ -114,7 +115,7 @@ this.props.navigation.navigate('Game',{challenge: 1, challengeID: chalID})
                 </TouchableOpacity>
               </View>
             </TouchableOpacity>
-          )}}/>
+          )}}}/>
 
         <Modal
           animationType={'fade'}

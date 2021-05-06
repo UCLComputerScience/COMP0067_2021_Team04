@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useReducer } from 'react';
 import {
   StyleSheet,
   Text,
@@ -21,7 +21,7 @@ export default class ChallengeDirectory extends Component {
       completedChallenges: [
         
       ],
-
+      user: {},
       pendingChallenges: [
         
       ],
@@ -34,7 +34,7 @@ export default class ChallengeDirectory extends Component {
       if (value !== null) {
         // We have data!!
         let result = JSON.parse(value)
-        
+      
     let classMates = await axios.get('http://34.247.47.193/api/v1/users/'+ result.GSI1)
     let classStudents = classMates.data.Items
     console.log("here")
@@ -45,7 +45,8 @@ export default class ChallengeDirectory extends Component {
     console.log(classObj)
     this.setState((prevState) => {
       return { ...prevState,
-        classDict: classObj
+        classDict: classObj,
+        user: result
               };
             })
           
@@ -62,7 +63,6 @@ export default class ChallengeDirectory extends Component {
         let pendingAddress = 'http://34.247.47.193/api/v1/challenges/pending/' + result.PK
         let res = await axios.get(pendingAddress)
         let res2 = await axios.get('http://34.247.47.193/api/v1/challenges/completed/' + result.PK)
-        console.log(res2,res)
     this.setState((prevState) => {
       return { ...prevState,
         pendingChallenges: res.data.allChallenges,
@@ -83,24 +83,33 @@ export default class ChallengeDirectory extends Component {
   
 
   renderItem1 = ({item}) => {
+    const getInfo =()=>{
+    if(this.state.user.PK == item.PK){
+      return (this.state.classDict[item.GSI1])
+    } else {
+      return (this.state.classDict[this.state.user.PK])
+    }}
+        let info = getInfo()
     
+    console.log(item)
+    let winner = ()=>{
+      if(item.data.winner = this.state.user.PK){
+        return ("You Won!")
+      } else{
+        return ("You lost!")
+      }
+    }
     if(this.state.completedChallenges!=[]){
-      let info = this.state.classDict[item.GSI1]
+      
     return (
         <View>
-      <TouchableOpacity onPress={() => {
-                    Alert.alert(
-                    "Winner is: ",
-                    "You, congratulation!",
-                   
-                    )}}
-        >
+      <TouchableOpacity onPress = {()=>{Alert.alert(winner())}}>
         <View style={styles.row}>
           <Image source={avatarDict[info.data.avatar]} style={styles.pic} />
           
           <View>
             <View style={styles.nameContainer}>
-              <Text style={styles.nameTxt} numberOfLines={1} ellipsizeMode="tail"> vs {info.data.firstName + " " + info.data.lastName}</Text>
+              <Text style={styles.nameTxt} numberOfLines={1} ellipsizeMode="tail">{info.data.firstName + " " + info.data.lastName}</Text>
               
               
             </View>
@@ -115,35 +124,21 @@ export default class ChallengeDirectory extends Component {
   }}
 
   renderItem2 = ({item}) => {
-    
-    if(this.state.pendingChallenges!=[]){
-    let info = this.state.classDict[item.GSI1]
+    let info = this.state.classDict[item.PK]
     let challID = item.SK
+    if(this.state.pendingChallenges!=[] && info.PK != this.state.user.PK){
+    
     
     return (
         <View>
-      <TouchableOpacity onPress={() => {
-                    Alert.alert(
-                    "Please select an option: ",
-                    "Click accept to go see if you can beat " + info.data.firstName + " " + info.data.lastName + "'s score in a random multiplier game",
-                    [
-                        {
-                        text: "Cancel",
-                        onPress: () => console.log("Cancel Pressed"),
-                        style: "cancel"
-                        },
-                        { text: "Accept", onPress:  () => this.props.navigation.navigate('Game',{challenge: 2, challengeID: challID})},
-                        { text: "Reject", onPress: () => navigation.navigate('Load Test') }
-                    ]
-                    )}}
-        >
+      <TouchableOpacity onPress={() => this.props.navigation.navigate('Game',{challenge: 2, challengeID: challID})}>
         <View style={styles.row}>
           <Image source={avatarDict[info.data.avatar]} style={styles.pic} />
 
           <View>
             <View style={styles.nameContainer}>
-              <Text style={styles.nameTxt} numberOfLines={1} ellipsizeMode="tail"> vs {info.data.firstName + " " + info.data.lastName}</Text>
-              {/* <Image source={avatarDict[info.data.avatar]} style={styles.pic} /> */}
+              <Text style={styles.nameTxt} numberOfLines={1} ellipsizeMode="tail">{info.data.firstName + " " + info.data.lastName}</Text>
+              <Image source={avatarDict[info.data.avatar]} style={styles.pic} />
 
             </View>
             <View style={styles.msgContainer}>
@@ -161,7 +156,7 @@ export default class ChallengeDirectory extends Component {
     return(
       <View style={{ flex: 1 }} >
           <Button title="BEGIN NEW CHALLENGE"  onPress={() => this.props.navigation.navigate('Challenge')} />
-                 <Text style={styles.challengeText}>Completed Challenges</Text>
+                 <Text style={styles.challengeText}>Completed Challenges:</Text>
         <FlatList 
           extraData={this.state}
           data={this.state.completedChallenges}
@@ -169,7 +164,7 @@ export default class ChallengeDirectory extends Component {
             return item.id;
           }}
           renderItem={this.renderItem1}/>
-          <Text style={styles.challengeText}>Challenge Requests</Text>
+          <Text style={styles.challengeText}>Challenge Requests:</Text>
               <FlatList 
           extraData={this.state}
           data={this.state.pendingChallenges}
@@ -204,7 +199,7 @@ const styles = StyleSheet.create({
     width: 280,
   },
   nameTxt: {
-    marginLeft:50,
+    marginLeft: 45,
     fontWeight: '600',
     color: '#222',
     fontSize: 18,

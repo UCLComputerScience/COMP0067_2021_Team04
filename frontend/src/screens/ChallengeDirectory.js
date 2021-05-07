@@ -87,7 +87,7 @@ export default class ChallengeDirectory extends Component {
     if(this.state.user.PK == item.PK){
       return (this.state.classDict[item.GSI1])
     } else {
-      return (this.state.classDict[this.state.user.PK])
+      return (this.state.classDict[item.PK])
     }}
         let info = getInfo()
     

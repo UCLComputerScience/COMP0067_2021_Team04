@@ -10,9 +10,20 @@ const TABLE_NAME = 'UCL-TT-USERS-V2';
 
 exports.postClassesValidators = [
     check('schoolID').exists(),
+    check('schoolID').custom(async (value, {req, loc, path}) => {
+        const params = {
+            TableName: TABLE_NAME,
+            Key: {
+                PK:`school_${req.body.schoolID}`,
+                SK: 'meta'
+            }
+        };  
+        let school = await documentClient.get(params).promise()
+        console.log(school)
+        if(school.Item == null) {
+            return Promise.reject("No school with that ID exists");
+    }}),
     check('teacherUsername','name').custom(async (value, {req, loc, path}) => {
-        console.log(value)
-        console.log(req)
         const params = {
             TableName: TABLE_NAME,
             IndexName:'GSI1-SK-index',
@@ -29,7 +40,6 @@ exports.postClassesValidators = [
         } 
         };   
         let classes = await documentClient.query(params).promise()
-        console.log(classes)
         if(classes.Items.length != 0) {
             return Promise.reject("That name for one of your classes already exists");
     }})

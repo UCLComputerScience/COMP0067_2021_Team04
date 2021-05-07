@@ -43,7 +43,7 @@ export default class VidLoader extends Component {
             </Animated.Text>
       </View>  
       <View style={styles.animation}>
-        <Workout />
+        {/* <Workout /> */}
         </View>
       </View>
     );  

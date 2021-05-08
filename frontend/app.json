@@ -24,9 +24,9 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      },
-      "package": "numberfit.timestableapp"
+        "backgroundColor": "#FFFFFF",
+        "package": "numberfit.timestableapp"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"

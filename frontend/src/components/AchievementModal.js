@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import { Alert, Modal, StyleSheet, Text, Pressable, View,TouchableOpacity } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import Award from '../components/Award';
+import {useIsFocused} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const AchievementModal = () => {
@@ -118,7 +120,7 @@ const [user, userLoad] = useState({
     "timeTaken": 0,
   },
 })
-
+const isFocused = useIsFocused()
 useEffect(()=>{
   async function fetchData (){
 

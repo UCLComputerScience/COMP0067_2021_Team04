@@ -19,7 +19,7 @@ class Award extends Component{
             {function(){
                 if(this.props.isLocked){return(
                     <TouchableOpacity onPress = {() => Alert.alert(this.props.lockedMessage, this.props.awardSubMessage)}>
-                    <Ionicons name={this.props.awardName} size={50} color={'#606060'}></Ionicons>
+                    <Ionicons name={this.props.awardName} size={60} color={'#606060'}></Ionicons>
                     </TouchableOpacity>
                 )}else{
                 return(<TouchableOpacity
@@ -27,7 +27,7 @@ class Award extends Component{
                     onPress= {() => Alert.alert(this.props.awardMessage)}
                     // disabled= {this.props.isDisabled}
                     >
-                <Ionicons name={this.props.awardName} size={50} color={this.props.awardColor}></Ionicons>
+                <Ionicons name={this.props.awardName} size={60} color={this.props.awardColor}></Ionicons>
                 </TouchableOpacity>)
             }}.bind(this)()}
         </View>

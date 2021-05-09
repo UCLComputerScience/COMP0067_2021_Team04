@@ -68,7 +68,7 @@ const LandingHeader = ({person}) => {
  <Appbar style={styles.top}>
    <View style={{justifyContent: 'space-evenly', flexDirection: 'row'}}>
 
-    <Ionicons style={{marginHorizontal: 10}} name="medal" size={50} color="black"></Ionicons>
+    <Ionicons style={{marginHorizontal: 10}} name="arrow-up-circle-outline" size={50} color="darkgreen"></Ionicons>
         <Text style={styles.text}>LVL {person.data.score}</Text>
     <Ionicons name="flame-outline" size={50} color="red"></Ionicons>
     <Text style={styles.text}>STREAK: {streak}</Text>

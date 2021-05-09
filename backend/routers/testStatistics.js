@@ -59,6 +59,8 @@ router.post(`/`, async (req, res) => {
     //     }
     // }
 
+    timestableSlice = req.body.SK.slice(0,1)
+    difficultySlice = req.body.SK.slice(1,)
     checkAssignmentsParams = {
         TableName: TABLE_NAME,
         KeyConditionExpression: 'PK = :pk AND begins_with(SK, :sk)',
@@ -67,11 +69,13 @@ router.post(`/`, async (req, res) => {
             ExpressionAttributeValues: {
                 ':pk': req.body.PK,
                 ':sk': 'assignment_',
-                ':difficulty': req.body.difficulty,
-                ':timestable': req.body.timestable
+                ':difficulty': difficultySlice.concat(req.body.difficulty.slice(1,)),
+                ':timestable': timestableSlice
             }
         
     }
+    console.log("checkAssignmentsParams")
+    console.log(checkAssignmentsParams)
 
     try {
     assignments = await documentClient.query(checkAssignmentsParams).promise()
@@ -82,6 +86,7 @@ router.post(`/`, async (req, res) => {
             success: false
         })
     }
+    console.log("assignments")
     console.log(assignments)
 
     // delete assignment
@@ -93,7 +98,8 @@ router.post(`/`, async (req, res) => {
                 SK: assignments.Items[0].SK
             }
         }
-
+        console.log("deleteParams")
+        console.log(deleteParams)
         try {
             await documentClient.delete(deleteParams).promise()
             } catch (err) {

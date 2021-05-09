@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import { Alert, Modal, StyleSheet, Text, Pressable, View,TouchableOpacity } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import Award from '../components/Award';
+import {useIsFocused} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const AchievementModal = () => {
@@ -118,7 +120,7 @@ const [user, userLoad] = useState({
     "timeTaken": 0,
   },
 })
-
+const isFocused = useIsFocused()
 useEffect(()=>{
   async function fetchData (){
 
@@ -170,8 +172,7 @@ fetchData()
                 <Award isLocked={user.elevenx != 3} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 11x table'} awardName={'star'} isDisabled={user.elevenx != 3} awardMessage={'Congratulations you have mastered your 11x tables!'} />
                 <Award isLocked={user.twelvex != 3} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Master 12x table'} awardName={'star'} isDisabled={user.twelvex != 3} awardMessage={'Congratulations you have mastered your 12x tables!'} />
                 <Award isLocked={user.overall.timeTaken < 3600} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Spend over 1 hour on the app'} awardName={'medal'} isDisabled={true} awardMessage={'Congratulations you have spent over 1 hour on the app!'} />
-                <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Win 3 challenges'} awardName={'medal'} isDisabled={true} awardMessage={'Congratulations you have won 3 challenges!'} />
-                <Award isLocked={true} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Top the leaderboard'} awardName={'medal'} isDisabled={true} awardMessage={'Congratulations you have topped the leaderboard!'} />
+
                 <Award isLocked={user.data.streak < 3} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Build a 3 login streak'} awardName={'medal'} isDisabled={user.data.streak < 3} awardMessage={'Congratulations you have built a 3 login streak!'}/>
                 <Award isLocked={user.data.streak < 5} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Build a 5 login streak'} awardName={'medal'} isDisabled={user.data.streak < 5} awardMessage={'Congratulations you have built a 5 login streak!'} />
                 <Award isLocked={user.data.streak < 10} awardColor={'gold'} lockedMessage={'To unlock:'} awardSubMessage={'Build a 10 login streak'} awardName={'medal'} isDisabled={user.data.streak < 10} awardMessage={'Congratulations you have built a 10 login streak!'}/>

@@ -254,6 +254,7 @@ const styles = StyleSheet.create({
         color: "#AEB5BC",
         textTransform: "uppercase",
         fontWeight: "500",
+        textAlign: 'center'
     },
     profileImage: {
         width: 200,

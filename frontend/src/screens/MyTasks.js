@@ -105,18 +105,9 @@ const Tasks = ({navigation, route}) => {
     }
     
       return (
-        <ScrollView>
+        <ScrollView style={styles.container}>
       <Text style={styles.statisticTitle}>Your teacher has set you the following tasks:</Text>
       {allTasks.map(TaskComp)}
-      {/* {TaskComp('Complete 8 levels of indermediate 6x tables', 0.3, '5d 2hrs')}
-      {TaskComp('Complete 5 levels of advanced 5x tables', 0.8, '3d 10hrs')}
-      {TaskComp('Score 100% on one level of beginner 4x tables', 0.5, '2hrs')}
-      {TaskComp('Score 100% on one level of beginner 4x tables', 0.5, '2hrs')}
-
-      {TaskComp('Score 100% on one level of beginner 4x tables', 0.5, '2hrs')}
-      {TaskComp('Score 100% on one level of beginner 4x tables', 0.5, '2hrs')}
-      {TaskComp('Score 100% on one level of beginner 4x tables', 0.5, '2hrs')}
-      {TaskComp('Score 100% on one level of beginner 4x tables', 0.5, '2hrs')} */}
       </ScrollView>
 );
 }
@@ -125,9 +116,6 @@ const styles = StyleSheet.create ({
     container: {
         flex: 1,
         backgroundColor: 'white',
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'space-evenly',
     },
     timeRemainingText: {
         flex: 1,

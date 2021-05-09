@@ -138,7 +138,6 @@ export default class ChallengeDirectory extends Component {
           <View>
             <View style={styles.nameContainer}>
               <Text style={styles.nameTxt} numberOfLines={1} ellipsizeMode="tail">{info.data.firstName + " " + info.data.lastName}</Text>
-              <Image source={avatarDict[info.data.avatar]} style={styles.pic} />
 
             </View>
             <View style={styles.msgContainer}>

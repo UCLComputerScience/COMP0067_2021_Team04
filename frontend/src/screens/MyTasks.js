@@ -38,18 +38,16 @@ const Tasks = ({navigation, route}) => {
         if(tasks){
             const assignmentss = []
             for(let i =0; i<tasks.length;i++){
-                console.log(i)
                 let assignment = [];
                 let TT = tasks[i].data.timestable;
                 let dueDate = new Date(tasks[i].data.due)
                 let deadLine = dueDate.toISOString().substring(0, 10)
-                console.log(deadLine)
                 assignment.push(tasks[i].data.difficulty)
                 assignment.push(TT)
                 assignment.push(tasks[i].data.status)
                 assignment.push(deadLine)
                 assignmentss.push(assignment)
-                console.log("for is working")
+                
 
             } 
             loadTasks(assignmentss)
@@ -57,7 +55,7 @@ const Tasks = ({navigation, route}) => {
             return(<Text>No Assignments to Display</Text>)
         }
     }
-    console.log(TT)
+    
 
     
     useEffect(()=>{
@@ -71,10 +69,10 @@ const Tasks = ({navigation, route}) => {
         if (route.params && route.params.parentView==1){
             
             console.log("if statement")
-        var address = 'http://34.247.47.193/api/v1/assignments/' + result.GSI1;}
+        var address = 'http://34.247.47.193/api/v1/assignments/' + result.GSI1}
         else{
             console.log("else entered")
-         address = 'http://34.247.47.193/api/v1/assignments/' + result.PK;}
+         address = 'http://34.247.47.193/api/v1/assignments/' + result.PK}
         
         let jobs = await axios.get(address);
         getTasks(jobs.data.Items)
@@ -107,7 +105,7 @@ const Tasks = ({navigation, route}) => {
     }
     
       return (
-        <ScrollView style={styles.container}>
+        <ScrollView>
       <Text style={styles.statisticTitle}>Your teacher has set you the following tasks:</Text>
       {allTasks.map(TaskComp)}
       {/* {TaskComp('Complete 8 levels of indermediate 6x tables', 0.3, '5d 2hrs')}
@@ -125,7 +123,11 @@ const Tasks = ({navigation, route}) => {
 
 const styles = StyleSheet.create ({
     container: {
+        flex: 1,
         backgroundColor: 'white',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-evenly',
     },
     timeRemainingText: {
         flex: 1,

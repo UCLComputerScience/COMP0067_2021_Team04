@@ -21,6 +21,7 @@ const MyStudents =({navigation}) => {
     const [classSize, getClassSize] = useState();
     const [classPA, getClassPA] = useState()
     const [classKey, getClassKey] = useState()
+    const [classSecret, getClassSecret] = useState()
     const tableHead = ['Student', 'Pending Assignments', 'Score'];
     const widthArr = [133,133,133]
     useEffect(()=>{async function getClasses(){
@@ -179,6 +180,7 @@ const MyStudents =({navigation}) => {
                         {/* <Text>Class Key: {classKey}</Text> */}
                         <Text style={styles.statisticText}>Class Size: {classSize}</Text>
                         <Text style={styles.statisticText}>Pending Assignments: {classPA}</Text>
+                        
                     </View>
                 </View>
                 <View style={styles.tableView}>

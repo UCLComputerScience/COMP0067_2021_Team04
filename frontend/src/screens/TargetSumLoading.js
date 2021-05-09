@@ -43,7 +43,7 @@ export default class TargetSumLoader extends Component {
             </Animated.Text>
       </View>  
       <View style={styles.animation}>
-        {/* <Student /> */}
+        <Student />
         </View>
       </View>
     );  

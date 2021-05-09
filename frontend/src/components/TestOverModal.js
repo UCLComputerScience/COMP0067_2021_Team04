@@ -116,7 +116,7 @@ const TestOverModal = ({score, accuracy, total, onPress, gameEnd, timestable, na
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.titleText}>Test Over!</Text>
-            <Rocket />
+            {/* <Rocket /> */}
             <Text style={styles.modalText}>Well done you scored: {score}/{total}</Text>
             <Text style={styles.modalText}>You had an accuracy of: {accuracy}%</Text>
             <Text style={styles.modalText}>It took you: {timeTaken} seconds</Text>

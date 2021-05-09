@@ -42,7 +42,7 @@ export default class Loader extends Component {
             </Animated.Text>
       </View>  
       <View style={styles.animation}>
-        <Runner />
+        {/* <Runner /> */}
         </View>
       </View>
     );  

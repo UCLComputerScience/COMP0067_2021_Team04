@@ -65,7 +65,7 @@ const ChallengeOverModal = ({score, total, gameEnd, timestable, navigation, diff
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.titleText}>Challenge Over!</Text>
-            <Rocket />
+            {/* <Rocket /> */}
             <Text style={styles.modalText}>Well done you scored: {global.gameScorer}</Text>
             {/* <Text style={styles.modalText}>You had an accuracy of: {accuracy}%</Text> */}
             {/* <Pressable

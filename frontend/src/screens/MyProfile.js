@@ -173,7 +173,7 @@ export default function MyProfile({navigation}) {
                         <Text style={[styles.text, styles.subText, {fontSize: 12}]}>App Completion</Text>
                     </View>
                     <View style={[styles.statsBox, { borderColor: "#DFD8C8", borderLeftWidth: 1, borderRightWidth: 1 }]}>
-                        <Text style={[styles.text, { fontSize: 24 }]}>{user.overall.timeTaken}</Text>
+                        <Text style={[styles.text, { fontSize: 24 }]}>{Math.floor(user.overall.timeTaken/60)} mins</Text>
                         <Text style={[styles.text, styles.subText, {fontSize: 12}]}>Time Spent</Text>
                     </View>
                     <View style={styles.statsBox}>

@@ -260,7 +260,9 @@ const styles = StyleSheet.create({
         width: 200,
         height: 200,
         borderRadius: 100,
-        overflow: "hidden"
+        overflow: "hidden",
+        borderColor: '#B22222',
+        borderWidth: 3
     },
     dm: {
         backgroundColor: "#41444B",

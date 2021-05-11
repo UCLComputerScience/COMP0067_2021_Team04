@@ -46,6 +46,7 @@ const LandingHeader = ({person}) => {
     let date = Math.floor(today.getTime()/(1000*3600*24))*24;
     
     var loginDifference = date - lLogin;
+    
     console.log(loginDifference)
     
     // let check = Math.floor(today.getTime()/(24*3600*1000))-Math.floor(lastLogin.getTime()/(24*3600*1000))
@@ -59,6 +60,16 @@ const LandingHeader = ({person}) => {
      
       console.log("resetting streak")
       resetStreak(loginISO)
+    } else{
+      try{
+        const lastL = await axios.put('http://34.247.47.193/api/v1/users/lastLogin',{
+            "PK": person.PK,
+            "lastLogin": loginISO
+          })
+          console.log(loginISO)
+        }catch{
+          console.log("login not updated")
+        }
     }
   
     } newStreak()

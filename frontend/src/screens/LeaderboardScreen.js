@@ -81,9 +81,6 @@ export default class LeaderBoardScreen extends Component {
       labelBy: "name",
       sortBy: "score",
       data: this.state.data,
-      onRowPress: (item, index) => {
-        this.alert(item.name + " clicked", item.score + " points, wow!");
-      },
       evenRowColor: "#edfcf9"
     };
     

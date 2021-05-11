@@ -34,7 +34,6 @@ export default class TeacherSignUp extends React.Component {
             "password": password
           }
       })
-      console.log('user successfully signed up!: ', success)
       Alert.alert("User successfully signed up")
       this.props.navigation.navigate('LoginStackScreen')
     } catch (err) {
@@ -94,7 +93,7 @@ export default class TeacherSignUp extends React.Component {
         />
         <TextInput
           style={styles.input}
-          placeholder='School Key'
+          placeholder='School Password'
           autoCapitalize="none"
           placeholderTextColor='white'
           onChangeText={val => this.onChangeText('SchoolKey', val)}

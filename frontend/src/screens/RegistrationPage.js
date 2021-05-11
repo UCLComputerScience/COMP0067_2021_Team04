@@ -27,10 +27,20 @@ export default class SignUp extends React.Component {
     try {
       // here place your signup logic
       console.log(username, password, Class_Id, Child_Key, firstName, lastName)
+      // let registrationRes = await axios.post('http://34.247.47.193/api/v1/users/register/student',{
+      //     "PK": username,
+      //     "GSI1": Child_Key,
+      //     "classKey": Class_Id,
+      //     "data":{
+      //       "firstName": firstName,
+      //       "lastName": lastName, 
+      //       "password": password
+      //     }
+      // })
       let registrationRes = await axios.post('http://34.247.47.193/api/v1/users/register/student',{
           "PK": username,
-          "GSI1": Child_Key,
-          "classKey": Class_Id,
+          "GSI1": Class_Id,
+          "classKey": Child_Key,
           "data":{
             "firstName": firstName,
             "lastName": lastName, 
@@ -91,7 +101,7 @@ export default class SignUp extends React.Component {
         />
         <TextInput
           style={styles.input}
-          placeholder='Child Key'
+          placeholder='Class Password'
           autoCapitalize="none"
           placeholderTextColor='white'
           onChangeText={val => this.onChangeText('Child_Key', val)}

@@ -3,7 +3,8 @@ import {
   View,
   Button,
   TextInput,
-  StyleSheet
+  StyleSheet,
+  Alert
 } from 'react-native'
 import { Dimensions } from "react-native";
 import axios from 'axios';
@@ -33,7 +34,7 @@ export default class ParentSignUp extends React.Component {
             "password": password
           }
       })
-      console.log('user successfully signed up!: ')
+      
       Alert.alert("User successfully signed up")
       this.props.navigation.navigate('LoginStackScreen')
     } catch (err) {

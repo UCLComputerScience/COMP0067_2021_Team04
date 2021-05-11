@@ -93,7 +93,7 @@ export default class ChallengeDirectory extends Component {
     
     console.log(item)
     let winner = ()=>{
-      if(item.data.winner = this.state.user.PK){
+      if(item.data.winner == this.state.user.PK){
         return ("You Won!")
       } else{
         return ("You lost!")

@@ -4,7 +4,7 @@ import { View, Text, Button, StyleSheet, Animated, ImageBackground } from 'react
 import RandomNumber from './RandomNumber';
 import { first, shuffle } from "lodash";
 // import {dos} from './LandingPage';
-import Timer from '../components/Timer';
+import ShuffleTimer from '../components/ShuffleTimer';
 // import AppBar from './AppBar';
 import GameHeader from '../components/GameHeader';
 import Quit from '../components/QuitGame';
@@ -63,7 +63,13 @@ class SoloChallenge extends React.Component {
         .map(() =>  getRndInteger(1,200))
         .concat(this.goal);
 
-        
+     timerController = () =>  {
+         if(this.gameStatus === 'PLAYING') {
+             return true
+         } else {
+             return false
+         }
+     }   
 
   
 
@@ -168,7 +174,7 @@ class SoloChallenge extends React.Component {
                     onPress={this.selectNumber}
                     />
                 ))}
-                                <Timer isPlaying ={true} />
+                                <ShuffleTimer isPlaying ={this.timerController()} />
 
             </View>
             {this.gameStatus !== 'PLAYING' && (

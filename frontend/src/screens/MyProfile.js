@@ -188,7 +188,7 @@ export default function MyProfile({navigation}) {
                 
                 <View style={{ marginTop: 32 }}>
                 </View>
-                <Text style={[styles.subText, styles.recent]}>Achievements</Text>
+                <Text style={[styles.subText2]}>Achievements</Text>
                 <View style={styles.awardContainer}>
                 </View>  
                 <AchievementModal />
@@ -254,7 +254,14 @@ const styles = StyleSheet.create({
         color: "#AEB5BC",
         textTransform: "uppercase",
         fontWeight: "500",
-        textAlign: 'center'
+        textAlign: 'center',
+    },
+    subText2: {
+        color: "#AEB5BC",
+        textTransform: "uppercase",
+        fontWeight: "500",
+        textAlign: 'left',
+        marginLeft: 15
     },
     profileImage: {
         width: 200,
@@ -262,7 +269,8 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         overflow: "hidden",
         borderColor: '#B22222',
-        borderWidth: 3
+        borderWidth: 3,
+        backgroundColor: 'red'
     },
     dm: {
         backgroundColor: "#41444B",
